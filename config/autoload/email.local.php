@@ -2,8 +2,8 @@
 return array(
 'mail' => array(
 	'admin-email' => array(
-			'email' => 'admin@localhost',
-			'name'	=> 'NginAd Admin'
+			'email' => 'vanduyetdev@gmail.com',
+			'name'	=> 'BGate Admin'
 			),
 	'reply-to' => array(
 				'email' => 'admin@localhost',
@@ -35,8 +35,8 @@ return array(
             'port'              => 587,
             'connection_class'  => 'plain',
             'connection_config' => array(
-                'username' => 'username@domain.com',
-                'password' => '_my_mandrill_api_key',
+                'username' => 'lvduit08@gmail.com',
+                'password' => 'miECKsIPlOML0dEwUuUZCg',
                 'ssl' => 'tls'
             ),
         ),  
