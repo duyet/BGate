@@ -46,10 +46,17 @@ echo $this->doctype(); ?>
         <?php echo $this->headMeta()->appendName('viewport', 'width=device-width, initial-scale=1.0') ?>
         <!-- Le styles -->
         <?php echo $this->headLink(array('rel' => 'shortcut icon', 'href' => $this->basePath() . '/images/favicon.png'))
-                        ->prependStylesheet($this->basePath() . '/public/css/style.css')
-                        ->prependStylesheet($this->basePath() . '/public/css/bootstrap.css')
-                        ->prependStylesheet($this->basePath() . '/public/css/default.dashboard.css');
+                        //->prependStylesheet($this->basePath() . '/public/css/style.css')
+                        //->prependStylesheet($this->basePath() . '/public/bootstrap/dist/css/bootstrap.min.css')
+                        //->prependStylesheet($this->basePath() . '/public/bootflat/css/bootflat.min.css')
+                        //->prependStylesheet($this->basePath() . '/public/bgate/site.css')
+                        //->prependStylesheet($this->basePath() . '/public/css/default.dashboard.css');
         ?>
+
+<link href="<?php echo $this->basePath() . '/public/bootstrap/dist/css/bootstrap.min.css' ?>" media="screen" rel="stylesheet" type="text/css">
+<link href="<?php echo $this->basePath() . '/public/bootflat/css/bootflat.min.css' ?>" media="screen" rel="stylesheet" type="text/css">
+<link href="<?php echo $this->basePath() . '/public/bgate/site.css' ?>" media="screen" rel="stylesheet" type="text/css">
+
 
         <script> /* lvduit */ var basePath = '<?php echo $this->basePath() ?>'; </script> 
 
@@ -60,125 +67,130 @@ echo $this->doctype(); ?>
                                       ->prependFile($this->basePath() . '/public/js/3rdparty/jquery-1.11.1.min.js');
 
                                        ?>
-                                       <!--<link href='//fonts.googleapis.com/css?family=Cabin' rel='stylesheet' type='text/css'>-->
-                                       <link href='//fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+       <!--<link href='//fonts.googleapis.com/css?family=Cabin' rel='stylesheet' type='text/css'>-->
+       <link href='//fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
                                       
     </head>
     <body class="demand-dashboard">
-        <div class="navbar navbar-inverse navbar-fixed-top header">
-            <div class="navbar-inner">
-            <div class="compLayout-top">
-                <div class="container" style="position: relative;">
+      <div class="navbar navbar-default navbar-custom">
 
-                    <a class="brand" href="<?php echo $this->basePath() ?>/<?php echo $home_link; ?>">
-					<img src="<?php echo $this->basePath() ?>/images/nginad_logo.png" class="logo-img" />
-                     <em>Real Time Bidding Dashboard</em>
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="<?php echo $this->basePath() ?>/<?php echo $home_link; ?>">
+                        <img src="<?php echo $this->basePath() ?>/images/nginad_logo.png" height="40">
                     </a>
-
-                       <div class="navbar">
-    <div class="navbar-inner">
-    <ul class="nav">
-    <?php if ($this->Login_bool() == false):?>
-    <li class="<?php if($home_dashboard_view == "signup") echo "active";?>"><a class="navlink" href="<?php echo $this->basePath() ?>/signup">Signup</a></li>
-    <li class="divider-vertical"></li>
-    <?php else:?>
-   	<?php if (($user_data != null && $user_data->DemandCustomerInfoID != null)
-   			|| $userRole=='admin' || $userRole=='superadmin'): ?>
-    <li class="<?php if($home_dashboard_view == "demand") echo "active";?>"><a  class="navlink"  href="<?php echo $this->basePath() ?>/demand">Campaign</a></li>
-    <li class="divider-vertical"></li>
-    <?php endif;?>
-    <?php if (($user_data != null && $user_data->PublisherInfoID != null)
-    		|| $userRole=='admin' || $userRole=='superadmin'): ?>
-    <li class="<?php if($home_dashboard_view == "publisher") echo "active";?>"><a class="navlink"   href="<?php echo $this->basePath() ?>/publisher">Websites</a></li>
-    <li class="divider-vertical"></li>
-    <?php endif;?>
-    <li class="<?php if($home_dashboard_view == "report") echo "active";?>"><a class="navlink"   href="<?php echo $this->basePath() ?>/report">Report</a></li>
-    <li class="divider-vertical"></li>
-	<?php endif;?>
-    <li class="<?php if($home_dashboard_view == "login") echo "active";?><?php if($home_dashboard_view == "account") echo "active";?>"><?php if ($this->Login_bool() == true):?>
-<a data-toggle="dropdown" class="dropdown-toggle navlink"><?php echo $user_name;?> <span class="caret"></span></a>
-<ul class="dropdown-menu pull-right">
-                  <li><a href="<?php echo $this->basePath() ?>/users/account">Account Settings</a></li>
-                  <?php if($userRole=='admin' || $userRole=='superadmin'): ?>
-                  <li><a href="<?php echo $this->basePath() ?>/users/publishers">Publisher List</a></li> 
-                  <li><a href="<?php echo $this->basePath() ?>/users/customers">Customer List</a></li> 
-                  <li><a href="<?php echo $this->basePath() ?>/websites">Websites List</a></li>
-                  <?php endif;?>
-                  <li><a href="<?php echo $this->url('login/process', array('action'=>'logout')); ?>">Logout</a></li>
-                </ul>
-<?php else:  ?>
-<a  class="navlink"  href="<?php echo $this->url('login/process', array('action'=>'login')); ?>">Login</a>
-   <?php endif;  ?></li>
-    </ul>
-    </div>
-    </div>
-</div>
+                </div>
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <?php if ($this->Login_bool() == false):?>
+                        <li class="<?php if($home_dashboard_view == " signup ") echo "active ";?>"><a class="navlink" href="<?php echo $this->basePath() ?>/signup">Signup</a></li>
+                        <li class="divider-vertical"></li>
+                        <?php else:?>
+                        <?php if (($user_data != null && $user_data->DemandCustomerInfoID != null) || $userRole=='admin' || $userRole=='superadmin'): ?>
+                        <li class="<?php if($home_dashboard_view == " demand ") echo "active ";?>"><a class="navlink" href="<?php echo $this->basePath() ?>/demand">Campaign</a></li>
+                        <li class="divider-vertical"></li>
+                        <?php endif;?>
+                        <?php if (($user_data != null && $user_data->PublisherInfoID != null) || $userRole=='admin' || $userRole=='superadmin'): ?>
+                        <li class="<?php if($home_dashboard_view == " publisher ") echo "active ";?>"><a class="navlink" href="<?php echo $this->basePath() ?>/publisher">Websites</a></li>
+                        <li class="divider-vertical"></li>
+                        <?php endif;?>
+                        <li class="<?php if($home_dashboard_view == " report ") echo "active ";?>"><a class="navlink" href="<?php echo $this->basePath() ?>/report">Report</a></li>
+                        <li class="divider-vertical"></li>
+                        <?php endif;?>
+                        <li class="<?php if($home_dashboard_view == " login ") echo "active ";?><?php if($home_dashboard_view == "account ") echo "active ";?>">
+                            <?php if ($this->Login_bool() == true):?>
+                            <a data-toggle="dropdown" class="dropdown-toggle navlink">
+                                <?php echo $user_name;?> <span class="caret"></span></a>
+                            <ul class="dropdown-menu pull-right">
+                                <li><a href="<?php echo $this->basePath() ?>/users/account">Account Settings</a></li>
+                                <?php if($userRole=='admin' || $userRole=='superadmin' ): ?>
+                                <li><a href="<?php echo $this->basePath() ?>/users/publishers">Publisher List</a></li>
+                                <li><a href="<?php echo $this->basePath() ?>/users/customers">Customer List</a></li>
+                                <li><a href="<?php echo $this->basePath() ?>/websites">Websites List</a></li>
+                                <?php endif;?>
+                                <li><a href="<?php echo $this->url('login/process', array('action'=>'logout')); ?>">Logout</a></li>
+                            </ul>
+                            <?php else: ?>
+                            <a class="navlink" href="<?php echo $this->url('login/process', array('action'=>'login')); ?>">Login</a>
+                            <?php endif; ?>
+                        </li>
+                    </ul>
                 </div>
             </div>
-        </div>
-        <div class="container bottom-container">
+
+      </div>
+
+
+        <!--div class="container bottom-container">
         	<div class="compLayout<?php echo $extra_main_content_class; ?>" id="main-container">
 
-<?php if (isset($child) && $child != null && isset($child->user_id_list)):?>
-<h4 class="headbreadcrumb blue-color">
-<?php if (isset($child->header_title)):	
-	echo $child->header_title;
- endif; ?>
-    <br clear="all">
-    <div class="pull-right black-color negative-margin"> <?php 
-        // If Admin, show which account you are creating for.
-            if($child->impersonate_id == "0" || $child->impersonate_id == null || !isset($child->user_id_list[intval($child->effective_id)])):
-                echo "<img src='public/images/man-icon.png' /> " . $child->true_user_name;
-            else:
-                echo "<img src='public/images/man-icon.png' /> " . $child->user_id_list[intval($child->effective_id)];
-            	if ($child->is_admin === true):
-            		echo " (" . $child->effective_id . ")";
-            	endif;
-            endif;
-        ?>
-        </div> <div class="pull-right">
-          <br clear="all">
-       
-       </div>
-</h4>
-<?php endif; ?>
-	            <?php echo $this->content; ?>
+              <?php if (isset($child) && $child != null && isset($child->user_id_list)):?>
+              <h4 class="headbreadcrumb blue-color">
+              <?php if (isset($child->header_title)):	
+              	echo $child->header_title;
+               endif; ?>
+                  <br clear="all">
+                  <div class="pull-right black-color negative-margin"> <?php 
+                      // If Admin, show which account you are creating for.
+                          if($child->impersonate_id == "0" || $child->impersonate_id == null || !isset($child->user_id_list[intval($child->effective_id)])):
+                              echo "<img src='public/images/man-icon.png' /> " . $child->true_user_name;
+                          else:
+                              echo "<img src='public/images/man-icon.png' /> " . $child->user_id_list[intval($child->effective_id)];
+                          	if ($child->is_admin === true):
+                          		echo " (" . $child->effective_id . ")";
+                          	endif;
+                          endif;
+                      ?>
+                      </div> <div class="pull-right">
+                        <br clear="all">
+                     
+                     </div>
+              </h4>
+              <?php endif; ?>
             </div>
-        </div> <!-- /container -->
-        
+          </div-->
+	            <?php echo $this->content; ?>
+            
 	            <footer class="footer">
 	            <div class="container">
-<p>
-	<div class="btn-group footer_buttons">
-    <a class="btn" href="<?php echo $this->basePath() ?>/company">Company</a>
-    <a class="btn" href="<?php echo $this->basePath() ?>/company/press">Press</a>
-    <a class="btn" href="<?php echo $this->basePath() ?>/company/leadership">Leadership</a>
-    <a class="btn" href="<?php echo $this->basePath() ?>/company/testimonials">Testimonials</a>
-    <a class="btn" href="<?php echo $this->basePath() ?>/company/jobs">jobs</a>
-    </div>
-   <span class="help_center pull-right">
-    <a class="btn" href="#" onclick="return helpWindow('https://nginad.atlassian.net/wiki/display/NGIN/Using+NginAd+Ad+Server', 1200,1000);">Help Center</a> 
-    <a class="btn" href="#" onclick="return helpWindow('https://nginad.zendesk.com', 1200,1000);">Support Tickets</a> 
-    <!-- <a class="btn">Blog</a> -->
-    <!--<a class="btn">Follow Us <img src="../images/facebook.jpg" width="24" /><img src="../images/twitter.jpg" width="24" /></a>-->
-    </span>
-	  
-</p>
-	                <p class="copyrights">
-<ul class="breadcrumb">
-<span class="pull-right">
-&copy; 2013 - <?php echo date('Y') ?> by CDNPAL NGINAD. <?php echo $this->translate('All rights reserved.') ?>
-</span>
+                  <div class="clearfix">
+                      <div class="footer-logo"></div>
 
-    <li><a href="#" onclick="return termsWindow('<?php echo $this->basePath() ?>/legal/privacy', 600, 400);">Privacy Policy</a> <span class="divider">|</span></li>
-    <li><a href="#" onclick="return termsWindow('<?php echo $this->basePath() ?>/legal/terms', 600, 400);">Terms of Use</a> <span class="divider">|</span></li>
-    <li><a href="#" onclick="return termsWindow('<?php echo $this->basePath() ?>/legal/publisheragreement', 600, 400);">Publisher Agreement</a> <span class="divider">|</span></li>
-    <li><a href="#" onclick="return termsWindow('<?php echo $this->basePath() ?>/legal/demandagreement', 600, 400);">Demand Customer Agreement</a> </li>
-    </ul>
-	                	
-	                </p>
-	                </div>
-	            </footer>
+                      <dl class="footer-nav">
+                        <dt class="nav-title">Company</dt>
+                        <dd class="nav-item"><a href="<?php echo $this->basePath() ?>/company">Company</a></dd>
+                        <dd class="nav-item"><a href="<?php echo $this->basePath() ?>/company/press">Press</a></dd>
+                        <dd class="nav-item"><a href="<?php echo $this->basePath() ?>/company/leadership">Leadership</a></dd>
+                        <dd class="nav-item"><a href="<?php echo $this->basePath() ?>/company/testimonials">Testimonials</a></dd>
+                        <dd class="nav-item"><a href="<?php echo $this->basePath() ?>/company/jobs">jobs</a></dd>
+                      </dl>
+
+                      <dl class="footer-nav">
+                          <dt class="nav-title">Link</dt>
+                          <dd class="nav-item"><a href="#">Help Center</a></dd>
+                          <dd class="nav-item"><a href="#">Support Tickets</a></dd>
+                          <dd class="nav-item"><a href="#">Blog</a></dd>
+                      </dl>
+
+                      <dl class="footer-nav">
+                          <dt class="nav-title">BGate</dt>
+                          <dd class="nav-item"><a href="#" onclick="return termsWindow('<?php echo $this->basePath() ?>/legal/privacy', 600, 400);">Privacy Policy</a></dd>
+                          <dd class="nav-item"><a href="#" onclick="return termsWindow('<?php echo $this->basePath() ?>/legal/terms', 600, 400);">Terms of Use</a></dd>
+                          <dd class="nav-item"><a href="#" onclick="return termsWindow('<?php echo $this->basePath() ?>/legal/publisheragreement', 600, 400);">Publisher Agreement</a></dd>
+                          <dd class="nav-item"><a href="#" onclick="return termsWindow('<?php echo $this->basePath() ?>/legal/demandagreement', 600, 400);">Demand Customer Agreement</a></dd>
+                      </dl>
+                  </div>
+
+                  <div class="footer-copyright text-center">Copyright © 2015 ISLab. <?php echo $this->translate('All rights reserved.') ?></div>
+
+              </div>
+            </footer>
            
         
         <?php echo $this->inlineScript() ?>
