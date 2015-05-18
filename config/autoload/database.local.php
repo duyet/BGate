@@ -23,7 +23,7 @@
 $dbParams = array(
 		'dbname' => 'nginad',
 		'user'   => 'root',
-		'pass'   => '',
+		'pass'   => 'password',
 		'host'   => 'localhost',
 );
 

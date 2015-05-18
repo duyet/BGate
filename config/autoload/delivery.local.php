@@ -14,9 +14,9 @@
 return array(
 
 		'delivery' => array(
-				'url' => "http://server.nginad.com/delivery/impress",
-				'adtag' => "http://server.nginad.com/ad/nginad.js",
-				'in_house_ad_grep' => "server.nginad.com/delivery",
+				'url' => "http://localhost/delivery/impress",
+				'adtag' => "http://localhost/ad/nginad.js",
+				'in_house_ad_grep' => "localhost/delivery",
                 'cache_file_location' => "cache/delivery/"
 		),
 );
