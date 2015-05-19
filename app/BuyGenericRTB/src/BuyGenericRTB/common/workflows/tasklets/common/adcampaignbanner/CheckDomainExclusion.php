@@ -1,10 +1,11 @@
 <?php
 /**
- * BGate Project 
+ * BGate Project
  * 
- * @copyright Copyright (c) ISLab 
- * @year 2015 
- *  */
+ * @version 1.x
+ * @author ISLab UIT
+ * @copyright (C) 2015 
+ */
 
 namespace buyrtb\workflows\tasklets\common\adcampaignbanner;
 
