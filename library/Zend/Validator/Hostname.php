@@ -960,7 +960,7 @@ class Hostname extends AbstractValidator
      * (.IS) Iceland http://www.isnic.is/domain/rules.php
      * (.KR) Korea http://www.iana.org/domains/idn-tables/tables/kr_ko-kr_1.0.html
      * (.LI) Liechtenstein https://nic.switch.ch/reg/ocView.action?res=EF6GW2JBPVTG67DLNIQXU234MN6SC33JNQQGI7L6#anhang1
-     * (.LT) Lithuania http://www.domreg.lt/static/doc/public/idn_symbols-en.pdf
+     * (.LT) Lithuania http://www.domreg.lt/static/doc/static/idn_symbols-en.pdf
      * (.MD) Moldova http://www.register.md/
      * (.MUSEUM) International http://www.iana.org/domains/idn-tables/tables/museum_latn_1.0.html
      * (.NET) International http://www.verisign.com/information-services/naming-services/internationalized-domain-names/index.html

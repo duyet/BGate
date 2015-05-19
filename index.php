@@ -8,9 +8,11 @@ if (file_exists('vendor/autoload.php')) {
 }
 
 $_this = __file__;
+define ('BASEDIR', str_replace("\\", "/", pathinfo($_this, PATHINFO_DIRNAME)));
+
 $libraryPath = false;
-if (is_dir('library')) {
-    $libraryPath = 'library';
+if (is_dir(BASEDIR . '/library')) {
+    $libraryPath = BASEDIR . '/library';
 }
 
 if ($libraryPath) {

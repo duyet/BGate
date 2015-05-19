@@ -24,7 +24,7 @@ class Image extends AbstractWord
      *
      * @var string
      */
-    protected $imgDir = "public/images/captcha/";
+    protected $imgDir = "static/images/captcha/";
 
     /**
      * URL for accessing images
