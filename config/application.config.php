@@ -166,9 +166,9 @@ return array(
         // namespace, the value of that key the specific path to that module's
         // Module class.
         'module_paths' => array(
-            './module',
-        	'./module/BuySidePartners',
-        	'./module/SellSidePartners',
+            './app',
+        	'./app/BuySidePartners',
+        	'./app/SellSidePartners',
             './vendor',
         ),
 
