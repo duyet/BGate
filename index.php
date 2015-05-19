@@ -7,28 +7,24 @@ if (file_exists('vendor/autoload.php')) {
     $loader = include 'vendor/autoload.php';
 }
 
-$zendPath = false;
-
-if (is_dir('vendor/ZF2/library')) {
-    $zendPath = 'vendor/ZF2/library';
-} elseif (getenv('ZF2_PATH')) {
-    $zendPath = getenv('ZF2_PATH');
-} elseif (get_cfg_var('zf2_path')) {
-    $zendPath = get_cfg_var('zf2_path');
+$_this = __file__;
+$libraryPath = false;
+if (is_dir('library')) {
+    $libraryPath = 'library';
 }
 
-if ($zendPath) {
+if ($libraryPath) {
     if (isset($loader)) {
-        $loader->add('Zend', $zendPath);
+        $loader->add('Zend', $libraryPath);
     } else {
-        include $zendPath . '/Zend/Loader/AutoloaderFactory.php';
+        include $libraryPath . '/Zend/Loader/AutoloaderFactory.php';
         Zend\Loader\AutoloaderFactory::factory(array(
             'Zend\Loader\StandardAutoloader' => array(
                 'autoregister_zf' => true
             )
         ));
-        require $zendPath . '/Zend/Stdlib/compatibility/autoload.php';
-        require $zendPath . '/Zend/Session/compatibility/autoload.php';
+        require $libraryPath . '/Zend/Stdlib/compatibility/autoload.php';
+        require $libraryPath . '/Zend/Session/compatibility/autoload.php';
     }
 }
 
