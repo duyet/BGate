@@ -76,26 +76,26 @@ if ($is_delivery):
 	
 	$modules = array( 'Delivery', 'GenericBuysidePartner' );
 	$config_glob_paths = array(
-			'config/autoload/{global,local}.php',
-			'config/autoload/database.{local,staging,production}.php',
-			'config/autoload/delivery.{local,staging,production}.php',
-			'config/autoload/rtb.config.{local,staging,production}.php',
+			'config/{global,local}.php',
+			'config/database.{local,staging,production}.php',
+			'config/delivery.{local,staging,production}.php',
+			'config/rtb.config.{local,staging,production}.php',
 	);
 
 elseif ($is_legal):
 	
 	$modules = array( 'WebsiteCustom' );
 	$config_glob_paths = array(
-			'config/autoload/{global,local}.php',
+			'config/{global,local}.php',
 	);
 	
 elseif ($is_maintenance):
 
 	$modules = array( 'Maintenance' );
 	$config_glob_paths = array(
-			'config/autoload/{global,local}.php',
-			'config/autoload/database.{local,staging,production}.php',
-			'config/autoload/email.{local,staging,production}.php',
+			'config/{global,local}.php',
+			'config/database.{local,staging,production}.php',
+			'config/email.{local,staging,production}.php',
 	);
 /*
  * Buy Side RTB partners can either be added by a unique subdomain name
@@ -105,7 +105,7 @@ elseif ($is_maintenance):
 elseif (isset($_GET["secret_key"]) 
 		&& (isset($_GET["rtb_seat_id"]) || $subdomain !== null)):
 	
-	$config 		= Zend\Config\Factory::fromFile('config/autoload/rtb.config.local.php');
+	$config 		= Zend\Config\Factory::fromFile('config/rtb.config.local.php');
 	$secret_key 	= $_GET["secret_key"];
 	$seat_bid_id 	= isset($_GET["rtb_seat_id"]) ? $_GET["rtb_seat_id"] : $subdomain;
 
@@ -127,10 +127,10 @@ elseif (isset($_GET["secret_key"])
 	endforeach;
 	
 	$config_glob_paths = array(
-			'config/autoload/{global,local}.php',
-			'config/autoload/database.{local,staging,production}.php',
-			'config/autoload/delivery.{local,staging,production}.php',
-			'config/autoload/rtb.config.{local,staging,production}.php',
+			'config/{global,local}.php',
+			'config/database.{local,staging,production}.php',
+			'config/delivery.{local,staging,production}.php',
+			'config/rtb.config.{local,staging,production}.php',
 	);
 	
 endif;
@@ -145,12 +145,12 @@ if (count($modules) == 0):
 	);
 	
 	$config_glob_paths = array(
-			'config/autoload/{global,local}.php',
-			'config/autoload/database.{local,staging,production}.php',
-			'config/autoload/delivery.{local,staging,production}.php',
-			'config/autoload/zfcbac.{local,staging,production}.php',
-			'config/autoload/navigation.{local,global}.php',
-			'config/autoload/email.{local,staging,production}.php',
+			'config/{global,local}.php',
+			'config/database.{local,staging,production}.php',
+			'config/delivery.{local,staging,production}.php',
+			'config/zfcbac.{local,staging,production}.php',
+			'config/navigation.{local,global}.php',
+			'config/email.{local,staging,production}.php',
 	);
 	
 endif;
