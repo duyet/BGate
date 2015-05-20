@@ -9,7 +9,7 @@
 
 namespace GenericBuysidePartner;
 
-use Zend\Mvc\ModuleRouteListener;
+use Zend\Mvc\ModuleRouteListener as _ISLabRouteListener;
 use Zend\Mvc\MvcEvent;
 use _factory;
 use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
