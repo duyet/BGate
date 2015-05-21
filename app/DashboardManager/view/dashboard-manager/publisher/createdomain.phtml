@@ -3,6 +3,7 @@ $this->headScript()->appendFile($this->basePath() . '/js/script.js');
 
 
 $this->headScript()->captureStart(); ?>
+
 /*$(function(){
     $('#dpsd').datepicker().datepicker().on('show', popup);
     $('#dped').datepicker().datepicker().on('show', popup);
@@ -10,46 +11,56 @@ $this->headScript()->captureStart(); ?>
 
 
 <?php $this->headScript()->captureEnd();  ?>
-<ul class="breadcrumb breadcrumb-heading">
-    <li><a href="/publisher/">Domains</a><span class="divider">/</span></li>
-    <li>Create New Domain</li>
-    </ul>    
+
+            <ul class="breadcrumb breadcrumb-heading" style="padding-left:106px">
+                <li><a href="<?php echo $this->basePath() ?>/publisher/">Domains</a>
+                <li>Create New Domain</li>
+            </ul>   
 <?php 
     if($error_message != "" && $error_message !== null && isset($error_message)):
     	echo '<div id="cdn_form_success" class="alert alert-error" style="margin: 5px;">'. $error_message .'</div>';
     endif;
 ?>
 <div id="cdn_form_msg" class="alert alert-error" style="margin: 5px; display:none;"></div>
-<form id="domain" class="form-horizontal form-top-magin" name="domain" method="post" action="/publisher/createdomain">
-<input type="hidden" value="" name="PublisherWebsiteID">
-<div class="control-group">
-    <label for="webdomain" class="control-label">Web Domain</label>
-    <div class="controls">
-    <input type="text" value="" maxlength="255" class="zone-txtarea" id="WebDomain" name="WebDomain">    </div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+            <form name="domain" method="post" action="<?php echo $this->basePath() ?>/publisher/createdomain">
+                <input type="hidden" value="" name="PublisherWebsiteID">
+                
+                <div class="form-group form-group-lg">
+                    <label for="webdomain" class="control-label">Web Domain</label>
+                    <div class="controls">
+                        <input type="text" value="" maxlength="255" id="WebDomain" class="form-control" name="WebDomain">
+                    </div>
+                </div>
+                    
+                <div class="form-group form-group-lg">
+                    <label for="IABCategory" class="control-label">IABCategory</label>
+                    <div class="controls">
+                        <select id="IABCategory" name="IABCategory" class="form-control" >
+                            <?php  foreach($vertical_map as $key=>$value): 
+                                echo '<option value="'. $key .'">'. $value .'</option>';
+                             endforeach; ?>
+                        </select>
+                    </div>
+                </div>  
+                    
+                <div class="form-group form-group-lg">
+                    <label for="desc" class="control-label">Description</label>
+                    <div class="controls">
+                        <textarea maxlength="5000"  id="Description" class="form-control" name="Description"></textarea>    </div>
+                    </div> 
+                <div class="form-group form-group-lg">
+                    <div class="controls">
+                    <button name="submit" type="submit" class="btn btn-primary btn-margin" id="submitbutton">Create New Domain</button>
+                    </div>
+                    </div>
+                <input type="hidden" value="<?php echo $domain_owner_id;?>" name="DomainOwnerID">
+                </form>
+        </div>
     </div>
-    
-<div class="control-group">
-    <label for="IABCategory" class="control-label">IABCategory</label>
-    <div class="controls">
-    <select class="zone-txtarea" id="IABCategory" name="IABCategory">
-	<?php 
-     foreach($vertical_map as $key=>$value): 
-	 	echo '<option value="'. $key .'">'. $value .'</option>';
-	 endforeach;
-	 ?>
-</select>
-    </div>
-    </div>  
-    
-<div class="control-group">
-    <label for="desc" class="control-label">Description</label>
-    <div class="controls">
-    <textarea maxlength="5000" class="zone-txtarea" id="Description" name="Description"></textarea>    </div>
-    </div> 
-<div class="control-group">
-    <div class="controls">
-    <button name="submit" type="submit" class="btn btn-primary btn-margin" id="submitbutton">Create New Domain</button>
-    </div>
-    </div>
-<input type="hidden" value="<?php echo $domain_owner_id;?>" name="DomainOwnerID">
-</form>
+</div>
+
+

@@ -31,7 +31,7 @@ class IndexController extends AbstractActionController {
 	protected $config;
 	
     public function indexAction() {
-        echo "NGINAD MAINTENANCE<br />\n";
+        echo "MAINTENANCE<br />\n";
         exit;
     }
 

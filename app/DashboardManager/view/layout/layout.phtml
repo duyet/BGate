@@ -86,10 +86,23 @@ echo $this->doctype(); ?>
                         <li class="<?php if($home_dashboard_view == " demand ") echo "active ";?>"><a class="navlink" href="<?php echo $this->basePath() ?>/demand">Campaign</a></li>
                         <li class="divider-vertical"></li>
                         <?php endif;?>
+                        
+                        <?php if (($user_data != null && $user_data->PublisherInfoID != null) || $userRole=='admin' || $userRole=='superadmin'): ?>
+                            <li class="<?php if($home_dashboard_view == " publisher ") echo "active ";?>">
+                                <a class="navlink" href="<?php echo $this->basePath() ?>/publisher/dashboard">
+                                    Dashboard
+                                </a>
+                            </li>
+                            
+                            <li class="divider-vertical"></li>
+                        <?php endif;?>
+
                         <?php if (($user_data != null && $user_data->PublisherInfoID != null) || $userRole=='admin' || $userRole=='superadmin'): ?>
                         <li class="<?php if($home_dashboard_view == " publisher ") echo "active ";?>"><a class="navlink" href="<?php echo $this->basePath() ?>/publisher">Websites</a></li>
                         <li class="divider-vertical"></li>
                         <?php endif;?>
+
+
                         <li class="<?php if($home_dashboard_view == " report ") echo "active ";?>"><a class="navlink" href="<?php echo $this->basePath() ?>/report">Report</a></li>
                         <li class="divider-vertical"></li>
                         <?php endif;?>

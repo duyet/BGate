@@ -388,11 +388,11 @@ class PublisherController extends PublisherAbstractActionController {
         	            	if ($auto_approve_websites != true || $this->config_handle['mail']['subscribe']['websites'] === true):
         	            	
         	            		if ($auto_approve_websites != true):
-		        	            	$message = "New NginAd Website for Approval.<br /><b>".$domain->WebDomain."</b><br /><br />Username: " . $this->true_user_name;
-		        	            	$subject = "New NginAd Website for Approval: " . $domain->WebDomain;
+		        	            	$message = "New Website for Approval.<br /><b>".$domain->WebDomain."</b><br /><br />Username: " . $this->true_user_name;
+		        	            	$subject = "New Website for Approval: " . $domain->WebDomain;
 	        	            	else:
-		        	            	$message = "New NginAd Website.<br /><b>".$domain->WebDomain."</b><br /><br />Username: " . $this->true_user_name;
-		        	            	$subject = "New NginAd Website: " . $domain->WebDomain;
+		        	            	$message = "New Website.<br /><b>".$domain->WebDomain."</b><br /><br />Username: " . $this->true_user_name;
+		        	            	$subject = "New Website: " . $domain->WebDomain;
 	        	            	endif;
 	        	            	$transport = $this->getServiceLocator()->get('mail.transport');
 	        	            	
