@@ -20,7 +20,7 @@ class IndexController extends AbstractActionController
 	 */
 	public function termsAction() {
 		
-		$legal_text = 'module/WebsiteCustom/view/websitecustom/terms.txt';
+		$legal_text = 'app/WebsiteCustom/view/websitecustom/terms.txt';
 		 
 		$view = new ViewModel(array(
 				'legal_text' => file_get_contents($legal_text),
@@ -32,7 +32,7 @@ class IndexController extends AbstractActionController
 	
 	public function privacyAction() {
 	
-		$legal_text = 'module/WebsiteCustom/view/websitecustom/privacy.txt';
+		$legal_text = 'app/WebsiteCustom/view/websitecustom/privacy.txt';
 			
 		$view = new ViewModel(array(
 				'legal_text' => file_get_contents($legal_text),
@@ -44,7 +44,7 @@ class IndexController extends AbstractActionController
 
 	public function publisheragreementAction() {
 	
-		$legal_text = 'module/WebsiteCustom/view/websitecustom/publisheragreement.txt';
+		$legal_text = 'app/WebsiteCustom/view/websitecustom/publisheragreement.txt';
 			
 		$view = new ViewModel(array(
 				'legal_text' => file_get_contents($legal_text),
@@ -56,7 +56,7 @@ class IndexController extends AbstractActionController
 	
 	public function demandagreementAction() {
 	
-		$legal_text = 'module/WebsiteCustom/view/websitecustom/demandagreement.txt';
+		$legal_text = 'app/WebsiteCustom/view/websitecustom/demandagreement.txt';
 			
 		$view = new ViewModel(array(
 				'legal_text' => file_get_contents($legal_text),
