@@ -13,6 +13,7 @@ use Zend\View\Model\ViewModel;
 use transformation;
 use _factory\PublisherInfo;
 use Zend\Mail\Message;
+use Zend\View\Helper\Url;
 use Zend\Mime;
 
 /**
@@ -30,7 +31,7 @@ class PublisherController extends PublisherAbstractActionController {
 	public function domainlistAction() {
 		$initialized = $this->initialize();
 		if ($initialized !== true) return $initialized;
-	    
+
 	    //Pull list of websites.
 	    $PublisherWebsiteFactory = \_factory\PublisherWebsite::get_instance();
 	    $parameters = array(); // Set the parameters to empty first.
@@ -41,7 +42,7 @@ class PublisherController extends PublisherAbstractActionController {
 	    $publisher_impressions_network_loss_rate = $this->config_handle['system']['default_publisher_impressions_network_loss_rate'];
 	    
 	    $PublisherWebsiteList = $PublisherWebsiteFactory->get($parameters);
-	    
+	   
 	    if ($this->is_admin):
 	    
 	        $headers = array("#","Domain","Domain Markup","Imps Loss Rate","Domain Owner","Created","Updated","Approval","Actions");
@@ -68,9 +69,38 @@ class PublisherController extends PublisherAbstractActionController {
 	        $meta_data = array("WebDomain","AutoApprove","DateCreated","DateUpdated","ApprovalFlag");
 	    endif;
 
+	    foreach ($PublisherWebsiteList as $PublisherWebsite):
+
+			$website_markup = \util\Markup::getMarkupForPublisherWebsite($PublisherWebsite->PublisherWebsiteID, $this->config_handle, false);
+			    
+			if ($website_markup != null):
+			    $website_markup_rate_list[$PublisherWebsite->PublisherWebsiteID] = $website_markup->MarkupRate * 100;
+			else:
+			    $website_markup_rate_list[$PublisherWebsite->PublisherWebsiteID] = $publisher_markup_rate * 100;
+			endif;
+			
+			$website_impressions_network_loss = \util\NetworkLossCorrection::getNetworkLossCorrectionRateForPublisherWebsite($PublisherWebsite->PublisherWebsiteID, $this->config_handle, false);
+			 
+			if ($website_impressions_network_loss != null):
+				$website_impressions_network_loss_rate_list[$PublisherWebsite->PublisherWebsiteID] = $website_impressions_network_loss->CorrectionRate * 100;
+			else:
+				$website_impressions_network_loss_rate_list[$PublisherWebsite->PublisherWebsiteID] = $publisher_impressions_network_loss_rate * 100;
+			endif;
+			    
+	    endforeach;
+	    
+	    $PublisherInfoFactory = \_factory\PublisherInfo::get_instance();
+	    $params = array();
+	    $params["PublisherInfoID"] = $this->PublisherInfoID;
+	    $PublisherInfo = $PublisherInfoFactory->get_row($params);
+	    
+	    $publisher_markup_rate *= 100;
+	    $publisher_impressions_network_loss_rate *= 100;
+
 	    $domain_list_raw = $PublisherWebsiteList;
 	    $is_admin = $this->is_admin;
 	    $domain_list = $this->order_data_table($meta_data, $PublisherWebsiteList, $headers);
+	    
 	    $basePath = '';
 
 	    $result = array();
@@ -175,11 +205,11 @@ class PublisherController extends PublisherAbstractActionController {
 
             			if ($is_admin === true || $is_rejected !== true):
                       		
-                      		$row[] = '<a href="' . $basePath .'/publisher/editdomain/' . $domain_id .'">Edit Domain</a>&nbsp;&nbsp;&nbsp;
-                      				<a href="javascript:void(0);" onclick="deleteDomainModal('. $domain_id . ',\'' . $domain_list_raw[$row_number]["WebDomain"] . '\');">Delete Domain</a>
-									<hr width="100%" />
-									<a href="'. $basePath .'/publisher/zone/'. $domain_id.'">Edit/View Zones</a>&nbsp;&nbsp;&nbsp;
-                    				<a href="'. $basePath .'/publisher/zone/'. $domain_id .'/create/">Create Zones</a>';
+                      		$row[] = 'Domain (<a href="' . $basePath .'/publisher/editdomain/' . $domain_id .'">Edit</a>, 
+                      				<a href="javascript:void(0);" onclick="deleteDomainModal('. $domain_id . ',\'' . $domain_list_raw[$row_number]["WebDomain"] . '\');">Delete</a>) 
+									<br />
+									Zone (<a href="'. $basePath .'/publisher/zone/'. $domain_id.'">Edit/View</a>, 
+                    				<a href="'. $basePath .'/publisher/zone/'. $domain_id .'/create/">Create Zones</a>)';
                     	else:
                     		$row[] = '';
                     	endif;
