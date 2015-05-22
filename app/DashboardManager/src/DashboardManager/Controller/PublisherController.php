@@ -27,6 +27,55 @@ class PublisherController extends PublisherAbstractActionController {
      * 
      * @return \Zend\View\Model\ViewModel
      */
+	public function domainlistAction() {
+		$initialized = $this->initialize();
+		if ($initialized !== true) return $initialized;
+	    
+	    //Pull list of websites.
+	    $PublisherWebsiteFactory = \_factory\PublisherWebsite::get_instance();
+	    $parameters = array(); // Set the parameters to empty first.
+
+	    $parameters['DomainOwnerID'] = $this->PublisherInfoID;
+	    
+	    $publisher_markup_rate = $this->config_handle['system']['default_publisher_markup_rate'];
+	    $publisher_impressions_network_loss_rate = $this->config_handle['system']['default_publisher_impressions_network_loss_rate'];
+	    
+	    $PublisherWebsiteList = $PublisherWebsiteFactory->get($parameters);
+	    
+	    if ($this->is_admin):
+	    
+	        $headers = array("#","Domain","Domain Markup","Imps Loss Rate","Domain Owner","Created","Updated","Approval","Actions");
+	        $meta_data = array("WebDomain","DomainMarkupRate","DomainPublisherImpressionsLossRate","DomainOwnerID","DateCreated","DateUpdated","ApprovalFlag");
+	    
+	        // admin is logged in as a user, get the markup if any for that user
+	        if ($this->ImpersonateID != 0 && !empty($this->PublisherInfoID)):
+
+		        $publisher_markup = \util\Markup::getMarkupForPublisher($this->PublisherInfoID, $this->config_handle, false);
+		        if ($publisher_markup != null):
+		        	$publisher_markup_rate = $publisher_markup->MarkupRate;
+		        endif;
+		        
+		        $publisher_impressions_network_loss = \util\NetworkLossCorrection::getNetworkLossCorrectionRateForPublisher($this->PublisherInfoID, $this->config_handle, false);
+		        if ($publisher_impressions_network_loss != null):
+		        	$publisher_impressions_network_loss_rate = $publisher_impressions_network_loss->CorrectionRate;
+		        endif;
+		        
+	        endif;
+	        
+	    else:
+	    
+	        $headers = array("#","Domain","Created","Updated","Approval","Actions");
+	        $meta_data = array("WebDomain","AutoApprove","DateCreated","DateUpdated","ApprovalFlag");
+	    endif;
+
+	    $data = $this->order_data_table($meta_data, $PublisherWebsiteList, $headers);
+
+	    header('Content-type: application/json');
+	    echo json_encode($data['data']);
+
+	    die;
+	}
+
 	public function indexAction()
 	{	    
 		$initialized = $this->initialize();
@@ -42,7 +91,7 @@ class PublisherController extends PublisherAbstractActionController {
 	    $publisher_impressions_network_loss_rate = $this->config_handle['system']['default_publisher_impressions_network_loss_rate'];
 	    
 	    $PublisherWebsiteList = $PublisherWebsiteFactory->get($parameters);
-	    
+	   
 	    if ($this->is_admin):
 	    
 	        $headers = array("#","Domain","Domain Markup","Imps Loss Rate","Domain Owner","Created","Updated","Approval","Actions");
