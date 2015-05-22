@@ -254,7 +254,6 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
  * docs
  * ---------------------------------- */
 .docs-header {
-    padding-top: 87px;
     border-top: 1px solid #50c1e9;
     background: url(../images/wild_flowers.png) repeat 0 0;
 }
@@ -343,7 +342,6 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
  * ---------------------------------- */
 .topic {
     position: relative;
-    padding: 0 0 89px;
 }
 .topic h3 {
     margin-top: 20px;
@@ -357,7 +355,6 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     font-weight: normal;
 }
 .topic .topic__infos {
-    position: absolute;
     bottom: 0;
     padding-bottom: 15px;
     padding-top: 14px;

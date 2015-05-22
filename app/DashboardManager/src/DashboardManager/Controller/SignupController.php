@@ -92,13 +92,20 @@ class SignupController extends PublisherAbstractActionController {
 		$success_msg = null;
     	$request = $this->getRequest();
 		if ($request->isPost()):
-			$Name	     = $request->getPost('customer_name');
 			$Email		 = $request->getPost('email');
-			$Website	 = $request->getPost('website');
-			$Company	 = $request->getPost('company');
 			$PartnerType = intval($request->getPost('partner_type'));
 			$Password	 = $request->getPost('password');
 			$user_login	 = $request->getPost('user_login');
+
+			$FirstName = $request->getPost('FirstName');
+			$LastName = $request->getPost('LastName');
+			$Country = $request->getPost('Country');
+			$City = $request->getPost('City');
+			$Addr = $request->getPost('Addr');
+
+			$Name	     = $request->getPost('customer_name');
+			$Website	 = $request->getPost('website');
+			$WebsiteDecs = $request->getPost("DomainDescribe");
 			
 			$Password = str_replace(array("'",";"), array("",""), $Password);
 			
@@ -119,7 +126,6 @@ class SignupController extends PublisherAbstractActionController {
 			$DemandCustomerInfo->Name		    = 	$Name;
 			$DemandCustomerInfo->Email			=	$Email;
 			$DemandCustomerInfo->Website		=	$Website;
-			$DemandCustomerInfo->Company		=	$Company;
 			$DemandCustomerInfo->PartnerType	=	$PartnerType;
 			$DemandCustomerInfo->DateCreated	=	date("Y-m-d H:i:s");
 			
@@ -375,7 +381,8 @@ class SignupController extends PublisherAbstractActionController {
 				'header_title' => 'Account Settings',
 				'is_admin' => $this->is_admin,
 				'effective_id' => $this->auth->getEffectiveIdentityID(),
-				'impersonate_id' => $this->ImpersonateID
+				'impersonate_id' => $this->ImpersonateID,
+				'vertical_map' => \util\DeliveryFilterOptions::$vertical_map
 	    ));
 	    
 	  return $view->setTemplate('dashboard-manager/auth/account.phtml');
