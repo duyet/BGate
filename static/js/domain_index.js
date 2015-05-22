@@ -11,12 +11,12 @@ var DomainTable = {
   init_datatable: function(){
     var self = this;
     this.table.dataTable({
-        "bProcessing": false,
-        "bLengthChange": true,
-        "bServerSide": true,
-        "bFilter": true,
-        "order": [[1,"asc"]],
-        "ajax": "/",
+        //"bProcessing": false,
+        //"bLengthChange": true,
+        //"bServerSide": true,
+        //"bFilter": true,
+        //"order": [[1,"asc"]],
+        "ajax": basePath + "/publisher/domainlist",
         // "sAjaxSource": self.source_path,
         // "fnServerData": function( sSource, aoData, fnCallback, oSettings ) {
         //   // var params = aoData.concat(self.collect_filter_data());
@@ -28,10 +28,10 @@ var DomainTable = {
         //     "success": fnCallback
         //   } );
         // },
-        "aoColumnDefs": [
-          { bSortable: false, 'aTargets': [ 0,5 ] },
-          { className: "text-center", "targets": [ 0 ] }
-       ],
+        //"aoColumnDefs": [
+        //  { bSortable: false, 'aTargets': [ 0,5 ] },
+        //  { className: "text-center", "targets": [ 0 ] }
+       //],
 
         initComplete: function () {
           

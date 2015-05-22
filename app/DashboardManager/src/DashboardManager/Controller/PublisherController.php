@@ -68,10 +68,129 @@ class PublisherController extends PublisherAbstractActionController {
 	        $meta_data = array("WebDomain","AutoApprove","DateCreated","DateUpdated","ApprovalFlag");
 	    endif;
 
-	    $data = $this->order_data_table($meta_data, $PublisherWebsiteList, $headers);
+	    $domain_list_raw = $PublisherWebsiteList;
+	    $is_admin = $this->is_admin;
+	    $domain_list = $this->order_data_table($meta_data, $PublisherWebsiteList, $headers);
+	    $basePath = '';
+
+	    $result = array();
+
+	    if (count($domain_list["data"])> 0):
+	    		foreach ($domain_list["data"] AS $row_number => $row_data): 
+                    $is_rejected = false;
+                	$row = array();
+
+                	$row[] = $row_number+1;
+                	foreach ($row_data AS $column_key=> $data):
+                		if ($domain_list["meta"][$column_key] == 'AutoApprove'): 
+                			continue; 
+						endif; 
+
+						$auto_approved = $domain_list_raw[$row_number]["AutoApprove"]; 
+						$domain_id = $domain_list_raw[$row_number]["PublisherWebsiteID"]; 
+
+						// New cell
+						switch($domain_list["meta"][$column_key]):
+							case "WebDomain":
+								$row[] = $data . " (" . $domain_id .")";
+							break; 
+							
+							case "DomainMarkupRate":
+								if ($is_admin === true && $effective_id != 0):
+									if (isset($domain_id) && $domain_id != null && isset($website_markup_rate_list[$domain_id])):
+            							$row[] = '<form name="change-domain-markup-<?php echo $domain_id;?>" class="change-domain-markup" action="<?php echo $basePath ?>/publisher/changedomainmarkup">
+						                          <input type="hidden" name="markupdomainid" value="<?php echo $domain_id;?>" />
+						                          <div style="float: right;">
+						                            <input type="text" style="text-align: right" name="domain-markup" class="input-mini" value="<?php echo $website_markup_rate_list[$domain_id];?>">%
+						                          </div>
+						                          <div>
+						                            <input type="submit" name="domain-markup-submit" class="btn btn-warning btn-mini" value="Update Markup" style="" />
+						                          </div>
+						                        </form>';
+									else:
+										$row[] = 'NOT AVAILABLE';
+									endif;
+								endif;
+							break;
+
+							case "DomainPublisherImpressionsLossRate":
+								if ($is_admin === true && $effective_id != 0):
+									if (isset($domain_id) && $domain_id != null && isset($website_markup_rate_list[$domain_id])):
+
+										$row[] = '<form name="change-impressions-network-loss-<?php echo $domain_id;?>" class="change-impressions-network-loss" action="<?php echo $basePath ?>/publisher/changedomainimpressionsnetworkloss">
+                                              <input type="hidden" name="impressionsnetworklossdomainid" value="<?php echo $domain_id;?>" />
+                                              <div style="float: right;">
+                                                <input type="text" style="text-align: right" name="domain-impressions-network-loss" class="input-mini" value="<?php echo $website_impressions_network_loss_rate_list[$domain_id];?>">%
+                                              </div>
+                                              <div>
+                                                <input type="submit" name="domain-impressions-network-loss-submit" class="btn btn-warning btn-mini" value="Update Loss Rate" style="" />
+                                              </div>
+                                            </form>';
+                                    else:
+                                    	$row[] = 'NOT AVAILABLE';
+                                   	endif;
+                                endif;
+							break;
+
+
+							case "DomainOwnerID":
+								$row[] = $domain_owner . " (" . $data . ")";
+							break;
+
+							case "ApprovalFlag":
+								$approve_verb = 'Approve';
+								$reject_verb = 'Reject';
+								$approved_verb = 'Approved';
+								$pending_verb = 'Pending';
+								$rejected_verb = 'Rejected';
+                                    
+                                if ($auto_approved == 1):
+                                  $approved_verb = 'Auto-Approved';
+                                endif;
+                                    
+	                              $admin_approval = array(
+	                                    0 => "<strong>" . $pending_verb . "</strong><br /><a href=\"" . $basePath ."/publisher/approvedomain/" . $domain_id . "\">" . $approve_verb . "</a>"
+	                							. "<br /><a href=\"" . $basePath ."/publisher/rejectdomain/" . $domain_id . "\">" . $reject_verb . "</a>",
+	                                    1 => "<a href=\"" . $basePath . "/publisher/rejectdomain/" . $domain_id . "\">" . $approved_verb . "</a>",
+	                 							2 => "<a href=\"" . $basePath ."/publisher/approvedomain/" . $domain_id . "\">" . $rejected_verb . "</a>"
+	                              );
+	                              $approval = array(0=>$pending_verb,1=>$approved_verb,2=>$rejected_verb);
+                                      
+                                  if (intval($data) == 2):
+                                    $is_rejected = true;
+                                  endif;
+                                      
+                                  if($is_admin):
+                                      $row[] = $admin_approval[intval($data)];
+                                  else:
+                                      $row[] = $approval[intval($data)];
+                                  endif;
+                            break;
+
+                            default:
+                            	$row[] = $data;
+                            break;
+                        endswitch;
+            			// End cell
+
+            			if ($is_admin === true || $is_rejected !== true):
+                      		
+                      		$row[] = '<a href="' . $basePath .'/publisher/editdomain/' . $domain_id .'">Edit Domain</a>&nbsp;&nbsp;&nbsp;
+                      				<a href="javascript:void(0);" onclick="deleteDomainModal('. $domain_id . ',\'' . $domain_list_raw[$row_number]["WebDomain"] . '\');">Delete Domain</a>
+									<hr width="100%" />
+									<a href="'. $basePath .'/publisher/zone/'. $domain_id.'">Edit/View Zones</a>&nbsp;&nbsp;&nbsp;
+                    				<a href="'. $basePath .'/publisher/zone/'. $domain_id .'/create/">Create Zones</a>';
+                    	else:
+                    		$row[] = '';
+                    	endif;
+            		endforeach;
+
+            		$result[] = $row;
+                endforeach;
+	    endif;
 
 	    header('Content-type: application/json');
-	    echo json_encode($data['data']);
+	    echo json_encode(array('data' =>$result));
 
 	    die;
 	}

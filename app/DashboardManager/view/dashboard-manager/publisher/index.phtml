@@ -1,8 +1,8 @@
 <?php
-$this->headScript()->appendFile($this->basePath() . 'static/js/script.js');
-$this->headScript()->appendFile($this->basePath() . 'static/js/domain_index.js');
-$this->headScript()->appendFile($this->basePath() . 'static/js/qtip/jquery.qtip.min.js');
-$this->headLink()->appendStylesheet($this->basePath() . 'static/css/qtip/jquery.qtip.min.css');
+$this->headScript()->appendFile($this->basePath() . '/static/js/script.js');
+$this->headScript()->appendFile($this->basePath() . '/static/js/domain_index.js');
+$this->headScript()->appendFile($this->basePath() . '/static/js/qtip/jquery.qtip.min.js');
+$this->headLink()->appendStylesheet($this->basePath() . '/static/css/qtip/jquery.qtip.min.css');
 
 $this->headScript()->captureStart() ?>
 function submitForm() {
@@ -26,12 +26,6 @@ $effective_user_in_dashboard = false;
     </div>
   </div>
 </div>
-
-<ul class="breadcrumb breadcrumb-heading" style="padding-left:106px">
-    <li><a href="<?php echo $this->basePath() ?>/publisher/">Publisher</a>
-    <li>Domain List</li>
-</ul> 
-
 
 <div class="container">
   <div class="row">
@@ -58,51 +52,13 @@ $effective_user_in_dashboard = false;
 </div>
 
 
-<div class="container">
-  <div class="row">
-        <div class="col-md-10">
-            <h3>Domain list</h3>
-        </div>
-
-        <div class="col-md-2">
-            <br />
-            <a href="<?php echo $this->basePath() ?>/publisher/createdomain" class="btn btn-primary">Create domain</a>
-        </div>
-  </div>
-
-  <div class="row">
-      <div class="col-xs-12 col-sm-6 col-md-6">
-          <form action="" method="GET" class="form-inline" role="form">
-              <select name="subtopic-filter" id="subtopic-filter" class="form-control" required="required">
-                  <option value="-1">Subtopic</option>
-              </select>
-
-              <select name="approval-filter" id="approval-filter" class="form-control" required="required">
-                  <option value="-1">Approval</option>
-              </select>
-            </form>
-      </div>
-
-      <div class="col-xs-12 col-sm-6 col-md-6 text-right">
-          <form action="" method="GET" class="form-inline" role="form">
-          
-              <div class="form-group">
-                  <input type="text" name="domain" class="form-control" id="" placeholder="Search domain name">
-              </div>
-          
-          </form>
-      </div>
-  </div>
-</div>
-
 
 
 <div class="steps-container step1">
 
-<div class="container">
-<div class="row">
-<div class="col-md-12">
-
+<div id="container">
+<div class="row mrg20T">
+<div class="col-md-10 col-md-offset-1 panel">
 <div class="pull-left" style="margin: 10px 0 0 10px;">
     <?php if ($effective_id != 0 && $effective_user_in_dashboard === true): ?>
         <div>
@@ -149,208 +105,7 @@ $effective_user_in_dashboard = false;
             ?>
             </tr>
             </thead>
-            <tbody>
-
-            <?php
-            if(count($domain_list["data"]) > 0):
-                foreach ($domain_list["data"] AS $row_number => $row_data):
-                  $is_rejected = false;
-            ?>
-                <tr>
-                    <td><?php echo $row_number+1; ?></td>
-                    <?php foreach ($row_data AS $column_key => $data):
-                      
-                    if ($domain_list["meta"][$column_key] == 'AutoApprove'):
-                      continue;
-                    endif;
-                    $auto_approved = $domain_list_raw[$row_number]["AutoApprove"];
-                    $domain_id = $domain_list_raw[$row_number]["PublisherWebsiteID"];
-                        ?>
-                        <td>
-                            <?php 
-                                // Change display format according to column specified.
-                                switch($domain_list["meta"][$column_key]):
-                                    case "WebDomain":
-                                        echo $data . " (" . $domain_id .")";
-                                        break; 
-                                    case "DomainMarkupRate":
-                                      if ($is_admin === true && $effective_id != 0):
-                            if (isset($domain_id) && $domain_id != null && isset($website_markup_rate_list[$domain_id])): ?>
-                        <form name="change-domain-markup-<?php echo $domain_id;?>" class="change-domain-markup" action="<?php echo $this->basePath() ?>/publisher/changedomainmarkup">
-                          <input type="hidden" name="markupdomainid" value="<?php echo $domain_id;?>" />
-                          <div style="float: right;">
-                            <input type="text" style="text-align: right" name="domain-markup" class="input-mini" value="<?php echo $website_markup_rate_list[$domain_id];?>">%
-                          </div>
-                          <div>
-                            <input type="submit" name="domain-markup-submit" class="btn btn-warning btn-mini" value="Update Markup" style="" />
-                          </div>
-                        </form>
-                      <?php else: ?>
-                        NOT AVAILABLE
-                      <?php endif; 
-                    endif;
-                                        break;
-                                    case "DomainPublisherImpressionsLossRate":
-                                      if ($is_admin === true && $effective_id != 0):
-                                          if (isset($domain_id) && $domain_id != null && isset($website_markup_rate_list[$domain_id])): ?>
-                                            <form name="change-impressions-network-loss-<?php echo $domain_id;?>" class="change-impressions-network-loss" action="<?php echo $this->basePath() ?>/publisher/changedomainimpressionsnetworkloss">
-                                              <input type="hidden" name="impressionsnetworklossdomainid" value="<?php echo $domain_id;?>" />
-                                              <div style="float: right;">
-                                                <input type="text" style="text-align: right" name="domain-impressions-network-loss" class="input-mini" value="<?php echo $website_impressions_network_loss_rate_list[$domain_id];?>">%
-                                              </div>
-                                              <div>
-                                                <input type="submit" name="domain-impressions-network-loss-submit" class="btn btn-warning btn-mini" value="Update Loss Rate" style="" />
-                                              </div>
-                                            </form>
-                                          <?php else: ?>
-                                            NOT AVAILABLE
-                                          <?php endif; 
-                                        endif;
-                                        break;
-                                  case "DomainOwnerID":
-                                      echo $domain_owner . " (" . $data . ")";
-                                        break;
-                                  case "ApprovalFlag":
-                                    
-                                    $approve_verb = 'Approve';
-                                    $reject_verb = 'Reject';
-                                    $approved_verb = 'Approved';
-                                    $pending_verb = 'Pending';
-                                    $rejected_verb = 'Rejected';
-                                    
-                                    if ($auto_approved == 1):
-                                      $approved_verb = 'Auto-Approved';
-                                    endif;
-                                    
-                                      $admin_approval = array(
-                                             0 => "<strong>" . $pending_verb . "</strong><br /><a href=\"" . $this->basePath() ."/publisher/approvedomain/" . $domain_id . "\">" . $approve_verb . "</a>"
-                        . "<br /><a href=\"" . $this->basePath() ."/publisher/rejectdomain/" . $domain_id . "\">" . $reject_verb . "</a>",
-                                               1 => "<a href=\"" . $this->basePath() . "/publisher/rejectdomain/" . $domain_id . "\">" . $approved_verb . "</a>",
-                         2 => "<a href=\"" . $this->basePath() ."/publisher/approvedomain/" . $domain_id . "\">" . $rejected_verb . "</a>"
-                                       );
-                                      $approval = array(0=>$pending_verb,1=>$approved_verb,2=>$rejected_verb);
-                                      
-                                      if (intval($data) == 2):
-                                        $is_rejected = true;
-                                      endif;
-                                      
-                                      if($is_admin):
-                                          echo $admin_approval[intval($data)];
-                                      else:
-                                          echo $approval[intval($data)];
-                                      endif;
-                                        break;
-                                    default:
-                                        echo $data;
-                                        break;
-                                endswitch;
-                            ?>
-                            <td>
-                                <?php 
-                                    // Change display format according to column specified.
-                                    switch($domain_list["meta"][$column_key]):
-                                        case "WebDomain":
-                                            echo $data . " (" . $domain_id .")";
-                                            break; 
-                                        case "DomainMarkupRate":
-                                        	if ($is_admin === true && $effective_id != 0):
-    							           		if (isset($domain_id) && $domain_id != null && isset($website_markup_rate_list[$domain_id])): ?>
-    												<form name="change-domain-markup-<?php echo $domain_id;?>" class="change-domain-markup" action="<?php echo $this->basePath() ?>/publisher/changedomainmarkup">
-    													<input type="hidden" name="markupdomainid" value="<?php echo $domain_id;?>" />
-    													<div style="float: right;">
-    														<input type="text" style="text-align: right" name="domain-markup" class="input-mini" value="<?php echo $website_markup_rate_list[$domain_id];?>">%
-    													</div>
-    													<div>
-    														<input type="submit" name="domain-markup-submit" class="btn btn-warning btn-mini" value="Update Markup" style="" />
-    													</div>
-    												</form>
-    											<?php else: ?>
-    												NOT AVAILABLE
-    											<?php endif; 
-    										endif;
-                                            break;
-                                       	case "DomainPublisherImpressionsLossRate":
-                                      		if ($is_admin === true && $effective_id != 0):
-                                          		if (isset($domain_id) && $domain_id != null && isset($website_markup_rate_list[$domain_id])): ?>
-                                            		<form name="change-impressions-network-loss-<?php echo $domain_id;?>" class="change-impressions-network-loss" action="<?php echo $this->basePath() ?>/publisher/changedomainimpressionsnetworkloss">
-                                            			<input type="hidden" name="impressionsnetworklossdomainid" value="<?php echo $domain_id;?>" />
-                                            			<div style="float: right;">
-                                            				<input type="text" style="text-align: right" name="domain-impressions-network-loss" class="input-mini" value="<?php echo $website_impressions_network_loss_rate_list[$domain_id];?>">%
-                                            			</div>
-                                            			<div>
-                                            				<input type="submit" name="domain-impressions-network-loss-submit" class="btn btn-warning btn-mini" value="Update Loss Rate" style="" />
-                                            			</div>
-                                            		</form>
-                                            	<?php else: ?>
-                                            		NOT AVAILABLE
-                                            	<?php endif; 
-                                            endif;
-                                          	break;
-                                    	case "DomainOwnerID":
-                                    	    echo $domain_owner . " (" . $data . ")";
-                                            break;
-                                    	case "ApprovalFlag":
-                                    		
-                                    		$approve_verb = 'Approve';
-                                    		$reject_verb = 'Reject';
-                                    		$approved_verb = 'Approved';
-                                    		$pending_verb = 'Pending';
-                                    		$rejected_verb = 'Rejected';
-                                    		
-                                    		if ($auto_approved == 1):
-                                    			$approved_verb = 'Auto-Approved';
-                                    		endif;
-                                    		
-                                    	    $admin_approval = array(
-                                    	           0 => "<strong>" . $pending_verb . "</strong><br /><a href=\"" . $this->basePath() ."/publisher/approvedomain/" . $domain_id . "\">" . $approve_verb . "</a>"
-    												. "<br /><a href=\"" . $this->basePath() ."/publisher/rejectdomain/" . $domain_id . "\">" . $reject_verb . "</a>",
-                                                   1 => "<a href=\"" . $this->basePath() . "/publisher/rejectdomain/" . $domain_id . "\">" . $approved_verb . "</a>",
-    											   2 => "<a href=\"" . $this->basePath() ."/publisher/approvedomain/" . $domain_id . "\">" . $rejected_verb . "</a>"
-        			 	                           );
-                                    	    $approval = array(0=>$pending_verb,1=>$approved_verb,2=>$rejected_verb);
-                                    	    
-                                    	    if (intval($data) == 2):
-                                    	    	$is_rejected = true;
-                                    	    endif;
-                                    	    
-                                    	    if($is_admin):
-                                    	        echo $admin_approval[intval($data)];
-                                    	    else:
-                                    	        echo $approval[intval($data)];
-                                    	    endif;
-                                            break;
-                                        default:
-                                            echo $data;
-                                            break;
-                                    endswitch;
-                                ?>
-                            </td>
-                    <?php endforeach; ?>
-                    <td>
-                    <?php if ($is_admin === true || $is_rejected !== true): ?>
-                      <a href="<?php echo $this->basePath() ?>/publisher/editdomain/<?php echo $domain_id;?>">Edit Domain</a>
-                        &nbsp;&nbsp;&nbsp;
-                        <!--<a href="<?php echo $this->basePath() ?>/publisher/deletedomain/<?php echo $domain_id; ?>">Delete Domain</a>-->
-                        <a href="javascript:void(0);" onclick="deleteDomainModal(<?php echo $domain_id;?>,'<?php echo $domain_list_raw[$row_number]["WebDomain"];?>');">Delete Domain</a>
-                        <hr width="100%" />
-                        <a href="<?php echo $this->basePath() ?>/publisher/zone/<?php echo $domain_id;?>">Edit/View Zones</a>
-                        &nbsp;&nbsp;&nbsp;
-                        <a href="<?php echo $this->basePath() ?>/publisher/zone/<?php echo $domain_id;?>/create/">Create Zones</a>
-                    <?php else: ?>
-                        &nbsp;
-                    <?php endif; ?>
-                    </td>
-                </tr>
-            <?php 
-                endforeach;
-       
-            else:
-             ?>
-                <tr>
-                    <td colspan="<?php echo count($domain_list['header']); ?>" style="text-align:center;">There are no results</td>
-                </tr>
-            <?php endif; ?>
-            </tbody>
+            
         </table>
     </div>
     </div>
