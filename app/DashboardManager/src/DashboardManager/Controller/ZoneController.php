@@ -14,27 +14,12 @@ use transformation;
 use Zend\Mail\Message;
 use Zend\Mime;
 
-/**
- * @author Kelvin Mok
- * This is the Ad spaces Controller class that controls the management
- * of ad space management functions.
- */
+
 class ZoneController extends PublisherAbstractActionController {
     
     protected $ad_template_data; 
     
-    /**
-     * Query for initial domain data necessary to obtain the associated object information, and
-     * to verify that the Domain associated with the ad space is valid.
-     * 
-     * @param integer $DomainID An integer of the domain ID associated with the ad spaces.
-     * @param integer $DomainOwnerID The domain owner ID associated with the domain ID.
-     * @throws \InvalidArgumentException will be thrown when an integer is not supplied to the function parameters.
-     * @throws Exception will be thrown when there is a database error while the module is in Debug mode.
-     * @return NULL|\DashboardManager\model\PublisherWebsite Returns a NULL when no matching domains are found. Otherwise, the domain object is returned.
-     */
-    protected function get_domain_data($DomainID, $DomainOwnerID)
-    {
+    protected function get_domain_data($DomainID, $DomainOwnerID) {
         if (!is_int($DomainID) || !is_int($DomainOwnerID)):
         
             throw new \InvalidArgumentException(
@@ -44,8 +29,8 @@ class ZoneController extends PublisherAbstractActionController {
         endif;
 
         //Initialize and define variables.
-        $PublisherWebsiteFactory = \_factory\PublisherWebsite::get_instance();
-        $PublisherWebsiteListObj = new \model\PublisherWebsite;
+        $publisher_website_factory = \_factory\PublisherWebsite::get_instance();
+        $publisher_website_list = new \model\PublisherWebsite;
         $parameters = array(); // Set the parameters to empty first.
         
         //Populate parameters.
@@ -54,7 +39,7 @@ class ZoneController extends PublisherAbstractActionController {
 
         // Pull website information.
         try {
-        $PublisherWebsiteListObj = $PublisherWebsiteFactory->get_row_object($parameters);
+        $publisher_website_list = $publisher_website_factory->get_row_object($parameters);
         }
         catch(\Exception $e)
         {
@@ -66,9 +51,9 @@ class ZoneController extends PublisherAbstractActionController {
             return null;
         }
         
-        if (intval($PublisherWebsiteListObj->PublisherWebsiteID) > 0):
+        if (intval($publisher_website_list->PublisherWebsiteID) > 0):
         
-            return $PublisherWebsiteListObj;
+            return $publisher_website_list;
         endif;
         
         return null;
@@ -99,10 +84,14 @@ class ZoneController extends PublisherAbstractActionController {
     
     /**
      * Display the Ad Zone available to act upon.
+     *
      * @return \Zend\View\Model\ViewModel
      */
-    public function indexAction()
-    {
+    public function zonelistAction() {
+
+    }
+
+    public function indexAction() {
 		$initialized = $this->initialize();
 		if ($initialized !== true) return $initialized;
         
@@ -113,10 +102,7 @@ class ZoneController extends PublisherAbstractActionController {
         $DomainObj = $this->get_domain_data($DomainID, $this->PublisherInfoID);
         
         if ($DomainObj === null):
-        
             $error_message = "An invalid publishing web domain was specified for the specified user.";
-            
-        
         else: 
         
             $PublisherAdZoneFactory = \_factory\PublisherAdZone::get_instance();
@@ -152,6 +138,7 @@ class ZoneController extends PublisherAbstractActionController {
         // TO DO: Permission issues.
         
         $view = new ViewModel(array(
+        	'domain_id' => $DomainID,
         	'true_user_name' => $this->true_user_name,
             'zone_list_raw' => $ZoneList,
             'zone_list' => $this->order_data_table($meta_data,$ZoneList,$headers),
@@ -1086,7 +1073,7 @@ class ZoneController extends PublisherAbstractActionController {
 	    	
 	    	$PublisherAdZoneFactory = \_factory\PublisherAdZone::get_instance();
 	    	$PublisherAdZoneVideoFactory = \_factory\PublisherAdZoneVideo::get_instance();
-	    	$PublisherWebsiteFactory = \_factory\PublisherWebsite::get_instance();
+	    	$publisher_website_factory = \_factory\PublisherWebsite::get_instance();
 	    	
 	    	$params = array();
 	    	$params["PublisherAdZoneID"] = $PublisherAdZoneID;
@@ -1124,7 +1111,7 @@ class ZoneController extends PublisherAbstractActionController {
           $PublisherWebsiteID = intval($this->params()->fromRoute('param1', 0));
           
           $PublisherAdZoneFactory = \_factory\PublisherAdZone::get_instance();
-          $PublisherWebsiteFactory = \_factory\PublisherWebsite::get_instance();
+          $publisher_website_factory = \_factory\PublisherWebsite::get_instance();
           
           $params = array();
 		  $params["PublisherAdZoneID"] = $PublisherAdZoneID;
@@ -1132,7 +1119,7 @@ class ZoneController extends PublisherAbstractActionController {
           
           $params = array();
 		  $params["PublisherWebsiteID"] = $PublisherWebsiteID;
-          $PublishObject = $PublisherWebsiteFactory->get_row_object($params);
+          $PublishObject = $publisher_website_factory->get_row_object($params);
           
           $width = 0;
           $height = 0;

@@ -23,6 +23,15 @@ use Zend\Mime;
  */
 class PublisherController extends PublisherAbstractActionController {
 
+	/**
+     * Display the publisher dashboard page
+     * 
+     * @return \Zend\View\Model\ViewModel
+     */
+	public function dashboardAction() {
+		
+	}
+
     /**
      * Display the publisher index page, and list all domains associated.
      * 
