@@ -1,73 +1,85 @@
+<div class="docs-header">
+  <div class="topic">
+        <div class="container">
+          <h4>Update Ad-zone</h4>
+        </div>
+  </div>
+</div>
 <?php
 $this->headScript()->appendFile($this->basePath() . '/js/script.js');
 $this->headScript()->appendFile($this->basePath() . '/js/zone.js');
 $this->headScript()->captureStart() ?>
 $(function() {
-	$("form.form-horizontal").validate({
-	   ignore: ".ignore"
-	})
-	switchImpressionType();
+  $("form.form-horizontal").validate({
+     ignore: ".ignore"
+  })
+  switchImpressionType();
 });
 <?php $this->headScript()->captureEnd();  ?>
-   <ul class="breadcrumb breadcrumb-heading">
+   <!-- <ul class="breadcrumb breadcrumb-heading">
     <li><a href="/publisher/">Domains</a><span class="divider">/</span></li>
     <li><a href="/publisher/zone/<?php echo $domain_obj->PublisherWebsiteID;?>"><?php echo $domain_obj->WebDomain;?></a><span class="divider">/</span></li>
     <li><a href="/publisher/zone/<?php echo $domain_obj->PublisherWebsiteID;?>">Zones</a><span class="divider">/</span></li>
     <li><?php echo $editResultObj->AdName;?><span class="divider">/</span></li>
     <li>Edit Zone</li>
-    </ul>
+    </ul> -->
 <?php 
     if($error_message != "" && $error_message !== null && isset($error_message)):
-    	echo '<div id="cdn_form_success" class="alert alert-error" style="margin: 5px;">'. $error_message .'</div>';
+      echo '<div id="cdn_form_success" class="alert alert-error" style="margin: 5px;">'. $error_message .'</div>';
     endif;
 ?>
 <div id="cdn_form_msg" class="alert alert-error" style="margin: 5px; display:none;"></div>
     <div id="main-container">
 
     <div class="formbox">
-    
+    <div class="container">
+    <div class="row">
+      <br />
+      <div class="col-md-8 col-md-offset-2 panel panel-default">
+        <div class="panel-body">
     <form id="ad" class="form-horizontal form-top-magin" name="ad" method="post" action="/publisher/zone/<?php echo $editResultObj->PublisherWebsiteID;?>/edit/<?php echo $editResultObj->PublisherAdZoneID;?>/">
-    <div class="control-group">
-    <label for="adname" class="control-label">Ad Name</label>
-    <div class="controls">
-    <input type="text" value="<?php echo $editResultObj->AdName;?>" class="zone-txtbox" maxlength="255" id="AdName" name="AdName">    </div>
+    <div class="form-group">
+    <label for="adname" class="control-label col-sm-3">Ad Name</label>
+    <div class="controls col-sm-7">
+    <input type="text" value="<?php echo $editResultObj->AdName;?>" class="form-control" maxlength="255" id="AdName" name="AdName">    </div>
     </div>
-    <div class="control-group">
-    <label for="adname" class="control-label">Ad Delivery Type</label>
-    <div class="controls error">
-		<select id="ImpressionType" name="ImpressionType" class="zone-txtarea" onchange="switchImpressionType();">
-			<?php if ($editResultObj->ImpressionType == 'banner'): ?>
-				<option value="banner" selected="selected">Banner Ad</option>
-				<option value="video">Video Ad</option>
-			<?php else: ?>
-				<option value="banner">Banner Ad</option>
-				<option value="video" selected="selected">Video Ad</option>
-			<?php endif; ?>
-		</select>
-		</div>
-    </div>
-<div class="control-group">
-    <label for="Description" class="control-label">Description</label>
-    <div class="controls">
-    <textarea class="zone-txtbox" maxlength="255" id="Description" name="Description"><?php echo $editResultObj->Description;?></textarea>    </div>
-    </div>
-<div class="control-group" id="passback-cg">
-    <label for="PassbackAdTag" id="passbackTag" class="control-label">Passback Ad Tag</label>
-    <div class="controls">
- <textarea class="zone-txtbox ignore" maxlength="5000" id="PassbackAdTag" name="PassbackAdTag"><?php echo $editResultObj->PassbackAdTag;?></textarea>    </div>
-    </div>
-    <div class="control-group" id="floor-cg">
-    <label for="FloorPrice" class="control-label">Floor Price</label>
-    <div class="controls">
-    <div class="input-prepend">
-	<span class="add-on">$</span>
-    <input type="text" value="<?php echo $editResultObj->FloorPrice;?>" class="input-mini" maxlength="20" id="FloorPrice" name="FloorPrice">    </div>
+    <div class="form-group">
+    <label for="adname" class="control-label col-sm-3">Ad Delivery Type</label>
+    <div class="controls col-sm-7 error">
+    <select id="ImpressionType" name="ImpressionType" class="form-control" onchange="switchImpressionType();">
+      <?php if ($editResultObj->ImpressionType == 'banner'): ?>
+        <option value="banner" selected="selected">Banner Ad</option>
+        <option value="video">Video Ad</option>
+      <?php else: ?>
+        <option value="banner">Banner Ad</option>
+        <option value="video" selected="selected">Video Ad</option>
+      <?php endif; ?>
+    </select>
     </div>
     </div>
+<div class="form-group">
+    <label for="Description" class="control-label col-sm-3">Description</label>
+    <div class="controls col-sm-7">
+    <textarea class="form-control" maxlength="255" id="Description" name="Description"><?php echo $editResultObj->Description;?></textarea>    </div>
+    </div>
+<div class="form-group" id="passback-cg">
+    <label for="PassbackAdTag" id="passbackTag" class="control-label col-sm-3">Passback Ad Tag</label>
+    <div class="controls col-sm-7">
+ <textarea class="form-control ignore" maxlength="5000" id="PassbackAdTag" name="PassbackAdTag"><?php echo $editResultObj->PassbackAdTag;?></textarea>    </div>
+    </div>
+    <div class="form-group" id="floor-cg">
+              <label for="FloorPrice" class="control-label col-sm-3">Floor Price</label>
+              <div class="controls col-sm-7 error">
+                <div class="input-group">
+                  <div class="input-group-addon">$</div>
+                  <input type="text" value="<?php echo $editResultObj->FloorPrice;?>" class="form-control" maxlength="20" id="FloorPrice" name="FloorPrice">
+                </div>
+              </div>
+            </div>
     <?php if ($is_admin): ?>
-	  <div class="control-group">
-		<label for="PublisherAdZoneTypeID" class="control-label">Zone type?</label>
-		<div class="controls">
+    <div class="form-group">
+    <label for="PublisherAdZoneTypeID" class="control-label col-sm-3">Zone type?</label>
+    <div class="controls col-sm-7">
         <select id="PublisherAdZoneTypeID"  class="selbox-width" name="PublisherAdZoneTypeID" onchange="switchPublisherAdZoneType();">
             <?php foreach ($publisheradzonetype_options as $code => $name): ?>
                 <?php if ((string)$code === $current_publisheradzonetype): ?>
@@ -79,83 +91,83 @@ $(function() {
         </select>
         <div id="banner-picker"></div>
        </div>
-    	</div>
+      </div>
     <?php endif; ?>
-    <div class="control-group">
-     <label for="IsMobileFlag" class="control-label">Is Mobile?</label>
-    <div class="controls">
+<!--     <div class="form-group">
+     <label for="IsMobileFlag" class="control-label col-sm-3">Is Mobile?</label>
+    <div class="controls col-sm-7">
     <label><input type="radio" <?php if($editResultObj->IsMobileFlag == "0"): echo 'checked="checked"';endif;?> value="0" id="IsMobileFlag" name="IsMobileFlag">No</label>
     <label><input type="radio" <?php if($editResultObj->IsMobileFlag == "1"): echo 'checked="checked"';endif;?> value="1" name="IsMobileFlag">Yes</label> 
        </div>
-    </div>
+    </div> -->
      
-     <div class="control-group novideo">
-     <label for="Templates" class="control-label">Templates</label>
-    <div class="controls">
-    <select onchange="getTemplateSizes(this);" class="zone-txtarea" id="AdTemplateID" name="AdTemplateID">
+     <div class="form-group novideo">
+     <label for="Templates" class="control-label col-sm-3">Templates</label>
+    <div class="controls col-sm-7">
+    <select onchange="getTemplateSizes(this);" class="form-control" id="AdTemplateID" name="AdTemplateID">
 <?php 
      foreach($AdTemplateList as $key=>$value):
-     	$selected = '';
-     	if($editResultObj->AdTemplateID == $key):
-     		$selected = "selected";
-     	endif; 
-	 	echo '<option value="'. $key .'" '.$selected.'>'. $value .'</option>';
-	 endforeach;
-	 ?>
+      $selected = '';
+      if($editResultObj->AdTemplateID == $key):
+        $selected = "selected";
+      endif; 
+    echo '<option value="'. $key .'" '.$selected.'>'. $value .'</option>';
+   endforeach;
+   ?>
 </select>  
   </div>
     </div>
     
-    <div class="control-group">
-    <label for="Width" class="control-label">Ad Width</label>
-    <div class="controls">
+    <div class="form-group">
+    <label for="Width" class="control-label col-sm-3">Ad Width</label>
+    <div class="controls col-sm-7">
     <input type="text" value="<?php if ($editResultObj->Width): echo $editResultObj->Width; endif;?>" class="input-mini" size="5" maxlength="10" id="Width" name="Width">    </div>
     </div>   
     
-    <div class="control-group">
-    <label for="Height" class="control-label">Ad Height</label>
-    <div class="controls">
+    <div class="form-group">
+    <label for="Height" class="control-label col-sm-3">Ad Height</label>
+    <div class="controls col-sm-7">
     <input type="text" value="<?php if ($editResultObj->Width): echo $editResultObj->Height; endif;?>" class="input-mini" size="5" maxlength="10" id="Height" name="Height">    </div>
     </div>
     
-    <div class="control-group nobanner" style="display: none;">
-    <label for="MinDuration" class="control-label">Minimum Ad Duration : <span class="hlp"><small><i>(required)</i></small></span></label>
-    <div class="controls">
+    <div class="form-group nobanner" style="display: none;">
+    <label for="MinDuration" class="control-label col-sm-3">Minimum Ad Duration : <span class="hlp"><small><i>(required)</i></small></span></label>
+    <div class="controls col-sm-7">
     <input type="text" value="<?php echo $current_min_duration;?>" class="input-mini" size="5" maxlength="10" id="MinDuration" name="MinDuration">
     </div> 
     </div>  
     
-    <div class="control-group nobanner" style="display: none;">
-    <label for="MaxDuration" class="control-label">Maximum Ad Duration : <span class="hlp"><small><i>(required)</i></small></span></label>
-    <div class="controls">
+    <div class="form-group nobanner" style="display: none;">
+    <label for="MaxDuration" class="control-label col-sm-3">Maximum Ad Duration : <span class="hlp"><small><i>(required)</i></small></span></label>
+    <div class="controls col-sm-7">
     <input type="text" value="<?php echo $current_max_duration;?>" class="input-mini" size="5" maxlength="10" id="MaxDuration" name="MaxDuration">   </div>
     </div>
     
-      <div class="control-group nobanner" style="display: none;">
-		<label for="Mimes" class="control-label">Mimes : <span class="hlp"><small><i>(required, ctrl+shift to select mutliple)</i></small></span></label>
-		<div class="controls">
-<select id="Mimes" name="Mimes[]" multiple class="zone-txtarea" style="min-height: 170px">
+      <div class="form-group nobanner" style="display: none;">
+    <label for="Mimes" class="control-label col-sm-3">Mimes : <span class="hlp"><small><i>(required, ctrl+shift to select mutliple)</i></small></span></label>
+    <div class="controls col-sm-7">
+<select id="Mimes" name="Mimes[]" multiple class="form-control" style="min-height: 170px">
      <?php if (!count($current_mimes)): ?>
-	    <?php foreach ($mimes as $name): ?>
-	    	<option value="<?php echo $name;?>" selected="selected"><?php echo $name;?></option>
-	    <?php endforeach; ?>
+      <?php foreach ($mimes as $name): ?>
+        <option value="<?php echo $name;?>" selected="selected"><?php echo $name;?></option>
+      <?php endforeach; ?>
      <?php else: ?>
-	    <?php foreach ($mimes as $name): ?>
-	        <?php if (in_array((string)$name, $current_mimes)): ?>
-	            <option value="<?php echo $name;?>" selected="selected"><?php echo $name;?></option>
-	        <?php else: ?>
-	            <option value="<?php echo $name;?>"><?php echo $name;?></option>
-	        <?php endif; ?>
-	    <?php endforeach; ?>
+      <?php foreach ($mimes as $name): ?>
+          <?php if (in_array((string)$name, $current_mimes)): ?>
+              <option value="<?php echo $name;?>" selected="selected"><?php echo $name;?></option>
+          <?php else: ?>
+              <option value="<?php echo $name;?>"><?php echo $name;?></option>
+          <?php endif; ?>
+      <?php endforeach; ?>
     <?php endif; ?>
 </select>
-	</div>
-	</div> 
-	
-   <div class="control-group nobanner" style="display: none;">
-		<label for="Protocols" class="control-label">Protocols : <span class="hlp"><small><i>(ctrl+shift to select mutliple)</i></small></span></label>
-		<div class="controls">
-<select id="Protocols" name="Protocols[]" multiple class="zone-txtarea" style="min-height: 50px">
+  </div>
+  </div> 
+  
+   <div class="form-group nobanner" style="display: none;">
+    <label for="Protocols" class="control-label col-sm-3">Protocols : <span class="hlp"><small><i>(ctrl+shift to select mutliple)</i></small></span></label>
+    <div class="controls col-sm-7">
+<select id="Protocols" name="Protocols[]" multiple class="form-control" style="min-height: 50px">
     <?php foreach ($protocols as $code => $name): ?>
         <?php if (in_array((string)$code, $current_protocols)): ?>
             <option value="<?php echo $code;?>" selected="selected"><?php echo $name;?></option>
@@ -164,13 +176,13 @@ $(function() {
         <?php endif; ?>
     <?php endforeach; ?>
 </select>
-	</div>
-	</div> 
-	
-   <div class="control-group nobanner" style="display: none;">
-		<label for="ApisSupported" class="control-label">Apis Supported : <span class="hlp"><small><i>(ctrl+shift to select mutliple)</i></small></span></label>
-<div class="controls">
-	<select id="ApisSupported" name="ApisSupported[]" multiple class="zone-txtarea" style="min-height: 130px">
+  </div>
+  </div> 
+  
+   <div class="form-group nobanner" style="display: none;">
+    <label for="ApisSupported" class="control-label col-sm-3">Apis Supported : <span class="hlp"><small><i>(ctrl+shift to select mutliple)</i></small></span></label>
+<div class="controls col-sm-7">
+  <select id="ApisSupported" name="ApisSupported[]" multiple class="form-control" style="min-height: 130px">
     <?php foreach ($apis_supported as $code => $name): ?>
         <?php if (in_array((string)$code, $current_apis_supported)): ?>
             <option value="<?php echo $code;?>" selected="selected"><?php echo $name;?></option>
@@ -179,13 +191,13 @@ $(function() {
         <?php endif; ?>
     <?php endforeach; ?>
 </select>
-	</div>
-	</div>
-	
-   <div class="control-group nobanner" style="display: none;">
-		<label for="Delivery" class="control-label">Video Delivery : <span class="hlp"><small><i>(ctrl+shift to select mutliple)</i></small></span></label>
-<div class="controls">
-<select id="Delivery" name="Delivery[]" multiple class="zone-txtarea" style="min-height: 50px">
+  </div>
+  </div>
+  
+   <div class="form-group nobanner" style="display: none;">
+    <label for="Delivery" class="control-label col-sm-3">Video Delivery : <span class="hlp"><small><i>(ctrl+shift to select mutliple)</i></small></span></label>
+<div class="controls col-sm-7">
+<select id="Delivery" name="Delivery[]" multiple class="form-control" style="min-height: 50px">
     <?php foreach ($delivery_methods as $code => $name): ?>
         <?php if (in_array((string)$code, $current_delivery_methods)): ?>
             <option value="<?php echo $code;?>" selected="selected"><?php echo $name;?></option>
@@ -194,13 +206,13 @@ $(function() {
         <?php endif; ?>
     <?php endforeach; ?>
 </select>
-	</div>
-	</div>
-	
-   <div class="control-group nobanner" style="display: none;">
-		<label for="Playback" class="control-label">Video Playback : <span class="hlp"><small><i>(ctrl+shift to select mutliple)</i></small></span></label>
-		<div class="controls">
-		<select id="Playback" name="Playback[]" multiple class="zone-txtarea" style="min-height: 90px">
+  </div>
+  </div>
+  
+   <div class="form-group nobanner" style="display: none;">
+    <label for="Playback" class="control-label col-sm-3">Video Playback : <span class="hlp"><small><i>(ctrl+shift to select mutliple)</i></small></span></label>
+    <div class="controls col-sm-7">
+    <select id="Playback" name="Playback[]" multiple class="form-control" style="min-height: 90px">
     <?php foreach ($playback_methods as $code => $name): ?>
         <?php if (in_array((string)$code, $current_playback_methods)): ?>
             <option value="<?php echo $code;?>" selected="selected"><?php echo $name;?></option>
@@ -209,12 +221,12 @@ $(function() {
         <?php endif; ?>
     <?php endforeach; ?>
 </select>
-	</div>
-	</div>
-	
-   <div class="control-group nobanner" style="display: none;">
-		<label for="StartDelay" class="control-label">Start Delay :</label>
-		<div class="controls">
+  </div>
+  </div>
+  
+   <div class="form-group nobanner" style="display: none;">
+    <label for="StartDelay" class="control-label col-sm-3">Start Delay :</label>
+    <div class="controls col-sm-7">
 <select id="StartDelay" name="StartDelay">
     <?php foreach ($start_delay as $code => $name): ?>
         <?php if ((string)$code == $current_start_delay): ?>
@@ -224,12 +236,12 @@ $(function() {
         <?php endif; ?>
     <?php endforeach; ?>
 </select>
-	</div>
-	</div>
-	
-   <div class="control-group nobanner" style="display: none;">
-		<label for="Linearity" class="control-label">Linearity :</label>
-		<div class="controls">
+  </div>
+  </div>
+  
+   <div class="form-group nobanner" style="display: none;">
+    <label for="Linearity" class="control-label col-sm-3">Linearity :</label>
+    <div class="controls col-sm-7">
 <select id="Linearity" name="Linearity">
     <?php foreach ($linearity as $code => $name): ?>
         <?php if ((string)$code == $current_start_delay): ?>
@@ -239,12 +251,12 @@ $(function() {
         <?php endif; ?>
     <?php endforeach; ?>
 </select>
-	</div>
-	</div>
-	
-   <div class="control-group nobanner" style="display: none;">
-		<label for="FoldPos" class="control-label">Fold Position :</label>
-		<div class="controls">
+  </div>
+  </div>
+  
+   <div class="form-group nobanner" style="display: none;">
+    <label for="FoldPos" class="control-label col-sm-3">Fold Position :</label>
+    <div class="controls col-sm-7">
 <select id="FoldPos" name="FoldPos">
     <?php foreach ($fold_pos as $code => $name): ?>
         <?php if ((string)$code == $current_fold_pos): ?>
@@ -254,10 +266,10 @@ $(function() {
         <?php endif; ?>
     <?php endforeach; ?>
 </select>
-	</div>
-	</div>
+  </div>
+  </div>
     
-<div class="control-group">
+<div class="form-group text-center">
     <div class="controls">
     <button name="submit" class="btn btn-margin btn-primary" type="submit" id="submitbutton">Update Ad Zone</button>
     </div>
@@ -268,3 +280,8 @@ $(function() {
 </form> 
 </div>
     </div>
+    </div>
+    </div>
+    </div>
+    </div>
+

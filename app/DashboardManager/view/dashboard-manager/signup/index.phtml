@@ -1,24 +1,21 @@
 <?php
-$this->headScript()->prependFile($this->basePath() . '/static/js/script.js');
-$this->headScript()->prependFile($this->basePath() . '/static/js/signup.js');
+$this->headScript()->prependFile($this->basePath() . '/js/script.js');
+$this->headScript()->prependFile($this->basePath() . '/js/signup.js');
 ?>
 
 <div class="docs-header">
   <div class="topic">
-        <div class="container">
-      <div class="col-md-8">
+      <div class="container">
+    
         <h4>Create Your Publisher Account.</h4>
+
       </div>
-      <div class="col-md-4">
-      
-          </div>
-        </div>
-        <div class="topic__infos">
-          <div class="container">
-            <a href="<?php echo $this->basePath() ?>/signup/customer">Demand Customers Sign-up Here</a>
-          </div>
+      <div class="topic__infos">
+        <div class="container">
+          <a href="<?php echo $this->basePath() ?>/signup/customer">Demand Customers Sign-up Here</a>
         </div>
       </div>
+    </div>
 </div>
 
 <div class="container">
@@ -40,88 +37,89 @@ $this->headScript()->prependFile($this->basePath() . '/static/js/signup.js');
             <div id="cdn_form_dynamic_msg" class="alert alert-danger" style="margin: 5px; display:none;"></div>
             <div id="cdn_form_msg" class="alert alert-danger" style="margin: 5px; display:none;"></div>
 
-            <div class="form-group mrg0B underline">
+            <div class="form-group mrg20B mrg10T underline">
               <h4 class="mrg0A">Account Information</h4>    
             </div>
             
             <div class="form-group">
-                <label for="Email" class="control-label">Email</label>
-                <div class="controls">
+                <label for="Email" class="control-label col-sm-3">Email</label>
+                <div class="controls col-sm-7">
                 <input type="text" value="" class="form-control" maxlength="50" name="Email" id="Email" placeholder="me@example.com">
                 </div>
             </div>
             <div class="form-group">
-                <label for="Username" class="control-label">Username</label>
-                <div class="controls">
+                <label for="Username" class="control-label col-sm-3">Username</label>
+                <div class="controls col-sm-7">
                   <input type="text" value="" class="form-control" maxlength="50" name="user_login" id="user_login" placeholder="username">
                 </div>
             </div>
             <div class="form-group">
-                <label for="password" class="control-label">Password</label>
-                <div class="controls">
-                <input type="password" value="" class="form-control" name="Password" id="Password">    </div>
+                <label for="password" class="control-label col-sm-3">Password</label>
+                <div class="controls col-sm-7">
+                  <input type="password" value="" class="form-control" name="Password" id="Password">    
+                </div>
             </div> 
 
             <div class="form-group">
-                <label for="Confirm_password" class="control-label">Confirm Password</label>
-                <div class="controls">
+                <label for="Confirm_password" class="control-label col-sm-3">Confirm Password</label>
+                <div class="controls col-sm-7">
                 <input type="Password" value=""  class="form-control" name="Confirm_password" id="Confirm_password">    </div>
             </div> 
-            <br>  
-            <div class="form-group mrg0B underline">
+            
+            <div class="form-group mrg20B underline">
               <h4 class="mrg0A">Contact Information</h4>    
             </div>
             <div class="form-group">
-                <label for="Name" class="control-label">First Name</label>
-                <div class="controls">
+                <label for="FirstName" class="control-label col-sm-3">First Name</label>
+                <div class="controls col-sm-7">
                 <input type="text" value="" class="form-control" maxlength="100" name="FirstName" id="FirstName">    </div>
             </div>
             <div class="form-group">
-                <label for="Name" class="control-label">Last Name</label>
-                <div class="controls">
+                <label for="LastName" class="control-label col-sm-3">Last Name</label>
+                <div class="controls col-sm-7">
                 <input type="text" value="" class="form-control" maxlength="100" name="LastName" id="LastName">    </div>
             </div>
             <div class="form-group">
-                <label for="Name" class="control-label">Country</label>
-                <div class="controls">
+                <label for="Country" class="control-label col-sm-3">Country</label>
+                <div class="controls col-sm-7">
                 <input type="text" value="" class="form-control"name="Country" id="Country">    
                 </div>
             </div>
             <div class="form-group">
-                <label for="Name" class="control-label">City</label>
-                <div class="controls">
+                <label for="City" class="control-label col-sm-3">City</label>
+                <div class="controls col-sm-7">
                 <input type="text" value="" class="form-control" maxlength="100" name="City" id="City">    </div>
             </div>
             <div class="form-group">
-                <label for="Name" class="control-label">Address</label>
-                <div class="controls">
+                <label for="Addr" class="control-label col-sm-3">Address</label>
+                <div class="controls col-sm-7">
                 <input type="text" value="" class="form-control" maxlength="255" name="Addr" id="Addr">    </div>
             </div>
 
-            <br>
-            <div class="form-group mrg0B underline">
+          
+            <div class="form-group mrg20B underline">
               <h4 class="mrg0A">Site Information</h4>    
             </div>
 
             <div class="form-group">
-                <label for="Name" class="control-label">Publisher Name</label>
-                <div class="controls">
-                <input type="text" value="" class="form-control" maxlength="100" name="Name" id="Name" placeholder="Name">    </div>
+                <label for="Name" class="control-label col-sm-3">Publisher Name</label>
+                <div class="controls col-sm-7">
+                <input type="text" value="" class="form-control" maxlength="100" name="customer_name" id="Name" placeholder="Name">    </div>
             </div>
             <div class="form-group">
-                <label for="Domain" class="control-label">Website</label>
-                <div class="controls">
+                <label for="Domain" class="control-label col-sm-3">Website</label>
+                <div class="controls col-sm-7">
                 <input type="text" value="" class="form-control" maxlength="50" name="Domain" id="Domain" placeholder="example.com">    </div>
             </div>
             <div class="form-group">
-                <label for="Domain" class="control-label">Website Describe</label>
-                <div class="controls">
+                <label for="Domain" class="control-label col-sm-3">Website Describe</label>
+                <div class="controls col-sm-7">
                   <textarea  rows="4" class="form-control" name="DomainDescribe" id="DomainDescribe"></textarea>
                 </div>
             </div>
             <div class="form-group">
-                <label for="IABCategory" class="control-label">IABCategory</label>
-                <div class="controls">
+                <label for="IABCategory" class="control-label col-sm-3">IABCategory</label>
+                <div class="controls col-sm-7">
                 <select id="IABCategory" class="form-control" name="IABCategory">
                    <?php 
                    foreach($vertical_map as $key=>$value): 
@@ -132,6 +130,7 @@ $this->headScript()->prependFile($this->basePath() . '/static/js/signup.js');
               </div>
 
             </div> 
+            <hr>
             <div class="form-group">
               <label style="display: inline" class="icheckbox_flat checked"> <input type="checkbox" name="rememberme" class="iCheck-helper" />&nbsp;By checking this box I confirm I have read, understand, acknowledge and accept <a href="">Privacy policy</a> and <a href="">User Agreement</a></label>
             </div>

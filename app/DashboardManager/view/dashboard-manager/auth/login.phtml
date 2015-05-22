@@ -1,61 +1,63 @@
 <?php
-$this->headScript()->prependFile($this->basePath() . '/static/js/script.js');
+$this->headScript()->prependFile($this->basePath() . '/js/script.js');
 ?>
 
 
 <div class="container">
   <div class="row">
     <br />
-    <div class="col-md-6 col-md-offset-3 panel panel-default">
-      <div class="panel-body">
-        <form class="form-horizontal" method="POST" action="<?php echo $this->basePath() ?>/auth/authenticate" name="loginform" id="loginform" >
-          <fieldset>
-            
-            <div id="legend" class="headbreadcrumb text-center">
-              <h3 class="loginhead mrg0A">LOG IN</h3>
-            </div> 
-            <?php
-            if (isset($_SESSION['user']['message'])):
-               echo '<div id="cdn_form_msg" class="alert alert-danger" style="margin: 5px;">'.$_SESSION['user']['message'].'</div>';
-               unset($_SESSION['user']['message']);
-            endif;
-            ?>  
-            <div class="form-group form-group-lg">
-              <!-- Username -->
-              <label class="control-label"  for="username">Email Address</label>
-              <div class="controls">
-                <input type="text" id="username" name="username" placeholder="" class="form-control">
-              </div>
-            </div>
-            
-            <div class="form-group form-group-lg">
-              <!-- Password-->
-              <label class="control-label" for="password">Password</label>
-              <div class="controls">
-                <input type="password" id="password" name="password" placeholder="" class="form-control">
-              </div>
-            </div>
-            
-            <div class="form-group">
-              <!-- rememberme-->
+    <div class="col-md-6 col-md-offset-3">
+      <div class="panel panel-default">
+        <div id="legend" class="panel-heading text-center">
+          <h3 class="loginhead mrg0A">LOG IN</h3>
+        </div> 
+        <div class="panel-body">
+          <form class="" method="POST" action="<?php echo $this->basePath() ?>/auth/authenticate" name="loginform" id="loginform" >
+            <fieldset>
               
-              <div class="controls">
-                <label style="display: inline" for="rememberme" class="icheckbox_flat checked"> <input type="checkbox" id="rememberme" name="rememberme" class="iCheck-helper" />&nbsp;Remember Me</label>
-                <a href="#" class="pull-right">Forgot your password?</a>
+              <?php
+              if (isset($_SESSION['user']['message'])):
+                 echo '<div id="cdn_form_msg" class="alert alert-danger" style="margin: 5px;">'.$_SESSION['user']['message'].'</div>';
+                 unset($_SESSION['user']['message']);
+              endif;
+              ?>  
+              <div class="form-group form-group-lg">
+                <!-- Username -->
+                <label class="control-label"  for="username">Email Address</label>
+                <div class="controls">
+                  <input type="text" id="username" name="username" placeholder="" class="form-control">
+                </div>
               </div>
-            </div>
-            
-            
-            <br />
-            <div class="form-group">
-            <!-- Button -->
-              <div class="form-group text-center">
-                 <input type="submit" class="btn btn-success btn-lg" value="Login to Dashboard" name="B1">
+              
+              <div class="form-group form-group-lg">
+                <!-- Password-->
+                <label class="control-label" for="password">Password</label>
+                <div class="controls">
+                  <input type="password" id="password" name="password" placeholder="" class="form-control">
+                </div>
               </div>
-            </div>
+              
+              <div class="form-group">
+                <!-- rememberme-->
+                
+                <div class="controls">
+                  <label style="display: inline" for="rememberme" class="icheckbox_flat checked"> <input type="checkbox" id="rememberme" name="rememberme" class="iCheck-helper" />&nbsp;Remember Me</label>
+                  <a href="#" class="pull-right">Forgot your password?</a>
+                </div>
+              </div>
+              
+              
+              <br />
+              <div class="form-group">
+              <!-- Button -->
+                <div class="form-group text-center">
+                   <input type="submit" class="btn btn-success btn-lg" value="Login to Dashboard" name="B1">
+                </div>
+              </div>
 
-          </fieldset>
-        </form>
+            </fieldset>
+          </form>
+        </div>
       </div>
     </div>
   </div>

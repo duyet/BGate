@@ -31,7 +31,11 @@ class PublisherController extends PublisherAbstractActionController {
 	{	    
 		$initialized = $this->initialize();
 		if ($initialized !== true) return $initialized;
-	    
+	    if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest')
+		{
+		  //CODE HERE
+			return [];
+		}
 	    //Pull list of websites.
 	    $PublisherWebsiteFactory = \_factory\PublisherWebsite::get_instance();
 	    $parameters = array(); // Set the parameters to empty first.
