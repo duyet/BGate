@@ -910,3 +910,11 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 .main-board {
     min-height: 400px;
 }
+
+.form-group-lg .form-control {
+    border-radius: 0;
+}
+
+.steps-container .container {
+  min-height: 350px;
+}
