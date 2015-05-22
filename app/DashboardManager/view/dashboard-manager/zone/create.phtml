@@ -30,11 +30,11 @@ $(function() {
       <br />
       <div class="col-md-8 col-md-offset-2 panel panel-default">
         <div class="panel-body">
-          <form id="ad" class="form-horizontal" name="ad" method="post" action="/publisher/zone/<?php echo $domain_obj->PublisherWebsiteID;?>/create" novalidate="novalidate">
+          <form id="ad" class="form-horizontal" name="ad" method="post" action="<?php echo $this->basePath() ?>/publisher/zone/<?php echo $domain_obj->PublisherWebsiteID;?>/create" novalidate="novalidate">
             <?php 
                 if($error_message != "" && $error_message !== null && isset($error_message))
                 {
-                    echo '<div id="cdn_form_success" class="alert alert-error" style="margin: 5px;">'. $error_message .'</div>';
+                    echo '<div class="alert alert-warning" style="margin: 5px;">'. $error_message .'</div>';
                 }
             ?>
 
@@ -258,7 +258,10 @@ $(function() {
             <br>
             <div class="form-group text-center">
               <div class="controls">
-                <button name="submit" class="btn btn-margin btn-primary" type="submit" id="submitbutton">Create New Ad Zone</button>
+                <a href="<?php echo $this->basePath() ?>/publisher/zone/<?php echo $domain_obj->PublisherWebsiteID;?>">Cancle</a> or
+
+                <button name="submit" class="btn btn-margin btn-primary" type="submit" id="submitbutton">Create New Ad Zone</button> 
+
               </div>
             </div>
             <input type="hidden" value="<?php echo $AdOwnerID;?>" name="AdOwnerID">
