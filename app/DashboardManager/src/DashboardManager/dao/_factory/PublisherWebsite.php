@@ -72,24 +72,39 @@ class PublisherWebsite extends \_factory\CachedTableRead
      * @param string $params
      * @return multitype:Ambigous <\Zend\Db\ResultSet\ResultSet, NULL, \Zend\Db\ResultSet\ResultSetInterface>
      */
-    public function get($params = null, $orders = null) {
+    public function get($params = null, $orders = null, $search = null, $limit = null, $offset = 0) {
         	// http://files.zend.com/help/Zend-Framework/zend.db.select.html
     	
         $obj_list = array();
 
-    	$resultSet = $this->select(function (\Zend\Db\Sql\Select $select) use ($params, $orders) {
+    	$resultSet = $this->select(function (\Zend\Db\Sql\Select $select) use ($params, $orders, $search, $limit, $offset) {
         		foreach ($params as $name => $value):
         		$select->where(
         				$select->where->equalTo($name, $value)
         		);
         		endforeach;
-        		//$select->limit(10, 0);
 
-        		if($orders == null):
+            if ($search != null):
+              $select->where
+                      ->nest
+                        ->like("WebDomain", "%". $search ."%" )
+                        ->or
+                        ->equalTo("PublisherWebsiteID", (int) $search) 
+                      ->unnest;
+              // $select->where->equalTo("PublisherWebsiteID", (int) $search);
+            endif;
+            
+            if($orders == null):
         			$select->order('WebDomain');
         		else:
         			$select->order($orders);
         		endif;
+
+            if ($limit != null):
+              $select->limit($limit);
+              $select->offset($offset);
+            endif;
+
         	}
     	);
 
@@ -99,7 +114,23 @@ class PublisherWebsite extends \_factory\CachedTableRead
 
     		return $obj_list;
     }
-   
+    
+    public function count($params = null, $search = null) {
+      $resultSet = $this->select(function (\Zend\Db\Sql\Select $select) use ($params, $search) {
+            foreach ($params as $name => $value):
+            $select->where(
+                $select->where->equalTo($name, $value)
+            );
+            endforeach;
+
+            if ($search != null):
+              $select->where->like("WebDomain", "%". $search ."%" );
+            endif;
+
+          }
+      );
+      return $resultSet->count();
+    }
     /**
      * Query database for a row and return results as an object.
      * 

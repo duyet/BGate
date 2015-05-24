@@ -11,11 +11,12 @@ var DomainTable = {
   init_datatable: function(){
     var self = this;
     this.table.dataTable({
-        //"bProcessing": false,
-        //"bLengthChange": true,
-        //"bServerSide": true,
+        "processing": true,
+        "bLengthChange": false,
+        "serverSide": true,
+        "iDisplayLength": 2,
         //"bFilter": true,
-        //"order": [[1,"asc"]],
+        "order": [[1,"asc"]],
         "ajax": basePath + "/publisher/domainlist",
         // "sAjaxSource": self.source_path,
         // "fnServerData": function( sSource, aoData, fnCallback, oSettings ) {
@@ -28,11 +29,17 @@ var DomainTable = {
         //     "success": fnCallback
         //   } );
         // },
-        //"aoColumnDefs": [
-        //  { bSortable: false, 'aTargets': [ 0,5 ] },
-        //  { className: "text-center", "targets": [ 0 ] }
-       //],
-
+        "aoColumnDefs": [
+         { bSortable: false, 'aTargets': [ 0,2,3,5 ] },    
+        ],
+        "columns": [
+            { "data": "index", className: "text-center" },
+            { "data": "DomainName" },
+            { "data": "AdZones" },
+            { "data": "IABCategory" },
+            { "data": "created_at" },
+            { "data": "ApprovalFlag" }
+        ],
         initComplete: function () {
           
         },

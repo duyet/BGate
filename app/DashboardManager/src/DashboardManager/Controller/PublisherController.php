@@ -17,277 +17,134 @@ use Zend\View\Helper\Url;
 use Zend\Mime;
 
 /**
- * @author Kelvin Mok
  * This is the Publisher Manager Controller class that controls the management
  * of publisher functions.
  */
 class PublisherController extends PublisherAbstractActionController {
 
 	/**
-     * Display the publisher dashboard page
-     * 
-     * @return \Zend\View\Model\ViewModel
-     */
+	 * Display the publisher dashboard page
+	 * 
+	 * @return \Zend\View\Model\ViewModel
+	 */
 	public function dashboardAction() {
 		
 	}
 
-    /**
-     * Display the publisher index page, and list all domains associated.
-     * 
-     * @return \Zend\View\Model\ViewModel
-     */
+	/**
+	 * Display the publisher index page, and list all domains associated.
+	 * 
+	 * @return \Zend\View\Model\ViewModel
+	 */
 	public function domainlistAction() {
 		$initialized = $this->initialize();
 		if ($initialized !== true) return $initialized;
 
-	    //Pull list of websites.
-	    $PublisherWebsiteFactory = \_factory\PublisherWebsite::get_instance();
-	    $parameters = array(); // Set the parameters to empty first.
+		// sort map array
+		$SortMap = array("1"=> "WebDomain", "4" => "DateCreated");
+		$OrderArr = $this->getRequest()->getQuery("order");
+		$order = $SortMap[$OrderArr[0]["column"]] . " " . strtoupper($OrderArr[0]["dir"]);
+		
+		// get search value
+		$search = $this->getRequest()->getQuery("search")["value"];
 
-	    $parameters['DomainOwnerID'] = $this->PublisherInfoID;
-	    
-	    $publisher_markup_rate = $this->config_handle['system']['default_publisher_markup_rate'];
-	    $publisher_impressions_network_loss_rate = $this->config_handle['system']['default_publisher_impressions_network_loss_rate'];
-	    
-	    $PublisherWebsiteList = $PublisherWebsiteFactory->get($parameters);
-	   
-	    if ($this->is_admin):
-	    
-	        $headers = array("#","Domain","Domain Markup","Imps Loss Rate","Domain Owner","Created","Updated","Approval","Actions");
-	        $meta_data = array("WebDomain","DomainMarkupRate","DomainPublisherImpressionsLossRate","DomainOwnerID","DateCreated","DateUpdated","ApprovalFlag");
-	    
-	        // admin is logged in as a user, get the markup if any for that user
-	        if ($this->ImpersonateID != 0 && !empty($this->PublisherInfoID)):
+		// pagination value
+		$PageSize = (int) $this->getRequest()->getQuery("length");
+		$Offset =   ((int) $this->getRequest()->getQuery("start") );
 
-		        $publisher_markup = \util\Markup::getMarkupForPublisher($this->PublisherInfoID, $this->config_handle, false);
-		        if ($publisher_markup != null):
-		        	$publisher_markup_rate = $publisher_markup->MarkupRate;
-		        endif;
-		        
-		        $publisher_impressions_network_loss = \util\NetworkLossCorrection::getNetworkLossCorrectionRateForPublisher($this->PublisherInfoID, $this->config_handle, false);
-		        if ($publisher_impressions_network_loss != null):
-		        	$publisher_impressions_network_loss_rate = $publisher_impressions_network_loss->CorrectionRate;
-		        endif;
-		        
-	        endif;
-	        
-	    else:
-	    
-	        $headers = array("#","Domain","Created","Updated","Approval","Actions");
-	        $meta_data = array("WebDomain","AutoApprove","DateCreated","DateUpdated","ApprovalFlag");
-	    endif;
+		//Pull list of websites.
+		$PublisherWebsiteFactory = \_factory\PublisherWebsite::get_instance();
+		$parameters = array(); // Set the parameters to empty first.
+		$parameters['DomainOwnerID'] = $this->PublisherInfoID;
+		// $parameters["IABCategory"] = "IAB1";
 
-	    foreach ($PublisherWebsiteList as $PublisherWebsite):
+		$PublisherWebsiteList = $PublisherWebsiteFactory->get($parameters, $order, $search, $PageSize, $Offset);
+		$TotalPublisherWebsiteCount = $PublisherWebsiteFactory->count($parameters, $search);
 
-			$website_markup = \util\Markup::getMarkupForPublisherWebsite($PublisherWebsite->PublisherWebsiteID, $this->config_handle, false);
-			    
-			if ($website_markup != null):
-			    $website_markup_rate_list[$PublisherWebsite->PublisherWebsiteID] = $website_markup->MarkupRate * 100;
-			else:
-			    $website_markup_rate_list[$PublisherWebsite->PublisherWebsiteID] = $publisher_markup_rate * 100;
-			endif;
-			
-			$website_impressions_network_loss = \util\NetworkLossCorrection::getNetworkLossCorrectionRateForPublisherWebsite($PublisherWebsite->PublisherWebsiteID, $this->config_handle, false);
-			 
-			if ($website_impressions_network_loss != null):
-				$website_impressions_network_loss_rate_list[$PublisherWebsite->PublisherWebsiteID] = $website_impressions_network_loss->CorrectionRate * 100;
-			else:
-				$website_impressions_network_loss_rate_list[$PublisherWebsite->PublisherWebsiteID] = $publisher_impressions_network_loss_rate * 100;
-			endif;
-			    
-	    endforeach;
-	    
-	    $PublisherInfoFactory = \_factory\PublisherInfo::get_instance();
-	    $params = array();
-	    $params["PublisherInfoID"] = $this->PublisherInfoID;
-	    $PublisherInfo = $PublisherInfoFactory->get_row($params);
-	    
-	    $publisher_markup_rate *= 100;
-	    $publisher_impressions_network_loss_rate *= 100;
+		$is_admin = $this->is_admin;
+		
+		$basePath = '';
 
-	    $domain_list_raw = $PublisherWebsiteList;
-	    $is_admin = $this->is_admin;
-	    $domain_list = $this->order_data_table($meta_data, $PublisherWebsiteList, $headers);
-	    
-	    $basePath = '';
+		$result = array();
 
-	    $result = array();
+		if (count($PublisherWebsiteList)> 0):
+				foreach ($PublisherWebsiteList AS $row_number => $row_data): 
+					$is_rejected = false;
+					$row = array();
 
-	    if (count($domain_list["data"])> 0):
-	    		foreach ($domain_list["data"] AS $row_number => $row_data): 
-                    $is_rejected = false;
-                	$row = array();
+					$row["index"] = $row_number+1;
+					$row["PublisherWebsiteID"] = $row_data["PublisherWebsiteID"];
+					$row["DomainName"] = $row_data["WebDomain"];
+					$row["IABCategory"] = $row_data["IABCategory"];
+					$row["AdZones"] = 0;
+					$row["DomainOwnerID"] = $row_data["DomainOwnerID"];
+					$row["ApprovalFlag"] = $row_data["ApprovalFlag"];
+					$row["created_at"] = $row_data["DateCreated"];
+					$result[] = $row;
 
-                	$row[] = $row_number+1;
-                	foreach ($row_data AS $column_key=> $data):
-                		if ($domain_list["meta"][$column_key] == 'AutoApprove'): 
-                			continue; 
-						endif; 
+				endforeach;
+		endif;
 
-						$auto_approved = $domain_list_raw[$row_number]["AutoApprove"]; 
-						$domain_id = $domain_list_raw[$row_number]["PublisherWebsiteID"]; 
+		header('Content-type: application/json');
+		echo json_encode(array("recordsTotal" => $TotalPublisherWebsiteCount, "recordsFiltered" => $TotalPublisherWebsiteCount , 'data' => $result));
 
-						// New cell
-						switch($domain_list["meta"][$column_key]):
-							case "WebDomain":
-								$row[] = $data . " (" . $domain_id .")";
-							break; 
-							
-							case "DomainMarkupRate":
-								if ($is_admin === true && $effective_id != 0):
-									if (isset($domain_id) && $domain_id != null && isset($website_markup_rate_list[$domain_id])):
-            							$row[] = '<form name="change-domain-markup-<?php echo $domain_id;?>" class="change-domain-markup" action="<?php echo $basePath ?>/publisher/changedomainmarkup">
-						                          <input type="hidden" name="markupdomainid" value="<?php echo $domain_id;?>" />
-						                          <div style="float: right;">
-						                            <input type="text" style="text-align: right" name="domain-markup" class="input-mini" value="<?php echo $website_markup_rate_list[$domain_id];?>">%
-						                          </div>
-						                          <div>
-						                            <input type="submit" name="domain-markup-submit" class="btn btn-warning btn-mini" value="Update Markup" style="" />
-						                          </div>
-						                        </form>';
-									else:
-										$row[] = 'NOT AVAILABLE';
-									endif;
-								endif;
-							break;
-
-							case "DomainPublisherImpressionsLossRate":
-								if ($is_admin === true && $effective_id != 0):
-									if (isset($domain_id) && $domain_id != null && isset($website_markup_rate_list[$domain_id])):
-
-										$row[] = '<form name="change-impressions-network-loss-<?php echo $domain_id;?>" class="change-impressions-network-loss" action="<?php echo $basePath ?>/publisher/changedomainimpressionsnetworkloss">
-                                              <input type="hidden" name="impressionsnetworklossdomainid" value="<?php echo $domain_id;?>" />
-                                              <div style="float: right;">
-                                                <input type="text" style="text-align: right" name="domain-impressions-network-loss" class="input-mini" value="<?php echo $website_impressions_network_loss_rate_list[$domain_id];?>">%
-                                              </div>
-                                              <div>
-                                                <input type="submit" name="domain-impressions-network-loss-submit" class="btn btn-warning btn-mini" value="Update Loss Rate" style="" />
-                                              </div>
-                                            </form>';
-                                    else:
-                                    	$row[] = 'NOT AVAILABLE';
-                                   	endif;
-                                endif;
-							break;
-
-
-							case "DomainOwnerID":
-								$row[] = $domain_owner . " (" . $data . ")";
-							break;
-
-							case "ApprovalFlag":
-								$approve_verb = 'Approve';
-								$reject_verb = 'Reject';
-								$approved_verb = 'Approved';
-								$pending_verb = 'Pending';
-								$rejected_verb = 'Rejected';
-                                    
-                                if ($auto_approved == 1):
-                                  $approved_verb = 'Auto-Approved';
-                                endif;
-                                    
-	                              $admin_approval = array(
-	                                    0 => "<strong>" . $pending_verb . "</strong><br /><a href=\"" . $basePath ."/publisher/approvedomain/" . $domain_id . "\">" . $approve_verb . "</a>"
-	                							. "<br /><a href=\"" . $basePath ."/publisher/rejectdomain/" . $domain_id . "\">" . $reject_verb . "</a>",
-	                                    1 => "<a href=\"" . $basePath . "/publisher/rejectdomain/" . $domain_id . "\">" . $approved_verb . "</a>",
-	                 							2 => "<a href=\"" . $basePath ."/publisher/approvedomain/" . $domain_id . "\">" . $rejected_verb . "</a>"
-	                              );
-	                              $approval = array(0=>$pending_verb,1=>$approved_verb,2=>$rejected_verb);
-                                      
-                                  if (intval($data) == 2):
-                                    $is_rejected = true;
-                                  endif;
-                                      
-                                  if($is_admin):
-                                      $row[] = $admin_approval[intval($data)];
-                                  else:
-                                      $row[] = $approval[intval($data)];
-                                  endif;
-                            break;
-
-                            default:
-                            	$row[] = $data;
-                            break;
-                        endswitch;
-            			// End cell
-
-            			if ($is_admin === true || $is_rejected !== true):
-                      		
-                      		$row[] = 'Domain (<a href="' . $basePath .'/publisher/editdomain/' . $domain_id .'">Edit</a>, 
-                      				<a href="javascript:void(0);" onclick="deleteDomainModal('. $domain_id . ',\'' . $domain_list_raw[$row_number]["WebDomain"] . '\');">Delete</a>) 
-									<br />
-									Zone (<a href="'. $basePath .'/publisher/zone/'. $domain_id.'">Edit/View</a>, 
-                    				<a href="'. $basePath .'/publisher/zone/'. $domain_id .'/create/">Create Zones</a>)';
-                    	else:
-                    		$row[] = '';
-                    	endif;
-            		endforeach;
-
-            		$result[] = $row;
-                endforeach;
-	    endif;
-
-	    header('Content-type: application/json');
-	    echo json_encode(array('data' =>$result));
-
-	    die;
+		die;
 	}
 
 	public function indexAction()
 	{	    
 		$initialized = $this->initialize();
 		if ($initialized !== true) return $initialized;
-	    if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest')
+		if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest')
 		{
 		  //CODE HERE
 			return [];
 		}
-	    //Pull list of websites.
-	    $PublisherWebsiteFactory = \_factory\PublisherWebsite::get_instance();
-	    $parameters = array(); // Set the parameters to empty first.
+		//Pull list of websites.
+		$PublisherWebsiteFactory = \_factory\PublisherWebsite::get_instance();
+		$parameters = array(); // Set the parameters to empty first.
 
-	    $parameters['DomainOwnerID'] = $this->PublisherInfoID;
-	    
-	    $publisher_markup_rate = $this->config_handle['system']['default_publisher_markup_rate'];
-	    $publisher_impressions_network_loss_rate = $this->config_handle['system']['default_publisher_impressions_network_loss_rate'];
-	    
-	    $PublisherWebsiteList = $PublisherWebsiteFactory->get($parameters);
+		$parameters['DomainOwnerID'] = $this->PublisherInfoID;
+		
+		$publisher_markup_rate = $this->config_handle['system']['default_publisher_markup_rate'];
+		$publisher_impressions_network_loss_rate = $this->config_handle['system']['default_publisher_impressions_network_loss_rate'];
+		
+		$PublisherWebsiteList = $PublisherWebsiteFactory->get($parameters);
 	   
-	    if ($this->is_admin):
-	    
-	        $headers = array("#","Domain","Domain Markup","Imps Loss Rate","Domain Owner","Created","Updated","Approval","Actions");
-	        $meta_data = array("WebDomain","DomainMarkupRate","DomainPublisherImpressionsLossRate","DomainOwnerID","DateCreated","DateUpdated","ApprovalFlag");
-	    
-	        // admin is logged in as a user, get the markup if any for that user
-	        if ($this->ImpersonateID != 0 && !empty($this->PublisherInfoID)):
+		if ($this->is_admin):
+		
+			$headers = array("#","Domain","Domain Markup","Imps Loss Rate","Domain Owner","Created","Updated","Approval");
+			$meta_data = array("WebDomain","DomainMarkupRate","DomainPublisherImpressionsLossRate","DomainOwnerID","DateCreated","DateUpdated","ApprovalFlag");
+		
+			// admin is logged in as a user, get the markup if any for that user
+			if ($this->ImpersonateID != 0 && !empty($this->PublisherInfoID)):
 
-		        $publisher_markup = \util\Markup::getMarkupForPublisher($this->PublisherInfoID, $this->config_handle, false);
-		        if ($publisher_markup != null):
-		        	$publisher_markup_rate = $publisher_markup->MarkupRate;
-		        endif;
-		        
-		        $publisher_impressions_network_loss = \util\NetworkLossCorrection::getNetworkLossCorrectionRateForPublisher($this->PublisherInfoID, $this->config_handle, false);
-		        if ($publisher_impressions_network_loss != null):
-		        	$publisher_impressions_network_loss_rate = $publisher_impressions_network_loss->CorrectionRate;
-		        endif;
-		        
-	        endif;
-	        
-	    else:
-	    
-	        $headers = array("#","Domain","Created","Updated","Approval","Actions");
-	        $meta_data = array("WebDomain","AutoApprove","DateCreated","DateUpdated","ApprovalFlag");
-	    endif;
+				$publisher_markup = \util\Markup::getMarkupForPublisher($this->PublisherInfoID, $this->config_handle, false);
+				if ($publisher_markup != null):
+					$publisher_markup_rate = $publisher_markup->MarkupRate;
+				endif;
+				
+				$publisher_impressions_network_loss = \util\NetworkLossCorrection::getNetworkLossCorrectionRateForPublisher($this->PublisherInfoID, $this->config_handle, false);
+				if ($publisher_impressions_network_loss != null):
+					$publisher_impressions_network_loss_rate = $publisher_impressions_network_loss->CorrectionRate;
+				endif;
+				
+			endif;
+			
+		else:
+		
+			$headers = array("#","Domain","Ad Zone","IAB Category","Created Date","Approval");
+			$meta_data = array("WebDomain","AutoApprove","DateCreated","DateUpdated","ApprovalFlag");
+		endif;
 
-	    foreach ($PublisherWebsiteList as $PublisherWebsite):
+		foreach ($PublisherWebsiteList as $PublisherWebsite):
 
 			$website_markup = \util\Markup::getMarkupForPublisherWebsite($PublisherWebsite->PublisherWebsiteID, $this->config_handle, false);
-			    
+				
 			if ($website_markup != null):
-			    $website_markup_rate_list[$PublisherWebsite->PublisherWebsiteID] = $website_markup->MarkupRate * 100;
+				$website_markup_rate_list[$PublisherWebsite->PublisherWebsiteID] = $website_markup->MarkupRate * 100;
 			else:
-			    $website_markup_rate_list[$PublisherWebsite->PublisherWebsiteID] = $publisher_markup_rate * 100;
+				$website_markup_rate_list[$PublisherWebsite->PublisherWebsiteID] = $publisher_markup_rate * 100;
 			endif;
 			
 			$website_impressions_network_loss = \util\NetworkLossCorrection::getNetworkLossCorrectionRateForPublisherWebsite($PublisherWebsite->PublisherWebsiteID, $this->config_handle, false);
@@ -297,45 +154,45 @@ class PublisherController extends PublisherAbstractActionController {
 			else:
 				$website_impressions_network_loss_rate_list[$PublisherWebsite->PublisherWebsiteID] = $publisher_impressions_network_loss_rate * 100;
 			endif;
-			    
-	    endforeach;
-	    
-	    $PublisherInfoFactory = \_factory\PublisherInfo::get_instance();
-	    $params = array();
-	    $params["PublisherInfoID"] = $this->PublisherInfoID;
-	    $PublisherInfo = $PublisherInfoFactory->get_row($params);
-	    
-	    $publisher_markup_rate *= 100;
-	    $publisher_impressions_network_loss_rate *= 100;
-	    
-	    $view = new ViewModel(array(
-	         'true_user_name' => $this->auth->getUserName(),
-	         'domain_list_raw' => $PublisherWebsiteList,
-	    	 'domain_list' => $this->order_data_table($meta_data, $PublisherWebsiteList, $headers),
-	    	 'is_admin' => $this->is_admin,
-	    	 'user_id_list' => $this->user_id_list_publisher,
-	    	 'domain_owner' => isset($PublisherInfo->Name) ? $PublisherInfo->Name : "",
-	         'impersonate_id' => $this->ImpersonateID,
-	    	 'effective_id' => $this->auth->getEffectiveIdentityID(),
-	    	 'publisher_info_id' => $this->PublisherInfoID,
-	    	 'dashboard_view' => 'publisher',
-	    	 'user_identity' => $this->identity(),
-	    	 'publisher_markup_rate' => $publisher_markup_rate,
-	    	 'publisher_impressions_network_loss_rate' => $publisher_impressions_network_loss_rate,
-	    	 'website_markup_rate_list' => isset($website_markup_rate_list) ? $website_markup_rate_list : array(),
-	    	 'website_impressions_network_loss_rate_list' => isset($website_impressions_network_loss_rate_list) ? $website_impressions_network_loss_rate_list : array()
-	    ));
+				
+		endforeach;
+		
+		$PublisherInfoFactory = \_factory\PublisherInfo::get_instance();
+		$params = array();
+		$params["PublisherInfoID"] = $this->PublisherInfoID;
+		$PublisherInfo = $PublisherInfoFactory->get_row($params);
+		
+		$publisher_markup_rate *= 100;
+		$publisher_impressions_network_loss_rate *= 100;
+		
+		$view = new ViewModel(array(
+			 'true_user_name' => $this->auth->getUserName(),
+			 'domain_list_raw' => $PublisherWebsiteList,
+			 'domain_list' => $this->order_data_table($meta_data, $PublisherWebsiteList, $headers),
+			 'is_admin' => $this->is_admin,
+			 'user_id_list' => $this->user_id_list_publisher,
+			 'domain_owner' => isset($PublisherInfo->Name) ? $PublisherInfo->Name : "",
+			 'impersonate_id' => $this->ImpersonateID,
+			 'effective_id' => $this->auth->getEffectiveIdentityID(),
+			 'publisher_info_id' => $this->PublisherInfoID,
+			 'dashboard_view' => 'publisher',
+			 'user_identity' => $this->identity(),
+			 'publisher_markup_rate' => $publisher_markup_rate,
+			 'publisher_impressions_network_loss_rate' => $publisher_impressions_network_loss_rate,
+			 'website_markup_rate_list' => isset($website_markup_rate_list) ? $website_markup_rate_list : array(),
+			 'website_impressions_network_loss_rate_list' => isset($website_impressions_network_loss_rate_list) ? $website_impressions_network_loss_rate_list : array()
+		));
 
-	    if ($this->is_admin == false
-	    		|| ($this->is_admin == true && $this->PublisherInfoID != null && $this->auth->getEffectiveIdentityID() != 0)):
-	    
-	    	$view->header_title = '<a href="/publisher/createdomain">Create New Domain</a>';
-	    else:
-	    	$view->header_title = '&nbsp;';
-	    endif;
-	    
-	    return $view;
-	    
+		if ($this->is_admin == false
+				|| ($this->is_admin == true && $this->PublisherInfoID != null && $this->auth->getEffectiveIdentityID() != 0)):
+		
+			$view->header_title = '<a href="/publisher/createdomain">Create New Domain</a>';
+		else:
+			$view->header_title = '&nbsp;';
+		endif;
+		
+		return $view;
+		
 	}
 	
 	/**
@@ -344,7 +201,7 @@ class PublisherController extends PublisherAbstractActionController {
 	 */
 	public function loginasAction()
 	{
-	    $this->ImpersonateUser();
+		$this->ImpersonateUser();
 		return $this->redirect()->toRoute('publisher');
 	}
 	
@@ -358,80 +215,80 @@ class PublisherController extends PublisherAbstractActionController {
 	{
 		$initialized = $this->initialize();
 		if ($initialized !== true) return $initialized;
-	    $PublisherWebsiteID = intval($this->params()->fromRoute('param1', 0));
+		$PublisherWebsiteID = intval($this->params()->fromRoute('param1', 0));
 
-	    if ($this->is_admin && $PublisherWebsiteID > 0 && ($flag === 2 || $flag === 1 || $flag === 0)):
+		if ($this->is_admin && $PublisherWebsiteID > 0 && ($flag === 2 || $flag === 1 || $flag === 0)):
 
-	    	$PublisherWebsiteFactory = \_factory\PublisherWebsite::get_instance();
-	    	$domain_object = new \model\PublisherWebsite();
-	    	$request = $this->getRequest();
-	    	$parameters = array("PublisherWebsiteID" => $PublisherWebsiteID);
-	    	$domain_object = $PublisherWebsiteFactory->get_row_object($parameters);
+			$PublisherWebsiteFactory = \_factory\PublisherWebsite::get_instance();
+			$domain_object = new \model\PublisherWebsite();
+			$request = $this->getRequest();
+			$parameters = array("PublisherWebsiteID" => $PublisherWebsiteID);
+			$domain_object = $PublisherWebsiteFactory->get_row_object($parameters);
 
-	    	// Make sure entry exists.
-	    	if (intval($domain_object->PublisherWebsiteID) == $PublisherWebsiteID):
+			// Make sure entry exists.
+			if (intval($domain_object->PublisherWebsiteID) == $PublisherWebsiteID):
 
-		    	$domain_object->AutoApprove = 0;
-	    	
-	    		$domain_object->ApprovalFlag = $flag;
-	    		
-	    		if ($flag == 2):
-	    			
-		    		$PublisherAdZoneFactory = \_factory\PublisherAdZone::get_instance();
-		    		
-		    		$params = array();
-		    		$params["PublisherWebsiteID"] = $PublisherWebsiteID;
-		    		$PublisherAdZoneList = $PublisherAdZoneFactory->get($params);
+				$domain_object->AutoApprove = 0;
+			
+				$domain_object->ApprovalFlag = $flag;
+				
+				if ($flag == 2):
+					
+					$PublisherAdZoneFactory = \_factory\PublisherAdZone::get_instance();
+					
+					$params = array();
+					$params["PublisherWebsiteID"] = $PublisherWebsiteID;
+					$PublisherAdZoneList = $PublisherAdZoneFactory->get($params);
 
-		    		foreach ($PublisherAdZoneList as $PublisherAdZone):
-		    		
-		    			$PublisherAdZoneFactory->updatePublisherAdZonePublisherAdZoneStatus($PublisherAdZone->PublisherAdZoneID, 2);
-		    		
-		    		endforeach;
-	    		endif;
-	    		
-	    		if (($flag == 1 || $flag == 2) && $this->config_handle['mail']['subscribe']['user_domains']):
+					foreach ($PublisherAdZoneList as $PublisherAdZone):
+					
+						$PublisherAdZoneFactory->updatePublisherAdZonePublisherAdZoneStatus($PublisherAdZone->PublisherAdZoneID, 2);
+					
+					endforeach;
+				endif;
+				
+				if (($flag == 1 || $flag == 2) && $this->config_handle['mail']['subscribe']['user_domains']):
 
-		    		$PublisherInfoFactory = \_factory\PublisherInfo::get_instance();
-		    		$params = array();
-		    		$params["PublisherInfoID"] = $domain_object->DomainOwnerID;
-		    		$PublisherInfo = $PublisherInfoFactory->get_row($params);
-		    		
-		    		if ($PublisherInfo !== null):
-		    			// approval, send out email
-		    			if ($flag == 1):
-				    		$message = 'Your NginAd Exchange Publisher Domain: ' . $domain_object->WebDomain . ' was approved.<br /><br />Please login <a href="http://server.nginad.com/auth/login">here</a> with your email and password';
-				    		$subject = "Your NginAd Exchange Publisher Domain: " . $domain_object->WebDomain . " was approved";
-			    		else:
-				    		$message = 'Your NginAd Exchange Publisher Domain: ' . $domain_object->WebDomain . ' was rejected.<br /><br />Please login <a href="http://server.nginad.com/auth/login">here</a> with your email and password';
-				    		$subject = "Your NginAd Exchange Publisher Domain: " . $domain_object->WebDomain . " was rejected";
-			    		endif;
-			    		$transport = $this->getServiceLocator()->get('mail.transport');
-			    			
-			    		$text = new Mime\Part($message);
-			    		$text->type = Mime\Mime::TYPE_HTML;
-			    		$text->charset = 'utf-8';
-			    			
-			    		$mimeMessage = new Mime\Message();
-			    		$mimeMessage->setParts(array($text));
-			    		$zf_message = new Message();
-			    		$zf_message->addTo($PublisherInfo->Email)
-			    		->addFrom($this->config_handle['mail']['reply-to']['email'], $this->config_handle['mail']['reply-to']['name'])
-			    		->setSubject($subject)
-			    		->setBody($mimeMessage);
-			    		$transport->send($zf_message);
-			    		
-		    		endif;
-		    		
-	    		endif;
-	    		
-	    		if ($PublisherWebsiteFactory->save_domain($domain_object) > 0):
-	    		    return TRUE;
-	    		endif;
-	    	endif;
-	    endif;
-	    
-	    return FALSE;
+					$PublisherInfoFactory = \_factory\PublisherInfo::get_instance();
+					$params = array();
+					$params["PublisherInfoID"] = $domain_object->DomainOwnerID;
+					$PublisherInfo = $PublisherInfoFactory->get_row($params);
+					
+					if ($PublisherInfo !== null):
+						// approval, send out email
+						if ($flag == 1):
+							$message = 'Your NginAd Exchange Publisher Domain: ' . $domain_object->WebDomain . ' was approved.<br /><br />Please login <a href="http://server.nginad.com/auth/login">here</a> with your email and password';
+							$subject = "Your NginAd Exchange Publisher Domain: " . $domain_object->WebDomain . " was approved";
+						else:
+							$message = 'Your NginAd Exchange Publisher Domain: ' . $domain_object->WebDomain . ' was rejected.<br /><br />Please login <a href="http://server.nginad.com/auth/login">here</a> with your email and password';
+							$subject = "Your NginAd Exchange Publisher Domain: " . $domain_object->WebDomain . " was rejected";
+						endif;
+						$transport = $this->getServiceLocator()->get('mail.transport');
+							
+						$text = new Mime\Part($message);
+						$text->type = Mime\Mime::TYPE_HTML;
+						$text->charset = 'utf-8';
+							
+						$mimeMessage = new Mime\Message();
+						$mimeMessage->setParts(array($text));
+						$zf_message = new Message();
+						$zf_message->addTo($PublisherInfo->Email)
+						->addFrom($this->config_handle['mail']['reply-to']['email'], $this->config_handle['mail']['reply-to']['name'])
+						->setSubject($subject)
+						->setBody($mimeMessage);
+						$transport->send($zf_message);
+						
+					endif;
+					
+				endif;
+				
+				if ($PublisherWebsiteFactory->save_domain($domain_object) > 0):
+					return TRUE;
+				endif;
+			endif;
+		endif;
+		
+		return FALSE;
 	}
 	
 	/**
@@ -439,9 +296,9 @@ class PublisherController extends PublisherAbstractActionController {
 	 */
 	public function approvedomainAction()
 	{
-	    $this->domainApprovalToggle(1);
-	    
-	    return $this->redirect()->toRoute('publisher');
+		$this->domainApprovalToggle(1);
+		
+		return $this->redirect()->toRoute('publisher');
 	}
 	
 	/**
@@ -449,7 +306,7 @@ class PublisherController extends PublisherAbstractActionController {
 	 */
 	public function rejectdomainAction()
 	{
-	    $this->domainApprovalToggle(2);
+		$this->domainApprovalToggle(2);
 		 
 		return $this->redirect()->toRoute('publisher');
 	}
@@ -460,87 +317,87 @@ class PublisherController extends PublisherAbstractActionController {
 	 */
 	public function deletedomainAction()
 	{
-	    // Initialize things.
-	    $error_message = null;
+		// Initialize things.
+		$error_message = null;
 		$initialized = $this->initialize();
 		if ($initialized !== true) return $initialized;
-	    $request = $this->getRequest();
-	    $PublisherWebsiteFactory = \_factory\PublisherWebsite::get_instance();
-	    $PublisherAdZoneFactory = \_factory\PublisherAdZone::get_instance();
-	    $deleteCheckResultObj = new \model\PublisherWebsite();
-	    $success = false;
-	    
-	    // Check to make sure the value is valid to begin with.
-	    $PublisherWebsiteID = intval($this->params()->fromRoute('param1', 0));
-	    if ($PublisherWebsiteID > 0):
-	    
-    	    $parameters = array("PublisherWebsiteID" => $PublisherWebsiteID);
-    	    $deleteCheckResultObj = $PublisherWebsiteFactory->get_row_object($parameters);
-    	    
-    	    //if (intval($deleteCheckResultObj->PublisherWebsiteID) == $PublisherWebsiteID):
-    	    
-    	        if ($request->isPost()):
-    	        
-    	            if ($request->getPost('del', 'No') == 'Yes'):
-    	            
-    	                // Is this user allowed to delete this entry?
-    	                if ($this->is_admin || $deleteCheckResultObj->DomainOwnerID == $this->PublisherInfoID):
-    	                
-    	                   if (intval($PublisherWebsiteFactory->delete_domain($PublisherWebsiteID)) > -1):
+		$request = $this->getRequest();
+		$PublisherWebsiteFactory = \_factory\PublisherWebsite::get_instance();
+		$PublisherAdZoneFactory = \_factory\PublisherAdZone::get_instance();
+		$deleteCheckResultObj = new \model\PublisherWebsite();
+		$success = false;
+		
+		// Check to make sure the value is valid to begin with.
+		$PublisherWebsiteID = intval($this->params()->fromRoute('param1', 0));
+		if ($PublisherWebsiteID > 0):
+		
+			$parameters = array("PublisherWebsiteID" => $PublisherWebsiteID);
+			$deleteCheckResultObj = $PublisherWebsiteFactory->get_row_object($parameters);
+			
+			//if (intval($deleteCheckResultObj->PublisherWebsiteID) == $PublisherWebsiteID):
+			
+				if ($request->isPost()):
+				
+					if ($request->getPost('del', 'No') == 'Yes'):
+					
+						// Is this user allowed to delete this entry?
+						if ($this->is_admin || $deleteCheckResultObj->DomainOwnerID == $this->PublisherInfoID):
+						
+						   if (intval($PublisherWebsiteFactory->delete_domain($PublisherWebsiteID)) > -1):
 
-	    	                   $params = array();
-	    	                   $params['PublisherWebsiteID'] = intval($PublisherWebsiteID);
-	    	                   $PublisherAdZoneList = $PublisherAdZoneFactory->get($params);
-	    	                    
-	    	                   foreach ($PublisherAdZoneList as $PublisherAdZone):
-	    	                   
-	    	                   		$PublisherAdZoneFactory->delete_zone(intval($PublisherAdZone->PublisherAdZoneID));
-	    	                   
-	    	                   endforeach;    	                   
-    	                       // Delete success! Return to publisher.
-     	                       $success = true;
-    	                   
-    	                   else: 
-    	                   
-    	                       // Something blew up.
-    	                       $error_message = "Unable to delete the entry. Please contact customer service.";
-    	                   endif;
-    	                
-    	                else:
-    	                
-    	                    // User is either not the owner of the entry, or is not an admin.
-    	                    $error_message = "You do not have permission to delete this entry.";
-    	                endif;
-    	            
-    	            else: 
-    	            
-    	                // Cancel.
-    	            endif;
-    	        
-    	        else:
-    	        
-    	            // Valid entry, show confirmation.
-    	        endif;
-    	    
-    	    //else:
-    	    
-    	        //$error_message = "The specified domain entry ID was not found.";
-    	        //return $this->redirect()->toRoute('publisher');
-    	    //endif;
-    	   
-	    
-	    else: 
-	    
-	        $error_message = "An invalid domain entry ID was provided.";
-	    endif;
+							   $params = array();
+							   $params['PublisherWebsiteID'] = intval($PublisherWebsiteID);
+							   $PublisherAdZoneList = $PublisherAdZoneFactory->get($params);
+								
+							   foreach ($PublisherAdZoneList as $PublisherAdZone):
+							   
+									$PublisherAdZoneFactory->delete_zone(intval($PublisherAdZone->PublisherAdZoneID));
+							   
+							   endforeach;    	                   
+							   // Delete success! Return to publisher.
+							   $success = true;
+						   
+						   else: 
+						   
+							   // Something blew up.
+							   $error_message = "Unable to delete the entry. Please contact customer service.";
+						   endif;
+						
+						else:
+						
+							// User is either not the owner of the entry, or is not an admin.
+							$error_message = "You do not have permission to delete this entry.";
+						endif;
+					
+					else: 
+					
+						// Cancel.
+					endif;
+				
+				else:
+				
+					// Valid entry, show confirmation.
+				endif;
+			
+			//else:
+			
+				//$error_message = "The specified domain entry ID was not found.";
+				//return $this->redirect()->toRoute('publisher');
+			//endif;
+		   
+		
+		else: 
+		
+			$error_message = "An invalid domain entry ID was provided.";
+		endif;
 
-	    
-	    $data = array(
-	        'success' => $success,
-	        'data' => array('error_msg' => $error_message)
-   		 );
-   		 
-         return $this->getResponse()->setContent(json_encode($data));
+		
+		$data = array(
+			'success' => $success,
+			'data' => array('error_msg' => $error_message)
+		 );
+		 
+		 return $this->getResponse()->setContent(json_encode($data));
 	}
 	
 	/**
@@ -552,126 +409,126 @@ class PublisherController extends PublisherAbstractActionController {
 	{
 		$initialized = $this->initialize();
 		if ($initialized !== true) return $initialized;
-	    
-	    $error_msg = null;
-	    
-	    $needed_input = array(
+		
+		$error_msg = null;
+		
+		$needed_input = array(
 				'WebDomain',
 				'Description'
 		);
-	    
-	    $request = $this->getRequest();
-	    if ($request->isPost()):
-	    
-	        $domain = new \model\PublisherWebsite();
-	        
-	        $validate = $this->validateInput($needed_input, false);
-	        
-	        if ($validate):
-	        
-	            $PublisherWebsiteFactory = \_factory\PublisherWebsite::get_instance();
-	            
-	            $web_domain = $request->getPost("WebDomain");
-	            $description = $request->getPost("Description");
-	            $iab_category = $request->getPost("IABCategory");
-	            $domain_owner_id = $request->getPost("DomainOwnerID");
-	            
-	            $domain->WebDomain = $web_domain;
-	            $domain->Description = $description;
-	            $domain->IABCategory = $iab_category;
-	            $domain->DomainOwnerID = $domain_owner_id;
-	            $auto_approve_websites = $this->config_handle['settings']['publisher']['auto_approve_websites'];
-	            if ($auto_approve_websites == true):
-	            	$domain->ApprovalFlag = 1;
-	            endif;
-	            // Check if an entry exists with the same name. A NULL means there is no duplicate.
-	            if ($PublisherWebsiteFactory->get_row(array("WebDomain" => $domain->WebDomain)) === null):
+		
+		$request = $this->getRequest();
+		if ($request->isPost()):
+		
+			$domain = new \model\PublisherWebsite();
+			
+			$validate = $this->validateInput($needed_input, false);
+			
+			if ($validate):
+			
+				$PublisherWebsiteFactory = \_factory\PublisherWebsite::get_instance();
+				
+				$web_domain = $request->getPost("WebDomain");
+				$description = $request->getPost("Description");
+				$iab_category = $request->getPost("IABCategory");
+				$domain_owner_id = $request->getPost("DomainOwnerID");
+				
+				$domain->WebDomain = $web_domain;
+				$domain->Description = $description;
+				$domain->IABCategory = $iab_category;
+				$domain->DomainOwnerID = $domain_owner_id;
+				$auto_approve_websites = $this->config_handle['settings']['publisher']['auto_approve_websites'];
+				if ($auto_approve_websites == true):
+					$domain->ApprovalFlag = 1;
+				endif;
+				// Check if an entry exists with the same name. A NULL means there is no duplicate.
+				if ($PublisherWebsiteFactory->get_row(array("WebDomain" => $domain->WebDomain)) === null):
 
-    	            //Make sure the user can save as this user claimed and has the correct ID!
-    	            //This is to prevent an entry intended for user ED from being saved as
-    	            //user AL when an admin changes impersonation during input after form is
-    	            //displayed but before the form is submitted.
-    	            if ($domain->DomainOwnerID == $this->PublisherInfoID):
-    	            
-        	            try {
-        	            	$PublisherWebsiteFactory->save_domain($domain);
-        	            	
-        	            	if ($auto_approve_websites != true || $this->config_handle['mail']['subscribe']['websites'] === true):
-        	            	
-        	            		if ($auto_approve_websites != true):
-		        	            	$message = "New Website for Approval.<br /><b>".$domain->WebDomain."</b><br /><br />Username: " . $this->true_user_name;
-		        	            	$subject = "New Website for Approval: " . $domain->WebDomain;
-	        	            	else:
-		        	            	$message = "New Website.<br /><b>".$domain->WebDomain."</b><br /><br />Username: " . $this->true_user_name;
-		        	            	$subject = "New Website: " . $domain->WebDomain;
-	        	            	endif;
-	        	            	$transport = $this->getServiceLocator()->get('mail.transport');
-	        	            	
-	        	            	$text = new Mime\Part($message);
-	        	            	$text->type = Mime\Mime::TYPE_HTML;
-	        	            	$text->charset = 'utf-8';
-	        	            	
-	        	            	$mimeMessage = new Mime\Message();
-	        	            	$mimeMessage->setParts(array($text));
-	        	            	$zf_message = new Message();
-	        	            	$zf_message->addTo($this->config_handle['mail']['admin-email']['email'], $this->config_handle['mail']['admin-email']['name'])
-	        	            	->addFrom($this->config_handle['mail']['reply-to']['email'], $this->config_handle['mail']['reply-to']['name'])
-	        	            	->setSubject($subject)
-	        	            	->setBody($mimeMessage);
-	        	            	$transport->send($zf_message);
-        	            	endif;
-        	            }
-        	            catch(\Zend\Db\Adapter\Exception\InvalidQueryException $e) {
-        	                $error_msg ="ERROR: A database error has occurred, please contact customer service.";
-        	                return array('form' => $form,
-        	                    'error_message' => $error_msg,
-        	                    'is_admin' => $this->is_admin,
-        	                    'user_id_list' => $this->user_id_list_publisher,
-        	                    'effective_id' => $this->auth->getEffectiveIdentityID(),
-        	                    'impersonate_id' => $this->ImpersonateID,
-        	                    'domain_owner_id' => $this->PublisherInfoID,
-        	                    'vertical_map' => \util\DeliveryFilterOptions::$vertical_map,
-        	                    'true_user_name' => $this->true_user_name,
-						    	'user_identity' => $this->identity(),
-        	                	'header_title' => 'Create New Domain'
-        	                );
-        	            }
-        	            
-        	            return $this->redirect()->toRoute('publisher');
-    	            
-    	            else: 
-    	            
-    	                $error_msg = "ERROR: You do not have permission to create an entry as this user.";
-    	            endif;
-	            
-	            else:
-	            
-	            $error_msg = "ERROR: A duplicate Web Domain may exist. Please try another.";
-	            endif;
-	        
-	        else:
-	        
-	           $error_msg = "ERROR: Required fields are not filled in or invalid input.";
-	        endif;
-	    
-	    else: 
+					//Make sure the user can save as this user claimed and has the correct ID!
+					//This is to prevent an entry intended for user ED from being saved as
+					//user AL when an admin changes impersonation during input after form is
+					//displayed but before the form is submitted.
+					if ($domain->DomainOwnerID == $this->PublisherInfoID):
+					
+						try {
+							$PublisherWebsiteFactory->save_domain($domain);
+							
+							if ($auto_approve_websites != true || $this->config_handle['mail']['subscribe']['websites'] === true):
+							
+								if ($auto_approve_websites != true):
+									$message = "New Website for Approval.<br /><b>".$domain->WebDomain."</b><br /><br />Username: " . $this->true_user_name;
+									$subject = "New Website for Approval: " . $domain->WebDomain;
+								else:
+									$message = "New Website.<br /><b>".$domain->WebDomain."</b><br /><br />Username: " . $this->true_user_name;
+									$subject = "New Website: " . $domain->WebDomain;
+								endif;
+								$transport = $this->getServiceLocator()->get('mail.transport');
+								
+								$text = new Mime\Part($message);
+								$text->type = Mime\Mime::TYPE_HTML;
+								$text->charset = 'utf-8';
+								
+								$mimeMessage = new Mime\Message();
+								$mimeMessage->setParts(array($text));
+								$zf_message = new Message();
+								$zf_message->addTo($this->config_handle['mail']['admin-email']['email'], $this->config_handle['mail']['admin-email']['name'])
+								->addFrom($this->config_handle['mail']['reply-to']['email'], $this->config_handle['mail']['reply-to']['name'])
+								->setSubject($subject)
+								->setBody($mimeMessage);
+								$transport->send($zf_message);
+							endif;
+						}
+						catch(\Zend\Db\Adapter\Exception\InvalidQueryException $e) {
+							$error_msg ="ERROR: A database error has occurred, please contact customer service.";
+							return array('form' => $form,
+								'error_message' => $error_msg,
+								'is_admin' => $this->is_admin,
+								'user_id_list' => $this->user_id_list_publisher,
+								'effective_id' => $this->auth->getEffectiveIdentityID(),
+								'impersonate_id' => $this->ImpersonateID,
+								'domain_owner_id' => $this->PublisherInfoID,
+								'vertical_map' => \util\DeliveryFilterOptions::$vertical_map,
+								'true_user_name' => $this->true_user_name,
+								'user_identity' => $this->identity(),
+								'header_title' => 'Create New Domain'
+							);
+						}
+						
+						return $this->redirect()->toRoute('publisher');
+					
+					else: 
+					
+						$error_msg = "ERROR: You do not have permission to create an entry as this user.";
+					endif;
+				
+				else:
+				
+				$error_msg = "ERROR: A duplicate Web Domain may exist. Please try another.";
+				endif;
+			
+			else:
+			
+			   $error_msg = "ERROR: Required fields are not filled in or invalid input.";
+			endif;
+		
+		else: 
 
-	    endif;
-	    
-	    return array(
-	        'error_message' => $error_msg,
-	        'is_admin' => $this->is_admin,
-	        'user_id_list' => $this->user_id_list_publisher,
-	        'effective_id' => $this->auth->getEffectiveIdentityID(),
-	        'impersonate_id' => $this->ImpersonateID,
-	        'true_user_name' => $this->true_user_name,
-	        'domain_owner_id' => $this->PublisherInfoID,
-	        'vertical_map' => \util\DeliveryFilterOptions::$vertical_map,
-	    	'dashboard_view' => 'publisher',
-	    	'user_identity' => $this->identity(),
-        	'header_title' => 'Create New Domain'
-	    );
-	    
+		endif;
+		
+		return array(
+			'error_message' => $error_msg,
+			'is_admin' => $this->is_admin,
+			'user_id_list' => $this->user_id_list_publisher,
+			'effective_id' => $this->auth->getEffectiveIdentityID(),
+			'impersonate_id' => $this->ImpersonateID,
+			'true_user_name' => $this->true_user_name,
+			'domain_owner_id' => $this->PublisherInfoID,
+			'vertical_map' => \util\DeliveryFilterOptions::$vertical_map,
+			'dashboard_view' => 'publisher',
+			'user_identity' => $this->identity(),
+			'header_title' => 'Create New Domain'
+		);
+		
 	}
 	
 	/**
@@ -681,99 +538,99 @@ class PublisherController extends PublisherAbstractActionController {
 	 */
 	public function editdomainAction()
 	{
-	    $error_message = null;
+		$error_message = null;
 		$initialized = $this->initialize();
 		if ($initialized !== true) return $initialized;
 
-	    $PublisherWebsiteFactory = \_factory\PublisherWebsite::get_instance();
-	    $editResultObj = new \model\PublisherWebsite();
-	    
-	    $needed_input = array(
+		$PublisherWebsiteFactory = \_factory\PublisherWebsite::get_instance();
+		$editResultObj = new \model\PublisherWebsite();
+		
+		$needed_input = array(
 				'WebDomain',
 				'Description'
 		);
-	    
-	    // Check to make sure the value is valid to begin with.
-	    $PublisherWebsiteID = intval($this->params()->fromRoute('param1', 0));
-	    if ($PublisherWebsiteID > 0):
-        
-	        // Only modify entries that belong to the user.
-	        $parameters = array("PublisherWebsiteID" => $PublisherWebsiteID, "DomainOwnerID" => $this->PublisherInfoID);
-	        $editResultObj = $PublisherWebsiteFactory->get_row_object($parameters);
-	        
-	        $request = $this->getRequest();
+		
+		// Check to make sure the value is valid to begin with.
+		$PublisherWebsiteID = intval($this->params()->fromRoute('param1', 0));
+		if ($PublisherWebsiteID > 0):
+		
+			// Only modify entries that belong to the user.
+			$parameters = array("PublisherWebsiteID" => $PublisherWebsiteID, "DomainOwnerID" => $this->PublisherInfoID);
+			$editResultObj = $PublisherWebsiteFactory->get_row_object($parameters);
+			
+			$request = $this->getRequest();
 
-    	    // Check to make sure this entry exists for editing and make sure the user owns this entry.
-    	    // Prevent the display of entries that the user does not own or have access.
-    	    if (intval($editResultObj->PublisherWebsiteID) == $PublisherWebsiteID &&
-    	        $editResultObj->DomainOwnerID == $this->PublisherInfoID):
-    	    
-    	        if ($request->isPost()):
-    	        
-    	            $validate = $this->validateInput($needed_input, false);
-	        
-	        		if ($validate && $editResultObj->DomainOwnerID == $this->PublisherInfoID): 
-     	            
-      	        		$web_domain = $request->getPost("WebDomain");
-	            		$description = $request->getPost("Description");
-	            		$iab_category = $request->getPost("IABCategory");
-	            
-      	        // Check if an entry exists with the same name. A NULL means there is no duplicate.
-	            		//if ($PublisherWebsiteFactory->get_row(array("WebDomain" => $web_domain)) === null):
-    	                $editResultObj->WebDomain = $web_domain;
-	            		$editResultObj->Description = $description;
-	            		$editResultObj->IABCategory = $iab_category;
+			// Check to make sure this entry exists for editing and make sure the user owns this entry.
+			// Prevent the display of entries that the user does not own or have access.
+			if (intval($editResultObj->PublisherWebsiteID) == $PublisherWebsiteID &&
+				$editResultObj->DomainOwnerID == $this->PublisherInfoID):
+			
+				if ($request->isPost()):
+				
+					$validate = $this->validateInput($needed_input, false);
+			
+					if ($validate && $editResultObj->DomainOwnerID == $this->PublisherInfoID): 
+					
+						$web_domain = $request->getPost("WebDomain");
+						$description = $request->getPost("Description");
+						$iab_category = $request->getPost("IABCategory");
+				
+				// Check if an entry exists with the same name. A NULL means there is no duplicate.
+						//if ($PublisherWebsiteFactory->get_row(array("WebDomain" => $web_domain)) === null):
+						$editResultObj->WebDomain = $web_domain;
+						$editResultObj->Description = $description;
+						$editResultObj->IABCategory = $iab_category;
  
-	                    try {
-        	            $PublisherWebsiteFactory->save_domain($editResultObj);
-        	            	return $this->redirect()->toRoute('publisher');
-        	            }
-        	            catch(\Zend\Db\Adapter\Exception\InvalidQueryException $e) {
-        	                $error_msg ="ERROR: A database error has occurred, please contact customer service.";
-        	            }
-        	            
-        	            //else:
-        	            	//$error_msg = "ERROR: A duplicate Web Domain may exist. Please try another.";
-        	           // endif;
-        	            
+						try {
+						$PublisherWebsiteFactory->save_domain($editResultObj);
+							return $this->redirect()->toRoute('publisher');
+						}
+						catch(\Zend\Db\Adapter\Exception\InvalidQueryException $e) {
+							$error_msg ="ERROR: A database error has occurred, please contact customer service.";
+						}
+						
+						//else:
+							//$error_msg = "ERROR: A duplicate Web Domain may exist. Please try another.";
+					   // endif;
+						
  
-    	            else: 
-    	            
-    	                $error_message = "ERROR: Required fields are not filled in or invalid input.";
-    	            endif;
-    	            
-    	        endif;
+					else: 
+					
+						$error_message = "ERROR: Required fields are not filled in or invalid input.";
+					endif;
+					
+				endif;
 
-    	            // Valid entry, show edit.
-    	            
-    	    
-    	    else:
-    	    
-    	        $error_message = "ERROR: The specified domain entry ID was not found or you do not have permission to edit this entry.";
-    	        return $this->redirect()->toRoute('publisher');
-    	    endif;
-    	   
-	    
-	    else: 
-	    
-	        $error_message = "An invalid domain entry ID was provided.";
-	        return $this->redirect()->toRoute('publisher');
-	    endif;
+					// Valid entry, show edit.
+					
+			
+			else:
+			
+				$error_message = "ERROR: The specified domain entry ID was not found or you do not have permission to edit this entry.";
+				return $this->redirect()->toRoute('publisher');
+			endif;
+		   
+		
+		else: 
+		
+			$error_message = "An invalid domain entry ID was provided.";
+			return $this->redirect()->toRoute('publisher');
+		endif;
 
-	    return array(
-	    		'error_message' => $error_message,
-	    		'is_admin' => $this->is_admin,
-	    		'user_id_list' => $this->user_id_list_publisher,
-	            'effective_id' => $this->auth->getEffectiveIdentityID(),
-	    		'impersonate_id' => $this->ImpersonateID,
-	            'true_user_name' => $this->true_user_name,
-	            'editResultObj' => $editResultObj,
-	            'vertical_map' => \util\DeliveryFilterOptions::$vertical_map,
-	    		'dashboard_view' => 'publisher',
-	    		'user_identity' => $this->identity(),
-	    		'header_title' => 'Edit Domain',
-	    );
-	    
+		return array(
+				'error_message' => $error_message,
+				'is_admin' => $this->is_admin,
+				'user_id_list' => $this->user_id_list_publisher,
+				'effective_id' => $this->auth->getEffectiveIdentityID(),
+				'impersonate_id' => $this->ImpersonateID,
+				'true_user_name' => $this->true_user_name,
+				'editResultObj' => $editResultObj,
+				'vertical_map' => \util\DeliveryFilterOptions::$vertical_map,
+				'dashboard_view' => 'publisher',
+				'user_identity' => $this->identity(),
+				'header_title' => 'Edit Domain',
+		);
+		
 	}
 	
 	public function changepublisherimpressionsnetworklossAction() {
