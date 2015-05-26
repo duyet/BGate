@@ -99,12 +99,12 @@ class PublisherAdZone extends \_factory\CachedTableRead
      * @param string $params
      * @return multitype:Ambigous <\Zend\Db\ResultSet\ResultSet, NULL, \Zend\Db\ResultSet\ResultSetInterface>
      */
-    public function get_joined($params = null) {
+    public function get_joined($params = null, $orders = null, $search = null, $limit = null, $offset = 0, $total_ret = false) {
         	// http://files.zend.com/help/Zend-Framework/zend.db.select.html
 
         $obj_list = array();
 
-    	$resultSet = $this->select(function (\Zend\Db\Sql\Select $select) use ($params) {
+    	$resultSet = $this->select(function (\Zend\Db\Sql\Select $select) use ($params, $orders, $search, $limit, $offset) {
     	        $select->join("AdTemplates",
     	            "PublisherAdZone.AdTemplateID = AdTemplates.AdTemplateID",
     	            array(
@@ -127,18 +127,80 @@ class PublisherAdZone extends \_factory\CachedTableRead
         				$select->where->equalTo($name, $value)
         		);
         		endforeach;
-        		//$select->limit(10, 0);
-        		$select->order(array('PublisherAdZone.PublisherWebsiteID', 'PublisherAdZone.AdName'));
+        		if ($search != null):
+              $select->where
+                      ->nest
+                        ->like("PublisherAdZone.AdName", "%". $search ."%" )
+                        ->or
+                        ->equalTo("PublisherAdZone.PublisherAdZoneID", (int) $search) 
+                      ->unnest;
+            endif;
+            
+            if($orders == null):
+              $select->order('PublisherAdZone.AdName');
+            else:
+              $select->order($orders);
+            endif;
+
+            if ($limit != null):
+              $select->limit($limit);
+              $select->offset($offset);
+            endif;
+
+        		// $select->order(array('PublisherAdZone.PublisherWebsiteID', 'PublisherAdZone.AdName'));
         	}
     	);
 
     	    foreach ($resultSet as $obj):
     	        $obj_list[] = $obj;
     	    endforeach;
+          
+        if ($total_ret == true):
 
-    		return $obj_list;
+          return array( "total" => $this->count_adzone($params,$search) , "data" => $obj_list);
+        else:
+          return $obj_list;
+        endif;
+    		
     }
    
+    public function count_adzone($params = null, $search = null) {
+
+      $resultSetCount = $this->select(function (\Zend\Db\Sql\Select $select) use ($params, $search) {
+        $select->join("AdTemplates",
+                  "PublisherAdZone.AdTemplateID = AdTemplates.AdTemplateID",
+                  array(
+                    "TemplateName" => "TemplateName",
+                      "TemplateX" => "Width",
+                      "TemplateY" => "Height",
+                     ),
+                  $select::JOIN_LEFT);
+              $select->join("PublisherWebsite",
+                  "PublisherWebsite.PublisherWebsiteID = PublisherAdZone.PublisherWebsiteID",
+                  array(
+                      "WebDomain" => "WebDomain",
+                      "DomainOwnerID" => "DomainOwnerID",
+                      "DomainDescription" => "Description",
+                      "DomainID" => "PublisherWebsiteID",
+                      ),
+                  $select::JOIN_INNER);
+        foreach ($params as $name => $value):
+        $select->where(
+            $select->where->equalTo($name, $value)
+        );
+        endforeach;
+        if ($search != null):
+          $select->where
+                  ->nest
+                    ->like("PublisherAdZone.AdName", "%". $search ."%" )
+                    ->or
+                    ->equalTo("PublisherAdZone.PublisherAdZoneID", (int) $search) 
+                  ->unnest;
+        endif;
+      });
+      return $resultSetCount->count();
+    }
+
     /**
      * Query database for a row and return results as an object.
      * 

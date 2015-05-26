@@ -101,7 +101,7 @@ echo $this->doctype(); ?>
                         <?php endif;?>
 
                         <?php if (($user_data != null && $user_data->PublisherInfoID != null) || $userRole=='admin' || $userRole=='superadmin'): ?>
-                        <li class="<?php if($home_dashboard_view == " publisher ") echo "active ";?>"><a class="navlink" href="<?php echo $this->basePath() ?>/publisher">Websites</a></li>
+                        <li class="<?php if($home_dashboard_view == " publisher ") echo "active ";?>"><a class="navlink" href="<?php echo $this->basePath() ?>/publisher">Domain</a></li>
                         <li class="divider-vertical"></li>
                         <?php endif;?>
 
@@ -199,6 +199,27 @@ echo $this->doctype(); ?>
             </footer>
            
         
+<!-- Domain Delete Modal -->
+<input  type="hidden" name="modal_domain_id" id="modal_domain_id" value="0" />
+<div class="modal fade" id="DeleteDomainModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel">Delete Domain</h4>
+      </div>
+      <div class="modal-body">
+      <div id="domain_alert_msg" class="alert alert-error" style="display: none;">Error</div>
+    <p id="msg"></p>
+<h5 style="color: #b94a48;">This action is IMMEDIATE and NOT REVERSABLE!</h5>
+      </div>
+      <div class="modal-footer">
+      <button type="button" data-loading-text="Processing..." id="domain_yes_btn" class="btn btn-primary" onclick="deleteDomainConfirm();">Yes</button>
+        <button type="button" class="btn btn-default" id="domain_no_btn" data-dismiss="modal">No</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Domain Delete Modal -->
         <?php echo $this->inlineScript() ?>
 		<?php echo file_get_contents("app/DashboardManager/view/support/support.js"); ?>
     </body>

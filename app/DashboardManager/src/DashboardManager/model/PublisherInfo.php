@@ -17,6 +17,12 @@ class PublisherInfo {
     public $Domain;
     public $IABCategory;
     public $DateCreated;
+    public $FirstName;
+    public $LastName;
+    public $Country;
+    public $City;
+    public $Addr;
+    public $DomainDescribe;
 
 }
 

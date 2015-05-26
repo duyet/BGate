@@ -28,7 +28,39 @@ class PublisherController extends PublisherAbstractActionController {
 	 * @return \Zend\View\Model\ViewModel
 	 */
 	public function dashboardAction() {
-		
+		$initialized = $this->initialize();
+		if ($initialized !== true) return $initialized;
+
+		$user_info_factory = \_factory\PublisherInfo::get_instance();
+		$user_info = new \model\PublisherInfo;
+        $user_info = $user_info_factory->get_row_object(array("PublisherInfoID" => $this->PublisherInfoID));
+
+        $domain_factory = \_factory\PublisherWebsite::get_instance();
+        $domain_list = $domain_factory->get(array("DomainOwnerID" => $this->PublisherInfoID));
+
+        $adzone_factory = \_factory\PublisherAdZone::get_instance();
+        $adzone_count = $adzone_factory->count_adzone(array("AdOwnerID" => $this->PublisherInfoID));
+
+        // header('Content-type: application/json');
+        // print_r($user_info);
+        // print_r($domain_list);
+        // print_r(count($domain_list));
+        // print_r($adzone_count);
+        $view = new ViewModel(array(
+			 'dashboard_view' => 'publisher',
+			 'true_user_name' => $this->auth->getUserName(),
+			 'is_admin' => $this->is_admin,
+			 'user_id_list' => $this->user_id_list_publisher,
+			 'domain_owner' => isset($PublisherInfo->Name) ? $PublisherInfo->Name : "",
+			 'impersonate_id' => $this->ImpersonateID,
+			 'effective_id' => $this->auth->getEffectiveIdentityID(),
+			 'publisher_info_id' => $this->PublisherInfoID,
+			 'user_identity' => $this->identity(),
+			 'domain_list' => $domain_list,
+			 "user_info" => $user_info
+		));
+
+		return $view;
 	}
 
 	/**
@@ -40,6 +72,7 @@ class PublisherController extends PublisherAbstractActionController {
 		$initialized = $this->initialize();
 		if ($initialized !== true) return $initialized;
 
+		$parameters = array(); // Set the parameters to empty first.
 		// sort map array
 		$SortMap = array("1"=> "WebDomain", "4" => "DateCreated");
 		$OrderArr = $this->getRequest()->getQuery("order");
@@ -50,13 +83,19 @@ class PublisherController extends PublisherAbstractActionController {
 
 		// pagination value
 		$PageSize = (int) $this->getRequest()->getQuery("length");
-		$Offset =   ((int) $this->getRequest()->getQuery("start") );
+		$Offset =   (int) $this->getRequest()->getQuery("start");
+
+		// custom filter
+		if ($this->getRequest()->getQuery("category") != ""):
+			$parameters["IABCategory"] = $this->getRequest()->getQuery("category");
+		endif;
+		if ($this->getRequest()->getQuery("approval") != ""):
+			$parameters["ApprovalFlag"] = $this->getRequest()->getQuery("approval");
+		endif;
 
 		//Pull list of websites.
 		$PublisherWebsiteFactory = \_factory\PublisherWebsite::get_instance();
-		$parameters = array(); // Set the parameters to empty first.
 		$parameters['DomainOwnerID'] = $this->PublisherInfoID;
-		// $parameters["IABCategory"] = "IAB1";
 
 		$PublisherWebsiteList = $PublisherWebsiteFactory->get($parameters, $order, $search, $PageSize, $Offset);
 		$TotalPublisherWebsiteCount = $PublisherWebsiteFactory->count($parameters, $search);
@@ -67,18 +106,19 @@ class PublisherController extends PublisherAbstractActionController {
 
 		$result = array();
 
+		$category_mapper = \util\DeliveryFilterOptions::$vertical_map;
+		$approval_mapper = array(1=>"Auto-Approved", 2=>"Stop", 3=> "Running");
 		if (count($PublisherWebsiteList)> 0):
 				foreach ($PublisherWebsiteList AS $row_number => $row_data): 
-					$is_rejected = false;
 					$row = array();
 
-					$row["index"] = $row_number+1;
+					$row["index"] = $Offset + $row_number+1;
 					$row["PublisherWebsiteID"] = $row_data["PublisherWebsiteID"];
-					$row["DomainName"] = $row_data["WebDomain"];
-					$row["IABCategory"] = $row_data["IABCategory"];
-					$row["AdZones"] = 0;
+					$row["DomainName"] = array('name' => $row_data["WebDomain"], "id" => $row_data["PublisherWebsiteID"] );
+					$row["IABCategory"] = $category_mapper[$row_data["IABCategory"]];
+					$row["AdZones"] = "";
 					$row["DomainOwnerID"] = $row_data["DomainOwnerID"];
-					$row["ApprovalFlag"] = $row_data["ApprovalFlag"];
+					$row["ApprovalFlag"] = $approval_mapper[$row_data["ApprovalFlag"]];
 					$row["created_at"] = $row_data["DateCreated"];
 					$result[] = $row;
 
@@ -95,11 +135,7 @@ class PublisherController extends PublisherAbstractActionController {
 	{	    
 		$initialized = $this->initialize();
 		if ($initialized !== true) return $initialized;
-		if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest')
-		{
-		  //CODE HERE
-			return [];
-		}
+		
 		//Pull list of websites.
 		$PublisherWebsiteFactory = \_factory\PublisherWebsite::get_instance();
 		$parameters = array(); // Set the parameters to empty first.
@@ -180,6 +216,7 @@ class PublisherController extends PublisherAbstractActionController {
 			 'publisher_markup_rate' => $publisher_markup_rate,
 			 'publisher_impressions_network_loss_rate' => $publisher_impressions_network_loss_rate,
 			 'website_markup_rate_list' => isset($website_markup_rate_list) ? $website_markup_rate_list : array(),
+			 'vertical_map' => \util\DeliveryFilterOptions::$vertical_map,
 			 'website_impressions_network_loss_rate_list' => isset($website_impressions_network_loss_rate_list) ? $website_impressions_network_loss_rate_list : array()
 		));
 

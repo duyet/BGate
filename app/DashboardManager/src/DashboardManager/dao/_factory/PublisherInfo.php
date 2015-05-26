@@ -135,7 +135,13 @@ class PublisherInfo extends \_factory\CachedTableRead
         $data['Domain']   	 = $PublisherInfo->Domain;
     	$data['Email']       = $PublisherInfo->Email;
     	$data['IABCategory'] = $PublisherInfo->IABCategory; 
-    	
+    	$data["FirstName"] = $PublisherInfo->FirstName;
+        $data["LastName"] = $PublisherInfo->LastName;
+        $data["Country"] = $PublisherInfo->Country;
+        $data["City"] = $PublisherInfo->City;
+        $data["Addr"] = $PublisherInfo->Addr;
+        $data["DomainDescribe"] = $PublisherInfo->DomainDescribe;
+        
     	$PublisherInfoID = (int)$PublisherInfo->PublisherInfoID;
     	if ($PublisherInfoID === 0): 
     		$data['DateCreated']  = $PublisherInfo->DateCreated;

@@ -34,11 +34,11 @@ $(function() {
             <?php 
                 if($error_message != "" && $error_message !== null && isset($error_message))
                 {
-                    echo '<div class="alert alert-warning" style="margin: 5px;">'. $error_message .'</div>';
+                    echo '<div class="alert alert-danger" style="margin: 5px;">'. $error_message .'</div>';
                 }
             ?>
 
-            <div id="cdn_form_msg" class="alert alert-error" style="margin: 5px; display:none;"></div>
+            <div id="cdn_form_msg" class="alert alert-danger" style="margin: 5px; display:none;"></div>
             <div class="form-group">
               <label for="adname" class="control-label col-sm-3">Ad Name</label>
               <div class="controls col-sm-7 error">
@@ -56,7 +56,7 @@ $(function() {
               <div class="controls col-sm-7 error">
                 <select id="ImpressionType" name="ImpressionType" class="form-control" onchange="switchImpressionType();">
                     <option value="banner">Banner Ad</option>
-                    <option value="video">Video Ad</option>
+                    <option value="video" disabled="disabled">Video Ad</option>
                 </select>
               </div>
             </div>
@@ -255,13 +255,15 @@ $(function() {
                 </select>
               </div>
             </div>
-            <br>
+            <hr>
             <div class="form-group text-center">
               <div class="controls">
-                <a href="<?php echo $this->basePath() ?>/publisher/zone/<?php echo $domain_obj->PublisherWebsiteID;?>">Cancle</a> or
-
-                <button name="submit" class="btn btn-margin btn-primary" type="submit" id="submitbutton">Create New Ad Zone</button> 
-
+                <button name="submit" class="btn btn-margin btn-primary" type="submit" id="submitbutton">Create New Ad Zone</button> &nbsp;
+                <?php if (array_key_exists('HTTP_REFERER',$_SERVER)): ?>
+                  <a href="<?php echo $_SERVER['HTTP_REFERER']  ?>" class="btn btn-margin">Cancel</a>
+                <?php else: ?>
+                  <a class="btn btn-margin" href="<?php echo $this->basePath() ?>/publisher/zone/<?php echo $domain_obj->PublisherWebsiteID;?>">Cancel</a> 
+                <?php endif; ?>
               </div>
             </div>
             <input type="hidden" value="<?php echo $AdOwnerID;?>" name="AdOwnerID">

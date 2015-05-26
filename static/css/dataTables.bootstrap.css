@@ -112,7 +112,8 @@ table.dataTable thead .sorting_desc_disabled:after {
 }
 
 table.dataTable thead > tr > th {
-	/*padding-right: 30px;*/
+	padding-right: 20px;
+	vertical-align: middle;
 }
 
 table.dataTable th:active {
@@ -370,3 +371,6 @@ div.FixedHeader_Cloned table {
 	margin: 0 !important
 }
 
+table.table.dataTable td {
+	vertical-align: middle;
+}

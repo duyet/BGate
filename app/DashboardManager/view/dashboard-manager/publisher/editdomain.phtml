@@ -7,17 +7,12 @@
 </div>
 
 <?php
-$this->headScript()->appendFile($this->basePath() . '/js/script.js');
+$this->headScript()->appendFile($this->basePath() . '/static/js/script.js');
 
 $this->headScript()->captureStart() ?>
 <?php $this->headScript()->captureEnd();  ?>
 
-<?php 
-    if($error_message != "" && $error_message !== null && isset($error_message)):
-      echo '<div id="cdn_form_success" class="alert alert-error" style="margin: 5px;">'. $error_message .'</div>';
-    endif;
 
-?>
 <?php  /*if($is_admin) { ?>
     <div>
         <?php 
@@ -29,23 +24,29 @@ $this->headScript()->captureStart() ?>
         ?>
     </div>
     <?php }*/ ?>
- <div id="cdn_form_msg" class="alert alert-error" style="margin: 5px; display:none;"></div>
+ 
  <div class="container">
   <div class="row">
     <br />
     <div class="col-md-8 col-md-offset-2 panel panel-default">
         <div class="panel-body">
- 
+        <?php 
+            if($error_message != "" && $error_message !== null && isset($error_message)):
+              echo '<div id="cdn_form_success" class="alert alert-danger" style="margin: 15px;">'. $error_message .'</div>';
+            endif;
+
+        ?>
+        <div id="cdn_form_msg" class="alert alert-danger" style="margin: 15px; display:none;"></div>
           <form id="domain" class="form-horizontal form-top-magin" name="domain" method="post" action="/publisher/editdomain/<?php echo $editResultObj->PublisherWebsiteID;?>/" novalidate="novalidate">
             
             <div class="form-group">
-              <label for="webdomain" class="control-label col-sm-3">Web Domain</label>
+              <label for="webdomain" class="control-label col-sm-3">Web Domain<sup>(*)</sup></label>
               <div class="controls col-sm-7">
                 <input type="text" value="<?php echo $editResultObj->WebDomain;?>" maxlength="255"  class="form-control"  id="WebDomain" name="WebDomain">    
               </div>
             </div>
             <div class="form-group">
-                <label for="desc" class="control-label col-sm-3">Description</label>
+                <label for="desc" class="control-label col-sm-3">Description<sup>(*)</sup></label>
                 <div class="controls col-sm-7">
                   <textarea maxlength="5000"  class="form-control" id="Description" name="Description"><?php echo $editResultObj->Description;?></textarea>    
                 </div>
@@ -66,10 +67,15 @@ $this->headScript()->captureStart() ?>
                 </select>
               </div>
             </div>  
-            
+            <hr>
             <div class="form-group text-center">
               <div class="controls">
-                <button name="submit" type="submit" class="btn btn-primary btn-margin" id="submitbutton">Update Domain</button>
+                <button name="submit" type="submit" class="btn btn-primary btn-margin" id="submitbutton">Update Domain</button>&nbsp;
+              <?php if (array_key_exists('HTTP_REFERER',$_SERVER)): ?>
+                <a href="<?php echo $_SERVER['HTTP_REFERER']  ?>" class="btn btn-margin">Cancel</a>
+              <?php else: ?>
+                <a href="<?php echo $this->basePath() . '/publisher' ?>" class="btn btn-margin">Cancel</a>
+              <?php endif; ?>
               </div>
             </div>
             <input type="hidden" value="<?php echo $editResultObj->DomainOwnerID;?>" name="DomainOwnerID">

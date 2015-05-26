@@ -915,3 +915,61 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 .steps-container .container {
   min-height: 350px;
 }
+
+.bg-custom-success {
+    background-color: #8CC152;
+}
+
+.bg-custom-primary {
+    background-color: #3bafda;
+}
+
+
+.bg-custom-warning {
+    background-color: #F6BB42;
+}
+
+.bg-custom-danger {
+    background-color: #E9573F;
+}
+
+.box .box-inner {
+    padding: 5px;
+}
+
+.tiles-information {
+  /*overflow: hidden;*/
+  position: relative;
+}
+
+.tiles-information .icon-bg{
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  font-size: 100px;
+  color: #fff;
+  opacity: 0.08;
+  filter: alpha(opacity=8);
+   -webkit-transform: rotate(-45deg); 
+  -moz-transform: rotate(-45deg);
+  -ms-transform: rotate(-45deg);
+  -o-transform: rotate(-45deg);
+   transform: rotate(-45deg); 
+}
+
+.bright-text, a.bright-text {
+    color: #fff;
+    opacity: 0.7;
+}
+
+a.bright-text:hover {
+    opacity: 1;
+}
+
+.display-inline {
+    display: inline-block;
+}
+
+div.tooltip-inner {
+    width: 100px;
+}

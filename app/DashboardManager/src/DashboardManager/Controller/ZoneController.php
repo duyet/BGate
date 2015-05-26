@@ -88,19 +88,101 @@ class ZoneController extends PublisherAbstractActionController {
      * @return \Zend\View\Model\ViewModel
      */
     public function zonelistAction() {
+    	$initialized = $this->initialize();
+		if ($initialized !== true) return $initialized;
 
+		$parameters = array(); // Set the parameters to empty first.
+		// sort map array
+		$SortMap = array("1"=> "PublisherAdZone.AdName", "4" => "PublisherAdZone.FloorPrice", "5" => "PublisherAdZone.TotalRequests", "6" => "PublisherAdZone.TotalImpressionsFilled", "7" => "PublisherAdZone.TotalAmount", "8" => "PublisherAdZone.DateCreated");
+		$OrderArr = $this->getRequest()->getQuery("order");
+		$order = $SortMap[$OrderArr[0]["column"]] . " " . strtoupper($OrderArr[0]["dir"]);
+		
+		// get search value
+		$search = $this->getRequest()->getQuery("search")["value"];
+
+		// pagination value
+		$PageSize = (int) $this->getRequest()->getQuery("length");
+		$Offset =   (int) $this->getRequest()->getQuery("start");
+
+		// custom filter
+		if ($this->getRequest()->getQuery("adtemplate") != ""):
+			$parameters["PublisherAdZone.AdTemplateID"] = (int) $this->getRequest()->getQuery("adtemplate");
+		endif;
+		if ($this->getRequest()->getQuery("approval") != ""):
+			$parameters["PublisherAdZone.AdStatus"] = $this->getRequest()->getQuery("approval");
+		endif;
+
+		$error_message = null;
+        $ZoneList = array();
+        $DomainID = intval($this->params()->fromRoute('param1', 0));
+        
+        $DomainObj = $this->get_domain_data($DomainID, $this->PublisherInfoID);
+        
+        if ($DomainObj === null):
+            $error_message = "An invalid publishing web domain was specified for the specified user.";
+        else: 
+        
+            $PublisherAdZoneFactory = \_factory\PublisherAdZone::get_instance();
+            
+            // You must check both the DomainOwnerID to make sure
+            // that the user does indeed own the entry; otherwise we have a security
+            // problem. You also need to specify the PublisherAdZone for the PublisherWebsiteID, since both
+            // Websites and Ads tables have PublisherWebsiteID as a column.
+            $parameters["PublisherAdZone.PublisherWebsiteID"] = $DomainID;
+            $parameters["PublisherWebsite.DomainOwnerID"] = $this->PublisherInfoID;
+            
+            try {
+                $ZoneList = $PublisherAdZoneFactory->get_joined($parameters, $order, $search, $PageSize, $Offset, true);
+            }
+            catch(\Exception $e)
+            {
+                $error_message = "A database error has occurred: " . $e->getMessage();
+                $ZoneList = array();
+            }
+        endif;
+        
+        $result = array();
+        $approval_mapper = array(1=>"Auto-Approved", 2=>"Stop", 3=> "Running");
+        if (count($ZoneList["data"])> 0):
+        	foreach ($ZoneList["data"] AS $row_number => $row_data): 
+        		$row = array();
+
+        		$row["index"] = $Offset + $row_number+1;
+        		$row["AdzoneId"] = $row_data["PublisherAdZoneID"];
+        		$row["AdzoneName"] = array('name' => $row_data["AdName"], 'id' => $row_data["PublisherAdZoneID"], 'domain_id' => $row_data["PublisherWebsiteID"]);
+        		$row["AdStatus"] = $approval_mapper[$row_data["AdStatus"]];
+        		$row["SpaceSize"] = array( "type" => $row_data["ImpressionType"], "name" => $row_data["TemplateName"], "width" => $row_data["TemplateX"], "height" => $row_data["TemplateY"]);
+        		$row["FloorPrice"] =  '$' . sprintf("%1.2f", $row_data["FloorPrice"]);
+        		$row["TotalRequests"] = $row_data["TotalRequests"];
+        		$row["TotalImpressionsFilled"] = $row_data["TotalImpressionsFilled"];
+        		$row["TotalAmount"] = '$' . sprintf("%1.2f", $row_data["TotalAmount"]);
+        		$row["DateCreated"] = $row_data["DateCreated"];
+
+        		$result[] = $row;
+        	endforeach;
+        endif;
+
+		header('Content-type: application/json');
+        echo json_encode(array("recordsTotal" => $ZoneList["total"], "recordsFiltered" => $ZoneList["total"] , 'data' => $result));
+        die;
     }
+
+
 
     public function indexAction() {
 		$initialized = $this->initialize();
 		if ($initialized !== true) return $initialized;
-        
+
         $error_message = null;
         $ZoneList = array();
         $DomainID = intval($this->params()->fromRoute('param1', 0));
         
         $DomainObj = $this->get_domain_data($DomainID, $this->PublisherInfoID);
         
+        $domain_owner_factory = \_factory\PublisherInfo::get_instance();
+        $DomainOwner = new \model\PublisherInfo;
+        $DomainOwner = $domain_owner_factory->get_row_object(array("PublisherInfoID" => $DomainObj->DomainOwnerID));
+
         if ($DomainObj === null):
             $error_message = "An invalid publishing web domain was specified for the specified user.";
         else: 
@@ -126,16 +208,14 @@ class ZoneController extends PublisherAbstractActionController {
         endif;
         if ($this->is_admin):
         
-            $headers = array("#","Ad Zone Name","Status","Space Size","Floor Price","Total Requests","Impressions Filled","Total Revenue","Created","Updated","Action");
+            $headers = array("#","Ad Zone Name","Status","Space Size","Floor Price","Total Requests","Impressions Filled","Total Revenue","Created");
             $meta_data = array("AdName","AdStatus","AutoApprove","AdTemplateID","FloorPrice","TotalRequests","TotalImpressionsFilled","TotalAmount","DateCreated","DateUpdated");
         
         else:
         
-            $headers = array("#","Ad Zone Name","Status","Space Size","Floor Price","Total Requests","Impressions Filled","Total Revenue","Created","Updated","Action");
+            $headers = array("#","Ad Zone Name","Status","Space Size","Floor Price","Total Requests","Impressions Filled","Total Revenue","Created");
             $meta_data = array("AdName","AdStatus","AutoApprove","AdTemplateID","FloorPrice","TotalRequests","TotalImpressionsFilled","TotalAmount","DateCreated","DateUpdated");
         endif;
-        
-        // TO DO: Permission issues.
         
         $view = new ViewModel(array(
         	'domain_id' => $DomainID,
@@ -147,9 +227,11 @@ class ZoneController extends PublisherAbstractActionController {
             'impersonate_id' => $this->ImpersonateID,
             'effective_id' => $this->EffectiveID,
             'domain_obj' => $DomainObj,
+            "domain_owner" => $DomainOwner,
             'error_message' => $error_message,
         	'dashboard_view' => 'publisher',
 	    	'user_identity' => $this->identity(),
+	    	'AdTemplateList' => $this->get_ad_templates(),
         	'header_title' => '<a href="/publisher/zone/' . $DomainObj->PublisherWebsiteID . '/create">Create New Ad Zone</a>'
         ));
         
@@ -477,6 +559,379 @@ class ZoneController extends PublisherAbstractActionController {
         		'current_protocols' => $current_protocols,
         		'current_mimes' => $current_mimes
         		
+        );
+    }
+    
+    public function showAction(){
+        $initialized = $this->initialize();
+        if ($initialized !== true) return $initialized;
+        $error_message = null;
+        
+        $DomainID = intval($this->params()->fromRoute('param1', 0));
+        $PublisherAdZoneFactory = \_factory\PublisherAdZone::get_instance();
+        $AdCampaignBannerFactory = \_factory\AdCampaignBanner::get_instance();
+        $PublisherAdZoneVideoFactory = \_factory\PublisherAdZoneVideo::get_instance();
+        
+        $current_publisheradzonetype = AD_TYPE_ANY_REMNANT;
+
+        $editResultObj = new \model\PublisherAdZone();
+        
+        $DomainObj = $this->get_domain_data($DomainID, $this->PublisherInfoID);
+        
+        if ($DomainObj === null):
+        
+            $error_message = "An invalid publishing web domain was specified for the specified user.";
+        
+        elseif ($DomainObj->ApprovalFlag == 2):
+        
+            $error_message = "This domain was rejected and you can not edit this zone.";
+        
+        else:
+        
+            $request = $this->getRequest();
+        
+            if ($request->getPost("ImpressionType") == 'video'):
+            
+                $needed_input = array(
+                        'AdName',
+                        'Description',
+                        'MinDuration',
+                        'MaxDuration',
+                        'Mimes'
+                );
+                
+            else:
+        
+                $needed_input = array(
+                        'AdName',
+                        'Description',
+                        'Width',
+                        'Height'
+                );
+            
+            endif;
+        
+            $publisher_ad_zone_type_id = AD_TYPE_ANY_REMNANT;
+            $linkedbanners = array();
+            
+            $AdTemplateList = $this->get_ad_templates();
+
+            $current_mimes                  = \util\BannerOptions::$mimes;
+            
+            $current_min_duration           = "0";
+            $current_max_duration           = "1000";
+            
+            $current_apis_supported         = array();
+            $current_protocols              = array();
+            $current_delivery_methods       = array();
+            $current_playback_methods       = array();
+            
+            $current_start_delay            = "";
+            $current_linearity              = "";
+            $current_fold_pos               = "";
+
+            // Make sure the value provided is valid.
+            $AdSpaceID = intval($this->params()->fromRoute('id', 0));
+
+            if ($AdSpaceID > 0):
+            
+                $AdSpaceParameters = array("PublisherWebsiteID" => $DomainObj->PublisherWebsiteID, "PublisherAdZoneID" => $AdSpaceID);
+                $editResultObj = $PublisherAdZoneFactory->get_row_object($AdSpaceParameters);
+
+                if (intval($editResultObj->PublisherAdZoneID) == $AdSpaceID && intval($editResultObj->PublisherWebsiteID) == $DomainObj->PublisherWebsiteID):
+                     
+                    $current_publisheradzonetype   = $editResultObj->PublisherAdZoneTypeID;
+                
+
+                    $params = array();
+                    $params['PublisherAdZoneID']    = $editResultObj->PublisherAdZoneID;
+                    
+                    $PublisherAdZoneVideo           = $PublisherAdZoneVideoFactory->get_row($params);
+
+                    if ($PublisherAdZoneVideo != null):
+                    
+                        $current_mimes                  = explode(',', $PublisherAdZoneVideo->MimesCommaSeparated);
+                        
+                        if (!$PublisherAdZoneVideo->MimesCommaSeparated || !count($current_mimes)):
+                            $current_mimes = \util\BannerOptions::$mimes;
+                        endif;
+                    
+                        $current_min_duration           = $PublisherAdZoneVideo->MinDuration;
+                        $current_max_duration           = $PublisherAdZoneVideo->MaxDuration;
+                        
+                        $current_apis_supported         = explode(',', $PublisherAdZoneVideo->ApisSupportedCommaSeparated);
+                        $current_protocols              = explode(',', $PublisherAdZoneVideo->ProtocolsCommaSeparated);
+                        $current_delivery_methods       = explode(',', $PublisherAdZoneVideo->DeliveryCommaSeparated);
+                        $current_playback_methods       = explode(',', $PublisherAdZoneVideo->PlaybackCommaSeparated);
+                        
+                        $current_start_delay            = $PublisherAdZoneVideo->StartDelay;
+                        $current_linearity              = $PublisherAdZoneVideo->Linearity;
+                        $current_fold_pos               = $PublisherAdZoneVideo->FoldPos;
+
+                        if ($current_min_duration == "" || $current_min_duration == null):
+                            $current_min_duration = 0;
+                        endif;
+                        
+                        if ($current_max_duration == "" || $current_max_duration == null):
+                            $current_max_duration = 1000;
+                        endif;
+                        
+                    endif;
+                        
+                    if ($request->isPost()):
+                
+                        $validate = $this->validateInput($needed_input, false);
+            
+                        if ($validate):
+                            
+                            // only the admin can change the ad zone type
+                            if ($this->is_admin):
+                                $publisher_ad_zone_type_id              = $request->getPost("PublisherAdZoneTypeID");
+                                $linkedbanners                          = $request->getPost('linkedbanners');
+                                $editResultObj->PublisherAdZoneTypeID   = $publisher_ad_zone_type_id;
+                            endif;                      
+
+                            $editResultObj->AdName                  = $request->getPost("AdName");
+                            $editResultObj->Description             = $request->getPost("Description");
+                            $editResultObj->PassbackAdTag           = $request->getPost("PassbackAdTag");
+                            $floor_price                            = $request->getPost("FloorPrice") == null ? 0 : $request->getPost("FloorPrice");
+                            $editResultObj->FloorPrice                      = floatval($floor_price);
+                            $editResultObj->AdTemplateID            = $request->getPost("AdTemplateID");
+                            $editResultObj->IsMobileFlag            = $request->getPost("IsMobileFlag");
+                            $editResultObj->Width                   = $request->getPost("Width");
+                            $editResultObj->Height                  = $request->getPost("Height");
+
+                            $auto_approve_zones = $this->config_handle['settings']['publisher']['auto_approve_zones'];
+                            $editResultObj->AutoApprove = ($auto_approve_zones == true) ? 1 : 0;
+                            
+                            // Disapprove the changes if not admin.
+                            if ($this->is_admin || $auto_approve_zones == true):
+                                $editResultObj->AdStatus = 1;
+                            else:
+                                $editResultObj->AdStatus = 0;
+                            endif;
+                            
+                            $editResultObj->PublisherWebsiteID = $DomainObj->PublisherWebsiteID;
+                            if($editResultObj->AdTemplateID != null) {
+                                $AdTemplatesFactory = \_factory\AdTemplates::get_instance();
+                                $AdTemplatesObj = $AdTemplatesFactory->get_row(array("AdTemplateID" => $editResultObj->AdTemplateID));
+                                $editResultObj->Width = $AdTemplatesObj->Width;
+                                $editResultObj->Height = $AdTemplatesObj->Height;
+                            }
+                            
+                            $editResultObj->ImpressionType              = $request->getPost("ImpressionType") == 'video' ? 'video' : 'banner';
+                            
+                            if ($editResultObj->ImpressionType == 'video'):
+                            
+                                $editResultObj->AdTemplateID = null;
+                            
+                                $min_duration               = $request->getPost("MinDuration");
+                                
+                                $max_duration               = $request->getPost("MaxDuration");
+                                    
+                                $mimes                      = $request->getPost("Mimes");
+                                if ($mimes && is_array($mimes) && count($mimes) > 0):
+                                    $mimes = join(',', $mimes);
+                                endif;
+                                    
+                                $protocols                  = $request->getPost("Protocols");
+                                if ($protocols && is_array($protocols) && count($protocols) > 0):
+                                    $protocols = join(',', $protocols);
+                                endif;
+                                    
+                                $apis_supported             = $request->getPost("ApisSupported");
+                                if ($apis_supported && is_array($apis_supported) && count($apis_supported) > 0):
+                                    $apis_supported = join(',', $apis_supported);
+                                endif;
+                                    
+                                $delivery                   = $request->getPost("Delivery");
+                                if ($delivery && is_array($delivery) && count($delivery) > 0):
+                                    $delivery = join(',', $delivery);
+                                endif;
+                                    
+                                $playback                   = $request->getPost("Playback");
+                                if ($playback && is_array($playback) && count($playback) > 0):
+                                    $playback = join(',', $playback);
+                                endif;
+                                    
+                                $start_delay                = $request->getPost("StartDelay");
+                                    
+                                $linearity                  = $request->getPost("Linearity");
+                                    
+                                $fold_pos                   = $request->getPost("FoldPos");
+                                    
+                            endif;
+                            
+                            
+                            try {
+                                
+                                $PublisherAdZoneFactory->save_ads($editResultObj);
+
+                                // If this publisher zone is for video save the extra table info
+                                if ($editResultObj->ImpressionType == 'video'):
+                                     
+                                    $PublisherAdZoneVideo = new \model\PublisherAdZoneVideo();
+                                    $PublisherAdZoneVideo->PublisherAdZoneID            = $editResultObj->PublisherAdZoneID;
+                                    $PublisherAdZoneVideo->MimesCommaSeparated          = $mimes;
+                                    $PublisherAdZoneVideo->MinDuration                  = $min_duration;
+                                    $PublisherAdZoneVideo->MaxDuration                  = $max_duration;
+                                    $PublisherAdZoneVideo->ApisSupportedCommaSeparated  = $apis_supported;
+                                    $PublisherAdZoneVideo->ProtocolsCommaSeparated      = $protocols;
+                                    $PublisherAdZoneVideo->DeliveryCommaSeparated       = $delivery;
+                                    $PublisherAdZoneVideo->PlaybackCommaSeparated       = $playback;
+                                    $PublisherAdZoneVideo->StartDelay                   = $start_delay;
+                                    $PublisherAdZoneVideo->Linearity                    = $linearity;
+                                    $PublisherAdZoneVideo->FoldPos                      = $fold_pos;
+                                    $PublisherAdZoneVideo->DateCreated                  = date("Y-m-d H:i:s");
+                                    
+                                    /*
+                                     * Create a new entry each time since video is optional
+                                     */
+                                    $PublisherAdZoneVideoFactory->savePublisherAdZoneVideo($PublisherAdZoneVideo);
+                                    
+                                endif;
+                                
+                                if ($this->is_admin):
+                                    $LinkedBannerToAdZoneFactory = \_factory\LinkedBannerToAdZone::get_instance();
+                                    $LinkedBannerToAdZoneFactory->deleteLinkedBannerToAdZoneByPublisherAdZoneID($editResultObj->PublisherAdZoneID);
+    
+                                    // campaigntype AD_TYPE_CONTRACT case
+                                    if ($publisher_ad_zone_type_id == AD_TYPE_CONTRACT && $linkedbanners != null && count($linkedbanners) > 0):
+                                    
+                                        foreach($linkedbanners as $linked_banner_id):
+                                            
+                                            $params = array();
+                                            $params["AdCampaignBannerID"] = $linked_banner_id;
+                                            $LinkedAdCampaignBanner = $AdCampaignBannerFactory->get_row($params);
+                                            
+                                            if ($LinkedAdCampaignBanner == null):
+                                                continue;
+                                            endif;
+                                        
+                                            $LinkedBannerToAdZone = new \model\LinkedBannerToAdZone();
+                                            $LinkedBannerToAdZone->AdCampaignBannerID           = intval($linked_banner_id);
+                                            $LinkedBannerToAdZone->PublisherAdZoneID            = $editResultObj->PublisherAdZoneID;
+                                            $LinkedBannerToAdZone->Weight                       = intval($LinkedAdCampaignBanner->Weight);
+                                            $LinkedBannerToAdZone->DateCreated                  = date("Y-m-d H:i:s");
+                                            $LinkedBannerToAdZone->DateUpdated                  = date("Y-m-d H:i:s");
+                                            $LinkedBannerToAdZoneFactory->saveLinkedBannerToAdZone($LinkedBannerToAdZone);
+                                            
+                                            $AdCampaignBannerFactory->updateAdCampaignBannerAdCampaignType($LinkedAdCampaignBanner->AdCampaignBannerID, AD_TYPE_CONTRACT);
+                                            
+                                        endforeach;
+                                    
+                                    endif;
+                                
+                                elseif ($this->config_handle['mail']['subscribe']['zones'] === true):
+                                
+                                    $is_approved = $editResultObj->AdStatus == 1 ? 'Yes' : 'No';
+                                    $is_mobile = $ad->IsMobileFlag == 1 ? 'Yes' : 'No';
+                                
+                                    // if this zone was not created by the admin, then send out a notification email
+                                    $message = '<b>New NginAd Publisher Zone Edited by ' . $this->true_user_name . '.</b><br /><br />';
+                                    $message = $message.'<table border="0" width="10%">';
+                                    $message = $message.'<tr><td><b>WebDomain: </b></td><td>'.$DomainObj->WebDomain.'</td></tr>';
+                                    $message = $message.'<tr><td><b>AdName: </b></td><td>'.$editResultObj->AdName.'</td></tr>';
+                                    $message = $message.'<tr><td><b>Description: </b></td><td>'.$editResultObj->Description.'</td></tr>';
+                                    $message = $message.'<tr><td><b>PassbackAdTag: </b></td><td>'.$editResultObj->PassbackAdTag.'</td></tr>';
+                                    $message = $message.'<tr><td><b>FloorPrice: </b></td><td>'.$editResultObj->FloorPrice.'</td></tr>';
+                                    $message = $message.'<tr><td><b>IsMobile: </b></td><td>'.$is_mobile.'</td></tr>';
+                                    $message = $message.'<tr><td><b>FloorPrice: </b></td><td>'.$editResultObj->FloorPrice.'</td></tr>';
+                                    $message = $message.'<tr><td><b>Ad Tag Size: </b></td><td>'.$editResultObj->Width.'x'.$editResultObj->Height.'</td></tr>';
+                                    $message = $message.'<tr><td><b>AdOwnerID: </b></td><td>'.$editResultObj->AdOwnerID.'</td></tr>';
+                                    $message = $message.'<tr><td><b>ImpressionType: </b></td><td>'.$editResultObj->ImpressionType.'</td></tr>';
+                                    $message = $message.'<tr><td><b>Approved: </b></td><td>'.$is_approved.'</td></tr>';
+                                    $message = $message.'</table>';
+                                    
+                                    $subject = "New NginAd Publisher Zone Edited by " . $this->true_user_name;
+                                    
+                                    $transport = $this->getServiceLocator()->get('mail.transport');
+                                    
+                                    $text = new Mime\Part($message);
+                                    $text->type = Mime\Mime::TYPE_HTML;
+                                    $text->charset = 'utf-8';
+                                    
+                                    $mimeMessage = new Mime\Message();
+                                    $mimeMessage->setParts(array($text));
+                                    $zf_message = new Message();
+                                    
+                                    $zf_message->addTo($this->config_handle['mail']['admin-email']['email'], $this->config_handle['mail']['admin-email']['name'])
+                                    ->addFrom($this->config_handle['mail']['reply-to']['email'], $this->config_handle['mail']['reply-to']['name'])
+                                    ->setSubject($subject)
+                                    ->setBody($mimeMessage);
+                                    $transport->send($zf_message);
+                                    
+                                endif;
+                                
+                                return $this->redirect()->toRoute('publisher/zone',array('param1' => $DomainObj->PublisherWebsiteID));
+                            }
+                            catch(\Zend\Db\Adapter\Exception\InvalidQueryException $e) {
+                                $error_message ="ERROR " . $e->getCode().  ": A database error has occurred, please contact customer service.";
+                                $error_message .= "Details: " . $e->getMessage();
+                            }
+                        
+                        else:
+                        
+                            $error_message = "ERROR: Required fields are not filled in or invalid input.";
+                        endif;
+                    
+                    
+                    else:
+                    
+                        //OK Display edit.
+                    endif;
+                    
+                
+                else:
+                
+                    $error_message = "An invalid Ad Zone ID was provided.";
+                endif;
+                
+            
+            else: 
+            
+                $error_message = "An invalid Ad Zone ID was provided.";
+            endif;
+        endif;
+        
+        return array(
+                'error_message' => $error_message,
+                'is_admin' => $this->is_admin,
+                'user_id_list' => $this->user_id_list_publisher,
+                'effective_id' => $this->EffectiveID,
+                'impersonate_id' => $this->ImpersonateID,
+                'domain_obj' => $DomainObj,
+                'current_publisheradzonetype'  => $current_publisheradzonetype,
+                'publisheradzonetype_options'  => $this->getPublisherAdZoneTypeOptions(),
+                'editResultObj' => $editResultObj,
+                'AdTemplateList' => $this->get_ad_templates(),
+                'true_user_name' => $this->true_user_name,
+                'dashboard_view' => 'publisher',
+                'user_identity' => $this->identity(),
+                'header_title' => 'Edit Ad Zone',
+                
+                'fold_pos' => \util\BannerOptions::$fold_pos,
+                'linearity' => \util\BannerOptions::$linearity,
+                'start_delay' => \util\BannerOptions::$start_delay,
+                'playback_methods' => \util\BannerOptions::$playback_methods,
+                'delivery_methods' => \util\BannerOptions::$delivery_methods,
+                'apis_supported' => \util\BannerOptions::$apis_supported,
+                'protocols' => \util\BannerOptions::$protocols,
+                'mimes' => \util\BannerOptions::$mimes,
+                
+                'current_mimes' => $current_mimes,
+                
+                'current_min_duration' => $current_min_duration,
+                'current_max_duration' => $current_max_duration,
+                
+                'current_apis_supported' => $current_apis_supported,
+                'current_protocols' => $current_protocols,
+                'current_delivery_methods' => $current_delivery_methods,
+                'current_playback_methods' => $current_playback_methods,
+                'current_start_delay' => $current_start_delay,
+                'current_linearity' => $current_linearity,
+                'current_fold_pos' => $current_fold_pos
+                
         );
     }
     

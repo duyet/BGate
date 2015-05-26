@@ -21,6 +21,11 @@ class PublisherWebsite
     public $Description;
     public $DateCreated;
     public $DateUpdated;
+
+    public function ApprovalStatus(){
+        $approval_mapper = array(1=>"Auto-Approved", 2=>"Stop", 3=> "Running");
+        return $approval_mapper[$this->ApprovalFlag];
+    }
 }
 
 ?>

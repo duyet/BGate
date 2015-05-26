@@ -87,7 +87,7 @@ class SignupController extends PublisherAbstractActionController {
 			$initialized = $this->initialize();
 			if ($initialized === true) $this->redirect()->toRoute($this->dashboard_home);
     	endif;
-    	
+    	die;
     	$error_msg = null;
 		$success_msg = null;
     	$request = $this->getRequest();
@@ -216,7 +216,14 @@ class SignupController extends PublisherAbstractActionController {
 		$IABCategory = $request->getPost('IABCategory');
 		$Password	 = $request->getPost('Password');
 		$user_login	 = $request->getPost('user_login');
-		
+
+		$first_name = $request->getPost("FirstName");
+		$last_name = $request->getPost("LastName");
+		$country = $request->getPost("Country");
+		$city = $request->getPost("City");
+		$addr = $request->getPost("Addr");
+		$DomainDescribe = $request->getPost("DomainDescribe");
+
 		$Password = str_replace(array("'",";"), array("",""), $Password);
 		
 		if (preg_match('/[^-_. 0-9A-Za-z]/', $Name)
@@ -237,7 +244,13 @@ class SignupController extends PublisherAbstractActionController {
 		$PublisherInfo->Domain			=	$Domain;
 		$PublisherInfo->IABCategory		=	$IABCategory;
 		$PublisherInfo->DateCreated		=	date("Y-m-d H:i:s");
-		
+		$PublisherInfo->FirstName 		=	$first_name;
+		$PublisherInfo->LastName 		=	$last_name;
+		$PublisherInfo->Country 		=	$country;
+		$PublisherInfo->City 			=	$city;
+		$PublisherInfo->Addr 			=	$addr;
+		$PublisherInfo->DomainDescribe	=	$DomainDescribe;
+
 		$error_msg = null;
 		$success_msg = null;
 		
@@ -328,10 +341,14 @@ class SignupController extends PublisherAbstractActionController {
 		
 		$PublisherInfo = new \model\PublisherInfo();
 		$PublisherInfoFactory = \_factory\PublisherInfo::get_instance();
-				
+		
 		$userData = $authUsersFactory->get_row(array("user_id" => $this->auth->getUserID()));
 		$userRole = $this->auth->getRoles();
 		$userRole = $userRole[0];
+
+		if($userRole == 'member'):
+			$PublisherInfo = $PublisherInfoFactory->get_row_object(array("PublisherInfoID" => $userData->PublisherInfoID));
+		endif;
 
 		$request = $this->getRequest();
 	    if ($request->isPost()):
@@ -340,10 +357,24 @@ class SignupController extends PublisherAbstractActionController {
 			$description = $request->getPost('description');
 			
 			if($userRole == 'member'):
-				$PublisherInfo = $PublisherInfoFactory->get_row_object(array("PublisherInfoID" => $userData->PublisherInfoID));
+				$first_name = $request->getPost("FirstName");
+				$last_name = $request->getPost("LastName");
+				$country = $request->getPost("Country");
+				$city = $request->getPost("City");
+				$addr = $request->getPost("Addr");
+				$DomainDescribe = $request->getPost("DomainDescribe");
+				$IABCategory = $request->getPost('IABCategory');
+
 				$PublisherInfo->PublisherInfoID = $userData->PublisherInfoID;
 				$PublisherInfo->Name		    = $name;
 				$PublisherInfo->DateUpdated		= date("Y-m-d H:i:s");
+				$PublisherInfo->FirstName 		=	$first_name;
+				$PublisherInfo->LastName 		=	$last_name;
+				$PublisherInfo->Country 		=	$country;
+				$PublisherInfo->City 			=	$city;
+				$PublisherInfo->Addr 			=	$addr;
+				$PublisherInfo->IABCategory		=	$IABCategory;
+				$PublisherInfo->DomainDescribe	=	$DomainDescribe;
 				$PublisherInfoFactory->savePublisherInfo($PublisherInfo);
 			endif;
 			
@@ -382,7 +413,8 @@ class SignupController extends PublisherAbstractActionController {
 				'is_admin' => $this->is_admin,
 				'effective_id' => $this->auth->getEffectiveIdentityID(),
 				'impersonate_id' => $this->ImpersonateID,
-				'vertical_map' => \util\DeliveryFilterOptions::$vertical_map
+				'vertical_map' => \util\DeliveryFilterOptions::$vertical_map,
+				'publisher_info' => $PublisherInfo
 	    ));
 	    
 	  return $view->setTemplate('dashboard-manager/auth/account.phtml');
@@ -499,7 +531,6 @@ class SignupController extends PublisherAbstractActionController {
 	}
 	
 	public function customersAction() {
-		
 		$initialized = $this->initialize();
 		if ($initialized !== true) return $initialized;
 		

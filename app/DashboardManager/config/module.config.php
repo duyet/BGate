@@ -205,6 +205,16 @@ return array(
             				),
             		),
             ),
+            'publisher_dashboard' => array(
+                    'type'    => 'segment',
+                    'options' => array(
+                            'route'    =>  '/dashboard',
+                            'defaults' => array(
+                                    'controller' => 'DashboardManager\Controller\Publisher',
+                                    'action'     => 'dashboard',
+                            ),
+                    ),
+            ),
             'publisher' => array(
             		'type'    => 'Literal',
             		'options' => array(
