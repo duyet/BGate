@@ -175,21 +175,21 @@ return array(
             				),
             		),
             ),
-			'report' => array(
-                    'type'    => 'segment',
-                    'options' => array(
-                            'route'    =>  '/report[/[:action[/[:param1[/]]]]]',
-                            'constraints' => array(
-                                    'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                    'param1'     => '[0-9]+',
-                            ),
-                            'defaults' => array(
-                                    '__NAMESPACE__' => 'DashboardManager\Controller',
-                                    'controller' => 'DashboardManager\Controller\Report',
-                                    'action'     => 'index',
-                            ),
-                    ),
-            ),
+			// 'report' => array(
+   //                  'type'    => 'segment',
+   //                  'options' => array(
+   //                          'route'    =>  '/report[/[:action[/[:param1[/]]]]]',
+   //                          'constraints' => array(
+   //                                  'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+   //                                  'param1'     => '[0-9]+',
+   //                          ),
+   //                          'defaults' => array(
+   //                                  '__NAMESPACE__' => 'DashboardManager\Controller',
+   //                                  'controller' => 'DashboardManager\Controller\Report',
+   //                                  'action'     => 'index',
+   //                          ),
+   //                  ),
+   //          ),
             'demand' => array(
             		'type'    => 'segment',
             		'options' => array(
