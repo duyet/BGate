@@ -319,7 +319,7 @@ class SignupController extends PublisherAbstractActionController {
 	    		'dashboard_view' => 'signup'
 	    ));
 	    
-	    return $view->setTemplate('dashboard-manager/signup/index.phtml');
+	    return $view->setTemplate('dashboard-manager/auth/login.phtml');
 		
 	}
 	

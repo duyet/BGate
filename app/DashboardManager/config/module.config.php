@@ -155,8 +155,8 @@ return array(
             				),
             				'defaults' => array(
             						'__NAMESPACE__' => 'DashboardManager\Controller',
-            						'controller' => 'DashboardManager\Controller\Signup',
-            						'action'     => 'index',
+            						'controller' => 'DashboardManager\Controller\Auth',
+            						'action'     => 'login',
             				),
             		),
             ),
