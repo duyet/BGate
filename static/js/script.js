@@ -775,6 +775,32 @@ $().ready(function() {
 	});
 	
 	
+	// Forgot password form validation
+	var validator = $("#revocerform").bind("invalid-form.validate", function() {
+			if(document.getElementById("cdn_form_msg")) $("#cdn_form_msg").css("display","none");
+
+		}).validate({
+		rules: {
+           username: {  
+               required:  {
+                   depends:function(){
+                       $(this).val($.trim($(this).val()));
+                       return true;
+                   }   
+               },
+               validateemail: true
+           }
+		},
+		errorContainer: $("#cdn_form_msg"),
+		errorClass: 'cdn_form_error',
+		highlight: function(element, errorClass, validClass) {
+			$(element).parent().addClass("error");
+		},
+		unhighlight: function(element, errorClass, validClass) {
+			$(element).parent().removeClass("error");
+		}
+	});
+
 	// Profile form validation
 	var validator = $("#accountform").bind("invalid-form.validate", function() {
 			$("#cdn_form_msg").html("Required fields are missing.");

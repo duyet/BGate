@@ -1,5 +1,5 @@
 <?php
-$this->headScript()->prependFile($this->basePath() . '/js/script.js');
+$this->headScript()->prependFile($this->basePath() . '/static/js/script.js');
 ?>
 
  <?php
@@ -11,7 +11,14 @@ $this->headScript()->prependFile($this->basePath() . '/js/script.js');
                 
                   echo '<div id="cdn_form_success" class="alert alert-success" style="margin: 5px;">Account created successfully. You will receive a welcome email when your account is approved by our Ad Operations Team</div>';
                 endif;
+
+              if(isset($recover_success) && $recover_success != null):
+                
+                  echo '<div id="cdn_form_success" class="alert alert-success" style="margin: 5px;">Your password has been re-generate successfully, please check your email in few minutes.</div>';
+                endif;
               ?>  
+              ?>  
+
 <div class="container">
   
   <div class="row">
@@ -47,8 +54,8 @@ $this->headScript()->prependFile($this->basePath() . '/js/script.js');
                 <!-- rememberme-->
                 
                 <div class="controls">
-                  <label style="display: inline" for="rememberme" class="icheckbox_flat checked"> <input type="checkbox" id="rememberme" name="rememberme" class="iCheck-helper" />&nbsp;Remember Me</label>
-                  <!-- <a href="#" class="pull-right">Forgot your password?</a> -->
+                  <label > <input type="checkbox" id="rememberme" name="rememberme"/>&nbsp;Remember Me</label>
+                  <a href="<?php echo $this->basePath() ?>/auth/recover" class="pull-right">Forgot your password?</a>
                 </div>
               </div>
               

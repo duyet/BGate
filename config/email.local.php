@@ -6,8 +6,8 @@ return array(
 			'name'	=> 'BGate Admin'
 			),
 	'reply-to' => array(
-				'email' => 'admin@localhost',
-				'name'	=> 'NginAd Ad Server'
+				'email' => 'admin@infosys.uit.edu.vn',
+				'name'	=> 'BGate Ad Server'
 			),
 	/*
 	 * Here you can elect to subscribe to get
@@ -21,6 +21,7 @@ return array(
 		'campaigns'			=> true,
 		'signups'			=> true,
 		'websites'			=> true,
+		'recover_password'  => true,
 		// dashboard user emails settings
 		'user_zones'		=> true,
 		'user_domains'		=> true,
@@ -30,13 +31,13 @@ return array(
     	// if SMTP is false sendmail will be used
     	'smtp'	  => true,
         'options' => array(
-            'name'              => 'smtp.mandrillapp.com',
-            'host'              => 'smtp.mandrillapp.com',
+            'name'              => 'smtp.sendgrid.net',
+            'host'              => 'smtp.sendgrid.net',
             'port'              => 587,
             'connection_class'  => 'plain',
             'connection_config' => array(
-                'username' => 'lvduit08@gmail.com',
-                'password' => 'miECKsIPlOML0dEwUuUZCg',
+                'username' => 'nmadtu',
+                'password' => '123tranphu',
                 'ssl' => 'tls'
             ),
         ),  

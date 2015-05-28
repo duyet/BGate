@@ -11,13 +11,11 @@ namespace DashboardManager\Controller;
 use Zend\Mvc\Controller\AbstractActionController as ZendAbstractActionController;
 use Zend\Session\Container; 
 use Zend\View\Model\ViewModel;
-
+use Zend\Mail\Message;
+use Zend\Mime;
 /**
  * Authentication Action Controller class to handle user login of the
  * management dashboard.
- * 
- * @author Christopher Gu, Kelvin Mok
- *
  */
 class AuthController extends ZendAbstractActionController {
     protected $storage;
@@ -74,6 +72,64 @@ class AuthController extends ZendAbstractActionController {
     			'dashboard_view' => 'login'
     	);
     }
+
+    public function recoverAction()
+    {
+        $request = $this->getRequest();
+        if ($request->isPost()):
+            $params["user_email"] = $request->getPost('username');
+            $authUsersFactory = \_factory\authUsers::get_instance();
+            $auth_user = $authUsersFactory->get_row_object($params);
+            if ($auth_user == null):
+                $user_session->message = 'Invalid email';
+            else:
+                
+                $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+                $password = substr(str_shuffle($chars),0,8);
+                
+                $auth_user->user_password = \util\Password::md5_split_salt($password);
+                $authUsersFactory->saveUser($auth_user);
+
+                $config = $this->getServiceLocator()->get('Config');
+                if ($config['mail']['subscribe']['recover_password'] === true):
+        
+                    $message = 'We have successfully generated your new Bgate password <br><br> Your new password: <b>' . $password . "</b><br><br>Please log in and change your password for security  <br><br> Thank you. <br> BDA team";
+                   
+                    $subject = "[BgateProject] Your new BGate password! ";
+                    
+                    $transport = $this->getServiceLocator()->get('mail.transport');
+                    
+                    $text = new Mime\Part($message);
+                    $text->type = Mime\Mime::TYPE_HTML;
+                    $text->charset = 'utf-8';
+                    
+                    $mimeMessage = new Mime\Message();
+                    $mimeMessage->setParts(array($text));
+                    $zf_message = new Message();
+                    
+                    $zf_message->addTo($auth_user->user_email, $auth_user->user_login)
+                    ->addFrom($config['mail']['reply-to']['email'], $config['mail']['reply-to']['name'])
+                    ->setSubject($subject)
+                    ->setBody($mimeMessage);
+                    $transport->send($zf_message);
+                    
+                    $view = new ViewModel(array(
+                        'dashboard_view' => 'signup',
+                        'recover_success' => 1,
+                    ));
+                    return $view->setTemplate('dashboard-manager/auth/login.phtml');
+                endif;
+                
+            endif;
+            
+        endif;
+         return array(
+            'center_class' => 'centerj',
+            'dashboard_view' => 'login'
+        );
+        
+    }
+
 
     public function authenticateAction()
     {
