@@ -23,6 +23,7 @@ var DomainTable = {
         "bLengthChange": false,
         "serverSide": true,
         "iDisplayLength": 10,
+        "scrollX": true,
         "dom": '<"row" <"col-sm-8 custom-filter"> <"col-sm-4" f> >r<"datatable-wrapper" t> <"row mrg20B" <"col-sm-6" il> <"col-sm-6"p> >',
         "order": [[1,"asc"]],
         "autoWidth": false,

@@ -132,11 +132,14 @@ class DemandCustomerInfo extends \_factory\CachedTableRead
     	
     	$data['DemandCustomerInfoID'] = $DemandCustomerInfo->DemandCustomerInfoID;
     	$data['Name']          	 = $DemandCustomerInfo->Name;
-        $data['Website']   	 = $DemandCustomerInfo->Website;
         $data['Company']   	 = $DemandCustomerInfo->Company;
     	$data['Email']       = $DemandCustomerInfo->Email;
-    	$data['PartnerType'] = $DemandCustomerInfo->PartnerType; 
-    	
+        $data['ContactNo']     = $DemandCustomerInfo->ContactNo;
+        $data['Debuty']     = $DemandCustomerInfo->Debuty;
+        $data['Title']     = $DemandCustomerInfo->Title;
+        $data['Tax']     = $DemandCustomerInfo->Tax;
+        $data['Phone']     = $DemandCustomerInfo->Phone;
+        
     	$DemandCustomerInfoID = (int)$DemandCustomerInfo->DemandCustomerInfoID;
     	if ($DemandCustomerInfoID === 0): 
     		$data['DateCreated']  = $DemandCustomerInfo->DateCreated;

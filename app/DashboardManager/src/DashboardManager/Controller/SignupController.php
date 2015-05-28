@@ -79,7 +79,7 @@ class SignupController extends PublisherAbstractActionController {
 		return $this->getResponse()->setContent(json_encode($data));
 	}
 	
-	public function customerAction()
+	public function advertiserAction()
 	{	    
 		$auth = $this->getServiceLocator()->get('AuthService');
 		$config = $this->getServiceLocator()->get('Config');
@@ -87,7 +87,7 @@ class SignupController extends PublisherAbstractActionController {
 			$initialized = $this->initialize();
 			if ($initialized === true) $this->redirect()->toRoute($this->dashboard_home);
     	endif;
-    	die;
+    	
     	$error_msg = null;
 		$success_msg = null;
     	$request = $this->getRequest();
@@ -97,23 +97,13 @@ class SignupController extends PublisherAbstractActionController {
 			$Password	 = $request->getPost('password');
 			$user_login	 = $request->getPost('user_login');
 
-			$FirstName = $request->getPost('FirstName');
-			$LastName = $request->getPost('LastName');
-			$Country = $request->getPost('Country');
-			$City = $request->getPost('City');
-			$Addr = $request->getPost('Addr');
-
-			$Name	     = $request->getPost('customer_name');
-			$Website	 = $request->getPost('website');
-			$WebsiteDecs = $request->getPost("DomainDescribe");
-			
+			$Name = $request->getPost('customer_name');
+			$Company = $request->getPost('company');
 			$Password = str_replace(array("'",";"), array("",""), $Password);
 			
 			if (preg_match('/[^-_. 0-9A-Za-z]/', $Name)
 				|| !filter_var($Email, FILTER_VALIDATE_EMAIL)
-				|| empty($Website) || preg_match('/[^-_. 0-9A-Za-z]/', $Website)
 				|| empty($Company) || preg_match('/[^-_. 0-9A-Za-z]/', $Company)
-				|| empty($PartnerType)
 				|| empty($Password)
 				|| !ctype_alnum($user_login)):
 			
@@ -123,10 +113,14 @@ class SignupController extends PublisherAbstractActionController {
 			$DemandCustomerInfo = new \model\DemandCustomerInfo();
 			$DemandCustomerInfoFactory = \_factory\DemandCustomerInfo::get_instance();
 			
-			$DemandCustomerInfo->Name		    = 	$Name;
-			$DemandCustomerInfo->Email			=	$Email;
-			$DemandCustomerInfo->Website		=	$Website;
-			$DemandCustomerInfo->PartnerType	=	$PartnerType;
+			$DemandCustomerInfo->Name		    = 	 $Name;
+			$DemandCustomerInfo->Email			=	 $Email;
+			$DemandCustomerInfo->Company	    = 	 $Company;
+			$DemandCustomerInfo->ContactNo	    = 	 $request->getPost('contact_no');
+			$DemandCustomerInfo->Debuty		    = 	 $request->getPost('debuty');
+			$DemandCustomerInfo->Title		    = 	 $request->getPost('title');
+			$DemandCustomerInfo->Tax		    = 	 $request->getPost('tax');
+			$DemandCustomerInfo->Phone		    = 	 $request->getPost('phone');
 			$DemandCustomerInfo->DateCreated	=	date("Y-m-d H:i:s");
 			
 			$authUsers = new \model\authUsers();
@@ -142,9 +136,9 @@ class SignupController extends PublisherAbstractActionController {
 				$authUsers->user_email		      	= $Email;
 				$authUsers->user_password	      	= \util\Password::md5_split_salt($Password);
 				$authUsers->user_role		      	= 3; //role as member
-				$authUsers->user_enabled	      	= 0; 
-				$authUsers->user_verified         	= 0; 
-				$authUsers->user_agreement_accepted = 0;
+				$authUsers->user_enabled	      	= 1; 
+				$authUsers->user_verified         	= 1; 
+				$authUsers->user_agreement_accepted = $request->getPost('aggreement');
 				$authUsers->create_date	   	      	= date("Y-m-d H:i:s");
 				
 				$authUsersFactory->saveUser($authUsers);
@@ -187,6 +181,15 @@ class SignupController extends PublisherAbstractActionController {
 			else:
 				$error_msg = "ERROR: A duplicate Account may exist. Please try another.";
 			endif;
+			
+			$view = new ViewModel(array(
+	    		'dashboard_view' => 'signup',
+	    		'error_msg' => $error_msg,
+	    		'success_msg' => $success_msg,
+	    		'partner_type' => \util\DeliveryFilterOptions::$partner_type
+	    	));
+			return $view->setTemplate('dashboard-manager/auth/login.phtml');
+
 		endif;
     	
 	    

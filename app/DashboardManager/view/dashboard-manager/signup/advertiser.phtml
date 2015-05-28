@@ -1,0 +1,130 @@
+<?php
+$this->headScript()->prependFile($this->basePath() . '/static/js/script.js');
+$this->headScript()->prependFile($this->basePath() . '/static/js/signup.js');
+?>
+
+
+<div class="docs-header">
+  <div class="topic">
+        <div class="container">
+      <div class="col-md-8">
+        <h3>Create Demand Customer Account.</h3>
+      </div>
+      <div class="col-md-4">
+      
+          </div>
+        </div>
+        <div class="topic__infos">
+          <div class="container">
+              <a href="<?php echo $this->basePath() ?>/signup">Publishers Sign-up Here</a>
+          </div>
+        </div>
+      </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <br />
+    <div class="col-md-8 col-md-offset-2 panel panel-default">
+      <div class="panel-body">
+        <form id="customersignupform" name="customersignupform" class="form-horizontal form-top-magin" method="post" action="<?php echo $this->basePath() ?>/signup/advertiser">
+          <?php 
+              if(isset($error_msg) && $error_msg != null):
+              
+                echo '<div id="cdn_form_error" class="alert alert-error" style="margin: 5px;">'.$error_msg.'</div>';
+              endif;
+              if(isset($success_msg) && $success_msg != null):
+              
+                echo '<div id="cdn_form_success" class="alert alert-success" style="margin: 5px;">Account created successfully. You will receive a welcome email when your account is approved by our Ad Operations Team</div>';
+              endif;
+          ?>
+          <div id="cdn_form_dynamic_msg" class="alert alert-error" style="margin: 5px; display:none;"></div>
+          <div id="cdn_form_msg" class="alert alert-error" style="margin: 5px; display:none;"></div>
+
+          <div class="form-group mrg20B mrg10T underline">
+              <h4 class="mrg0A">Account Information</h4>    
+            </div>
+          <div class="form-group">
+              <label for="Email" class="control-label col-sm-3">Email</label>
+              <div class="controls col-sm-7">
+              <input type="text" value="" class="form-control" maxlength="50" name="email" id="email" placeholder="me@example.com">
+              </div>
+          </div>
+          <div class="form-group">
+              <label for="Username" class="control-label col-sm-3">Username</label>
+              <div class="controls col-sm-7">
+                <input type="text" value="" class="form-control" maxlength="50" name="user_login" id="user_login" placeholder="username">
+              </div>
+          </div>
+          <div class="form-group">
+              <label for="Password" class="control-label col-sm-3">Password</label>
+              <div class="controls col-sm-7">
+              <input type="password" value="" class="form-control" name="password" id="password">    </div>
+          </div> 
+          
+          <div class="form-group">
+              <label for="Confirm Password" class="control-label col-sm-3">Confirm Password</label>
+              <div class="controls col-sm-7">
+              <input type="Password" value="" class="form-control"  name="confirm_password" id="confirm_password">    </div>
+          </div> 
+
+          <div class="form-group">
+              <label for="Customer Name" class="control-label col-sm-3">Full Name</label>
+              <div class="controls col-sm-7">
+              <input type="text" value="" class="form-control" maxlength="100" name="customer_name" id="customer_name" placeholder="Name">    </div>
+          </div>
+
+          <div class="form-group mrg20B mrg10T underline">
+              <h4 class="mrg0A">Invoice Information</h4>    
+            </div>
+          
+          
+          <div class="form-group">
+              <label for="Company" class="control-label col-sm-3">Company Name</label>
+              <div class="controls col-sm-7">
+              <input type="text" value="" class="form-control" maxlength="50" name="company" id="company" placeholder="">    </div>
+          </div>
+          <div class="form-group">
+              <label for="contact_no" class="control-label col-sm-3">Contact No</label>
+              <div class="controls col-sm-7">
+              <input type="text" value="" class="form-control" maxlength="50" name="contact_no" id="contact_no" placeholder="">    </div>
+          </div>
+          <div class="form-group">
+              <label for="debuty" class="control-label col-sm-3">Debuty</label>
+              <div class="controls col-sm-7">
+              <input type="text" value="" class="form-control" maxlength="50" name="debuty" id="debuty" placeholder="">    </div>
+          </div>
+          <div class="form-group">
+              <label for="title" class="control-label col-sm-3">Title</label>
+              <div class="controls col-sm-7">
+              <input type="text" value="" class="form-control" maxlength="50" name="title" id="title" placeholder="">    </div>
+          </div>
+          <div class="form-group">
+              <label for="address" class="control-label col-sm-3">Address</label>
+              <div class="controls col-sm-7">
+              <input type="text" value="" class="form-control" maxlength="50" name="address" id="address" placeholder="">    </div>
+          </div>
+          <div class="form-group">
+              <label for="tax" class="control-label col-sm-3">Tax No</label>
+              <div class="controls col-sm-7">
+              <input type="text" value="" class="form-control" maxlength="50" name="tax" id="tax" placeholder="">    </div>
+          </div>
+          <div class="form-group">
+              <label for="phone" class="control-label col-sm-3">Phone number</label>
+              <div class="controls col-sm-7">
+              <input type="text" value="" class="form-control" maxlength="50" name="phone" id="phone" placeholder="">    </div>
+          </div>
+           <hr>
+            <div class="form-group">
+              <label style="display: inline" class="icheckbox_flat checked"> <input id="accept-agreement" type="checkbox" class="iCheck-helper" name="aggreement" value="1" />&nbsp;By checking this box I confirm I have read, understand, acknowledge and accept <a href="">Privacy policy</a> and <a href="">User Agreement</a></label>
+            </div>
+          <div class="text-center">
+              <button name="b1" type="button" class="btn btn-success btn-lg btn-margin customersignupform" disabled id="submitbutton" >Create Account</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<br />

@@ -19,6 +19,12 @@ class DemandCustomerInfo {
     public $PartnerType;
     public $DateCreated;
     public $DateUpdated;
+    public $ContactNo;
+    public $Debuty;
+    public $Title;
+    public $Address;
+    public $Tax;
+    public $Phone;
 
 }
 
