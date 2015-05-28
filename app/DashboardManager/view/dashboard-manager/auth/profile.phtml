@@ -1,0 +1,126 @@
+<div class="docs-header">
+  <div class="topic">
+        <div class="container">
+          <h4>User Information</h4>
+        </div>
+  </div>
+</div>
+
+<?php
+$this->headScript()->prependFile($this->basePath() . '/js/script.js');
+?>
+
+<div class="bs-docs-example">
+      <?php 
+      if(isset($success_msg) && $success_msg != null):
+            echo '<div id="cdn_form_success" class="alert alert-success" style="margin: 5px;">Account updated successfully.</div>';
+        endif;
+        ?>
+
+<div id="cdn_form_msg" class="alert alert-error" style="margin: 5px; display:none;"></div>
+<div class="container">
+  <div class="row">
+    <br />
+    <div class="col-md-8 col-md-offset-2 panel panel-default">
+        <div class="panel-body">
+      <form id="accountform" name="accountform" class="form-horizontal form-top-magin">
+        <fieldset>
+          <div class="form-group mrg20B mrg10T underline">
+            <h4 class="mrg0A">Account Information</h4>    
+          </div>
+
+          <div class="form-group">
+              <div class="col-sm-3"><p class="text-right"><strong>Email</strong></p></div>
+              <div class="controls col-sm-7">
+              <p><?php echo $user_data->user_email;?></p>
+              </div>
+          </div>
+
+          <div class="form-group">
+              <div class="col-sm-3"><p class="text-right"><strong>Username</strong></p></div>
+              <div class="controls col-sm-7">
+              <p><?php echo $user_data->user_fullname;?></p>
+              </div>
+          </div>
+          <div class="form-group mrg20B underline">
+              <h4 class="mrg0A">Contact Information</h4>    
+            </div>
+            <div class="form-group">
+                <div class="col-sm-3"><p class="text-right"><strong>First Name</strong></p></div>
+                <div class="controls col-sm-7">
+                <p><?php echo $publisher_info->FirstName ?></p>                
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-3"><p class="text-right"><strong>Last Name</strong></p></div>
+                <div class="controls col-sm-7">
+                <p><?php echo $publisher_info->LastName ?></p>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-3"><p class="text-right"><strong>Country</strong></p></div>
+                <div class="controls col-sm-7">
+                <p><?php echo $publisher_info->Country ?></p>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-3"><p class="text-right"><strong>City</strong></p></div>
+                <div class="controls col-sm-7">
+                <p><?php echo $publisher_info->City ?></p>                
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-3"><p class="text-right"><strong>Address</strong></p></div>
+                <div class="controls col-sm-7">
+                <p><?php echo $publisher_info->Addr ?></p>
+                </div> 
+            </div>
+            <div class="form-group mrg20B underline">
+              <h4 class="mrg0A">Site Information</h4>    
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-3"><p class="text-right"><strong>Publisher Name</strong></p></div>
+                <div class="controls col-sm-7">
+                <p><?php echo $publisher_info->Name ?></p>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-3"><p class="text-right"><strong>Website</strong></p></div>
+                <div class="controls col-sm-7">
+                <p><?php echo $publisher_info->Name ?></p>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-3"><p class="text-right"><strong>Website Describe</strong></p></div>
+                <div class="controls col-sm-7">
+                <p><?php echo $publisher_info->DomainDescribe ?></p>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-3"><p class="text-right"><strong>IABCategory</strong></p></div>
+                <div class="controls col-sm-7">
+                   <?php 
+                    foreach($vertical_map as $key=>$value): 
+                      if ($key==$publisher_info->IABCategory):
+                        echo '<p>'. $value .'</p>';
+                        break;
+                      endif;
+                    endforeach;
+                 ?>
+              </div>
+
+            </div> 
+          <hr>
+          <div class="form-group text-center">
+            <a href="<?php echo $this->basePath();?>/users/account" class="btn btn-primary">Update account</a>
+          </div>
+        </fieldset>        
+        </form>        
+         
+     </div>
+     </div>
+     </div>
+     </div>
+     </div>
+
