@@ -48,11 +48,11 @@ margin-left: 253px;
 } */
 </style>
     <ul class="breadcrumb">
-    <li><a href="/demand/">Ad Campaigns</a><span class="divider">/</span></li>
+    <li><a href="<?php echo $this->basePath() ?>/demand/">Ad Campaigns</a><span class="divider">/</span></li>
     <li>Create Ad Campaign</li>
     </ul>
 <div id="cdn_form_msg" class="alert alert-error" style="margin: 5px; display: none;"></div>
-<form id="campaignform" class="form-horizontal form-top-magin" name="campaignform" method="POST" action="/demand/newcampaign">
+<form id="campaignform" class="form-horizontal form-top-magin" name="campaignform" method="POST" action="<?php echo $this->basePath() ?>/demand/newcampaign">
 <fieldset>
 	    <div class="control-group">
 		<label for="campaignname">Campaign Name</label>
