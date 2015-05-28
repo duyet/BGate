@@ -26,7 +26,7 @@ $().ready(function() {
 			return false;
 		}
 		
-		  $.getJSON( "/signup/checkduplicate?email=" + email + "&login=" + login, function( data ) {
+		  $.getJSON( basePath + "/signup/checkduplicate?email=" + email + "&login=" + login, function( data ) {
 			  if (data.result == 'success') {
 				  $('#' + formId).submit();
 				  $("#submitbutton").prop("disabled", $('#' + formId).valid());
