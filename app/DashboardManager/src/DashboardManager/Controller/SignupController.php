@@ -1026,10 +1026,6 @@ class SignupController extends PublisherAbstractActionController {
         return $this->getResponse()->setContent(json_encode($data));
 	} 
 	public function profileAction() {
-		
-	// }
-	// 	public function accountAction() {
-
 		 $auth = $this->getServiceLocator()->get('AuthService');
 		 if (!$auth->hasIdentity()):
      	 	return $this->redirect()->toRoute('login');
@@ -1045,65 +1041,58 @@ class SignupController extends PublisherAbstractActionController {
 		$DemandCustomerInfo = new \model\DemandCustomerInfo();
 		$DemandCustomerInfoFactory = \_factory\DemandCustomerInfo::get_instance();
 		
-		// $userData = $authUsersFactory->get_row(array("user_id" => $this->auth->getUserID()));
-		// $userRole = $this->auth->getRoles();
-		// $userRole = $userRole[0];
-		// var_dump($userData);
-		// die();
-		// if($userRole == 'member'):
-		// 	$PublisherInfo = $DemandCustomerInfoFactory->get_row_object(array("PublisherInfoID" => $userData->DemandCustomerInfoID));
-		// endif;
+		$userData = $authUsersFactory->get_row(array("user_id" => $this->auth->getUserID()));
+		$userRole = $this->auth->getRoles();
+		$userRole = $userRole[0];
 
-		// $request = $this->getRequest();
-	 //    if ($request->isPost()):
-	 //    	$user_id	 = $request->getPost('user_id');
-	 //    	$name	     = $request->getPost('name');
-		// 	$description = $request->getPost('description');
-			
-		// 	if($userRole == 'member'):
-		// 		$first_name = $request->getPost("FirstName");
-		// 		$last_name = $request->getPost("LastName");
-		// 		$country = $request->getPost("Country");
-		// 		$city = $request->getPost("City");
-		// 		$addr = $request->getPost("Addr");
-		// 		$DomainDescribe = $request->getPost("DomainDescribe");
-		// 		$IABCategory = $request->getPost('IABCategory');
+		if($userRole == 'member'):
+			$demandCustomerData = $DemandCustomerInfoFactory->get_row_object(array("DemandCustomerInfoID" => $userData->DemandCustomerInfoID));
+		endif;
 
-		// 		$PublisherInfo->PublisherInfoID = $userData->PublisherInfoID;
-		// 		$PublisherInfo->Name		    = $name;
-		// 		$PublisherInfo->DateUpdated		= date("Y-m-d H:i:s");
-		// 		$PublisherInfo->FirstName 		=	$first_name;
-		// 		$PublisherInfo->LastName 		=	$last_name;
-		// 		$PublisherInfo->Country 		=	$country;
-		// 		$PublisherInfo->City 			=	$city;
-		// 		$PublisherInfo->Addr 			=	$addr;
-		// 		$PublisherInfo->IABCategory		=	$IABCategory;
-		// 		$PublisherInfo->DomainDescribe	=	$DomainDescribe;
-		// 		$PublisherInfoFactory->savePublisherInfo($PublisherInfo);
-		// 	endif;
+		$request = $this->getRequest();
+	    if ($request->isPost()):
+	    	$user_id	 = $request->getPost('user_id');	    	
+			$user_fullname = $request->getPost('user_fullname');
 			
-		// 	$authUsers = $authUsersFactory->get_row_object(array("user_id" => $this->auth->getUserID()));
+			if($userRole == 'member'):
+				$name = $request->getPost('name');
+				$company = $request->getPost("company");
+				$email = $request->getPost("email");
+				$contactNo = $request->getPost("contactNo");
+				$debuty = $request->getPost("debuty");
+				$title = $request->getPost("title");
+				$tax = $request->getPost("tax");
+				$phone = $request->getPost('phone');
+
+				$DemandCustomerInfo->DemandCustomerInfoID = $userData->DemandCustomerInfoID;
+				$DemandCustomerInfo->Name		    = $name;
+				$DemandCustomerInfo->Company		= $company;
+				$DemandCustomerInfo->Email 			= $email;
+				$DemandCustomerInfo->ContactNo 		= $contactNo;
+				$DemandCustomerInfo->Debuty 		= $debuty;
+				$DemandCustomerInfo->Title 			= $title;
+				$DemandCustomerInfo->Tax 			= $tax;
+				$DemandCustomerInfo->Phone			= $phone;
+				$DemandCustomerInfo->DateCreatedn  	= date("Y-m-d H:i:s");
+				$DemandCustomerInfoFactory->saveCustomerInfo($DemandCustomerInfo);
+			endif;
 			
-		// 	$authUsers->user_id 	     = $user_id;
-		// 	$authUsers->user_fullname 	 = $name;
-		// 	$authUsers->user_description = $description;
-		// 	$authUsers->update_date	   	 = date("Y-m-d H:i:s");
-		// 	$authUsersFactory->saveUser($authUsers);
+			$authUsers = $authUsersFactory->get_row_object(array("user_id" => $this->auth->getUserID()));
 			
-		// 	$success_msg = 1;
-	 //    endif;
+			$authUsers->user_id 	     = $user_id;
+			$authUsers->user_fullname 	 = $user_fullname;
+			$authUsers->update_date	   	 = date("Y-m-d H:i:s");
+			$authUsersFactory->saveUser($authUsers);
+			
+			$success_msg = 1;
+	    endif;
 		
 		$userData = $authUsersFactory->get_row(array("user_id" => $this->auth->getUserID()));
 		$userRole = $this->auth->getRoles();
 		$userRole = $userRole[0];
-		
-		// check if user-role is memeber (publisher)
+
 		if($userRole == 'member'):
 			$demandCustomerData = $DemandCustomerInfoFactory->get_row(array("DemandCustomerInfoID" => $userData->DemandCustomerInfoID));
-			// var_dump($publisherData);
-			// die();
-			// $userData['user_email'] = $publisherData['Email'];
-			// $userData['user_fullname'] = $publisherData['Name'];
 		endif;
 	
 		$view = new ViewModel(array(
@@ -1122,9 +1111,7 @@ class SignupController extends PublisherAbstractActionController {
 				'vertical_map' => \util\DeliveryFilterOptions::$vertical_map,
 				'demand_customer_info' => $demandCustomerData
 	    ));
-	 //    var_dump($view);
-		// die();
-	  return $view->setTemplate('dashboard-manager/auth/profile.phtml');
+	  return $view->setTemplate('dashboard-manager/auth/profile_update.phtml');
 	}
 	
 }
