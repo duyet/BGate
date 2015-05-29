@@ -23,6 +23,10 @@ class AdCampaignPreview {
     public $MaxImpressions;
     public $CurrentSpend;
     public $MaxSpend;
+    public $CPMTarget;
+    public $CPMTargetValue;
+    public $CPCTarget;
+    public $CPCTargetValue;
     public $Active;
     public $DateCreated;
     public $ChangeWentLive;

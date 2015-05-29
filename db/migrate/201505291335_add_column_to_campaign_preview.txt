@@ -1,0 +1,6 @@
+ALTER TABLE `bgate`.`AdCampaignPreview` 
+ADD COLUMN `CPMTarget` TINYINT(1) NULL AFTER `MaxSpend`,
+ADD COLUMN `CPMTargetValue` INT(11) NULL AFTER `CPMTarget`,
+ADD COLUMN `CPCTarget` TINYINT(1) NULL AFTER `CPMTargetValue`,
+ADD COLUMN `CPCTargetValue` INT(11) NULL AFTER `CPCTarget`;
+

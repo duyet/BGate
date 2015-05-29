@@ -45,68 +45,87 @@ $(function() {
     });
 });
 <?php $this->headScript()->captureEnd();  ?>
-
-
-    <ul class="breadcrumb">
-    <li><a href="<?php echo $this->basePath() ?>/demand/<?php echo $preview_query; ?>">Ad Campaigns</a> <span class="divider">/</span></li>
-    <li><?php echo $bread_crumb_info["BCAdCampaign"]; ?> <span class="divider">/</span></li>
-    <li class="active">Edit Ad Campaign</li>
-    </ul>
-    
-<div id="cdn_form_msg" class="alert alert-error" style="margin: 5px; display: none;"></div>
-<form id="campaignform" name="campaignform" class="form-horizontal form-top-magin" method="POST" action="<?php echo $this->basePath() ?>/demand/newcampaign">
-<input type="hidden" name="campaignid" value="<?php echo $campaignid;?>">
-<input type="hidden" name="campaignpreviewid" value="<?php echo $campaignpreviewid;?>">
-<input type="hidden" name="ispreview" value="<?php echo $ispreview;?>">
-
-<fieldset>
-    <div class="control-group">
-	<label for="campaignname" >Campaign Name</label>
-   	<input type="text" class="input-medium" name="campaignname" value="<?php echo $campaignname;?>">
-    </div>
-    
-	<div class="control-group">
-      <label for="startdate" >Start Date</label>
-        <div class="input-append date">
-		  <input name="startdate" id="startdate" class="span2" size="16" type="text" value="<?php echo $startdate;?>" readonly="readonly" />
-		  <span class="add-on" id="startdateicon"><i class="icon-calendar"></i></span>
-      </div>
-	</div>
-	
- <div class="control-group">
-	 <label for="enddate" >End Date</label>
-	  <div class="input-append date">
-		  <input name="enddate" id="enddate" class="span2" size="16" type="text" value="<?php echo $enddate;?>" readonly="readonly" />
-		  <span class="add-on" id="enddateicon"><i class="icon-calendar"></i></span>
-	 </div>
-	</div>
-	
-	 <div class="control-group">
-	  <label for="enddate" >Customer Name <span class="hlp"><small><i>(Use this field for your own customer reference if any)</i></small></span></label>
-	 		<input type="text" class="input-medium" name="customername" value="<?php echo $customername;?>"> 
-	 		<span id="<?php echo $cdn_form_error;?>"></span>
-</div>	
-	
-		 <div class="control-group">
-	  <label for="enddate" >Customer ID <span class="hlp"><small><i>(Use this field for your own customer reference if any)</i></small></span></label>
-		<input type="text" name="customerid" class="input-small" value="<?php echo $customerid;?>"> 
-		 </div>
-
- <div class="control-group">
-	  <label for="enddate" >Maximum Impressions: <span class="hlp"><small><i>(Maximum campaign impressions before the bids stop)</i></small></span></label>
-		<input type="text" name="maximpressions" class="input-small" value="<?php echo $maximpressions;?>"> 
- </div>
- 
-  <div class="control-group">
-	  <label for="enddate" >Maximum Spend: <span class="hlp"><small><i>(Maximum campaign $$$ spent before the bids stop)</i></small></span></label>
-    <div class="input-prepend">
-	<span class="add-on">$</span>
-    <input type="text" value="<?php echo $maxspend;?>" class="input-mini" maxlength="20" id="maxspend" name="maxspend">    </div>
+<div class="docs-header">
+  <div class="topic">
+    <div class="row">
+      <div class="col-md-5 col-md-offset-1 col-sm-5 col-sm-offset-1 col-xs-6"><h4>Edit Campaign</h4></div>
     </div>
   </div>
-  
-    <div class="control-group">
-     <input type="submit" class="btn btn-primary btn-margin" name="B1" value="Edit Campaign" />
+</div>
+<div class="container">
+  <div class="row">
+    <br />
+    <div class="col-md-8 col-md-offset-2 panel panel-default">
+      <div class="panel-body">
+        <div id="cdn_form_msg" class="alert alert-error" style="margin: 5px; display: none;"></div>
+        <form id="campaignform" name="campaignform" class="form-horizontal form-top-magin" method="POST" action="<?php echo $this->basePath() ?>/demand/newcampaign">
+          <input type="hidden" name="campaignid" value="<?php echo $campaignid;?>">
+          <input type="hidden" name="campaignpreviewid" value="<?php echo $campaignpreviewid;?>">
+          <input type="hidden" name="ispreview" value="<?php echo $ispreview;?>">
+
+          <div class="form-group">
+            <label for="campaignname" class="control-label col-sm-3">Campaign Name</label>
+            <div class="controls col-sm-7">
+              <input type="text" value="<?php echo $campaignname;?>" maxlength="255" class="form-control" id="campaignname" name="campaignname">    
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="startdate" class="control-label col-sm-3">Start Date</label>
+            <div class="controls col-sm-7">
+              <input type="date" value="<?php $date = date_create($startdate); echo date_format($date,"Y-m-d");?>" maxlength="255" class="form-control" id="startdate" name="startdate">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="enddate" class="control-label col-sm-3">End Date</label>
+            <div class="controls col-sm-7">
+              <input type="date" value="<?php $date = date_create($enddate); echo date_format($date,"Y-m-d");?>" maxlength="255" class="form-control" id="enddate" name="enddate">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="customername" class="control-label col-sm-3">Customer Name <br><sup>(Use this field for your own customer reference if any)</sup></label>
+            <div class="controls col-sm-7">
+              <input type="text" value="<?php echo $customername;?>" maxlength="255" class="form-control" id="customername" name="customername">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="customerid" class="control-label col-sm-3">Customer Id <br><sup>(Use this field for your own customer reference if any)</sup></label>
+            <div class="controls col-sm-7">
+              <input type="text" value="<?php echo $customerid;?>" maxlength="255" class="form-control" id="customerid" name="customerid">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="maximpressions" class="control-label col-sm-3">Maximum Impressions <br><sup>(Maximum campaign impressions before the bids stop)</sup></label>
+            <div class="controls col-sm-7">
+              <input type="number" value="<?php echo $maximpressions;?>" maxlength="255" class="form-control" id="maximpressions" name="maximpressions">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="maxtarget" class="control-label col-sm-3">Maximum target</label>
+            <div class="controls col-sm-7">
+              <input type="checkbox" <?php if ($cpmtarget==1) echo 'checked';?> name="cpmtarget" class="inline"/> CPM
+              <input type="checkbox" <?php if ($cpctarget==1) echo 'checked';?> name="cpctarget" class="inline"/> CPC
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="maxspend" class="control-label col-sm-3">Maximum spend<br><sup>(Maximum campaign $$$ spent before the bids stop)</sup></label>
+            <div class="controls col-sm-7">
+              <input type="number" value="<?php echo $maxspend;?>" maxlength="255" class="form-control" id="maxspend" name="maxspend">
+            </div>
+          </div>
+          <div class="form-group text-center">
+            <div class="controls">
+              <button name="submit" type="submit" class="btn btn-primary btn-margin" id="submitbutton">Update Campaign</button>
+              <a href="<?php echo $this->basePath() ?>/demand" class="btn btn-margin">Cancel</a>
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
-</fieldset>
-</form>
+  </div>
+</div> 
+  

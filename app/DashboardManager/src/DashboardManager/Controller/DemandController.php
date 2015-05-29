@@ -86,7 +86,6 @@ class DemandController extends DemandAbstractActionController {
 	    endif;
 	    
 	    $_ad_campaign_preview_list = $AdCampaignPreviewFactory->get($params);
-
 	    foreach ($_ad_campaign_preview_list as $ad_campaign_preview):
 		    if ($ad_campaign_preview != null):
 		    	$ad_campaign_list[] = $ad_campaign_preview;
@@ -105,7 +104,7 @@ class DemandController extends DemandAbstractActionController {
 	    endforeach;
 
 	    $user_markup_rate *= 100;
-
+	    // var_dump($ad_campaign_list);
 	    $view = new ViewModel(array(
 	    		'ad_campaigns' => $ad_campaign_list,
 	    		'is_admin' => strpos($this->auth->getPrimaryRole(), $this->config_handle['roles']['admin']) !== false,
@@ -121,7 +120,6 @@ class DemandController extends DemandAbstractActionController {
 				'impersonate_id' => $this->ImpersonateID
 
 	    ));
-	    
 	    if ($this->is_admin == false 
 	    	|| ($this->is_admin == true && $this->DemandCustomerInfoID != null && $this->auth->getEffectiveIdentityID() != 0)):
 	    	
@@ -3008,6 +3006,8 @@ class DemandController extends DemandAbstractActionController {
 		$customerid                = $AdCampaign->CustomerID;
 		$maximpressions            = $AdCampaign->MaxImpressions;
 		$maxspend                  = sprintf("%1.2f", $AdCampaign->MaxSpend);
+		$cpmtarget                 = $AdCampaign->CPMTarget;
+		$cpctarget                 = $AdCampaign->CPCTarget;
 
 
 		return new ViewModel(array(
@@ -3021,6 +3021,8 @@ class DemandController extends DemandAbstractActionController {
 				'customerid' => $customerid,
 				'maximpressions' => $maximpressions,
 				'maxspend' => $maxspend,
+				'cpmtarget' => $cpmtarget,
+				'cpctarget' => $cpctarget,
 				'bread_crumb_info' => $this->getBreadCrumbInfoFromAdCampaign($id, $campaign_preview_id, $is_preview),
 				'user_id_list' => $this->user_id_list_demand_customer,
     			'center_class' => 'centerj',
@@ -3081,6 +3083,22 @@ class DemandController extends DemandAbstractActionController {
 	    if (!$customerid) $customerid = "001";
 	    $maximpressions = $this->getRequest()->getPost('maximpressions');
 	    $maxspend = $this->getRequest()->getPost('maxspend');
+	    $cpmtarget = $this->getRequest()->getPost('cpmtarget');
+	    if ($cpmtarget == "on"){
+	    	$cpmtarget=1;
+	    }
+	    else{
+	    	$cpmtarget=0;
+	    }
+	    $cpmtarget_value = "500";
+	    $cpctarget = $this->getRequest()->getPost('cpctarget');
+	    if ($cpctarget == "on"){
+	    	$cpctarget=1;
+	    }
+	    else{
+	    	$cpctarget=0;
+	    }
+	    $cpctarget_value = "1000";
 	    $campaignid = $this->getRequest()->getPost('campaignid');
 	    $campaign_preview_id 		= $this->getRequest()->getPost('campaignpreviewid');
 	    $ispreview 					= $this->getRequest()->getPost('ispreview');
@@ -3132,6 +3150,10 @@ class DemandController extends DemandAbstractActionController {
     	$AdCampaignPreview->MaxImpressions            = $maximpressions;
     	$AdCampaignPreview->CurrentSpend              = 0;
     	$AdCampaignPreview->MaxSpend                  = $maxspend;
+    	$AdCampaignPreview->CPMTarget                 = $cpmtarget;
+    	$AdCampaignPreview->CPMTargetValue            = $cpmtarget_value;
+    	$AdCampaignPreview->CPCTarget                 = $cpctarget;
+    	$AdCampaignPreview->CPCTargetValue            = $cpctarget_value;
     	$AdCampaignPreview->Active                    = 1;
     	$AdCampaignPreview->DateCreated               = date("Y-m-d H:i:s");
     	$AdCampaignPreview->DateUpdated               = date("Y-m-d H:i:s");
@@ -3176,7 +3198,7 @@ class DemandController extends DemandAbstractActionController {
 		    
 	    endif;
 	    
-		$refresh_url = "/demand/?ispreview=true";
+		$refresh_url = "bgate/demand/?ispreview=true";
 		$viewModel = new ViewModel(array('refresh_url' => $refresh_url));
 
 		return $viewModel->setTemplate('dashboard-manager/demand/interstitial.phtml');

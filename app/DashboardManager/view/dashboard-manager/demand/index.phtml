@@ -135,7 +135,6 @@ $effective_user_in_dashboard = false;
              </th>
              <?php endif; ?>
              </tr>
-
       <?php foreach ($ad_campaigns as $ad_campaign) :
           $preview_query = isset($ad_campaign->AdCampaignPreviewID) ? "?ispreview=true" : "";
           if (isset($ad_campaign->AdCampaignPreviewID)):

@@ -47,52 +47,88 @@ $(function() {
 margin-left: 253px;
 } */
 </style>
-    <ul class="breadcrumb">
-    <li><a href="<?php echo $this->basePath() ?>/demand/">Ad Campaigns</a><span class="divider">/</span></li>
-    <li>Create Ad Campaign</li>
-    </ul>
-<div id="cdn_form_msg" class="alert alert-error" style="margin: 5px; display: none;"></div>
-<form id="campaignform" class="form-horizontal form-top-magin" name="campaignform" method="POST" action="<?php echo $this->basePath() ?>/demand/newcampaign">
-<fieldset>
-	    <div class="control-group">
-		<label for="campaignname">Campaign Name</label>
-		<input type="text" class="input-medium" name="campaignname">
-	</div>
-  <div class="control-group">
-	    <label for="startdate">Start Date</label>
-	   <div class="input-append date">
-		  <input name="startdate" id="startdate" class="span2" size="16" type="text" value="<?php echo date('m/d/Y');?>" readonly="readonly" />
-		  <span class="add-on" id="startdateicon"><i class="icon-calendar"></i></span>
-	   </div>
-	</div>
-  <div class="control-group">
-	    <label for="enddate">End Date</label>
-	   <div class="input-append date">
-		  <input name="enddate" id="enddate" class="span2" size="16" type="text" value="<?php echo $enddate;?>" readonly="readonly" />
-		  <span class="add-on" id="enddateicon"><i class="icon-calendar"></i></span>
-	   </div>
-	</div>
-  <div class="control-group">
-		<label for="customername">Customer Name <nobr><span class="hlp"><small><i>(Use this field for your own customer reference if any)</i></small></span></nobr></label>
-		<input type="text" class="input-medium" name="customername">
-	</div>
-	  <div class="control-group">
-		<label for="customerid">Customer ID <nobr><span class="hlp"><small><i>(Use this field for your own customer reference if any)</i></small></span></nobr></label>
-		<input type="text" name="customerid" class="input-small">
-	</div>
-  <div class="control-group">
-		<label for="maximpressions">Maximum Impressions: <nobr><span class="hlp"><small><i>(Maximum campaign impressions before the bids stop)</i></small></span></nobr></label>
-		<input type="text" name="maximpressions" value="1000000"  class="input-small">
-	</div>
-  <div class="control-group">
-		<label for="maxspend">Maximum Spend: <nobr><span class="hlp"><small><i>(Maximum campaign $$$ spent before the bids stop)</i></small></span></nobr></label>
-	    <div class="input-prepend">
-		<span class="add-on">$</span>
-	    <input type="text" value="100.00" class="input-mini" maxlength="20" id="maxspend" name="maxspend">    </div>
-	    </div>
-	</div>
-	  <div class="control-group">
-	   <input type="submit" class="btn btn-primary" name="B1" value="Create New Campaign" />
-	</div>
-</fieldset>
-</form>
+<div class="docs-header">
+  <div class="topic">
+    <div class="row">
+      <div class="col-md-5 col-md-offset-1 col-sm-5 col-sm-offset-1 col-xs-6"><h4>Create Campaign</h4></div>
+    </div>
+  </div>
+</div>
+ <div class="container">
+  <div class="row">
+    <br />
+    <div class="col-md-8 col-md-offset-2 panel panel-default">
+      <div class="panel-body">
+<!--         <?php 
+            if($error_message != "" && $error_message !== null && isset($error_message)):
+              echo '<div id="cdn_form_success" class="alert alert-danger" style="margin: 15px;">'. $error_message .'</div>';
+            endif;
+        ?> -->
+        <div id="cdn_form_msg" class="alert alert-error" style="margin: 5px; display: none;"></div>
+        <form id="campaignform" class="form-horizontal form-top-magin" name="campaignform" method="POST" action="<?php echo $this->basePath() ?>/demand/newcampaign" novalidate="novalidate">
+          <div class="form-group">
+            <label for="campaignname" class="control-label col-sm-3">Campaign Name</label>
+            <div class="controls col-sm-7">
+              <input type="text" value="" maxlength="255" class="form-control" id="campaignname" name="campaignname">    
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="startdate" class="control-label col-sm-3">Start Date</label>
+            <div class="controls col-sm-7">
+              <input type="date" value="" maxlength="255" class="form-control" id="startdate" name="startdate">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="enddate" class="control-label col-sm-3">End Date</label>
+            <div class="controls col-sm-7">
+              <input type="date" value="" maxlength="255" class="form-control" id="enddate" name="enddate">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="customername" class="control-label col-sm-3">Customer Name <br><sup>(Use this field for your own customer reference if any)</sup></label>
+            <div class="controls col-sm-7">
+              <input type="text" value="" maxlength="255" class="form-control" id="customername" name="customername">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="customerid" class="control-label col-sm-3">Customer Id <br><sup>(Use this field for your own customer reference if any)</sup></label>
+            <div class="controls col-sm-7">
+              <input type="text" value="" maxlength="255" class="form-control" id="customerid" name="customerid">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="maximpressions" class="control-label col-sm-3">Maximum Impressions <br><sup>(Maximum campaign impressions before the bids stop)</sup></label>
+            <div class="controls col-sm-7">
+              <input type="number" value="" maxlength="255" class="form-control" id="maximpressions" name="maximpressions">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="maxtarget" class="control-label col-sm-3">Maximum target</label>
+            <div class="controls col-sm-7">
+              <input type="checkbox" name="cpmtarget" class="inline"/> CPM
+              <input type="checkbox" name="cpctarget" class="inline"/> CPC
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="maxspend" class="control-label col-sm-3">Maximum spend<br><sup>(Maximum campaign $$$ spent before the bids stop)</sup></label>
+            <div class="controls col-sm-7">
+              <input type="number" value="" maxlength="255" class="form-control" id="maxspend" name="maxspend">
+            </div>
+          </div>
+
+          <div class="form-group text-center">
+            <div class="controls">
+              <button name="submit" type="submit" class="btn btn-primary btn-margin" id="submitbutton">Create New Campaign</button>
+            </div>
+          </div>
+        </form>        
+      </div>
+    </div>
+  </div>
+</div>
+
