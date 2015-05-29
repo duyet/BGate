@@ -22,6 +22,107 @@ use Zend\Mime;
  */
 class DemandController extends DemandAbstractActionController {
 
+
+	/**
+	 * Display the publisher index page, and list all domains associated.
+	 * 
+	 * @return \Zend\View\Model\ViewModel
+	 */
+	public function campaignlistAction() {
+		$initialized = $this->initialize();
+		if ($initialized !== true) return $initialized;
+
+		$parameters = array(); // Set the parameters to empty first.
+		// sort map array
+		$SortMap = array("1"=> "Name", "3" => "StartDate",  "4" => "EndDate");
+		$OrderArr = $this->getRequest()->getQuery("order");
+		$order = $SortMap[$OrderArr[0]["column"]] . " " . strtoupper($OrderArr[0]["dir"]);
+		
+		// get search value
+		$search = $this->getRequest()->getQuery("search")["value"];
+
+		// pagination value
+		$PageSize = (int) $this->getRequest()->getQuery("length");
+		$Offset =   (int) $this->getRequest()->getQuery("start");
+
+		//Pull list of campaigns.
+		$AdCampaignPreviewFactory = \_factory\AdCampaignPreview::get_instance();
+    // get previews
+    $params = array();
+    $params["Active"] = 1;
+    // $params["Deleted"] = 0;
+    if ($this->is_admin == true && $this->auth->getEffectiveIdentityID() != 0):
+   		$params["UserID"] = $this->auth->getEffectiveUserID();
+    elseif ($this->is_admin == false):
+    	$params["UserID"] = $this->auth->getUserID();
+    endif;
+    
+    $ad_campaign_list = array();
+
+    $_ad_campaign_preview_list = $AdCampaignPreviewFactory->get($params, $order, $search, $PageSize, $Offset);
+
+    foreach ($_ad_campaign_preview_list as $ad_campaign_preview):
+	    if ($ad_campaign_preview != null):
+	    	$ad_campaign_list[] = $ad_campaign_preview;
+	    	if ($ad_campaign_preview->AdCampaignID != null):
+
+			    $ad_campaign_markup = \util\Markup::getMarkupForAdCampaign($ad_campaign_preview->AdCampaignID, $this->config_handle, false);
+
+			    if ($ad_campaign_markup != null):
+			    	$campaign_markup_rate_list[$ad_campaign_preview->AdCampaignID] = $ad_campaign_markup->MarkupRate * 100;
+			    else:
+			    	$campaign_markup_rate_list[$ad_campaign_preview->AdCampaignID] = $user_markup_rate * 100;
+			    endif;
+
+		    endif;
+	    endif;
+    endforeach;
+
+    $CampaignsList = $ad_campaign_list;
+		$TotalCampaignsPreviewCount = $AdCampaignPreviewFactory->get($params, $search);
+
+		$is_admin = $this->is_admin;
+		
+		$basePath = '';
+
+		$result = array();
+		if (count($CampaignsList)> 0):
+				foreach ($CampaignsList AS $row_number => $row_data): 
+					$row = array();
+
+					$row["Id"] = $row_data["AdCampaignPreviewID"];
+
+					//Name
+					$preview_query = isset($row_data["AdCampaignPreviewID"]) ? "?ispreview=true" : "";
+					$row["Name"] = array('name' => $row_data["Name"], "id" => $row_data["AdCampaignPreviewID"], "preview_query" => $preview_query);
+
+					//Status
+					$row["Status"] = '';
+          if (!isset($row_data["AdCampaignPreviewID"])):
+            $row["Status"] = "APROVED";
+          elseif (isset($row_data["Deleted"]) && $row_data["Deleted"] == 1): 
+            $row["Status"] = "DELETED"; 
+          else: 
+           	$row["Status"] = "PENDING APPROVAL"; 
+          endif;
+
+					$row["StartDate"] = $row_data["StartDate"];
+					$row["EndDate"] = $row_data["EndDate"];
+					$row["ImpressionsCounter"] = $row_data["ImpressionsCounter"];
+					$row["MaxImpressions"] = $row_data["MaxImpressions"];
+					$row["CurrentSpend"] = $row_data["CurrentSpend"];
+					$row["MaxSpend"] = $row_data["MaxSpend"];
+					$result[] = $row;
+
+				endforeach;
+		endif;
+
+		header('Content-type: application/json');
+		echo json_encode(array("recordsTotal" => $TotalCampaignsPreviewCount, "recordsFiltered" => $TotalCampaignsPreviewCount , 'data' => $result));
+
+		die;
+	}
+
     /**
      * Will Show the dashboard index page.
      * (non-PHPdoc)

@@ -140,7 +140,73 @@ var AdzoneTable = {
   }
 }
 
+
+var CampaignTable = {
+  init: function(table){
+   
+    if (table.length > 0) {
+      this.table = table;
+      this.source_path = table.data("url");
+      this.init_datatable();
+      this.fix_layout();
+    }
+  },
+  fix_layout: function(){
+    var dt_filter_area = $(".custom-filter");
+    $(".table-filter").appendTo(dt_filter_area);
+  },
+  init_datatable: function(){
+    var self = this;
+    this.table.dataTable({
+        "processing": true,
+        "bLengthChange": false,
+        "serverSide": true,
+        "iDisplayLength": 10,
+        "scrollX": true,
+        "dom": '<"row" <"col-sm-8 custom-filter"> <"col-sm-4" f> >r<"datatable-wrapper" t> <"row mrg20B" <"col-sm-6" il> <"col-sm-6"p> >',
+        "order": [[1,"asc"]],
+        "autoWidth": false,
+        "ajax": {
+          url: self.source_path,
+          data: function(d){
+          }
+        },
+        "aoColumnDefs": [
+         { bSortable: false, 'aTargets': [ 0,2,3,5 ] },    
+        ],
+        "columns": [
+            { "data": "Id", className: "text-center" },
+            { 
+              "data": "Name", 
+              render: function(data) {
+                // deleteDomainModal(<?php echo $domain_id;?>,'<?php echo $domain_list_raw[$row_number]["WebDomain"];?>')
+                var  detail_url= "<a href='"+ basePath  + "/demand/zone/" + data.id + "/"+ data.preview_query +"'>"+ data.name + " (" + "Detail" + ")"  +"</a>"; 
+                var edit_url= "<a href='"+ basePath  + "/demand/editcampaign/" + data.id + "/"+ data.preview_query +"'>Edit</a>";
+                var delete_url= '<a href="javascript:;" onclick="DeleteCampaignModal('+data.id+ ', \'' + data.name +'\' )">Delete' + '</a>';
+                var create_banner = "<a href='"+ basePath  + "/demand/createbanner/" + data.id + "/"+ data.preview_query +"'> "+ 'Create Banner'  +"</a>"; 
+                return detail_url + "<hr class='mrg5T mrg5B'/><div class='row-action'>" + edit_url + " " + delete_url + " | " + create_banner + "</div>";
+              } 
+            },
+            { "data": "Status" },
+            { "data": "StartDate" },
+            { "data": "EndDate" },
+            { "data": "ImpressionsCounter" },
+            { "data": "MaxImpressions" },
+            { "data": "CurrentSpend" },
+            { "data": "MaxSpend" }
+        ],
+        initComplete: function () {
+          
+        },
+        fnDrawCallback: function(data){
+          return data;
+        }
+    });
+  }
+}
+
 $(function(){
   DomainTable.init($("#domain-table"));
   AdzoneTable.init($("#ssp-ad-zone-table"));
+  CampaignTable.init($("#campaign-table"));
 });
