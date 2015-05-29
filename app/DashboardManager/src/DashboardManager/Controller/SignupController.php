@@ -1062,6 +1062,7 @@ class SignupController extends PublisherAbstractActionController {
 				$debuty = $request->getPost("debuty");
 				$title = $request->getPost("title");
 				$tax = $request->getPost("tax");
+				$address = $request->getPost("address");
 				$phone = $request->getPost('phone');
 
 				$DemandCustomerInfo->DemandCustomerInfoID = $userData->DemandCustomerInfoID;
@@ -1073,6 +1074,7 @@ class SignupController extends PublisherAbstractActionController {
 				$DemandCustomerInfo->Title 			= $title;
 				$DemandCustomerInfo->Tax 			= $tax;
 				$DemandCustomerInfo->Phone			= $phone;
+				$DemandCustomerInfo->Address		= $address;
 				$DemandCustomerInfo->DateCreatedn  	= date("Y-m-d H:i:s");
 				$DemandCustomerInfoFactory->saveCustomerInfo($DemandCustomerInfo);
 			endif;
