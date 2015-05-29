@@ -11,7 +11,7 @@ $(function() {
       <div class="agreement-body">
       
       <?php echo $this->msa_agreement; ?> 
-      <form class="msa-form" method="post" action="/auth/msa/demand">
+      <form class="msa-form" method="post" action="<?php echo $this->basePath() ?>/auth/msa/demand">
 	      <input type="hidden" name="sechash" value="<?php echo $this->sechash; ?>">
 	      <input type="hidden" name="user_id" value="<?php echo $this->user_id; ?>">
 	      <div id="msa_alert_msg" class="alert alert-error" style="display: none;">Error</div>

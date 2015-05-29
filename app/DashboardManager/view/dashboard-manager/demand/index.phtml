@@ -1,7 +1,8 @@
 <?php
-$this->headScript()->appendFile($this->basePath() . '/js/script.js');
-$this->headScript()->appendFile($this->basePath() . '/js/qtip/jquery.qtip.min.js');
-$this->headLink()->appendStylesheet($this->basePath() . '/css/qtip/jquery.qtip.min.css');
+$this->headScript()->appendFile($this->basePath() . '/static/js/script.js');
+$this->headScript()->appendFile($this->basePath() . '/static/js/AppTable.js');
+$this->headScript()->appendFile($this->basePath() . '/static/js/qtip/jquery.qtip.min.js');
+$this->headLink()->appendStylesheet($this->basePath() . '/static/css/qtip/jquery.qtip.min.css');
 
 $this->headScript()->captureStart() ?>
 function submitForm() {
@@ -17,7 +18,14 @@ $(document).ready(function () {
 <?php $this->headScript()->captureEnd();  
 $effective_user_in_dashboard = false;
 ?>
-
+<div class="docs-header">
+  <div class="topic">
+    <div class="row">
+      <div class="col-md-5 col-md-offset-1 col-sm-5 col-sm-offset-1 col-xs-6"><h4>Campaigns List</h4></div>
+      <div class="col-md-5 col-sm-5 text-right col-xs-6"><a href="<?php echo $this->basePath() ?>/demand/createcampaign" class="btn btn-success mrg5T">Create Campaign</a></div>
+    </div>
+  </div>
+</div>
 <div class="container-fluid main-board">
   <div class="row">
       <div class="col-md-4 col-md-offset-8">
@@ -66,7 +74,7 @@ $effective_user_in_dashboard = false;
   <div class="row">
     <div class="col-md-12" style=" overflow: auto;">
       
-      <table class="table table-striped table-bordered">
+      <table class="table table-hover table-striped table-bordered table-margin">
          <tr>
       <?php if ($is_admin === true): ?>
              <th>
@@ -81,7 +89,7 @@ $effective_user_in_dashboard = false;
               CAMPAIGN MARKUP
              </th>
     <?php endif; ?>
-             <th>
+             <th style="text-align:center;">
               STATUS
              </th>
              <th>

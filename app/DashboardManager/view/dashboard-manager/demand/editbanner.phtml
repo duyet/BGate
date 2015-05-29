@@ -60,15 +60,15 @@ $(function() {
 <?php $this->headScript()->captureEnd();  ?>
 
    <ul class="breadcrumb">
-    <li><a href="/demand/<?php echo $preview_query; ?>">Ad Campaigns</a><span class="divider">/</span></li>
+    <li><a href="<?php echo $this->basePath() ?>/demand/<?php echo $preview_query; ?>">Ad Campaigns</a><span class="divider">/</span></li>
     <li><?php echo $bread_crumb_info["BCAdCampaign"]; ?><span class="divider">/</span></li>
-    <li><a href="/demand/viewbanner/<?php echo $ad_campaign_id; ?><?php echo $preview_query; ?>">Banners</a><span class="divider">/</span></li>
+    <li><a href="<?php echo $this->basePath() ?>/demand/viewbanner/<?php echo $ad_campaign_id; ?><?php echo $preview_query; ?>">Banners</a><span class="divider">/</span></li>
     <li><?php echo $bread_crumb_info["BCBanner"]; ?><span class="divider">/</span></li>
     <li>Edit Banner</li>
     </ul>
 
 <div id="cdn_form_msg" class="alert alert-error" style="margin: 5px; display: none;"></div>
-<form id="bannerform" name="bannerform" method="POST" class="form-horizontal form-top-magin" action="/demand/newbanner">
+<form id="bannerform" name="bannerform" method="POST" class="form-horizontal form-top-magin" action="<?php echo $this->basePath() ?>/demand/newbanner">
 <div class="formbox">
 <fieldset>
 <div class="span7">

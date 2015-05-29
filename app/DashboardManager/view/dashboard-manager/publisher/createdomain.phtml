@@ -31,7 +31,7 @@ $this->headScript()->captureStart(); ?>
             endif;
         ?>
         <div id="cdn_form_msg" class="alert alert-danger" style="margin: 15px; display:none;"></div>
-        <form id="domain" class="form-horizontal form-top-magin" name="domain" method="post" action="/publisher/createdomain" novalidate="novalidate">
+        <form id="domain" class="form-horizontal form-top-magin" name="domain" method="post" action="<?php echo $this->basePath() ?>/publisher/createdomain" novalidate="novalidate">
           <input type="hidden" value="" name="PublisherWebsiteID">
           <div class="form-group">
             <label for="webdomain" class="control-label col-sm-3">Web Domain <sup>(*)</sup></label>

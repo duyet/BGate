@@ -16,14 +16,14 @@ var currentStates = "<?php echo $current_states; ?>";
 <?php $this->headScript()->captureEnd();  ?>
 
   <ul class="breadcrumb">
-    <li><a href="/demand/<?php echo $preview_query; ?>">Ad Campaigns</a><span class="divider">/</span></li>
+    <li><a href="<?php echo $this->basePath() ?>/demand/<?php echo $preview_query; ?>">Ad Campaigns</a><span class="divider">/</span></li>
     <li><?php echo $bread_crumb_info["BCAdCampaign"]; ?><span class="divider">/</span></li>
-    <li><a href="/demand/viewbanner/<?php echo $ad_campaign_id; ?><?php echo $preview_query; ?>">Banners</a><span class="divider">/</span></li>
+    <li><a href="<?php echo $this->basePath() ?>/demand/viewbanner/<?php echo $ad_campaign_id; ?><?php echo $preview_query; ?>">Banners</a><span class="divider">/</span></li>
     <li><?php echo $bread_crumb_info["BCBanner"]; ?><span class="divider">/</span></li>
     <li>Edit Delivery Filter</li>
     </ul>
 <div class="formbox">
-<form method="POST" action="/demand/editdeliveryfilter">
+<form method="POST" action="<?php echo $this->basePath() ?>/demand/editdeliveryfilter">
 <fieldset>
 <div class="span7">
     <input type="hidden" name="bannerid" value="<?php echo $bannerid; ?>">
