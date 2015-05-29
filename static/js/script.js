@@ -572,6 +572,40 @@ $().ready(function() {
 		}
 	});
 	
+
+	// Campaign form validation
+	var validator = $("#campaign").bind("invalid-form.validate", function() {
+			$("#cdn_form_msg").html("Required fields are missing.");
+			if(document.getElementById("cdn_form_success")) $("#cdn_form_success").css("display","none");
+
+		}).validate({
+		rules: {
+           campaignname: {  
+               required:  true
+           },
+           startdate: {  
+               required:  true
+           },
+           enddate: {  
+               required:  true
+           },
+           maximpressions: {
+           		required:  true
+           },
+           maxspend: {
+           		required:  true
+           }
+		},
+		errorContainer: $("#cdn_form_msg"),
+		errorClass: 'cdn_form_error',
+		highlight: function(element, errorClass, validClass) {
+			$(element).parent().addClass("error");
+		},
+		unhighlight: function(element, errorClass, validClass) {
+			$(element).parent().removeClass("error");
+		}
+	});
+
 	// Zone form validation
 	var validator = $("#ad").bind("invalid-form.validate", function() {
 			$("#cdn_form_msg").html("Required fields are missing.");

@@ -1,7 +1,7 @@
 <?php
-$this->headScript()->appendFile($this->basePath() . '/js/3rdparty/jquery-ui-1.9.2.custom.min.js');
-$this->headLink()->appendStylesheet($this->basePath() . '/css/jquery-ui/smoothness/jquery-ui-1.9.2.custom.min.css');
-$this->headScript()->appendFile($this->basePath() . '/js/script.js');
+$this->headScript()->appendFile($this->basePath() . '/static/js/3rdparty/jquery-ui-1.9.2.custom.min.js');
+$this->headLink()->appendStylesheet($this->basePath() . '/static/css/jquery-ui/smoothness/jquery-ui-1.9.2.custom.min.css');
+$this->headScript()->appendFile($this->basePath() . '/static/js/script.js');
 
 $preview_query = $ispreview == true ? "?ispreview=true" : "";
 
@@ -9,40 +9,7 @@ $minEndDate = explode("/", $enddate);
 
 $this->headScript()->captureStart() ?>
 $(function() {
-	$( "#startdate" ).datepicker(
-	{
-		changeMonth: true,
-		changeYear: true,
-		showOtherMonths: true,
-        selectOtherMonths: false,
-        yearRange: "-1:+6",
-	    onSelect: function(date){
-	        var selectedDate = new Date(date);
-	        var msecsInADay = 86400000;
-	        var endDate = new Date(selectedDate.getTime() + msecsInADay);
-	        $("#enddate").datepicker( "option", "setDate", endDate );
-	    }
-	});
-	
-	$( '#startdateicon' ).click(function() {
-          $('#startdate').datepicker('show');
-    });
-    
-    $( "#enddate" ).datepicker(
-	{
-		changeMonth: true,
-		changeYear: true,
-		showOtherMonths: true,
-        selectOtherMonths: true,
-        yearRange: "-1:+6",
-        <?php if($minEndDate[2]!='0000'):?>
-        setDate:new Date(<?php echo $minEndDate[2];?>,<?php echo $minEndDate[0];?>,<?php echo $minEndDate[1];?>)
-       <?php endif;?>
-	});
-	
-	$( '#enddateicon' ).click(function() {
-          $('#enddate').datepicker('show');
-    });
+
 });
 <?php $this->headScript()->captureEnd();  ?>
 <div class="docs-header">

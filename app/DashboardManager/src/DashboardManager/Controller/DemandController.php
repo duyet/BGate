@@ -773,7 +773,7 @@ class DemandController extends DemandAbstractActionController {
 	
 			endif;
 
-		$BannerRestrictionsPreview->AdCampaignBannerPreviewID                       = $banner_preview_id;
+		$BannerRestrictionsPreview->AdCampaignBannerPreviewID                = $banner_preview_id;
 		$BannerRestrictionsPreview->GeoCountry                               = trim($geocountry);
 		$BannerRestrictionsPreview->GeoState                                 = trim($geostate);
 		$BannerRestrictionsPreview->GeoCity                                  = trim($geocity);
@@ -3198,10 +3198,7 @@ class DemandController extends DemandAbstractActionController {
 		    
 	    endif;
 	    
-		$refresh_url = "bgate/demand/?ispreview=true";
-		$viewModel = new ViewModel(array('refresh_url' => $refresh_url));
-
-		return $viewModel->setTemplate('dashboard-manager/demand/interstitial.phtml');
+	    return $this->redirect()->toRoute('demand');
 
 	}
 
