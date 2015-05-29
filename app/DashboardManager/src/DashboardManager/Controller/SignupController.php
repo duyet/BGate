@@ -1025,7 +1025,107 @@ class SignupController extends PublisherAbstractActionController {
 
         return $this->getResponse()->setContent(json_encode($data));
 	} 
+	public function profileAction() {
+		
+	// }
+	// 	public function accountAction() {
+
+		 $auth = $this->getServiceLocator()->get('AuthService');
+		 if (!$auth->hasIdentity()):
+     	 	return $this->redirect()->toRoute('login');
+    	 endif;
+    	 
+		$initialized = $this->initialize();
+		if ($initialized !== true) return $initialized;
+		$success_msg = null;
+		
+		$authUsers = new \model\authUsers();
+		$authUsersFactory = \_factory\authUsers::get_instance();
+		
+		$DemandCustomerInfo = new \model\DemandCustomerInfo();
+		$DemandCustomerInfoFactory = \_factory\DemandCustomerInfo::get_instance();
+		
+		// $userData = $authUsersFactory->get_row(array("user_id" => $this->auth->getUserID()));
+		// $userRole = $this->auth->getRoles();
+		// $userRole = $userRole[0];
+		// var_dump($userData);
+		// die();
+		// if($userRole == 'member'):
+		// 	$PublisherInfo = $DemandCustomerInfoFactory->get_row_object(array("PublisherInfoID" => $userData->DemandCustomerInfoID));
+		// endif;
+
+		// $request = $this->getRequest();
+	 //    if ($request->isPost()):
+	 //    	$user_id	 = $request->getPost('user_id');
+	 //    	$name	     = $request->getPost('name');
+		// 	$description = $request->getPost('description');
+			
+		// 	if($userRole == 'member'):
+		// 		$first_name = $request->getPost("FirstName");
+		// 		$last_name = $request->getPost("LastName");
+		// 		$country = $request->getPost("Country");
+		// 		$city = $request->getPost("City");
+		// 		$addr = $request->getPost("Addr");
+		// 		$DomainDescribe = $request->getPost("DomainDescribe");
+		// 		$IABCategory = $request->getPost('IABCategory');
+
+		// 		$PublisherInfo->PublisherInfoID = $userData->PublisherInfoID;
+		// 		$PublisherInfo->Name		    = $name;
+		// 		$PublisherInfo->DateUpdated		= date("Y-m-d H:i:s");
+		// 		$PublisherInfo->FirstName 		=	$first_name;
+		// 		$PublisherInfo->LastName 		=	$last_name;
+		// 		$PublisherInfo->Country 		=	$country;
+		// 		$PublisherInfo->City 			=	$city;
+		// 		$PublisherInfo->Addr 			=	$addr;
+		// 		$PublisherInfo->IABCategory		=	$IABCategory;
+		// 		$PublisherInfo->DomainDescribe	=	$DomainDescribe;
+		// 		$PublisherInfoFactory->savePublisherInfo($PublisherInfo);
+		// 	endif;
+			
+		// 	$authUsers = $authUsersFactory->get_row_object(array("user_id" => $this->auth->getUserID()));
+			
+		// 	$authUsers->user_id 	     = $user_id;
+		// 	$authUsers->user_fullname 	 = $name;
+		// 	$authUsers->user_description = $description;
+		// 	$authUsers->update_date	   	 = date("Y-m-d H:i:s");
+		// 	$authUsersFactory->saveUser($authUsers);
+			
+		// 	$success_msg = 1;
+	 //    endif;
+		
+		$userData = $authUsersFactory->get_row(array("user_id" => $this->auth->getUserID()));
+		$userRole = $this->auth->getRoles();
+		$userRole = $userRole[0];
+		
+		// check if user-role is memeber (publisher)
+		if($userRole == 'member'):
+			$demandCustomerData = $DemandCustomerInfoFactory->get_row(array("DemandCustomerInfoID" => $userData->DemandCustomerInfoID));
+			// var_dump($publisherData);
+			// die();
+			// $userData['user_email'] = $publisherData['Email'];
+			// $userData['user_fullname'] = $publisherData['Name'];
+		endif;
 	
+		$view = new ViewModel(array(
+	    		'dashboard_view' => 'account',
+	    		'user_identity' => $this->identity(),
+	    		'success_msg' => $success_msg,
+	    		'user_tab' => 'profile',
+	    		'user_data' => $userData,
+	            'user_id_list' => $this->user_id_list,
+	            'user_identity' => $this->identity(),
+		    	'true_user_name' => $this->auth->getUserName(),
+				'header_title' => 'Account Settings',
+				'is_admin' => $this->is_admin,
+				'effective_id' => $this->auth->getEffectiveIdentityID(),
+				'impersonate_id' => $this->ImpersonateID,
+				'vertical_map' => \util\DeliveryFilterOptions::$vertical_map,
+				'demand_customer_info' => $demandCustomerData
+	    ));
+	 //    var_dump($view);
+		// die();
+	  return $view->setTemplate('dashboard-manager/auth/profile.phtml');
+	}
 	
 }
 
