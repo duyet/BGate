@@ -54,218 +54,274 @@ $(function() {
 });
 <?php $this->headScript()->captureEnd();  ?>
 
- <ul class="breadcrumb">
-    <li><a href="<?php echo $this->basePath() ?>/demand/<?php echo $preview_query; ?>">Ad Campaigns</a> <span class="divider">/</span></li>
-    <li><?php echo $bread_crumb_info["BCAdCampaign"]; ?><span class="divider">/</span></li>
-     <li><a href="<?php echo $this->basePath() ?>/demand/viewbanner/<?php echo $ad_campaign_id; ?><?php echo $preview_query; ?>">Banners</a><span class="divider">/</span></li>
-    <li class="active">Create Banner</li>
-    </ul>
 
+<div class="docs-header">
+  <div class="topic">
+    <div class="container">
+      <!-- <div class="col-md-5 col-md-offset-1 col-sm-5 col-sm-offset-1 col-xs-6">
+      		<ul class="breadcrumb">
+			    <li><a href="<?php //echo $this->basePath() ?>/demand/<?php //echo $preview_query; ?>">Ad Campaigns</a> <span class="divider">/</span></li>
+			    <li><?php //echo $bread_crumb_info["BCAdCampaign"]; ?><span class="divider">/</span></li>
+			     <li><a href="<?php //echo $this->basePath() ?>/demand/viewbanner/<?php //echo $ad_campaign_id; ?><?php //echo $preview_query; ?>">Banners</a><span class="divider">/</span></li>
+			    <li class="active">Create Banner</li>
+		    </ul>
+      </div> -->
+      <div ><h4>Create Banner</h4></div>
+    </div>
+  </div>
+</div>
 <div id="cdn_form_msg" class="alert alert-error" style="margin: 5px; display: none;"></div>
-<form id="bannerform" name="bannerform" method="POST" action="<?php echo $this->basePath() ?>/demand/newbanner">
+<div id="container" class="container">
+<div class="row mrg20T">
+<div class="col-md-8 col-md-offset-2 col-sm-12 panel">
+<div class="panel-body">
+<form id="bannerform" class="form-horizontal form-top-magin" name="bannerform" method="POST" action="<?php echo $this->basePath() ?>/demand/newbanner">
 <fieldset>
 <div class="span7">
     <input type="hidden" name="campaignid" value="<?php echo $campaignid; ?>">
 	<input type="hidden" name="campaignpreviewid" value="<?php echo $campaignpreviewid; ?>">
 	<input type="hidden" name="ispreview" value="<?php echo $ispreview; ?>">
-	   <div class="form-group">
-		<label for="bannername">Banner Ad Name</label>
-		<input type="text" class="txtbox-width" name="bannername">
+	<div class="form-group">
+		<label class="col-sm-3 control-label"  for="bannername">Banner Ad Name</label>
+		<div class="col-sm-9">
+			<input type="text" class="txtbox-width form-control" name="bannername">
+		</div>
 	</div>
 	  <div class="form-group">
-		<label for="adname">Ad Delivery Type</label>
-		<select id="ImpressionType" name="ImpressionType" class="selbox-width" onchange="switchImpressionType();">
+		<label class="col-sm-3 control-label"  for="adname">Ad Delivery Type</label>
+		<div class="col-sm-9">
+		<select id="ImpressionType" name="ImpressionType" class="selbox-width form-control" onchange="switchImpressionType();">
 			<option value="banner">Banner Ad</option>
 			<option value="video">Video Ad</option>
 		</select>
+		</div>
 	</div>
 	<div class="form-group">
-	    <label for="startdate">Start Date</label>
+	    <label class="col-sm-3 control-label"  for="startdate">Start Date</label>
+	    <div class="col-sm-9">
         <div class="input-append date">
-		  <input name="startdate" id="startdate" class="txtbox-datepicker-width" size="16" type="text" value="<?php echo date('m/d/Y');?>" readonly="readonly" />
+		  <input name="startdate" id="startdate" class="txtbox-datepicker-width form-control" size="16" type="text" value="<?php echo date('m/d/Y');?>" readonly="readonly" />
 		  <span class="add-on" id="startdateicon"><i class="icon-calendar"></i></span>
 	   </div>
+	   </div>
 	</div>
 	
 	<div class="form-group">
-	    <label for="enddate">End Date</label>
+	    <label class="col-sm-3 control-label"  for="enddate">End Date</label>
+	    <div class="col-sm-9">
         <div class="input-append date">
-		  <input name="enddate" id="enddate" class="txtbox-datepicker-width" size="16" type="text" value="<?php echo $enddate;?>" readonly="readonly" />
+		  <input name="enddate" id="enddate" class="txtbox-datepicker-width form-control" size="16" type="text" value="<?php echo $enddate;?>" readonly="readonly" />
 		  <span class="add-on" id="enddateicon"><i class="icon-calendar"></i></span>
+	   </div>
 	   </div>
 	</div>
 	 <div class="control-group nobanner" style="display: none">
-		<label for="Mimes">Mimes : <span class="hlp"><small><i>(ctrl+shift to select mutliple)</i></small></span></label>
-		<select id="Mimes" name="Mimes[]" multiple class="zone-txtarea" style="min-height: 170px">
-    <?php foreach ($mimes as $name): ?>
-        <?php if (in_array((string)$name, $current_mimes)): ?>
-            <option value="<?php echo $name;?>" selected="selected"><?php echo $name;?></option>
-        <?php else: ?>
-            <option value="<?php echo $name;?>"><?php echo $name;?></option>
-        <?php endif; ?>
-    <?php endforeach; ?>
-</select>
+		<label class="col-sm-3 control-label"  for="Mimes">Mimes : <span class="hlp"><small><i>(ctrl+shift to select mutliple)</i></small></span></label>
+		<div class="col-sm-9">
+			<select id="Mimes" name="Mimes[]" multiple class="zone-txtarea form-control" style="min-height: 170px">
+			    <?php foreach ($mimes as $name): ?>
+			        <?php if (in_array((string)$name, $current_mimes)): ?>
+			            <option value="<?php echo $name;?>" selected="selected"><?php echo $name;?></option>
+			        <?php else: ?>
+			            <option value="<?php echo $name;?>"><?php echo $name;?></option>
+			        <?php endif; ?>
+			    <?php endforeach; ?>
+			</select>
+		</div>
 	</div>
-	
 	 <div class="control-group nobanner" style="display: none">
-		<label for="Protocols">Protocols : <span class="hlp"><small><i>(ctrl+shift to select mutliple)</i></small></span></label>
-<select id="Protocols" name="Protocols[]" multiple class="zone-txtarea" style="min-height: 120px">
-    <?php foreach ($protocols as $code => $name): ?>
-        <?php if (in_array((string)$code, $current_protocols)): ?>
-            <option value="<?php echo $code;?>" selected="selected"><?php echo $name;?></option>
-        <?php else: ?>
-            <option value="<?php echo $code;?>"><?php echo $name;?></option>
-        <?php endif; ?>
-    <?php endforeach; ?>
-</select>
+		<label class="col-sm-3 control-label"  for="Protocols">Protocols : <span class="hlp"><small><i>(ctrl+shift to select mutliple)</i></small></span></label>
+		<div class="col-sm-9">
+			<select id="Protocols" name="Protocols[]" multiple class="zone-txtarea form-control" style="min-height: 120px">
+			    <?php foreach ($protocols as $code => $name): ?>
+			        <?php if (in_array((string)$code, $current_protocols)): ?>
+			            <option value="<?php echo $code;?>" selected="selected"><?php echo $name;?></option>
+			        <?php else: ?>
+			            <option value="<?php echo $code;?>"><?php echo $name;?></option>
+			        <?php endif; ?>
+			    <?php endforeach; ?>
+			</select>
+		</div>
 	</div>
-	
 	 <div class="control-group nobanner" style="display: none">
-		<label for="ApisSupported">Apis Supported : <span class="hlp"><small><i>(ctrl+shift to select mutliple)</i></small></span></label>
-<select id="ApisSupported" name="ApisSupported[]" multiple class="zone-txtarea" style="min-height: 120px">
-    <?php foreach ($apis_supported as $code => $name): ?>
-        <?php if (in_array((string)$code, $current_apis_supported)): ?>
-            <option value="<?php echo $code;?>" selected="selected"><?php echo $name;?></option>
-        <?php else: ?>
-            <option value="<?php echo $code;?>"><?php echo $name;?></option>
-        <?php endif; ?>
-    <?php endforeach; ?>
-</select>
+		<label class="col-sm-3 control-label"  for="ApisSupported">Apis Supported : <span class="hlp"><small><i>(ctrl+shift to select mutliple)</i></small></span></label>
+		<div class="col-sm-9">
+			<select id="ApisSupported" name="ApisSupported[]" multiple class="zone-txtarea form-control" style="min-height: 120px">
+			    <?php foreach ($apis_supported as $code => $name): ?>
+			        <?php if (in_array((string)$code, $current_apis_supported)): ?>
+			            <option value="<?php echo $code;?>" selected="selected"><?php echo $name;?></option>
+			        <?php else: ?>
+			            <option value="<?php echo $code;?>"><?php echo $name;?></option>
+			        <?php endif; ?>
+			    <?php endforeach; ?>
+			</select>
+		</div>
 	</div>
-	
 	<div class="control-group nobanner" style="display: none">
-		<label for="StartDelay">Start Delay : </label>
-<select id="StartDelay" name="StartDelay" class="zone-txtarea">
-    <?php foreach ($start_delay as $code => $name): ?>
-        <?php if ((string)$code === $current_start_delay): ?>
-            <option value="<?php echo $code;?>" selected="selected"><?php echo $name;?></option>
-        <?php else: ?>
-            <option value="<?php echo $code;?>"><?php echo $name;?></option>
-        <?php endif; ?>
-    <?php endforeach; ?>
-</select>
-
+		<label class="col-sm-3 control-label"  for="StartDelay">Start Delay : </label>
+		<div class="col-sm-9">
+			<select id="StartDelay" name="StartDelay" class="zone-txtarea form-control">
+			    <?php foreach ($start_delay as $code => $name): ?>
+			        <?php if ((string)$code === $current_start_delay): ?>
+			            <option value="<?php echo $code;?>" selected="selected"><?php echo $name;?></option>
+			        <?php else: ?>
+			            <option value="<?php echo $code;?>"><?php echo $name;?></option>
+			        <?php endif; ?>
+			    <?php endforeach; ?>
+			</select>
+		</div>
 	</div>
 	
 	<?php if ($is_admin): ?>
 	<div class="form-group novideo">
-		<label for="adcampaigntype">What type of ad campaign banner is this?</label>
-        <select id="adcampaigntype"  class="selbox-width" name="adcampaigntype" onchange="switchAdCampaignType();">
-            <?php foreach ($adcampaigntype_options as $code => $name): ?>
-                <option value="<?php echo $code;?>"><?php echo $name;?></option>
-            <?php endforeach; ?>
-        </select>
-        <div id="weight-box" class="novideo">
-		    <label for="weight" class="control-label">Ad Display Priority</label>
-		    <div class="controls">
-		    <input type="text" value="5" size="5" maxlength="10" id="weight" name="weight" class="input-mini">    </div> 
-    	</div>
-        <div id="zone-picker"></div>
+		<label class="col-sm-3 control-label"  for="adcampaigntype">What type of ad campaign banner is this?</label>
+		<div class="col-sm-9">
+		        <select id="adcampaigntype"  class="selbox-width form-control" name="adcampaigntype" onchange="switchAdCampaignType();">
+		            <?php foreach ($adcampaigntype_options as $code => $name): ?>
+		                <option value="<?php echo $code;?>"><?php echo $name;?></option>
+		            <?php endforeach; ?>
+		        </select>
+		</div>
+	        <div id="weight-box" class="novideo">
+			    <label class="col-sm-3 control-label"  for="weight" class="control-label">Ad Display Priority</label>
+			    <div class="controls">
+			    <div class="col-sm-9">
+			    <input type="text" value="5" size="5" maxlength="10" id="weight" name="weight" class="input-mini form-control">    </div> 
+	    	</div>
+	        <div id="zone-picker"></div>
+		</div>
 	</div>
 	<?php endif; ?>
 	<div class="form-group novideo">
-		<label for="ismobile">Is this a mobile ad?</label>
-        <select id="ismobile"  class="selbox-width" name="ismobile" onchange="switchMobile(this);">
-            <?php foreach ($mobile_options as $code => $name): ?>
-                <option value="<?php echo $code;?>"><?php echo $name;?></option>
-            <?php endforeach; ?>
-        </select>
+		<label class="col-sm-3 control-label"  for="ismobile">Is this a mobile ad?</label>
+		<div class="col-sm-9">
+	        <select id="ismobile"  class="selbox-width form-control" name="ismobile" onchange="switchMobile(this);">
+	            <?php foreach ($mobile_options as $code => $name): ?>
+	                <option value="<?php echo $code;?>"><?php echo $name;?></option>
+	            <?php endforeach; ?>
+	        </select>
+		</div>
 	</div>
 	<div class="form-group novideo">
-		<label for="iabsize">IAB Size</label>
-		<div id="size-select">
-<select id="iabsize"  class="selbox-width"  name="iabsize" onchange="formSelectSize(this);">
-    <option value="" selected="selected">[ SELECT A SIZE ]</option>
-    <?php foreach ($size_list as $shortcode => $name): ?>
-        <option value="<?php echo $shortcode;?>"><?php echo $name;?></option>
-    <?php endforeach; ?>
-</select>
-  </div>
+		<label class="col-sm-3 control-label"  for="iabsize">IAB Size</label>
+		<div class="col-sm-9">
+			<div id="size-select">
+				<select id="iabsize"  class="selbox-width form-control"  name="iabsize" onchange="formSelectSize(this);">
+				    <option value="" selected="selected">[ SELECT A SIZE ]</option>
+				    <?php foreach ($size_list as $shortcode => $name): ?>
+				        <option value="<?php echo $shortcode;?>"><?php echo $name;?></option>
+				    <?php endforeach; ?>
+				</select>
+			</div>
+		</div>
 	</div>
 
 	</div>
 	<div class="span7">
 		<div class="form-group novideo">
-		<label for="height">Height</label>
-		<input type="text" id="height" name="height" class="input-mini">
-	</div>
-<div class="form-group novideo">
-		<label for="width">Width</label>
-		<input type="text" id="width" name="width" class="input-mini">
-	</div>
-<div class="form-group">
-
-		<label for="bidamount">Bid Amount ( CPM )</label>
-		<div class="input-prepend">
-		<span class="add-on">$</span>
-		<input type="text" name="bidamount"  class="input-small" value="0.25">
+		<label class="col-sm-3 control-label"  for="height">Height</label>
+		<div class="col-sm-9">
+			<input type="text" id="height" name="height" class="input-mini form-control">
 		</div>
 	</div>
-	 <div class="control-group nobanner" style="display: none">
-		<label for="adtagtype">VAST Tag Type</label>
-		<div class="btn-group" role="group" aria-label="...">
-		  <button type="button" onclick="switchImpressionType('xml');" class="btn btn-default">VAST XML</button>
-		  <button type="button" onclick="switchImpressionType('url');" class="btn btn-default">VAST URL</button>
+	<div class="form-group novideo">
+		<label class="col-sm-3 control-label"  for="width">Width</label>
+		<div class="col-sm-9">
+		<input type="text" id="width" name="width" class="input-mini form-control">
 		</div>
 	</div>
 	<div class="form-group">
-		<label for="adtag">Ad Tag</label>
+		<label class="col-sm-3 control-label"  for="bidamount">Bid Amount ( CPM )</label>
+		<div class="col-sm-9">
+			<div class="input-prepend input-group">
+			<span class="add-on input-group-addon">$</span>
+			<input type="text" name="bidamount"  class="input-small form-control" value="0.25">
+			</div>
+		</div>
+	</div>
+	<div class="control-group nobanner" style="display: none">
+		<label class="col-sm-3 control-label"  for="adtagtype">VAST Tag Type</label>
+		<div class="col-sm-9">
+			<div class="btn-group" role="group" aria-label="...">
+			  <button type="button" onclick="switchImpressionType('xml');" class="btn btn-default">VAST XML</button>
+			  <button type="button" onclick="switchImpressionType('url');" class="btn btn-default">VAST URL</button>
+			</div>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-3 control-label"  for="adtag">Ad Tag</label>
+		<div class="col-sm-9">
 		<span id="adtagwrapper">
-			<textarea class="txtbox-width" style="height: 200px; width: 500px;" id="adtag" name="adtag" rows="6"></textarea>
+			<textarea class="txtbox-width form-control"  id="adtag" name="adtag" rows="6"></textarea>
 		</span>
+		</div>
 	</div>
 	
 	 <div class="control-group nobanner" style="display: none">
-		<label for="Delivery">Delivery : <span class="hlp"><small><i>(ctrl+shift to select mutliple)</i></small></span></label>
-<select id="Delivery" name="Delivery[]" multiple class="zone-txtarea" style="min-height: 50px">
-    <?php foreach ($delivery_methods as $code => $name): ?>
-        <?php if (in_array((string)$code, $current_delivery_methods)): ?>
-            <option value="<?php echo $code;?>" selected="selected"><?php echo $name;?></option>
-        <?php else: ?>
-            <option value="<?php echo $code;?>"><?php echo $name;?></option>
-        <?php endif; ?>
-    <?php endforeach; ?>
-</select>
+		<label class="col-sm-3 control-label"  for="Delivery">Delivery : <span class="hlp"><small><i>(ctrl+shift to select mutliple)</i></small></span></label>
+		<div class="col-sm-9">
+			<select id="Delivery" name="Delivery[]" multiple class="zone-txtarea form-control" style="min-height: 50px">
+			    <?php foreach ($delivery_methods as $code => $name): ?>
+			        <?php if (in_array((string)$code, $current_delivery_methods)): ?>
+			            <option value="<?php echo $code;?>" selected="selected"><?php echo $name;?></option>
+			        <?php else: ?>
+			            <option value="<?php echo $code;?>"><?php echo $name;?></option>
+			        <?php endif; ?>
+			    <?php endforeach; ?>
+			</select>
+		</div>
 	</div>
 	
 	 <div class="control-group nobanner" style="display: none">
-		<label for="Playback">Playback : <span class="hlp"><small><i>(ctrl+shift to select mutliple)</i></small></span></label>
-<select id="Playback" name="Playback[]" multiple class="zone-txtarea" style="min-height: 100px">
-    <?php foreach ($playback_methods as $code => $name): ?>
-        <?php if (in_array((string)$code, $current_playback_methods)): ?>
-            <option value="<?php echo $code;?>" selected="selected"><?php echo $name;?></option>
-        <?php else: ?>
-            <option value="<?php echo $code;?>"><?php echo $name;?></option>
-        <?php endif; ?>
-    <?php endforeach; ?>
-</select>
+		<label class="col-sm-3 control-label"  for="Playback">Playback : <span class="hlp"><small><i>(ctrl+shift to select mutliple)</i></small></span></label>
+		<div class="col-sm-9">
+			<select id="Playback" name="Playback[]" multiple class="zone-txtarea form-control" style="min-height: 100px">
+			    <?php foreach ($playback_methods as $code => $name): ?>
+			        <?php if (in_array((string)$code, $current_playback_methods)): ?>
+			            <option value="<?php echo $code;?>" selected="selected"><?php echo $name;?></option>
+			        <?php else: ?>
+			            <option value="<?php echo $code;?>"><?php echo $name;?></option>
+			        <?php endif; ?>
+			    <?php endforeach; ?>
+			</select>
+		</div>
 	</div>
 	
 	<div class="control-group nobanner" style="display: none">
-		<label for="Linearity">Linearity : </label>
-<select id="Linearity" name="Linearity" class="zone-txtarea">
-    <?php foreach ($linearity as $code => $name): ?>
-        <?php if ((string)$code === $current_linearity): ?>
-            <option value="<?php echo $code;?>" selected="selected"><?php echo $name;?></option>
-        <?php else: ?>
-            <option value="<?php echo $code;?>"><?php echo $name;?></option>
-        <?php endif; ?>
-    <?php endforeach; ?>
-</select>
-
+		<label class="col-sm-3 control-label"  for="Linearity">Linearity : </label>
+		<div class="col-sm-9">
+			<select id="Linearity" name="Linearity" class="zone-txtarea form-control">
+			    <?php foreach ($linearity as $code => $name): ?>
+			        <?php if ((string)$code === $current_linearity): ?>
+			            <option value="<?php echo $code;?>" selected="selected"><?php echo $name;?></option>
+			        <?php else: ?>
+			            <option value="<?php echo $code;?>"><?php echo $name;?></option>
+			        <?php endif; ?>
+			    <?php endforeach; ?>
+			</select>
+		</div>
 	</div>
 	
-<div class="form-group">
-		<label for="landingpagetld" class="input">LandingPage TLD [top level domain] <br/>
-		<span class="hlp">
-		<small><i>(eg. nginad.com - required by RTB [if not known just use the tld of the tag])</i></small></span><nobr></nobr></label>
-		<input type="text" class="input-medium" name="landingpagetld" value="nginad.com">
+	<div class="form-group">
+		<label class="col-sm-3 control-label"  for="landingpagetld" class="input">LandingPage TLD [top level domain]
+		</label>
+		<div class="col-sm-9">
+			<input type="text" class="input-medium form-control" name="landingpagetld" value="nginad.com">
+			<span class="hlp">
+			<small><i>(eg. nginad.com - required by RTB [if not known just use the tld of the tag])</i></small></span><nobr></nobr>
+		</div>
 	</div>
 	</div>
 	<div class="span12">
-	<div class="form-group">
-	   <input type="submit" class="btn btn-primary" name="B1" value="Create New Banner" />
+	<div class="form-group text-center">
+		<p>
+	   <input type="submit" class="btn btn-primary" name="B1" value="Create New Banner" /></p>
 	   </div>
 	</div>
 </fieldset>
 </form>
+</div>
+</div>
+</div>
+</div>
+</div>
