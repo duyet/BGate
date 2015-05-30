@@ -32,18 +32,22 @@ class DemandController extends DemandAbstractActionController {
 		$initialized = $this->initialize();
 		if ($initialized !== true) return $initialized;
 
-		$parameters = array(); // Set the parameters to empty first.
+		$params = array(); // Set the parameters to empty first.
 		// sort map array
 		$SortMap = array("1"=> "Name", "3" => "StartDate",  "4" => "EndDate");
 		$OrderArr = $this->getRequest()->getQuery("order");
 		$order = $SortMap[$OrderArr[0]["column"]] . " " . strtoupper($OrderArr[0]["dir"]);
-		
 		// get search value
 		$search = $this->getRequest()->getQuery("search")["value"];
 
 		// pagination value
 		$PageSize = (int) $this->getRequest()->getQuery("length");
 		$Offset =   (int) $this->getRequest()->getQuery("start");
+
+		// custom filter
+		if ($this->getRequest()->getQuery("approval") != ""):
+			$params["IABCategory"] = $this->getRequest()->getQuery("approval");
+		endif;
 
 		//Pull list of campaigns.
 		$AdCampaignPreviewFactory = \_factory\AdCampaignPreview::get_instance();
@@ -79,8 +83,8 @@ class DemandController extends DemandAbstractActionController {
     endforeach;
 
     $CampaignsList = $ad_campaign_list;
-		$TotalCampaignsPreviewCount = $AdCampaignPreviewFactory->get($params, $search);
-
+		$TotalCampaignsPreview = $AdCampaignPreviewFactory->get($params, $search);
+		$TotalCampaignsPreviewCount = count($TotalCampaignsPreview);
 		$is_admin = $this->is_admin;
 		
 		$basePath = '';
@@ -2183,10 +2187,10 @@ class DemandController extends DemandAbstractActionController {
 	 * @return \Zend\View\Model\ViewModel
 	 */
 	public function viewbannerAction() {
-	    $id = $this->getEvent()->getRouteMatch()->getParam('param1');
-        if ($id == null):
-            die("Invalid Campaign ID");
-        endif;
+    $id = $this->getEvent()->getRouteMatch()->getParam('param1');
+      if ($id == null):
+          die("Invalid Campaign ID");
+      endif;
 
 		$initialized = $this->initialize();
 		if ($initialized !== true) return $initialized;
@@ -2255,10 +2259,10 @@ class DemandController extends DemandAbstractActionController {
 	 * @return \Zend\View\Model\ViewModel
 	 */
 	public function createbannerAction() {
-	    $id = $this->getEvent()->getRouteMatch()->getParam('param1');
-        if ($id == null):
-            die("Invalid Campaign ID");
-        endif;
+    $id = $this->getEvent()->getRouteMatch()->getParam('param1');
+      if ($id == null):
+          die("Invalid Campaign ID");
+      endif;
 
 		$initialized = $this->initialize();
 		if ($initialized !== true) return $initialized;
@@ -2931,6 +2935,93 @@ class DemandController extends DemandAbstractActionController {
 	 * BEGIN NGINAD AdCampaign Actions
 	*/
 
+	public function campaignAction() {
+		$id = $this->getEvent()->getRouteMatch()->getParam('param1');
+		if ($id == null):
+			die("Invalid Campaign ID");
+		endif;
+
+		$initialized = $this->initialize();
+		if ($initialized !== true) return $initialized;
+
+		$is_preview = $this->getRequest()->getQuery('ispreview');
+
+		// verify
+		if ($is_preview == "true"):
+			$is_preview = \transformation\TransformPreview::doesPreviewAdCampaignExist($id, $this->auth);
+		endif;
+		$campaign_preview_id = "";
+
+		if ($is_preview == true):
+
+			// ACL PREVIEW PERMISSIONS CHECK
+			transformation\CheckPermissions::checkEditPermissionAdCampaignPreview($id, $this->auth, $this->config_handle);
+
+			$AdCampaignPreviewFactory = \_factory\AdCampaignPreview::get_instance();
+			$params = array();
+			$params["AdCampaignPreviewID"] = $id;
+			$params["Active"] = 1;
+
+			$AdCampaign = $AdCampaignPreviewFactory->get_row($params);
+
+			$campaign_preview_id = $id;
+			$id = "";
+
+		else:
+			// ACL PERMISSIONS CHECK
+			transformation\CheckPermissions::checkEditPermissionAdCampaign($id, $this->auth, $this->config_handle);
+
+			$AdCampaignFactory = \_factory\AdCampaign::get_instance();
+			$params = array();
+			$params["AdCampaignID"] = $id;
+			$params["Active"] = 1;
+
+			$AdCampaign = $AdCampaignFactory->get_row($params);
+
+		endif;
+
+		if ($AdCampaign == null):
+			die("Invalid AdCampaign ID");
+		endif;
+
+		$campaignname              = $AdCampaign->Name;
+		$startdate                 = date('m/d/Y', strtotime($AdCampaign->StartDate));
+		$enddate                   = date('m/d/Y', strtotime($AdCampaign->EndDate));
+		$customername              = $AdCampaign->Customer;
+		$customerid                = $AdCampaign->CustomerID;
+		$maximpressions            = $AdCampaign->MaxImpressions;
+		$maxspend                  = sprintf("%1.2f", $AdCampaign->MaxSpend);
+		$cpmtarget                 = $AdCampaign->CPMTarget;
+		$cpctarget                 = $AdCampaign->CPCTarget;
+		$deleted                   = $AdCampaign->Deleted;
+
+
+		return new ViewModel(array(
+				'campaignid' => $id,
+				'campaignpreviewid' => $campaign_preview_id,
+				'ispreview' => $is_preview == true ? '1' : '0',
+				'campaignname' => $campaignname,
+				'startdate' => $startdate,
+				'enddate' => $enddate,
+				'customername' => $customername,
+				'customerid' => $customerid,
+				'maximpressions' => $maximpressions,
+				'maxspend' => $maxspend,
+				'cpmtarget' => $cpmtarget,
+				'cpctarget' => $cpctarget,
+				'bread_crumb_info' => $this->getBreadCrumbInfoFromAdCampaign($id, $campaign_preview_id, $is_preview),
+				'user_id_list' => $this->user_id_list_demand_customer,
+  			'center_class' => 'centerj',
+    		'user_identity' => $this->identity(),
+    		'true_user_name' => $this->auth->getUserName(),
+				'header_title' => 'Edit Ad Campaign',
+				'is_admin' => $this->is_admin,
+				'effective_id' => $this->auth->getEffectiveIdentityID(),
+				'impersonate_id' => $this->ImpersonateID,
+				'deleted' => $deleted
+		));
+	}
+
 	/**
 	 * 
 	 * @return Ambigous <\Zend\View\Model\ViewModel, \Zend\View\Model\ViewModel>
@@ -3163,13 +3254,13 @@ class DemandController extends DemandAbstractActionController {
 	 */
 	public function newcampaignAction() {
 
-	    $needed_input = array(
-	        'campaignname',
-	        'startdate',
-	        'enddate',
-	        'maximpressions',
-	        'maxspend'
-	    );
+    $needed_input = array(
+        'campaignname',
+        'startdate',
+        'enddate',
+        'maximpressions',
+        'maxspend'
+    );
 
 		$initialized = $this->initialize();
 		if ($initialized !== true) return $initialized;

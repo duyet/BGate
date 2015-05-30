@@ -6,7 +6,7 @@ $this->headLink()->appendStylesheet($this->basePath() . '/static/css/qtip/jquery
 
 $this->headScript()->captureStart() ?>
 function submitForm() {
-	$('#loginas').submit();
+  $('#loginas').submit();
 }
 
 $(document).ready(function () {
@@ -21,8 +21,12 @@ $effective_user_in_dashboard = false;
 <div class="docs-header">
   <div class="topic">
     <div class="row">
-      <div class="col-md-5 col-md-offset-1 col-sm-5 col-sm-offset-1 col-xs-6"><h4>Campaigns List</h4></div>
-      <div class="col-md-5 col-sm-5 text-right col-xs-6"><a href="<?php echo $this->basePath() ?>/demand/createcampaign" class="btn btn-success mrg5T">Create Campaign</a></div>
+      <div class="col-md-5 col-md-offset-1 col-sm-5 col-sm-offset-1 col-xs-6"><h4>Campaign Details  </h4></div>
+      <div class="col-md-5 col-sm-5 text-right col-xs-6">
+        <a href="<?php echo $this->basePath() ?>/demand/editcampaign/<?php echo $campaignpreviewid;?>/?ispreview=<?php echo $ispreview?>" class="btn btn-primary btn-margin mrg5T">Edit</a>
+        <a href="javascript:;" class="btn btn-danger btn-margin mrg5T" onclick="DeleteCampaignModal(<?php echo $campaignpreviewid;?>,<?php echo $campaignname;?>)">Delete</a>
+        <a href="<?php echo $this->basePath() ?>/demand/createbanner/<?php echo $campaignpreviewid;?>/?ispreview=<?php if ($ispreview=='1')echo 'true'?>" class="btn btn-success mrg5T">Create Ad</a>
+      </div>
     </div>
   </div>
 </div>
@@ -53,6 +57,42 @@ $effective_user_in_dashboard = false;
 
 
 <div class="steps-container step1">
+
+<div class="row mrg20T">
+  <div id="domain-details" class="col-md-10 col-md-offset-1 panel pad20T">
+    <h4 class="underline mrg0T">Campaign Overview</h4>
+    <div class="row">
+      <div class="col-sm-3">Campaign Name: <strong><?php echo $campaignname;?></strong></div>
+      <div class="col-sm-3">Status: 
+        <strong>
+        <?php
+          if (!isset($campaignpreviewid)):
+            echo "APROVED";
+          elseif (isset($deleted) && $deleted == 1): 
+            echo "DELETED"; 
+          else: 
+            echo "PENDING APPROVAL"; 
+          endif;
+        ?>
+        </strong>
+      </div>
+      <div class="col-sm-3">Start Date: <strong><?php $date = date_create($startdate); echo date_format($date,"Y-m-d");?></strong></div> 
+      <div class="col-sm-3">End Date: <strong><?php $date = date_create($enddate); echo date_format($date,"Y-m-d");?></strong></div>
+    </div>
+    <div class="row">
+      <div class="col-sm-3">Impress Counter:<strong></strong></div>
+      <div class="col-sm-3">Max Impressions:<strong><?php echo $maximpressions;?></strong></div>
+      <div class="col-sm-3">Current Spend:<strong></strong></div>
+      <div class="col-sm-3">Max Spend:<strong><?php echo $maxspend;?></strong></div>
+    </div>
+    <div class="row">
+      <div class="col-sm-3">Maximum Target: <strong><?php if ($cpmtarget==1) echo 'CPM'; if ($cpctarget==1) echo ' CPC';?> </strong></div>
+    </div>
+    <br>
+  </div>
+
+</div>
+
 <div id="container">
 <div class="row mrg20T">
 <div class="col-md-10 col-md-offset-1 col-sm-12 panel">
@@ -74,65 +114,11 @@ $effective_user_in_dashboard = false;
     <div class="formbox">      
       <br clear="all"/>
 
-    <div class="table-filter row">
-      <div class="col-sm-4">
-        Status:
-        <select id="campaign-status" onchange="DomainTable.reload_table()">
-          <option value="0">All</option>
-          <option value="1">Pending approval</option>
-          <option value="2">Deleted</option>
-          <option value="3">Approved</option>
-        </select>
-      </div>
-    </div>
-
     <div id="selection-results" class="steps-box">
-      <table id="campaign-table" class="table table-hover table-striped table-bordered table-margin" data-url="<?php echo $this->basePath() ?>/demand/campaignlist">
-        <thead>
-          <tr>
-            <?php if ($is_admin === true): ?>
-              <th>
-                USER ID
-              </th>
-              <th>
-                ADMIN ACTION
-              </th>
-            <?php endif; ?>
-            <?php if ($is_admin === true && $effective_id != 0): ?>
-              <th>
-                CAMPAIGN MARKUP
-              </th>
-            <?php endif; ?>
-              <th style="text-align:center;">
-                Id
-              </th>
-              <th style="text-align:center;">
-                Name
-              </th>
-              <th>
-                Status
-              </th>
-              <th>
-                Start Date
-              </th>
-              <th>
-                End Date
-              </th>
-              <th>
-                Impressions Counter
-              </th>
-              <th>
-                Max Impressions
-              </th>
-              <th>
-                Current Spend
-              </th>
-              <th>
-                Max Spend
-              </th>         
-          </tr>
-        </thead>
-      </table>
+      <h4 class="underline mrg0T">Ads list</h4>
+
+      <!-- Banner Table Here-->
+
     </div>
     </div>
     </div>
@@ -152,7 +138,7 @@ $effective_user_in_dashboard = false;
       </div>
       <div class="modal-body">
       <div id="campaign_alert_msg" class="alert alert-error" style="display: none;">Error</div>
-		<p id="msg"></p>
+    <p id="msg"></p>
 <h5 style="color: #b94a48;">This action is a preview and must be approved!</h5>
       </div>
       <div class="modal-footer">

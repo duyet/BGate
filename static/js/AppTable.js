@@ -151,6 +151,9 @@ var CampaignTable = {
       this.fix_layout();
     }
   },
+  reload_table: function(){
+    this.table.DataTable().ajax.reload();
+  },
   fix_layout: function(){
     var dt_filter_area = $(".custom-filter");
     $(".table-filter").appendTo(dt_filter_area);
@@ -169,10 +172,11 @@ var CampaignTable = {
         "ajax": {
           url: self.source_path,
           data: function(d){
+            d.approval = $("#campaign-status option:selected").val();
           }
         },
         "aoColumnDefs": [
-         { bSortable: false, 'aTargets': [ 0,2,3,5 ] },    
+         { bSortable: false, 'aTargets': [ 0,2,5,6,7,8 ] },    
         ],
         "columns": [
             { "data": "Id", className: "text-center" },
@@ -180,7 +184,7 @@ var CampaignTable = {
               "data": "Name", 
               render: function(data) {
                 // deleteDomainModal(<?php echo $domain_id;?>,'<?php echo $domain_list_raw[$row_number]["WebDomain"];?>')
-                var  detail_url= "<a href='"+ basePath  + "/demand/zone/" + data.id + "/"+ data.preview_query +"'>"+ data.name + " (" + "Detail" + ")"  +"</a>"; 
+                var  detail_url= "<a href='"+ basePath  + "/demand/campaign/" + data.id + "/"+ data.preview_query +"'>"+ data.name + " (" + "Details" + ")"  +"</a>"; 
                 var edit_url= "<a href='"+ basePath  + "/demand/editcampaign/" + data.id + "/"+ data.preview_query +"'>Edit</a>";
                 var delete_url= '<a href="javascript:;" onclick="DeleteCampaignModal('+data.id+ ', \'' + data.name +'\' )">Delete' + '</a>';
                 var create_banner = "<a href='"+ basePath  + "/demand/createbanner/" + data.id + "/"+ data.preview_query +"'> "+ 'Create Banner'  +"</a>"; 
