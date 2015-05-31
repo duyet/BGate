@@ -153,9 +153,9 @@ class SignupController extends PublisherAbstractActionController {
 					$message = $message.'<tr><td><b>Login: </b></td><td>'.$user_login.'</td></tr>';
 					$message = $message.'<tr><td><b>Name: </b></td><td>'.$Name.'</td></tr>';
 					$message = $message.'<tr><td><b>Email: </b></td><td>'.$Email.'</td></tr>';
-					$message = $message.'<tr><td><b>Website: </b></td><td>'.$Website.'</td></tr>';
+					// $message = $message.'<tr><td><b>Website: </b></td><td>'.$Website.'</td></tr>';
 					$message = $message.'<tr><td><b>Company: </b></td><td>'.$Company.'</td></tr>';
-					$message = $message.'<tr><td><b>Partner Type: </b></td><td>'.$partner_type.'</td></tr>';
+					// $message = $message.'<tr><td><b>Partner Type: </b></td><td>'.$partner_type.'</td></tr>';
 					$message = $message.'</table>';
 					
 					$subject = "New NginAd Demand Customer Registered: " . $user_login;

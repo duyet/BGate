@@ -973,3 +973,7 @@ a.bright-text:hover {
 div.tooltip-inner {
     width: 100px;
 }
+
+.datatable-wrapper {
+    overflow-x: auto;
+}

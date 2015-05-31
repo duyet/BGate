@@ -2182,6 +2182,83 @@ class DemandController extends DemandAbstractActionController {
 
 	}
 
+	public function bannerlistAction() {
+		$id = $this->getEvent()->getRouteMatch()->getParam('param1');
+		if ($id == null):
+	        die("Invalid Campaign ID");
+        endif;
+        $initialized = $this->initialize();
+		if ($initialized !== true) return $initialized;
+
+        $is_preview = $this->getRequest()->getQuery('ispreview');
+        $campaign_preview_id = "";
+
+        // verify
+		if ($is_preview == "true"):
+			$is_preview = \transformation\TransformPreview::doesPreviewAdCampaignExist($id, $this->auth);
+		endif;
+
+		if ($is_preview == true):
+			// ACL PERMISSIONS CHECK
+			transformation\CheckPermissions::checkEditPermissionAdCampaignPreview($id, $this->auth, $this->config_handle);
+
+			$AdCampaignBannerPreviewFactory = \_factory\AdCampaignBannerPreview::get_instance();
+			$params = array();
+			$params["AdCampaignPreviewID"] = $id;
+			$params["Active"] = 1;
+
+			$rtb_banner_list = $AdCampaignBannerPreviewFactory->get($params);
+			$campaign_preview_id = $id;
+			$id = "";
+		else:
+			// ACL PERMISSIONS CHECK
+			transformation\CheckPermissions::checkEditPermissionAdCampaign($id, $this->auth, $this->config_handle);
+
+			$AdCampaignBannerFactory = \_factory\AdCampaignBanner::get_instance();
+			$params = array();
+			$params["AdCampaignID"] = $id;
+			$params["Active"] = 1;
+			$rtb_banner_list = $AdCampaignBannerFactory->get($params);
+
+		endif;
+
+        if ($is_preview == true):
+        	$ad_campaign_id = $campaign_preview_id;
+   		else:
+        	$ad_campaign_id = $id;
+     	endif;
+
+     	$Offset = 0;
+		
+     	$result = array();
+     	$category_mapper = \util\DeliveryFilterOptions::$vertical_map;
+		$approval_mapper = array(1=>"Auto-Approved", 2=>"Stop", 3=> "Running");
+		if (count($rtb_banner_list)> 0):
+				foreach ($rtb_banner_list AS $row_number => $row_data): 
+					$row = array();
+					$start_date = date_create($row_data["StartDate"]);
+					$end_date = date_create($row_data["EndDate"]);
+					$preview_query = isset($row_data["AdCampaignBannerPreviewID"]) ? "?ispreview=true" : "";
+					$id = isset($row_data["AdCampaignBannerPreviewID"]) ? $row_data["AdCampaignBannerPreviewID"] : $row_data["AdCampaignBannerID"];
+					$row["index"] = $Offset + $row_number+1;
+					$row["name"] = array( "name" => $row_data["Name"] , "id" => $id, "preview_query" => $preview_query );
+					$row["size"] = $row_data["IABSize"];
+					$row["date"] = array( "start" => date_format($start_date, "Y-m-d" ), "end" => date_format($end_date,"Y-m-d" ) );
+					$row["bid_amount"] = "$". $row_data["BidAmount"];
+					$row["bid_counter"] = $row_data["BidsCounter"];
+					$row["impression_counter"] = $row_data["ImpressionsCounter"];
+					$row["current_spend"] = "$" . $row_data["CurrentSpend"];
+					$result[] = $row;
+
+				endforeach;
+		endif;
+
+		header('Content-type: application/json');
+		echo json_encode(array("recordsTotal" => 10, "recordsFiltered" => 10 , 'data' => $result));
+
+		die;
+	}
+
 	/**
 	 * 
 	 * @return \Zend\View\Model\ViewModel
@@ -2991,8 +3068,8 @@ class DemandController extends DemandAbstractActionController {
 		$customerid                = $AdCampaign->CustomerID;
 		$maximpressions            = $AdCampaign->MaxImpressions;
 		$maxspend                  = sprintf("%1.2f", $AdCampaign->MaxSpend);
-		$cpmtarget                 = $AdCampaign->CPMTarget;
-		$cpctarget                 = $AdCampaign->CPCTarget;
+		$cpmtarget                 = 0;#$AdCampaign->CPMTarget;
+		$cpctarget                 = 0;#$AdCampaign->CPCTarget;
 		$deleted                   = $AdCampaign->Deleted;
 
 
@@ -3011,9 +3088,9 @@ class DemandController extends DemandAbstractActionController {
 				'cpctarget' => $cpctarget,
 				'bread_crumb_info' => $this->getBreadCrumbInfoFromAdCampaign($id, $campaign_preview_id, $is_preview),
 				'user_id_list' => $this->user_id_list_demand_customer,
-  			'center_class' => 'centerj',
-    		'user_identity' => $this->identity(),
-    		'true_user_name' => $this->auth->getUserName(),
+	  			'center_class' => 'centerj',
+	    		'user_identity' => $this->identity(),
+	    		'true_user_name' => $this->auth->getUserName(),
 				'header_title' => 'Edit Ad Campaign',
 				'is_admin' => $this->is_admin,
 				'effective_id' => $this->auth->getEffectiveIdentityID(),
