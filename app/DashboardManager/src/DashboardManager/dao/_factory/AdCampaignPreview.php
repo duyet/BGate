@@ -58,20 +58,37 @@ class AdCampaignPreview extends AbstractTableGateway
         	return null;
     }
 
-    public function get($params = null) {
+    public function get($params = null, $orders = null, $search = null, $limit = null, $offset = 0) {
         	// http://files.zend.com/help/Zend-Framework/zend.db.select.html
 
         $obj_list = array();
 
-    	$resultSet = $this->select(function (\Zend\Db\Sql\Select $select) use ($params) {
+    	$resultSet = $this->select(function (\Zend\Db\Sql\Select $select) use ($params,  $orders, $search, $limit, $offset) {
         		foreach ($params as $name => $value):
         		$select->where(
         				$select->where->equalTo($name, $value)
         		);
         		endforeach;
-        		//$select->limit(10, 0);
-        		$select->order('AdCampaignPreviewID');
 
+                if ($search != null):
+                  $select->where
+                          ->nest
+                            ->like("Name", "%". $search ."%" )
+                            ->or
+                            ->equalTo("AdCampaignPreviewID", (int) $search) 
+                          ->unnest;
+                endif;
+                
+                if($orders == null):
+                        $select->order('Name');
+                    else:
+                        $select->order($orders);
+                    endif;
+
+                if ($limit != null):
+                  $select->limit($limit);
+                  $select->offset($offset);
+                endif;
         	}
     	);
 
