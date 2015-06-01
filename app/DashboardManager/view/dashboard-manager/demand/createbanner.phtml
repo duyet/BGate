@@ -103,6 +103,13 @@ $(function() {
 	</div>
 
 	<div class="form-group">
+		<label class="col-sm-3 control-label"  for="adUrl">Upload Ad</label>
+		<div class="col-sm-9">
+			<input type="file" class="txtbox-width form-control" name="adUrl">
+		</div>
+	</div>
+
+	<div class="form-group">
 		<label class="col-sm-3 control-label"  for="label">Label</label>
 		<div class="col-sm-9">
 			<input type="text" class="txtbox-width form-control" name="label">
@@ -407,7 +414,7 @@ $(function() {
     </div>
 </div>
 
-  <div class="panel panel-default">
+<div class="panel panel-default">
     <div class="panel-heading" role="tab" id="heading-advance-options">
       <h4 class="panel-title">
         <a  data-toggle="collapse" data-parent="#banner-form-accordion" href="#collapse-advance-options" aria-expanded="true" aria-controls="collapse-advance-options">
@@ -420,13 +427,247 @@ $(function() {
 
 
 
-<div class="form-group">
-	    <label class="col-sm-3 control-label"  for="startdate">Start Date</label>
+	<div class="form-group">
+	    <label class="col-sm-3 control-label"  for="adTagType">Ad tag-type</label>
 	    <div class="col-sm-9">
-        <div class="input-append date">
-		  <input name="startdate" id="startdate" class="txtbox-datepicker-width form-control" size="16" type="text" value="<?php echo date('m/d/Y');?>" readonly="readonly" />
-		  <span class="add-on" id="startdateicon"><i class="icon-calendar"></i></span>
+	    	<label class="radio-inline">
+			  <input type="radio" name="adTagType" id="iframe" value="iframe" checked> Iframe
+			</label>
+			<label class="radio-inline">
+			  <input type="radio" name="adTagType" id="javascript" value="javascript"> Javascript
+			</label>
 	   </div>
+	</div>
+
+	<div class="form-group">
+	    <label class="col-sm-3 control-label"  for="inAnIframe">In an Iframe</label>
+	    <div class="col-sm-9">
+	    	<label class="radio-inline">
+			  <input type="radio" name="inAnIframe" id="iframe-no-preference" value="0" checked> No preference
+			</label>
+			<label class="radio-inline">
+			  <input type="radio" name="inAnIframe" id="iframe-yes" value="1"> Yes
+			</label>
+			<label class="radio-inline">
+			  <input type="radio" name="inAnIframe" id="iframe-no" value="2"> No
+			</label>
+	   </div>
+	</div>
+
+	<div class="form-group">
+	    <label class="col-sm-3 control-label"  for="multiNestedIframe">In Multi Nested Iframe</label>
+	    <div class="col-sm-9">
+	    	<label class="radio-inline">
+			  <input type="radio" name="multiNestedIframe" id="multi-no-preference" value="0" checked> No preference
+			</label>
+			<label class="radio-inline">
+			  <input type="radio" name="multiNestedIframe" id="multi-yes" value="1"> Yes
+			</label>
+			<label class="radio-inline">
+			  <input type="radio" name="multiNestedIframe" id="multi-no" value="2"> No
+			</label>
+	   </div>
+	</div>
+
+	<div class="form-group">
+	    <div class="col-sm-9 col-md-offset-3">
+	    	<div class="checkbox">
+			  <label>
+			    <input type="checkbox" value="1" name="frequencyCap" onchange="frequency_cap_check()">Frequency Cap in last 24 hours 
+			  </label>
+			</div>
+			
+	   </div>
+	</div>
+
+	<div class="form-group" style="display: none;">
+	    <label class="col-sm-3 control-label"  for="FreCapShowTime">Show times</label>
+	    <div class="col-sm-9">
+	    	<input type="number" name="FreCapShowTime" id="FreCapShowTime" class="form-control" >
+	   </div>
+	</div>
+	<div class="form-group" style="display: none;">
+	    <label class="col-sm-3 control-label"  for="FreCapTimeHr">Time duration (hour)</label>
+	    <div class="col-sm-9">
+	    	<div class="row">
+	    		<label class="col-sm-2 control-label"  for="FreCapTimeFromHr">from</label>
+			    <div class="col-sm-4">
+			    	<input type="number" name="FreCapTimeFromHr" id="FreCapTimeFromHr" class="form-control" >
+			   </div>
+			   <label class="col-sm-2 control-label"  for="FreCapTimeToHr">to</label>
+			    <div class="col-sm-4">
+			    	
+			    	<input type="number" name="FreCapTimeToHr" id="FreCapTimeToHr" class="form-control" >
+			   </div>
+	   </div>
+	   </div>
+	</div>
+
+	<div class="form-group" style="display: none;">
+		<label class="col-sm-3 control-label"  for="freCapApply">Apply</label>
+	    <div class="col-sm-9">
+	    	<div class="checkbox-inline">
+			  <label>
+			    <input type="checkbox" value="1" name="freCapCampaignApply">By campaign
+			  </label>
+			</div>
+			<div class="checkbox-inline">
+			  <label>
+			    <input type="checkbox" value="1" name="freCapZoneApply">By zone 
+			  </label>
+			</div>
+	   </div>
+	</div>
+
+
+      </div>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="heading-position-options">
+      <h4 class="panel-title">
+        <a  data-toggle="collapse" data-parent="#banner-form-accordion" href="#collapse-position-options" aria-expanded="true" aria-controls="collapse-position-options">
+          Position Options
+        </a>
+      </h4>
+    </div>
+    <div id="collapse-position-options" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading-position-options">
+      <div class="panel-body">
+
+
+
+	<div class="form-group">
+	    <label class="col-sm-3 control-label"  for="adTagType">Ad position</label>
+	    <div class="col-sm-9">
+	    	<label class="radio-inline">
+			  <input type="radio" name="adPosLeft" id="Min-Left" value="0" checked> Min Left
+			</label>
+			<label class="radio-inline">
+			  <input type="radio" name="adPosLeft" id="Max-Left" value="1"> Max Left
+			</label>	
+			<br>   
+	    	<label class="radio-inline">
+			  <input type="radio" name="adPostTop" id="Min-Top" value="0" checked> Min Top
+			</label>
+			<label class="radio-inline">
+			  <input type="radio" name="adPostTop" id="Max-Top" value="1"> Max Top
+			</label>
+	   </div>
+	</div>
+
+	<div class="form-group">
+	    <label class="col-sm-3 control-label"  for="foldPosition">Fold position</label>
+	    <div class="col-sm-9">
+	    	<select id="foldPosition"  class="selbox-width form-control"  name="foldPosition">
+			
+			    <?php foreach ($fold_position as $value => $name): ?>
+			        <option value="<?php echo $value;?>"><?php echo $name;?></option>
+			    <?php endforeach; ?>
+			</select>
+	   </div>
+	</div>
+      </div>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="heading-resolution-options">
+      <h4 class="panel-title">
+        <a  data-toggle="collapse" data-parent="#banner-form-accordion" href="#collapse-resolution-options" aria-expanded="true" aria-controls="collapse-resolution-options">
+          Resolution Options
+        </a>
+      </h4>
+    </div>
+    <div id="collapse-resolution-options" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading-resolution-options">
+      <div class="panel-body">
+	<div class="form-group">
+	    <label class="col-sm-3 control-label"  for="resolutionMinW">Min screen res with</label>
+	    <div class="col-sm-9">
+	    	<input type="number" name="resolutionMinW"  class="form-control" >
+	   </div>
+	</div>
+
+	<div class="form-group">
+	    <label class="col-sm-3 control-label"  for="resolutionMaxW">Max screen res with</label>
+	    <div class="col-sm-9">
+	    	<input type="number" name="resolutionMaxW"  class="form-control" >
+	   </div>
+	</div>
+	<div class="form-group">
+	    <label class="col-sm-3 control-label"  for="resolutionMinH">Min screen res height</label>
+	    <div class="col-sm-9">
+	    	<input type="number" name="resolutionMinH"  class="form-control" >
+	   </div>
+	</div>
+	<div class="form-group">
+	    <label class="col-sm-3 control-label"  for="resolutionMaxH">Max screen res height</label>
+	    <div class="col-sm-9">
+	    	<input type="number" name="resolutionMaxH"  class="form-control" >
+	   </div>
+	</div>
+
+
+      </div>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="heading-other-options">
+      <h4 class="panel-title">
+        <a  data-toggle="collapse" data-parent="#banner-form-accordion" href="#collapse-other-options" aria-expanded="true" aria-controls="collapse-other-options">
+          Other Options
+        </a>
+      </h4>
+    </div>
+    <div id="collapse-other-options" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading-other-options">
+      <div class="panel-body">
+	<div class="form-group">
+	    <label class="col-sm-3 control-label"  for="httpLang">HTTP Language</label>
+	    <div class="col-sm-9">
+	    	<input type="text" name="httpLang" id="httpLang"  class="form-control" >
+	   </div>
+	</div>
+
+	<div class="form-group">
+	    <label class="col-sm-3 control-label"  for="browerAgentGrep">Browser User Agent Grep</label>
+	    <div class="col-sm-9">
+	    	<input type="number" name="browerAgentGrep" id="browerAgentGrep"  class="form-control" >
+	   </div>
+	</div>
+	<div class="form-group">
+	    <label class="col-sm-3 control-label"  for="cookieGrep">Cookie Grep</label>
+	    <div class="col-sm-9">
+	    	<input type="number" name="cookieGrep" id="cookieGrep" class="form-control" >
+	   </div>
+	</div>
+	<div class="form-group">
+	    <label class="col-sm-3 control-label"  for="resolutionMaxH">Pmp Enable</label>
+	    <div class="col-sm-9">
+	    	<label class="radio-inline">
+			  <input type="radio" name="pmpEnable" id="no-preference" value="0" checked> No Preference
+			</label>
+			<label class="radio-inline">
+			  <input type="radio" name="pmpEnable" id="PMP-Enable-On" value="1"> PMP Enable On
+			</label>		
+	    	<label class="radio-inline">
+			  <input type="radio" name="pmpEnable" id="PMP-Enable-Off" value="2"> PMP Enable Off
+			</label>
+	   </div>
+	</div>
+
+	<div class="form-group">
+	    <label class="col-sm-3 control-label"  for="secure">Secure</label>
+	    <div class="col-sm-9">
+	    	<label class="radio-inline">
+			  <input type="radio" name="secure" id="Secure-no-preference" value="0" checked> No Preference
+			</label>
+			<label class="radio-inline">
+			  <input type="radio" name="secure" id="Secure-Secure-On" value="1"> https:// Secure on
+			</label>		
+	    	<label class="radio-inline">
+			  <input type="radio" name="secure" id="Secure-Secure-Off" value="2"> https:// Secure off
+			</label>
 	   </div>
 	</div>
 

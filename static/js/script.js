@@ -437,10 +437,34 @@ $().ready(function() {
 			bannername: {
 				required: true
 			},
+			label: {
+				required: true
+			},
+			adUrl: {
+				required: true
+			},
+			altText: {
+				required: true
+			},
+			startdate: {
+				required: true
+			},
+			enddate: {
+				required: true
+			},
+			iABAudienceCategory: {
+				required: true
+			},
+			gEOCountry: {
+				required: true
+			},
+			timeZone: {
+				required: true
+			},
 			adtag: {
                required: true
            },
-           landingpagetld: {  
+           landingPageTLD: {  
                required:  {
                    depends:function(){
                        $(this).val($.trim($(this).val()));

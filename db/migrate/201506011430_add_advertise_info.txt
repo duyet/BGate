@@ -1,4 +1,4 @@
-ALTER TABLE `bgate`.`AdCampaignBannerPreview` 
+ALTER TABLE `AdCampaignBannerPreview` 
 ADD COLUMN `AdUrl` MEDIUMTEXT NULL AFTER `WentLiveDate`,
 ADD COLUMN `Label` VARCHAR(45) NULL AFTER `AdUrl`,
 ADD COLUMN `AltText` VARCHAR(45) NULL AFTER `Label`,
@@ -31,7 +31,7 @@ ADD COLUMN `CookieGrep` MEDIUMTEXT NULL AFTER `BrowerAgentGrep`,
 ADD COLUMN `PmpEnable` TINYINT(1) NULL AFTER `CookieGrep`,
 ADD COLUMN `Secure` INT NULL AFTER `PmpEnable`;
 
-ALTER TABLE `bgate`.`AdCampaignBanner` 
+ALTER TABLE `AdCampaignBanner` 
 ADD COLUMN `AdUrl` MEDIUMTEXT NULL,
 ADD COLUMN `Label` VARCHAR(45) NULL AFTER `AdUrl`,
 ADD COLUMN `AltText` VARCHAR(45) NULL AFTER `Label`,

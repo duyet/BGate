@@ -281,3 +281,20 @@ $().ready(function() {
 
 	switchAdCampaignType();
 });
+
+function frequency_cap_check () {
+	var frequencyCap = $("input[name=frequencyCap]").is(':checked');
+	var FreCapShowTime = $("label[for=FreCapShowTime]").parent();
+	var FreCapTimeHr = $("label[for=FreCapTimeHr]").parent();
+	var freCapApply = $("label[for=freCapApply]").parent();
+	if(frequencyCap){
+		FreCapShowTime.fadeIn('slow');
+		FreCapTimeHr.fadeIn('slow');
+		freCapApply.fadeIn('slow');
+	}else{
+		FreCapShowTime.fadeOut('slow');
+		FreCapTimeHr.fadeOut('slow');
+		freCapApply.fadeOut('slow');
+	}
+	console.log('frequencyCap',frequencyCap);
+}

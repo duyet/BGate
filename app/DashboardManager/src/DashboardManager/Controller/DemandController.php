@@ -2478,6 +2478,7 @@ class DemandController extends DemandAbstractActionController {
         		'vertical_map' => \util\DeliveryFilterOptions::$vertical_map,
         		'timezone_options' => \util\DeliveryFilterOptions::$timezone_options,
         		'geo_country' => \util\DeliveryFilterOptions::$geo_country,
+        		'fold_position' => \util\DeliveryFilterOptions::$fold_position,
         ));
 	}
 
@@ -2523,7 +2524,12 @@ class DemandController extends DemandAbstractActionController {
 				'width',
 				'bidamount',
 				'adtag',
-				'landingpagetld'
+				// 'landingpagetld',
+				'label',
+				'altText',
+				'iabsize',
+				'bidamount',
+				'landingPageTLD'
 		);
 		
 		$needed_input_video = array(
@@ -2670,6 +2676,39 @@ class DemandController extends DemandAbstractActionController {
 		$BannerPreview->DateCreated               = date("Y-m-d H:i:s");
 		$BannerPreview->DateUpdated               = date("Y-m-d H:i:s");
 		$BannerPreview->ChangeWentLive       	  = 0;
+
+		$BannerPreview->AdUrl                         = $this->getRequest()->getPost('adUrl');
+		$BannerPreview->Label                         = $this->getRequest()->getPost('label');
+		$BannerPreview->AltText                       = $this->getRequest()->getPost('altText');
+		$BannerPreview->BidType                       = $this->getRequest()->getPost('bidType');
+		// $BannerPreview->Target                        = $this->getRequest()->getPost('target');
+		// $BannerPreview->TargetVal                     = $this->getRequest()->getPost('TargetVal');
+		// $BannerPreview->DailyBudget                   = $this->getRequest()->getPost('DailyBudget');
+		// $BannerPreview->MaximumBudget                 = $this->getRequest()->getPost('MaximumBudget');
+		$BannerPreview->IABAudienceCategory           = $this->getRequest()->getPost('iABAudienceCategory');
+		$BannerPreview->GEOCountry                    = $this->getRequest()->getPost('gEOCountry');
+		$BannerPreview->TimeZone                      = $this->getRequest()->getPost('timeZone');
+		$BannerPreview->FrequencyCap                  = $this->getRequest()->getPost('frequencyCap');
+		$BannerPreview->FreCapShowTime                = $this->getRequest()->getPost('freCapShowTime');
+		$BannerPreview->FreCapTimeFromHr              = $this->getRequest()->getPost('freCapTimeFromHr');
+		$BannerPreview->FreCapTimeToHr                = $this->getRequest()->getPost('freCapTimeToHr');
+		$BannerPreview->FreCapCampaignApply           = $this->getRequest()->getPost('freCapCampaignApply');
+		$BannerPreview->FreCapZoneApply               = $this->getRequest()->getPost('freCapZoneApply');
+		$BannerPreview->AdTagType                     = $this->getRequest()->getPost('adTagType');
+		$BannerPreview->InAnIframe                    = $this->getRequest()->getPost('inAnIframe');
+		$BannerPreview->MultiNestedIframe             = $this->getRequest()->getPost('multiNestedIframe');
+		$BannerPreview->AdPostLeft                    = $this->getRequest()->getPost('adPostLeft');
+		$BannerPreview->AdPostTop                     = $this->getRequest()->getPost('adPostTop');
+		$BannerPreview->ResolutionMinW                = $this->getRequest()->getPost('resolutionMinW');
+		$BannerPreview->ResolutionMaxW                = $this->getRequest()->getPost('resolutionMaxW');
+		$BannerPreview->ResolutionMinH                = $this->getRequest()->getPost('resolutionMinH');
+		$BannerPreview->ResolutionMaxH                = $this->getRequest()->getPost('resolutionMaxH');
+		$BannerPreview->HttpLang                      = $this->getRequest()->getPost('httpLang');
+		$BannerPreview->BrowerAgentGrep               = $this->getRequest()->getPost('browerAgentGrep');
+		$BannerPreview->CookieGrep                    = $this->getRequest()->getPost('bookieGrep');
+		$BannerPreview->PmpEnable                     = $this->getRequest()->getPost('pmpEnable');
+		$BannerPreview->Secure                        = $this->getRequest()->getPost('secure');
+		$BannerPreview->FoldPosition                  = $this->getRequest()->getPost('poldPosition');
 
 		$AdCampaignBannerPreviewFactory = \_factory\AdCampaignBannerPreview::get_instance();
 		$banner_preview_id_new = $AdCampaignBannerPreviewFactory->saveAdCampaignBannerPreview($BannerPreview);

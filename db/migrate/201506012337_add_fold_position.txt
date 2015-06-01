@@ -1,0 +1,1 @@
+ALTER TABLE `adcampaignbannerpreview` ADD `FoldPosition` INT NOT NULL AFTER `Secure`;

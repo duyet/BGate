@@ -159,7 +159,6 @@ class DeliveryFilterOptions {
     );
     
     public static $partner_type = array(
-    
                 "1" =>"ad network",
                 "2" =>"brand manager for digital",
                 "3" =>"self-serve",
@@ -418,7 +417,12 @@ class DeliveryFilterOptions {
         'BES'=>'Bonaire',
         'ALA'=>'Åland'
     );
-
+    public static $fold_position = array(
+        "1" =>"Not available/ applicable",
+        "2" =>"Completely Above the Fold",
+        "3" =>"Completely Below the Fold",
+        "4" =>"Partially Above the Fold"
+    );
 }
 
 ?>
