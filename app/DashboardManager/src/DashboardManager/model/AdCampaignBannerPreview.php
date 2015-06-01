@@ -36,6 +36,38 @@ class AdCampaignBannerPreview {
     public $DateCreated;
     public $ChangeWentLive;
     public $WentLiveDate;
+    public $AdUrl;
+    public $Label;
+    public $AltText;
+    public $BidType;
+    public $Target
+    public $TargetVal
+    public $DailyBudget
+    public $MaximumBudget
+    public $IABAudienceCategory
+    public $GEOCountry
+    public $TimeZone
+    public $FrequencyCap
+    public $FreCapShowTime
+    public $FreCapTimeFromHr
+    public $FreCapTimeToHr
+    public $FreCapCampaignApply
+    public $FreCapZoneApply
+    public $AdTagType
+    public $InAnIframe
+    public $MultiNestedIframe
+    public $AdPostLeft
+    public $AdPostTop
+    public $ResolutionMinW
+    public $ResolutionMaxW
+    public $ResolutionMinH
+    public $ResolutionMaxH
+    public $HttpLang
+    public $BrowerAgentGrep
+    public $CookieGrep
+    public $PmpEnable
+    public $Secure
+
 }
 
 ?>
