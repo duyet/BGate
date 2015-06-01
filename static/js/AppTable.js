@@ -269,10 +269,10 @@ var CampaignAdTable = {
                 return data.start + "<hr class='mrg5T mrg5B'/><div class='row-action'>" + data.end ;
               } 
             },
-            { "data": "bid_amount", width: "12%", className: "text-right" },
-            { "data": "bid_counter", width: "12%" },
-            { "data": "impression_counter", width: "12%" },
-            { "data": "current_spend", width: "12%", className: "text-right" },
+            { "data": "bid_amount", width: "12%", className: "text-right", "asSorting": [ "desc" ,"asc" ] },
+            { "data": "bid_counter", width: "12%", "asSorting": [ "desc" ,"asc" ] },
+            { "data": "impression_counter", width: "12%", "asSorting": [ "desc" ,"asc" ] },
+            { "data": "current_spend", width: "12%", className: "text-right", "asSorting": [ "desc" ,"asc" ] },
 
         ],
         initComplete: function () {

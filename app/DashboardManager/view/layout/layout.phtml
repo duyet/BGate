@@ -43,7 +43,7 @@ echo $this->doctype(); ?>
         <?php echo $this->headMeta()->appendName('viewport', 'width=device-width, initial-scale=1.0') ?>
         <?php echo $this->headLink(array('rel' => 'shortcut icon', 'href' => $this->basePath() . '/images/favicon.png')); ?>
 
-<link href="<?php echo $this->basePath() . '/static/bootstrap/dist/css/bootstrap.min.css' ?>" media="screen" rel="stylesheet" type="text/css">
+<link href="<?php echo $this->basePath() . '/static/bootstrap/dist/css/bootstrap.css' ?>" media="screen" rel="stylesheet" type="text/css">
 <link href="<?php echo $this->basePath() . '/static/bootflat/css/bootflat.min.css' ?>" media="screen" rel="stylesheet" type="text/css">
 <link href="<?php echo $this->basePath() . '/static/bgate/site.css' ?>" media="screen" rel="stylesheet" type="text/css">
 <link href="<?php echo $this->basePath() . '/static/bgate/spacing.css' ?>" media="screen" rel="stylesheet" type="text/css">
@@ -54,7 +54,7 @@ echo $this->doctype(); ?>
         <!-- Scripts -->
         <?php echo $this->headScript()->prependFile($this->basePath() . '/static/js/3rdparty/html5.js', 'text/javascript', array('conditional' => 'lt IE 9',))
                                       ->prependFile($this->basePath() . '/static/js/3rdparty/jquery.validate.min.js')
-                                      ->prependFile($this->basePath() . '/static/js/3rdparty/bootstrap.min.js')
+                                      ->prependFile($this->basePath() . '/static/js/3rdparty/bootstrap.js')
                                       ->prependFile($this->basePath() . '/static/bootflat/js/icheck.min.js')
                                       ->prependFile($this->basePath() . '/static/js/dataTables.bootstrap.js')
                                       ->prependFile($this->basePath() . '/static/js/jquery.dataTables.js')
