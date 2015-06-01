@@ -1,8 +1,8 @@
 <?php
-$this->headScript()->appendFile($this->basePath() . '/js/3rdparty/jquery-ui-1.9.2.custom.min.js');
-$this->headLink()->appendStylesheet($this->basePath() . '/css/jquery-ui/smoothness/jquery-ui-1.9.2.custom.min.css');
-$this->headScript()->appendFile($this->basePath() . '/js/banner.js');
-$this->headScript()->appendFile($this->basePath() . '/js/script.js');
+$this->headScript()->appendFile($this->basePath() . '/static/js/3rdparty/jquery-ui-1.9.2.custom.min.js');
+$this->headLink()->appendStylesheet($this->basePath() . '/static/css/jquery-ui/smoothness/jquery-ui-1.9.2.custom.min.css');
+$this->headScript()->appendFile($this->basePath() . '/static/js/banner.js');
+$this->headScript()->appendFile($this->basePath() . '/static/js/script.js');
 
 
 $preview_query = $ispreview == true ? "?ispreview=true" : "";
@@ -92,7 +92,7 @@ $(function() {
 		<div class="col-sm-9">
 		<select id="ImpressionType" name="ImpressionType" class="selbox-width form-control" onchange="switchImpressionType();">
 			<option value="banner">Banner Ad</option>
-			<option value="video">Video Ad</option>
+			<option value="video" disabled>Video Ad</option>
 		</select>
 		</div>
 	</div>
@@ -197,7 +197,7 @@ $(function() {
 		<div class="col-sm-9">
 	        <select id="ismobile"  class="selbox-width form-control" name="ismobile" onchange="switchMobile(this);">
 	            <?php foreach ($mobile_options as $code => $name): ?>
-	                <option value="<?php echo $code;?>"><?php echo $name;?></option>
+	                <option value="<?php echo $code;?>" <?php echo $name=="Desktop" ? "" : "disabled" ?> ><?php echo $name;?></option>
 	            <?php endforeach; ?>
 	        </select>
 		</div>

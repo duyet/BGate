@@ -247,29 +247,32 @@ var CampaignAdTable = {
          { bSortable: false, 'aTargets': [ 0,2 ] },    
         ],
         "columns": [
-            { "data": "index", className: "text-center" },
+            { "data": "id", className: "text-center" },
             { 
               "data": "name", 
+              width: "25%",
               render: function(data) {
+                // deleteBannerModal('/demand/deletebanner/2?ispreview=true','abc');
                 // deleteDomainModal(<?php echo $domain_id;?>,'<?php echo $domain_list_raw[$row_number]["WebDomain"];?>')
                 var  detail_url= "<a href='javascript:;'>"+ data.name + " (" + "Details" + ")"  +"</a>"; 
                 var edit_url= "<a href='"+ basePath  + "/demand/editbanner/" + data.id + "/"+ data.preview_query +"'>Edit</a>";
-                var delete_url= '<a href="javascript:;" onclick="DeleteAdCampaignModal('+data.id+ ', \'' + data.name +'\' )">Delete' + '</a>';
+                var delete_url= '<a href="javascript:;" onclick="deleteBannerModal(\'/demand/deletebanner/'+data.id+ data.preview_query +'\', \'' + data.name +'\' )">Delete' + '</a>';
                 return detail_url + "<hr class='mrg5T mrg5B'/><div class='row-action'>" + edit_url + " " + delete_url +"</div>";
               } 
             },
             { "data": "size" },
             { 
               "data": "date", 
+              width: "15%",
               className: "text-center",
               render: function(data){
                 return data.start + "<hr class='mrg5T mrg5B'/><div class='row-action'>" + data.end ;
               } 
             },
-            { "data": "bid_amount", width: "15%", className: "text-right" },
-            { "data": "bid_counter", width: "15%" },
-            { "data": "impression_counter", width: "15%" },
-            { "data": "current_spend", width: "15%", className: "text-right" },
+            { "data": "bid_amount", width: "12%", className: "text-right" },
+            { "data": "bid_counter", width: "12%" },
+            { "data": "impression_counter", width: "12%" },
+            { "data": "current_spend", width: "12%", className: "text-right" },
 
         ],
         initComplete: function () {

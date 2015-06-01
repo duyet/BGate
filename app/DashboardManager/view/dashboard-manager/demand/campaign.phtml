@@ -164,3 +164,25 @@ $effective_user_in_dashboard = false;
   </div>
 </div>
 <!-- Campaign Delete Modal -->
+
+<!-- Banner Delete Modal -->
+<input  type="hidden" name="modal_banner_id" id="modal_banner_id" value="0" />
+<div class="modal fade" id="DeleteBannerModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel">Delete Banner</h4>
+      </div>
+      <div class="modal-body">
+      <div id="banner_alert_msg" class="alert alert-error" style="display: none;">Error</div>
+    <p id="msg"></p>
+<h5 style="color: #b94a48;">This action is a preview and must be approved!</h5>
+      </div>
+      <div class="modal-footer">
+      <button type="button" data-loading-text="Processing..." id="banner_yes_btn" class="btn btn-primary" onclick="deleteBannerConfirm();">Yes</button>
+        <button type="button" class="btn btn-default" id="banner_no_btn" data-dismiss="modal">No</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Banner Delete Modal -->

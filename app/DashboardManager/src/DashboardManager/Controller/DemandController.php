@@ -2281,7 +2281,7 @@ class DemandController extends DemandAbstractActionController {
 					$end_date = date_create($row_data["EndDate"]);
 					$preview_query = isset($row_data["AdCampaignBannerPreviewID"]) ? "?ispreview=true" : "";
 					$id = isset($row_data["AdCampaignBannerPreviewID"]) ? $row_data["AdCampaignBannerPreviewID"] : $row_data["AdCampaignBannerID"];
-					$row["index"] = $Offset + $row_number+1;
+					$row["id"] = $id;
 					$row["name"] = array( "name" => $row_data["Name"] , "id" => $id, "preview_query" => $preview_query );
 					$row["size"] = $row_data["IABSize"];
 					$row["date"] = array( "start" => date_format($start_date, "Y-m-d" ), "end" => date_format($end_date,"Y-m-d" ) );
@@ -2295,7 +2295,7 @@ class DemandController extends DemandAbstractActionController {
 		endif;
 
 		header('Content-type: application/json');
-		echo json_encode(array("recordsTotal" => 10, "recordsFiltered" => 10 , 'data' => $result));
+		echo json_encode(array('data' => $result));
 
 		die;
 	}
@@ -2709,7 +2709,7 @@ class DemandController extends DemandAbstractActionController {
 			
 		endif;
 
-		$refresh_url = "/demand/viewbanner/" . $BannerPreview->AdCampaignPreviewID . "?ispreview=true";
+		$refresh_url = "/demand/campaign/" . $BannerPreview->AdCampaignPreviewID . "?ispreview=true";
 		$viewModel = new ViewModel(array('refresh_url' => $refresh_url));
 
 		return $viewModel->setTemplate('dashboard-manager/demand/interstitial.phtml');

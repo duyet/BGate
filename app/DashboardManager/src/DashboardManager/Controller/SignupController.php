@@ -348,6 +348,16 @@ class SignupController extends PublisherAbstractActionController {
 		$userData = $authUsersFactory->get_row(array("user_id" => $this->auth->getUserID()));
 		$userRole = $this->auth->getRoles();
 		$userRole = $userRole[0];
+		// print_r($userData);
+		// die;
+
+		if (isset($userData->DemandCustomerInfoID) ):
+			return $this->redirect()->toRoute('signup', array(
+			    'controller' => 'signup',
+			    'action' =>  'profile',
+			));
+		endif;
+
 
 		if($userRole == 'member'):
 			$PublisherInfo = $PublisherInfoFactory->get_row_object(array("PublisherInfoID" => $userData->PublisherInfoID));
