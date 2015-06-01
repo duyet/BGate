@@ -1,0 +1,227 @@
+<?php
+$this->headScript()->appendFile($this->basePath() . '/static/js/3rdparty/jquery-ui-1.9.2.custom.min.js');
+$this->headLink()->appendStylesheet($this->basePath() . '/static/css/jquery-ui/smoothness/jquery-ui-1.9.2.custom.min.css');
+$this->headScript()->appendFile($this->basePath() . '/static/js/banner.js');
+$this->headScript()->appendFile($this->basePath() . '/static/js/script.js');
+
+
+?>
+
+
+<div class="docs-header">
+  <div class="topic">
+    <div class="container">
+      <div ><h4><?php echo $campaignbanner_preview->Name;?> (<?php echo $campaignbanner_preview->AdCampaignBannerPreviewID;?>)</h4></div>
+    </div>
+  </div>
+</div>
+<div id="container" class="container">
+
+	<div class="row mrg20T">
+		<div class="col-md-8 col-md-offset-2 col-sm-12 panel">
+			<div class="panel-body">
+				<h4 class="underline mrg0T">General Options</h4>
+					<div class="form-group">
+					    <label for="adname" class="control-label col-sm-4">Ad Name </label>
+					    <div class="controls col-sm-8">
+					      <label class="control-label"><?php echo $campaignbanner_preview->Name;?></label>
+					    </div>
+					 </div>
+					 <div class="form-group">
+					    <label for="adname" class="control-label col-sm-4">Label </label>
+					    <div class="controls col-sm-8">
+					      <label class="control-label"><?php echo $campaignbanner_preview->Label?></label>
+					    </div>
+					 </div>
+					<div class="form-group">
+					    <label for="adname" class="control-label col-sm-4">Alt Text </label>
+					    <div class="controls col-sm-8">
+					      <label class="control-label"><?php echo $campaignbanner_preview->AltText?></label>
+					    </div>
+					 </div>
+					 <div class="form-group">
+					    <label for="adname" class="control-label col-sm-4">Ad delivery type </label>
+					    <div class="controls col-sm-8">
+					      <label class="control-label"><?php echo $campaignbanner_preview->DeliveryType?></label>
+					    </div>
+					 </div>
+					<div class="form-group">
+					    <label for="adname" class="control-label col-sm-4">Start Date </label>
+					    <div class="controls col-sm-8">
+					      <label class="control-label"><?php echo $campaignbanner_preview->StartDate?></label>
+					    </div>
+					 </div>
+					 <div class="form-group">
+					    <label for="adname" class="control-label col-sm-4">End Date </label>
+					    <div class="controls col-sm-8">
+					      <label class="control-label"><?php echo $campaignbanner_preview->EndDate?></label>
+					    </div>
+					 </div>
+					 <div class="form-group">
+					    <label for="adname" class="control-label col-sm-4">Device Ad type </label>
+					    <div class="controls col-sm-8">
+					      <label class="control-label"><?php echo $campaignbanner_preview->IsMobile?></label>
+					    </div>
+					 </div>
+					 <div class="form-group">
+					    <label for="adname" class="control-label col-sm-4">IAB Size </label>
+					    <div class="controls col-sm-8">
+					      <label class="control-label"><?php echo $campaignbanner_preview->IABSize?></label>
+					    </div>
+					 </div>	
+					 <div class="form-group">
+					    <label for="adname" class="control-label col-sm-4">Bid amount </label>
+					    <div class="controls col-sm-8">
+					      <label class="control-label"><?php echo $campaignbanner_preview->BidAmount?></label>
+					    </div>
+					 </div>	
+					 <div class="form-group">
+					    <label for="adname" class="control-label col-sm-4">Ad tag </label>
+					    <div class="controls col-sm-8">
+					      <label class="control-label"><?php echo $campaignbanner_preview->AdTag?></label>
+					    </div>
+					 </div>
+					 <div class="form-group">
+					    <label for="adname" class="control-label col-sm-4">Landing page TLD </label>
+					    <div class="controls col-sm-8">
+					      <label class="control-label"><?php echo $campaignbanner_preview->LandingPageTLD?></label>
+					    </div>
+					 </div>	
+					 <div class="form-group">
+					    <label for="adname" class="control-label col-sm-4">IAB Audiences Category </label>
+					    <div class="controls col-sm-8">
+					      <label class="control-label"><?php echo $campaignbanner_preview->IABAudienceCategory?></label>
+					    </div>
+					 </div>
+					 <div class="form-group">
+					    <label for="adname" class="control-label col-sm-4">GEO Country </label>
+					    <div class="controls col-sm-8">
+					      <label class="control-label"><?php echo $campaignbanner_preview->GEOCountry?></label>
+					    </div>
+					 </div>
+					 <div class="form-group">
+					    <label for="adname" class="control-label col-sm-4">Timezone </label>
+					    <div class="controls col-sm-8">
+					      <label class="control-label"><?php echo $campaignbanner_preview->TimeZone?></label>
+					    </div>
+					 </div>	
+			</div>
+		</div>
+	</div>
+
+	<div class="row mrg20T">
+		<div class="col-md-8 col-md-offset-2 col-sm-12 panel">
+			<div class="panel-body">
+				<h4 class="underline mrg0T">Advance Options</h4>
+					 <div class="form-group">
+					    <label for="adname" class="control-label col-sm-4">Ad tag-type </label>
+					    <div class="controls col-sm-8">
+					      <label class="control-label"><?php echo $campaignbanner_preview->AdTagType?></label>
+					    </div>
+					 </div>	
+					 <div class="form-group">
+					    <label for="adname" class="control-label col-sm-4">In an Iframe </label>
+					    <div class="controls col-sm-8">
+					      <label class="control-label"><?php echo $campaignbanner_preview->InAnIframe?></label>
+					    </div>
+					 </div>
+					 <div class="form-group">
+					    <label for="adname" class="control-label col-sm-4">In Multiple Nested IFrames </label>
+					    <div class="controls col-sm-8">
+					      <label class="control-label"><?php echo $campaignbanner_preview->MultiNestedIframe?></label>
+					    </div>
+					 </div>	
+			</div>
+		</div>
+	</div>
+
+	<div class="row mrg20T">
+		<div class="col-md-8 col-md-offset-2 col-sm-12 panel">
+			<div class="panel-body">
+				<h4 class="underline mrg0T">Position Options</h4>
+					 <div class="form-group">
+					    <label for="adname" class="control-label col-sm-4">Ad position </label>
+					    <div class="controls col-sm-8">
+					      <label class="control-label">Left: <?php echo $campaignbanner_preview->AdPostLeft?> - Top: <?php echo $campaignbanner_preview->AdPostTop?></label>
+					    </div>
+					 </div>
+					 <div class="form-group">
+					    <label for="adname" class="control-label col-sm-4">Fold position </label>
+					    <div class="controls col-sm-8">
+					      <label class="control-label">Unknown</label>
+					    </div>
+					 </div>	
+			</div>
+		</div>
+	</div>
+
+	<div class="row mrg20T">
+		<div class="col-md-8 col-md-offset-2 col-sm-12 panel">
+			<div class="panel-body">
+				<h4 class="underline mrg0T">Resolution Options</h4>
+					 <div class="form-group">
+					    <label for="adname" class="control-label col-sm-4">Min screen res width </label>
+					    <div class="controls col-sm-8">
+					      <label class="control-label"><?php echo $campaignbanner_preview->ResolutionMinW?></label>
+					    </div>
+					 </div>
+					 <div class="form-group">
+					    <label for="adname" class="control-label col-sm-4">Max screen res width </label>
+					    <div class="controls col-sm-8">
+					      <label class="control-label"><?php echo $campaignbanner_preview->ResolutionMaxW?></label>
+					    </div>
+					 </div>	
+					 <div class="form-group">
+					    <label for="adname" class="control-label col-sm-4">Min screen res height </label>
+					    <div class="controls col-sm-8">
+					      <label class="control-label"><?php echo $campaignbanner_preview->ResolutionMinH?></label>
+					    </div>
+					 </div>
+					 <div class="form-group">
+					    <label for="adname" class="control-label col-sm-4">Max screen res height </label>
+					    <div class="controls col-sm-8">
+					      <label class="control-label"><?php echo $campaignbanner_preview->ResolutionMaxH?></label>
+					    </div>
+					 </div>	
+			</div>
+		</div>
+	</div>
+
+	<div class="row mrg20T">
+		<div class="col-md-8 col-md-offset-2 col-sm-12 panel">
+			<div class="panel-body">
+				<h4 class="underline mrg0T">Other Options</h4>
+					 <div class="form-group">
+					    <label for="adname" class="control-label col-sm-4">HTTP language </label>
+					    <div class="controls col-sm-8">
+					      <label class="control-label"><?php echo $campaignbanner_preview->HttpLang?></label>
+					    </div>
+					 </div>
+					 <div class="form-group">
+					    <label for="adname" class="control-label col-sm-4">Browser User Agent Grep </label>
+					    <div class="controls col-sm-8">
+					      <label class="control-label"><?php echo $campaignbanner_preview->BrowerAgentGrep?></label>
+					    </div>
+					 </div>	
+					 <div class="form-group">
+					    <label for="adname" class="control-label col-sm-4">Cookie Grep </label>
+					    <div class="controls col-sm-8">
+					      <label class="control-label"><?php echo $campaignbanner_preview->CookieGrep?></label>
+					    </div>
+					 </div>
+					 <div class="form-group">
+					    <label for="adname" class="control-label col-sm-4">Pmp enable </label>
+					    <div class="controls col-sm-8">
+					      <label class="control-label"><?php echo $campaignbanner_preview->PmpEnable?></label>
+					    </div>
+					 </div>	
+					 <div class="form-group">
+					    <label for="adname" class="control-label col-sm-4">Secure </label>
+					    <div class="controls col-sm-8">
+					      <label class="control-label"><?php echo $campaignbanner_preview->Secure?></label>
+					    </div>
+					 </div>	
+			</div>
+		</div>
+	</div>
+</div>

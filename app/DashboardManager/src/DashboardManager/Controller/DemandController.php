@@ -169,6 +169,35 @@ class DemandController extends DemandAbstractActionController {
 	}
 
     /**
+     * Will Show ads banner of campaign.
+     * (non-PHPdoc)
+     * @see \Zend\Mvc\Controller\AbstractActionController::bannerAction()
+     */
+	public function showbannerAction(){
+		$campaign_banner_preview_id = $this->getEvent()->getRouteMatch()->getParam('param1');
+
+		$AdCampaignBannerPreviewFactory = \_factory\AdCampaignBannerPreview::get_instance();
+		$params = array();
+		$params["AdCampaignBannerPreviewID"] = $campaign_banner_preview_id;
+
+		$AdCampaignBannerPreview = $AdCampaignBannerPreviewFactory->get_row($params);		
+
+
+
+		return new ViewModel(array(
+				'campaignbanner_preview' => $AdCampaignBannerPreview,
+				'user_id_list' => $this->user_id_list_demand_customer,
+    			'center_class' => 'centerj',
+	    		'user_identity' => $this->identity(),
+	    		// 'true_user_name' => $this->auth->getUserName(),
+				'header_title' => 'Edit Ad Campaign',
+				// 'is_admin' => $this->is_admin,
+				// 'effective_id' => $this->auth->getEffectiveIdentityID(),
+				'impersonate_id' => $this->ImpersonateID
+		));
+	}
+
+    /**
      * Will Show the dashboard index page.
      * (non-PHPdoc)
      * @see \Zend\Mvc\Controller\AbstractActionController::indexAction()

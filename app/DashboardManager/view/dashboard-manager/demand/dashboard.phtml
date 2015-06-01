@@ -1,0 +1,99 @@
+<div class="docs-header">
+  <div class="topic">
+    <div class="row">
+      <div class="col-md-5 col-md-offset-1 col-sm-5 col-sm-offset-1 col-xs-6"><h4>Demand Dashboard  </h4></div>
+      <div class="col-md-5 col-sm-5 text-right col-xs-6">
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row mrg20T">
+  <div class="col-xs-10 col-xs-offset-1">
+    <div class="panel">
+      <div class="panel-body">
+        
+        <div class="row mrg10T">
+          
+          <div class="col-sm-4 mrg10B">
+            <div class="box no-border bg-custom-success tiles-information">
+              <i class="glyphicon glyphicon-globe icon-bg"></i>
+              <div class="box-inner text-center bright-text">
+                <h3>Campaigns</h3>
+                <hr class="mrg5T mrg5B">
+                <div class="text-right">
+                  <a class="bright-text tooltip-item" title="Campaigns List" href="<?php echo $this->basePath() ?>/demand"><i class="glyphicon glyphicon-th-list"></i></a>&nbsp;
+                  <a class="bright-text tooltip-item" title="Add Campaign" href="<?php echo $this->basePath() ?>/demand/createcampaign"><i class="glyphicon glyphicon-plus"></i></a>
+                </div>
+              </div>
+            </div>
+          </div> 
+
+          <div class="col-sm-4 mrg10B">
+            <div class="box no-border bg-custom-primary tiles-information">
+              <i class="glyphicon glyphicon-th-large icon-bg"></i>
+              <div class="box-inner text-center">
+                <h3 class="bright-text">Banners</h3>
+                <hr class="mrg5T mrg5B bright-text">
+                <div class="text-right">
+                  <div class="toggle-item display-inline tooltip-item" title="Banners List">
+                    <a class="dropdown-toggle bright-text"  data-toggle="dropdown" href="#">
+                      <i class="glyphicon glyphicon-th-list"></i>&nbsp;
+                    </a>
+
+                    <ul class="dropdown-menu pull-right"  role="menu" aria-labelledby="dropdownMenu">
+                      
+                      <?php foreach ($campaigns_list as $key => $val): ?>
+                      <li> <a tabindex="-1" class="disabled" href="<?php echo $this->basePath() ?>/demand/campaign/<?php echo $val->AdCampaignPreviewID ?>/?ispreview=true"><?php echo $val->Name ?></a>
+
+                      </li>
+                      <?php endforeach; ?>
+                      
+                      
+                    </ul>
+                  </div>
+                  <div class="toggle-item display-inline tooltip-item" title="Add Banner">
+                    <a class="dropdown-toggle bright-text"  data-toggle="dropdown" href="#">
+                      <i class="glyphicon glyphicon-plus"></i>
+                    </a>
+
+                    <ul class="dropdown-menu pull-right"  role="menu" aria-labelledby="dropdownMenu">
+                      <?php foreach ($campaigns_list as $key => $val): ?>
+                      <li> <a tabindex="-1" class="disabled" href="<?php echo $this->basePath() ?>/demand/createbanner/<?php echo $val->AdCampaignPreviewID ?>/?ispreview=true"><?php echo $val->Name ?></a>
+
+                      </li>
+                      <?php endforeach; ?>
+                      
+                    </ul>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>  
+
+          <div class="col-sm-4 mrg10B">
+            <div class="box no-border bg-custom-warning tiles-information">
+              <i class="glyphicon glyphicon-list-alt icon-bg"></i>
+              <div class="box-inner text-center bright-text">
+                <h3>Report</h3>
+                <hr class="mrg5T mrg5B">
+                <br>
+              </div>
+            </div>
+          </div>  
+
+        </div>
+        
+       
+
+      </div>
+      
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  $(function(){
+    $('.tooltip-item').tooltip({placement: "bottom", container: "body"});
+  });
+</script>
