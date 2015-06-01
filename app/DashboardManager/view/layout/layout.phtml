@@ -86,6 +86,14 @@ echo $this->doctype(); ?>
                         <li class="divider-vertical"></li>
                         <?php else:?>
                         <?php if (($user_data != null && $user_data->DemandCustomerInfoID != null) || $userRole=='admin' || $userRole=='superadmin'): ?>
+                            <li class="<?php if($home_dashboard_view == " demand ") echo "active ";?>">
+                                <a class="navlink" href="<?php echo $this->basePath() ?>/demand/dashboard">
+                                    Dashboard
+                                </a>
+                            </li>         
+                            <li class="divider-vertical"></li>
+                        <?php endif;?>
+                        <?php if (($user_data != null && $user_data->DemandCustomerInfoID != null) || $userRole=='admin' || $userRole=='superadmin'): ?>
                         <li class="<?php if($home_dashboard_view == " demand ") echo "active ";?>"><a class="navlink" href="<?php echo $this->basePath() ?>/demand">Campaign</a></li>
                         <li class="divider-vertical"></li>
                         <?php endif;?>

@@ -28,39 +28,39 @@ class DemandController extends DemandAbstractActionController {
 	 * @return \Zend\View\Model\ViewModel
 	 */
 	public function dashboardAction() {
-		// $initialized = $this->initialize();
-		// if ($initialized !== true) return $initialized;
+		$initialized = $this->initialize();
+		if ($initialized !== true) return $initialized;
 
-		// $user_info_factory = \_factory\PublisherInfo::get_instance();
-		// $user_info = new \model\PublisherInfo;
-  //       $user_info = $user_info_factory->get_row_object(array("PublisherInfoID" => $this->PublisherInfoID));
+		$user_info_factory = \_factory\PublisherInfo::get_instance();
+		$user_info = new \model\PublisherInfo;
+        $user_info = $user_info_factory->get_row_object(array("PublisherInfoID" => $this->PublisherInfoID));
 
-  //       $domain_factory = \_factory\PublisherWebsite::get_instance();
-  //       $domain_list = $domain_factory->get(array("DomainOwnerID" => $this->PublisherInfoID));
+        $AdCampaignPreviewFactory = \_factory\AdCampaignPreview::get_instance();
+	    $params = array();
+	    $params["Active"] = 1;
+	    $params["Deleted"] = 0;
+	    if ($this->is_admin == true && $this->auth->getEffectiveIdentityID() != 0):
+	   		$params["UserID"] = $this->auth->getEffectiveUserID();
+	    elseif ($this->is_admin == false):
+	    	$params["UserID"] = $this->auth->getUserID();
+	    endif;     
+        $campaigns_list = $AdCampaignPreviewFactory->get($params);
 
-  //       $adzone_factory = \_factory\PublisherAdZone::get_instance();
-  //       $adzone_count = $adzone_factory->count_adzone(array("AdOwnerID" => $this->PublisherInfoID));
+        $view = new ViewModel(array(
+			 'dashboard_view' => 'demand',
+			 'true_user_name' => $this->auth->getUserName(),
+			 'is_admin' => $this->is_admin,
+			 // 'user_id_list' => $this->user_id_list_publisher,
+			 // 'domain_owner' => isset($PublisherInfo->Name) ? $PublisherInfo->Name : "",
+			 'impersonate_id' => $this->ImpersonateID,
+			 'effective_id' => $this->auth->getEffectiveIdentityID(),
+			 'publisher_info_id' => $this->PublisherInfoID,
+			 'user_identity' => $this->identity(),
+			 'campaigns_list' => $campaigns_list,
+			 "user_info" => $user_info
+		));
 
-  //       // header('Content-type: application/json');
-  //       // print_r($user_info);
-  //       // print_r($domain_list);
-  //       // print_r(count($domain_list));
-  //       // print_r($adzone_count);
-  //       $view = new ViewModel(array(
-		// 	 'dashboard_view' => 'publisher',
-		// 	 'true_user_name' => $this->auth->getUserName(),
-		// 	 'is_admin' => $this->is_admin,
-		// 	 'user_id_list' => $this->user_id_list_publisher,
-		// 	 'domain_owner' => isset($PublisherInfo->Name) ? $PublisherInfo->Name : "",
-		// 	 'impersonate_id' => $this->ImpersonateID,
-		// 	 'effective_id' => $this->auth->getEffectiveIdentityID(),
-		// 	 'publisher_info_id' => $this->PublisherInfoID,
-		// 	 'user_identity' => $this->identity(),
-		// 	 'domain_list' => $domain_list,
-		// 	 "user_info" => $user_info
-		// ));
-
-		// return $view;
+		return $view;
 	}
 
 
@@ -92,38 +92,38 @@ class DemandController extends DemandAbstractActionController {
 
 		//Pull list of campaigns.
 		$AdCampaignPreviewFactory = \_factory\AdCampaignPreview::get_instance();
-    // get previews
-    $params = array();
-    $params["Active"] = 1;
-    $params["Deleted"] = 0;
-    if ($this->is_admin == true && $this->auth->getEffectiveIdentityID() != 0):
-   		$params["UserID"] = $this->auth->getEffectiveUserID();
-    elseif ($this->is_admin == false):
-    	$params["UserID"] = $this->auth->getUserID();
-    endif;
-    
-    $ad_campaign_list = array();
-
-    $_ad_campaign_preview_list = $AdCampaignPreviewFactory->get($params, $order, $search, $PageSize, $Offset);
-
-    foreach ($_ad_campaign_preview_list as $ad_campaign_preview):
-	    if ($ad_campaign_preview != null):
-	    	$ad_campaign_list[] = $ad_campaign_preview;
-	    	if ($ad_campaign_preview->AdCampaignID != null):
-
-			    $ad_campaign_markup = \util\Markup::getMarkupForAdCampaign($ad_campaign_preview->AdCampaignID, $this->config_handle, false);
-
-			    if ($ad_campaign_markup != null):
-			    	$campaign_markup_rate_list[$ad_campaign_preview->AdCampaignID] = $ad_campaign_markup->MarkupRate * 100;
-			    else:
-			    	$campaign_markup_rate_list[$ad_campaign_preview->AdCampaignID] = $user_markup_rate * 100;
-			    endif;
-
-		    endif;
+	    // get previews
+	    $params = array();
+	    $params["Active"] = 1;
+	    $params["Deleted"] = 0;
+	    if ($this->is_admin == true && $this->auth->getEffectiveIdentityID() != 0):
+	   		$params["UserID"] = $this->auth->getEffectiveUserID();
+	    elseif ($this->is_admin == false):
+	    	$params["UserID"] = $this->auth->getUserID();
 	    endif;
-    endforeach;
+	    
+	    $ad_campaign_list = array();
 
-    $CampaignsList = $ad_campaign_list;
+	    $_ad_campaign_preview_list = $AdCampaignPreviewFactory->get($params, $order, $search, $PageSize, $Offset);
+
+	    foreach ($_ad_campaign_preview_list as $ad_campaign_preview):
+		    if ($ad_campaign_preview != null):
+		    	$ad_campaign_list[] = $ad_campaign_preview;
+		    	if ($ad_campaign_preview->AdCampaignID != null):
+
+				    $ad_campaign_markup = \util\Markup::getMarkupForAdCampaign($ad_campaign_preview->AdCampaignID, $this->config_handle, false);
+
+				    if ($ad_campaign_markup != null):
+				    	$campaign_markup_rate_list[$ad_campaign_preview->AdCampaignID] = $ad_campaign_markup->MarkupRate * 100;
+				    else:
+				    	$campaign_markup_rate_list[$ad_campaign_preview->AdCampaignID] = $user_markup_rate * 100;
+				    endif;
+
+			    endif;
+		    endif;
+	    endforeach;
+
+	    $CampaignsList = $ad_campaign_list;
 		$TotalCampaignsPreview = $AdCampaignPreviewFactory->get($params, $order, $search);
 		$TotalCampaignsPreviewCount = count($TotalCampaignsPreview);
 		$is_admin = $this->is_admin;

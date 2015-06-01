@@ -190,6 +190,17 @@ return array(
    //                          ),
    //                  ),
    //          ),
+
+            'demand_dashboard' => array(
+                    'type'    => 'segment',
+                    'options' => array(
+                            'route'    =>  '/dashboard',
+                            'defaults' => array(
+                                    'controller' => 'DashboardManager\Controller\Demand',
+                                    'action'     => 'dashboard',
+                            ),
+                    ),
+            ),            
             'demand' => array(
             		'type'    => 'segment',
             		'options' => array(
