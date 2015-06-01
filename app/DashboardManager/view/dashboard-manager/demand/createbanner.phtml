@@ -77,16 +77,46 @@ $(function() {
 <div class="panel-body">
 <form id="bannerform" class="form-horizontal form-top-magin" name="bannerform" method="POST" action="<?php echo $this->basePath() ?>/demand/newbanner">
 <fieldset>
+<div class="panel-group" id="banner-form-accordion" role="tablist" aria-multiselectable="true">
+
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="heading-general-options">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#banner-form-accordion" href="#collapse-advance-options" aria-expanded="true" aria-controls="collapse-general-options">
+          General Options
+        </a>
+      </h4>
+    </div>
+    <div id="collapse-general-options" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading-general-options">
+      <div class="panel-body">
+
 <div class="span7">
     <input type="hidden" name="campaignid" value="<?php echo $campaignid; ?>">
 	<input type="hidden" name="campaignpreviewid" value="<?php echo $campaignpreviewid; ?>">
 	<input type="hidden" name="ispreview" value="<?php echo $ispreview; ?>">
+
 	<div class="form-group">
-		<label class="col-sm-3 control-label"  for="bannername">Banner Ad Name</label>
+		<label class="col-sm-3 control-label"  for="bannername">Ad Name</label>
 		<div class="col-sm-9">
 			<input type="text" class="txtbox-width form-control" name="bannername">
 		</div>
 	</div>
+
+	<div class="form-group">
+		<label class="col-sm-3 control-label"  for="label">Label</label>
+		<div class="col-sm-9">
+			<input type="text" class="txtbox-width form-control" name="label">
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label class="col-sm-3 control-label"  for="altText">Alt text</label>
+		<div class="col-sm-9">
+			<input type="text" class="txtbox-width form-control" name="altText">
+		</div>
+	</div>
+
+
 	  <div class="form-group">
 		<label class="col-sm-3 control-label"  for="adname">Ad Delivery Type</label>
 		<div class="col-sm-9">
@@ -96,25 +126,33 @@ $(function() {
 		</select>
 		</div>
 	</div>
+
 	<div class="form-group">
 	    <label class="col-sm-3 control-label"  for="startdate">Start Date</label>
 	    <div class="col-sm-9">
-        <div class="input-append date">
-		  <input name="startdate" id="startdate" class="txtbox-datepicker-width form-control" size="16" type="text" value="<?php echo date('m/d/Y');?>" readonly="readonly" />
-		  <span class="add-on" id="startdateicon"><i class="icon-calendar"></i></span>
+	    <div class="row">
+			<div class="col-sm-4">
+		        <div class="">
+				  <input name="startdate" id="startdate" class="form-control" size="16" type="date" value="<?php echo date('m/d/Y');?>"  />
+				  
+			   </div>
+			</div>
+			<div class="col-sm-8">
+				<div class="form-group">
+				    <label class="col-sm-6 control-label"  for="enddate">End Date</label>
+				    <div class="col-sm-6">
+			        <div class="">
+					  <input name="enddate" id="enddate" class="form-control" size="16" type="date" value="<?php echo $enddate;?>" />
+					  
+				   </div>
+				   </div>
+				</div>
+			</div>
 	   </div>
 	   </div>
 	</div>
 	
-	<div class="form-group">
-	    <label class="col-sm-3 control-label"  for="enddate">End Date</label>
-	    <div class="col-sm-9">
-        <div class="input-append date">
-		  <input name="enddate" id="enddate" class="txtbox-datepicker-width form-control" size="16" type="text" value="<?php echo $enddate;?>" readonly="readonly" />
-		  <span class="add-on" id="enddateicon"><i class="icon-calendar"></i></span>
-	   </div>
-	   </div>
-	</div>
+
 	 <div class="control-group nobanner" style="display: none">
 		<label class="col-sm-3 control-label"  for="Mimes">Mimes : <span class="hlp"><small><i>(ctrl+shift to select mutliple)</i></small></span></label>
 		<div class="col-sm-9">
@@ -312,12 +350,51 @@ $(function() {
 		</div>
 	</div>
 	</div>
+      </div>
+    </div>
+</div>
+
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="heading-advance-options">
+      <h4 class="panel-title">
+        <a  data-toggle="collapse" data-parent="#banner-form-accordion" href="#collapse-advance-options" aria-expanded="true" aria-controls="collapse-advance-options">
+          Advance Options
+        </a>
+      </h4>
+    </div>
+    <div id="collapse-advance-options" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading-advance-options">
+      <div class="panel-body">
+
+
+
+<div class="form-group">
+	    <label class="col-sm-3 control-label"  for="startdate">Start Date</label>
+	    <div class="col-sm-9">
+        <div class="input-append date">
+		  <input name="startdate" id="startdate" class="txtbox-datepicker-width form-control" size="16" type="text" value="<?php echo date('m/d/Y');?>" readonly="readonly" />
+		  <span class="add-on" id="startdateicon"><i class="icon-calendar"></i></span>
+	   </div>
+	   </div>
+	</div>
+
+
+      </div>
+    </div>
+</div>
+
+
+	</div>
+
 	<div class="span12">
 	<div class="form-group text-center">
 		<p>
 	   <input type="submit" class="btn btn-primary" name="B1" value="Create New Banner" /></p>
 	   </div>
 	</div>
+
+
+
+
 </fieldset>
 </form>
 </div>
@@ -325,6 +402,7 @@ $(function() {
 </div>
 </div>
 </div>
+
 
 
 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
@@ -371,3 +449,4 @@ $(function() {
         </div>
       </div>
     </div>
+
