@@ -181,19 +181,20 @@ function deleteCampaignConfirm() {
 	$("#campaign_yes_btn").button('loading');
 	$("#campaign_no_btn").attr("disabled",true);
 	
-	$.post(campaign_id, function( data ) {
+	$.post("/bgate/demand/deletecampaignpreview/" + campaign_id, { del: 'Yes', param1: campaign_id }, function( data ) {
 		
-		$("#campaign_no_btn").attr("disabled",false);
+		$("#domain_no_btn").attr("disabled",false);
 		if(data.success == false) {
-			$("#campaign_yes_btn").button('reset');
-			$("#campaign_alert_msg").html(data.data.error_msg);
-			$("#campaign_alert_msg").css("display","block");
+			$("#domain_yes_btn").button('reset');
+			$("#domain_alert_msg").html(data.data.error_msg);
+			$("#domain_alert_msg").css("display","block");
 			return false;
 		}
 		if(data.success == true) {
-			reloadDemandWindow();
+			//alert(data.success+" "+data.data.error_msg);	
+			window.location.reload();
 		}
-	},'json');
+	},'json');	
 }
 
 

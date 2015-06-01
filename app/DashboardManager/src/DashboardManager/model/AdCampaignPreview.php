@@ -31,6 +31,7 @@ class AdCampaignPreview {
     public $DateCreated;
     public $ChangeWentLive;
     public $WentLiveDate;
+    public $Deleted;
 }
 
 ?>

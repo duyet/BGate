@@ -129,8 +129,9 @@ class AdCampaignPreview extends AbstractTableGateway
     		$this->insert($data);
     		return $this->getLastInsertValue();
     	else: 
+            $data['Deleted']                 = $AdCampaignPreview->Deleted;
     		$this->update($data, array('AdCampaignPreviewID' => $ad_campaign_preview_id));
-    		return null;
+    		return 1;
     	endif;
     }
 
@@ -163,5 +164,20 @@ class AdCampaignPreview extends AbstractTableGateway
 
     	$this->update($data, array('AdCampaignPreviewID' => $ad_campaign_preview_id));
     }
+
+   public function get_row_object($params = null)
+   {
+       $rawData = $this->get_row($params);
+       $DataObj = new \model\AdCampaignPreview();
+       if ($rawData !== null):
+       
+           foreach (get_object_vars($DataObj) AS $key => $value):
+           
+               $DataObj->$key =$rawData[$key];
+           endforeach;
+       endif;
+
+       return $DataObj;
+   }
 
 };

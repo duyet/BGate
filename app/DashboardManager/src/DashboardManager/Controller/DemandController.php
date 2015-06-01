@@ -22,9 +22,50 @@ use Zend\Mime;
  */
 class DemandController extends DemandAbstractActionController {
 
+	/**
+	 * Display the demand dashboard page
+	 * 
+	 * @return \Zend\View\Model\ViewModel
+	 */
+	public function dashboardAction() {
+		// $initialized = $this->initialize();
+		// if ($initialized !== true) return $initialized;
+
+		// $user_info_factory = \_factory\PublisherInfo::get_instance();
+		// $user_info = new \model\PublisherInfo;
+  //       $user_info = $user_info_factory->get_row_object(array("PublisherInfoID" => $this->PublisherInfoID));
+
+  //       $domain_factory = \_factory\PublisherWebsite::get_instance();
+  //       $domain_list = $domain_factory->get(array("DomainOwnerID" => $this->PublisherInfoID));
+
+  //       $adzone_factory = \_factory\PublisherAdZone::get_instance();
+  //       $adzone_count = $adzone_factory->count_adzone(array("AdOwnerID" => $this->PublisherInfoID));
+
+  //       // header('Content-type: application/json');
+  //       // print_r($user_info);
+  //       // print_r($domain_list);
+  //       // print_r(count($domain_list));
+  //       // print_r($adzone_count);
+  //       $view = new ViewModel(array(
+		// 	 'dashboard_view' => 'publisher',
+		// 	 'true_user_name' => $this->auth->getUserName(),
+		// 	 'is_admin' => $this->is_admin,
+		// 	 'user_id_list' => $this->user_id_list_publisher,
+		// 	 'domain_owner' => isset($PublisherInfo->Name) ? $PublisherInfo->Name : "",
+		// 	 'impersonate_id' => $this->ImpersonateID,
+		// 	 'effective_id' => $this->auth->getEffectiveIdentityID(),
+		// 	 'publisher_info_id' => $this->PublisherInfoID,
+		// 	 'user_identity' => $this->identity(),
+		// 	 'domain_list' => $domain_list,
+		// 	 "user_info" => $user_info
+		// ));
+
+		// return $view;
+	}
+
 
 	/**
-	 * Display the publisher index page, and list all domains associated.
+	 * Display the campaign index page, and list all campaigns associated.
 	 * 
 	 * @return \Zend\View\Model\ViewModel
 	 */
@@ -54,7 +95,7 @@ class DemandController extends DemandAbstractActionController {
     // get previews
     $params = array();
     $params["Active"] = 1;
-    // $params["Deleted"] = 0;
+    $params["Deleted"] = 0;
     if ($this->is_admin == true && $this->auth->getEffectiveIdentityID() != 0):
    		$params["UserID"] = $this->auth->getEffectiveUserID();
     elseif ($this->is_admin == false):
@@ -83,7 +124,7 @@ class DemandController extends DemandAbstractActionController {
     endforeach;
 
     $CampaignsList = $ad_campaign_list;
-		$TotalCampaignsPreview = $AdCampaignPreviewFactory->get($params, $search);
+		$TotalCampaignsPreview = $AdCampaignPreviewFactory->get($params, $order, $search);
 		$TotalCampaignsPreviewCount = count($TotalCampaignsPreview);
 		$is_admin = $this->is_admin;
 		
@@ -3471,6 +3512,66 @@ class DemandController extends DemandAbstractActionController {
 
 	}
 
+
+	/*
+	 * Delete campaign preview Actions
+	*/
+	public function deletecampaignpreviewAction()
+	{
+		// Initialize things.
+		$error_message = null;
+		$initialized = $this->initialize();
+		if ($initialized !== true) return $initialized;
+		$request = $this->getRequest();
+		$AdCampaignPreviewFactory = \_factory\AdCampaignPreview::get_instance();
+
+		$success = false;
+		
+		// Check to make sure the value is valid to begin with.
+		$AdCampaignPreviewID = intval($this->params()->fromRoute('param1', 0));
+		$params = array();
+	    $params["AdCampaignPreviewID"] = $AdCampaignPreviewID;
+		$AdCampaignPreviewFactory = \_factory\AdCampaignPreview::get_instance();
+	    $_AdCampaignPreview = $AdCampaignPreviewFactory->get_row($params);
+
+		$AdCampaignPreview = new \model\AdCampaignPreview();
+		$AdCampaignPreview->AdCampaignPreviewID       = $_AdCampaignPreview->AdCampaignPreviewID;
+		$AdCampaignPreview->AdCampaignID              = $_AdCampaignPreview->AdCampaignID;
+		$AdCampaignPreview->UserID             		  = $_AdCampaignPreview->UserID;
+		$AdCampaignPreview->Name                      = $_AdCampaignPreview->Name;
+		$AdCampaignPreview->StartDate                 = $_AdCampaignPreview->StartDate;
+		$AdCampaignPreview->EndDate                   = $_AdCampaignPreview->EndDate;
+		$AdCampaignPreview->Customer                  = $_AdCampaignPreview->Customer ;
+		$AdCampaignPreview->CustomerID                = $_AdCampaignPreview->CustomerID;
+		$AdCampaignPreview->ImpressionsCounter        = $_AdCampaignPreview->ImpressionsCounter;
+		$AdCampaignPreview->MaxImpressions            = $_AdCampaignPreview->MaxImpressions;
+		$AdCampaignPreview->CurrentSpend              = $_AdCampaignPreview->CurrentSpend;
+		$AdCampaignPreview->MaxSpend                  = $_AdCampaignPreview->MaxSpend;
+		$AdCampaignPreview->CPMTarget                 = $_AdCampaignPreview->CPMTarget;
+		$AdCampaignPreview->CPMTargetValue            = $_AdCampaignPreview->CPMTargetValue;
+		$AdCampaignPreview->CPCTarget                 = $_AdCampaignPreview->CPCTarget;
+		$AdCampaignPreview->CPCTargetValue            = $_AdCampaignPreview->CPCTargetValue;
+		$AdCampaignPreview->Active                    = $_AdCampaignPreview->Active;
+		$AdCampaignPreview->DateCreated               = $_AdCampaignPreview->DateCreated ;
+		$AdCampaignPreview->DateUpdated               = $_AdCampaignPreview->DateUpdated;
+		$AdCampaignPreview->ChangeWentLive            = $_AdCampaignPreview->ChangeWentLive;
+	    //Update Deleted flag
+		$AdCampaignPreview->Deleted = 1;
+		
+	    $update_campaign_preview_id = $AdCampaignPreviewFactory->saveAdCampaignPreview($AdCampaignPreview);
+		if($update_campaign_preview_id):
+			$success = true;
+		else:
+			$error_message = "Unable to delete the entry. Please contact customer service.";
+		endif;			
+
+		$data = array(
+			'success' => $success,
+			'data' => array('error_msg' => $error_message)
+		 );
+		 
+		 return $this->getResponse()->setContent(json_encode($data));
+	}
 	/*
 	 * END NGINAD AdCampaign Actions
 	*/
