@@ -2474,6 +2474,10 @@ class DemandController extends DemandAbstractActionController {
         		'current_playback_methods' => $current_playback_methods,
         		'current_start_delay' => $current_start_delay,
         		'current_linearity' => $current_linearity,
+
+        		'vertical_map' => \util\DeliveryFilterOptions::$vertical_map,
+        		'timezone_options' => \util\DeliveryFilterOptions::$timezone_options,
+        		'geo_country' => \util\DeliveryFilterOptions::$geo_country,
         ));
 	}
 

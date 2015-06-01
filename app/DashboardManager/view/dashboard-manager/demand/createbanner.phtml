@@ -13,13 +13,13 @@ else:
 	$ad_campaign_id = $campaignid;
 endif;
 
-$enddate = date('m/d/Y', time() + (86400 * 30));
+$enddate = date('Y-m-d', time() + (86400 * 30));
 $minEndDate = explode("/", $enddate);
 
 $this->headScript()->captureStart() ?>
 
 $(function() {
-	$( "#startdate" ).datepicker(
+	/*$( "#startdate" ).datepicker(
 	{
 		changeMonth: true,
 		changeYear: true,
@@ -50,7 +50,7 @@ $(function() {
 	
 	$( '#enddateicon' ).click(function() {
           $('#enddate').datepicker('show');
-    });
+    });*/
 });
 <?php $this->headScript()->captureEnd();  ?>
 
@@ -82,7 +82,7 @@ $(function() {
   <div class="panel panel-default">
     <div class="panel-heading" role="tab" id="heading-general-options">
       <h4 class="panel-title">
-        <a data-toggle="collapse" data-parent="#banner-form-accordion" href="#collapse-advance-options" aria-expanded="true" aria-controls="collapse-general-options">
+        <a data-toggle="collapse" data-parent="#banner-form-accordion" href="#collapse-general-options" aria-expanded="true" aria-controls="collapse-general-options">
           General Options
         </a>
       </h4>
@@ -133,7 +133,7 @@ $(function() {
 	    <div class="row">
 			<div class="col-sm-4">
 		        <div class="">
-				  <input name="startdate" id="startdate" class="form-control" size="16" type="date" value="<?php echo date('m/d/Y');?>"  />
+				  <input name="startdate" id="startdate" class="form-control" size="16" type="date" value="<?php echo date('Y-m-d');?>"  />
 				  
 			   </div>
 			</div>
@@ -294,7 +294,60 @@ $(function() {
 		</span>
 		</div>
 	</div>
-	
+
+	<div class="form-group">
+		<label class="col-sm-3 control-label"  for="landingPageTLD">Landing Page TLD</label>
+		<div class="col-sm-9">
+			<input type="text" name="landingPageTLD"  class="form-control" >
+		</div>
+	</div>
+
+	<div class="form-group novideo">
+		<label class="col-sm-3 control-label"  for="iABAudienceCategory">IAB Audience Category</label>
+		<div class="col-sm-9">
+			<div id="size-select">
+				<select id="iABAudienceCategory"  class="selbox-width form-control"  name="iABAudienceCategory" >
+				    
+				    <?php 
+	                   foreach($vertical_map as $key=>$value): 
+	                  echo '<option value="'. $key .'">'. $value .'</option>';
+	                 endforeach;
+                	?>
+				</select>
+			</div>
+		</div>
+	</div>
+
+	<div class="form-group novideo">
+		<label class="col-sm-3 control-label"  for="gEOCountry">GEO country</label>
+		<div class="col-sm-9">
+			<div id="size-select">
+				<select id="gEOCountry"  class="selbox-width form-control"  name="gEOCountry" >
+				    
+				    <?php 
+	                   foreach($geo_country as $key=>$value): 
+	                  echo '<option value="'. $key .'">'. $value .'</option>';
+	                 endforeach;
+                	?>
+				</select>
+			</div>
+		</div>
+	</div>
+	<div class="form-group novideo">
+		<label class="col-sm-3 control-label"  for="timeZone">Timezone</label>
+		<div class="col-sm-9">
+			<div id="size-select">
+				<select id="timeZone"  class="selbox-width form-control"  name="timeZone" >
+				    <?php 
+	                   foreach($timezone_options as $key=>$value): 
+	                  echo '<option value="'. $key .'">'. $value .'</option>';
+	                 endforeach;
+                	?>
+				</select>
+			</div>
+		</div>
+	</div>
+
 	 <div class="control-group nobanner" style="display: none">
 		<label class="col-sm-3 control-label"  for="Delivery">Delivery : <span class="hlp"><small><i>(ctrl+shift to select mutliple)</i></small></span></label>
 		<div class="col-sm-9">
@@ -340,7 +393,7 @@ $(function() {
 		</div>
 	</div>
 	
-	<div class="form-group">
+<!-- 	<div class="form-group">
 		<label class="col-sm-3 control-label"  for="landingpagetld" class="input">LandingPage TLD [top level domain]
 		</label>
 		<div class="col-sm-9">
@@ -348,7 +401,7 @@ $(function() {
 			<span class="hlp">
 			<small><i>(eg. nginad.com - required by RTB [if not known just use the tld of the tag])</i></small></span><nobr></nobr>
 		</div>
-	</div>
+	</div> -->
 	</div>
       </div>
     </div>
@@ -404,49 +457,4 @@ $(function() {
 </div>
 
 
-
-<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-      <div class="panel panel-default">
-        <div class="panel-heading" role="tab" id="headingOne">
-          <h4 class="panel-title" id="-collapsible-group-item-#1-">
-            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-              Collapsible Group Item #1
-            </a>
-          </h4>
-        </div>
-        <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
-          <div class="panel-body">
-            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-          </div>
-        </div>
-      </div>
-      <div class="panel panel-default">
-        <div class="panel-heading" role="tab" id="headingTwo">
-          <h4 class="panel-title" id="-collapsible-group-item-#2-">
-            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-              Collapsible Group Item #2
-            </a>
-          </h4>
-        </div>
-        <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
-          <div class="panel-body">
-            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-          </div>
-        </div>
-      </div>
-      <div class="panel panel-default">
-        <div class="panel-heading" role="tab" id="headingThree">
-          <h4 class="panel-title" id="-collapsible-group-item-#3-">
-            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-              Collapsible Group Item #3
-            </a>
-          </h4>
-        </div>
-        <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
-          <div class="panel-body">
-            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-          </div>
-        </div>
-      </div>
-    </div>
 
