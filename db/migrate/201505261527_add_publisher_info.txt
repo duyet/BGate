@@ -1,4 +1,4 @@
-ALTER TABLE `nginad`.`PublisherInfo` 
+ALTER TABLE `PublisherInfo` 
 ADD COLUMN `FirstName` VARCHAR(255) NULL AFTER `DateUpdated`,
 ADD COLUMN `LastName` VARCHAR(255) NULL AFTER `FirstName`,
 ADD COLUMN `Country` VARCHAR(255) NULL AFTER `LastName`,
