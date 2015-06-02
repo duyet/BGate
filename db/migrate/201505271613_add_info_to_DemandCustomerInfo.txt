@@ -1,4 +1,4 @@
-ALTER TABLE `nginad`.`DemandCustomerInfo` 
+ALTER TABLE `DemandCustomerInfo` 
 ADD COLUMN `ContactNo` VARCHAR(255) NULL AFTER `DateUpdated`,
 ADD COLUMN `Debuty` VARCHAR(255) NULL AFTER `ContactNo`,
 ADD COLUMN `Title` VARCHAR(255) NULL AFTER `Debuty`,
@@ -6,8 +6,8 @@ ADD COLUMN `Address` MEDIUMTEXT NULL AFTER `Title`,
 ADD COLUMN `Tax` VARCHAR(255) NULL AFTER `Address`,
 ADD COLUMN `Phone` VARCHAR(255) NULL AFTER `Tax`;
 
-ALTER TABLE `nginad`.`DemandCustomerInfo` 
+ALTER TABLE `DemandCustomerInfo` 
 CHANGE COLUMN `Website` `Website` VARCHAR(255) NULL ;
 
-ALTER TABLE `nginad`.`DemandCustomerInfo` 
+ALTER TABLE `DemandCustomerInfo` 
 CHANGE COLUMN `PartnerType` `PartnerType` INT(11) NOT NULL DEFAULT 1 ;
