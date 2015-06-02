@@ -2,12 +2,18 @@
 $this->headLink()->appendStylesheet($this->basePath() . '/static/css/jquery-ui/smoothness/jquery-ui-1.9.2.custom.min.css');
 $this->headScript()->appendFile($this->basePath() . '/static/js/3rdparty/jquery-ui-1.9.2.custom.min.js');
 $this->headScript()->appendFile($this->basePath() . '/static/js/script.js');
+$this->headScript()->appendFile('http://cdn.jsdelivr.net/webshim/1.12.4/extras/modernizr-custom.js');
+$this->headScript()->appendFile('http://cdn.jsdelivr.net/webshim/1.12.4/polyfiller.js');
+
 
 $enddate = date('m/d/Y', time() + (86400 * 30));
 $minEndDate = explode("/", $enddate);
 
 $this->headScript()->captureStart();?>
 $(function() {
+  webshims.setOptions('waitReady', false);
+  webshims.setOptions('forms-ext', {types: 'date'});
+  webshims.polyfill('forms forms-ext');
 });
 <?php $this->headScript()->captureEnd();?>
 <style type="text/css">
