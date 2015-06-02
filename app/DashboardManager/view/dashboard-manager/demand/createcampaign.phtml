@@ -40,6 +40,7 @@ margin-left: 253px;
         ?> -->
         <div id="cdn_form_msg" class="alert alert-danger" style="margin: 15px; display:none;"></div>
         <form id="campaign" class="form-horizontal form-top-magin" name="campaignform" method="POST" action="<?php echo $this->basePath() ?>/demand/newcampaign" novalidate="novalidate">
+          <h4 class="underline mrg0T">General Options</h4>
           <div class="form-group">
             <label for="campaignname" class="control-label col-sm-3">Campaign Name</label>
             <div class="controls col-sm-7">
@@ -60,23 +61,9 @@ margin-left: 253px;
           </div>
 
           <div class="form-group">
-            <label for="customername" class="control-label col-sm-3">Customer Name <br><sup>(Use this field for your own customer reference if any)</sup></label>
-            <div class="controls col-sm-7">
-              <input type="text" value="" maxlength="255" class="form-control" id="customername" name="customername">
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="customerid" class="control-label col-sm-3">Customer Id <br><sup>(Use this field for your own customer reference if any)</sup></label>
-            <div class="controls col-sm-7">
-              <input type="text" value="" maxlength="255" class="form-control" id="customerid" name="customerid">
-            </div>
-          </div>
-
-          <div class="form-group">
             <label for="maximpressions" class="control-label col-sm-3">Maximum Impressions <br><sup>(Maximum campaign impressions before the bids stop)</sup></label>
             <div class="controls col-sm-7">
-              <input type="number" value="" maxlength="255" class="form-control" id="maximpressions" name="maximpressions">
+              <input type="text" value="" maxlength="255" class="form-control" id="maximpressions" name="maximpressions">
             </div>
           </div>
 
@@ -91,10 +78,24 @@ margin-left: 253px;
           <div class="form-group">
             <label for="maxspend" class="control-label col-sm-3">Maximum spend<br><sup>(Maximum campaign $$$ spent before the bids stop)</sup></label>
             <div class="controls col-sm-7">
-              <input type="number" value="" maxlength="255" class="form-control" id="maxspend" name="maxspend">
+              <input type="text" value="" maxlength="255" class="form-control" id="maxspend" name="maxspend">
+            </div>
+          </div>
+          <h4 class="underline mrg0T">Advance Options</h4>
+
+          <div class="form-group">
+            <label for="customername" class="control-label col-sm-3">Customer Name <br><sup>(Use this field for your own customer reference if any)</sup></label>
+            <div class="controls col-sm-7">
+              <input type="text" value="" maxlength="255" class="form-control" id="customername" name="customername">
             </div>
           </div>
 
+          <div class="form-group">
+            <label for="customerid" class="control-label col-sm-3">Customer Id <br><sup>(Use this field for your own customer reference if any)</sup></label>
+            <div class="controls col-sm-7">
+              <input type="text" value="" maxlength="255" class="form-control" id="customerid" name="customerid">
+            </div>
+          </div>
           <div class="form-group text-center">
             <div class="controls">
               <button name="submit" type="submit" class="btn btn-primary btn-margin" id="submitbutton">Create New Campaign</button>
