@@ -2524,7 +2524,7 @@ class DemandController extends DemandAbstractActionController {
 				'height',
 				'width',
 				'bidamount',
-				'adtag',
+				// 'adtag',
 				// 'landingpagetld',
 				'label',
 				'altText',
@@ -2706,9 +2706,9 @@ class DemandController extends DemandAbstractActionController {
 		$BannerPreview->GEOCountry                    = $this->getRequest()->getPost('gEOCountry');
 		$BannerPreview->TimeZone                      = $this->getRequest()->getPost('timeZone');
 		$BannerPreview->FrequencyCap                  = $this->getRequest()->getPost('frequencyCap');
-		$BannerPreview->FreCapShowTime                = $this->getRequest()->getPost('freCapShowTime');
-		$BannerPreview->FreCapTimeFromHr              = $this->getRequest()->getPost('freCapTimeFromHr');
-		$BannerPreview->FreCapTimeToHr                = $this->getRequest()->getPost('freCapTimeToHr');
+		$BannerPreview->FreCapShowTime                = (int) $this->getRequest()->getPost('freCapShowTime');
+		$BannerPreview->FreCapTimeFromHr              = (int) $this->getRequest()->getPost('freCapTimeFromHr');
+		$BannerPreview->FreCapTimeToHr                = (int) $this->getRequest()->getPost('freCapTimeToHr');
 		$BannerPreview->FreCapCampaignApply           = $this->getRequest()->getPost('freCapCampaignApply');
 		$BannerPreview->FreCapZoneApply               = $this->getRequest()->getPost('freCapZoneApply');
 		$BannerPreview->AdTagType                     = $this->getRequest()->getPost('adTagType');
@@ -2716,22 +2716,22 @@ class DemandController extends DemandAbstractActionController {
 		$BannerPreview->MultiNestedIframe             = $this->getRequest()->getPost('multiNestedIframe');
 		$BannerPreview->AdPostLeft                    = $this->getRequest()->getPost('adPostLeft');
 		$BannerPreview->AdPostTop                     = $this->getRequest()->getPost('adPostTop');
-		$BannerPreview->ResolutionMinW                = $this->getRequest()->getPost('resolutionMinW');
-		$BannerPreview->ResolutionMaxW                = $this->getRequest()->getPost('resolutionMaxW');
-		$BannerPreview->ResolutionMinH                = $this->getRequest()->getPost('resolutionMinH');
-		$BannerPreview->ResolutionMaxH                = $this->getRequest()->getPost('resolutionMaxH');
+		$BannerPreview->ResolutionMinW                = (int) $this->getRequest()->getPost('resolutionMinW');
+		$BannerPreview->ResolutionMaxW                = (int) $this->getRequest()->getPost('resolutionMaxW');
+		$BannerPreview->ResolutionMinH                = (int) $this->getRequest()->getPost('resolutionMinH');
+		$BannerPreview->ResolutionMaxH                = (int) $this->getRequest()->getPost('resolutionMaxH');
 		$BannerPreview->HttpLang                      = $this->getRequest()->getPost('httpLang');
 		$BannerPreview->BrowerAgentGrep               = $this->getRequest()->getPost('browerAgentGrep');
 		$BannerPreview->CookieGrep                    = $this->getRequest()->getPost('bookieGrep');
 		$BannerPreview->PmpEnable                     = $this->getRequest()->getPost('pmpEnable');
 		$BannerPreview->Secure                        = $this->getRequest()->getPost('secure');
-		$BannerPreview->FoldPosition                  = $this->getRequest()->getPost('poldPosition');
+		$BannerPreview->FoldPosition                  = $this->getRequest()->getPost('foldPosition');
 
 		$BannerPreview->BidType                       = $this->getRequest()->getPost('bidtype');
-		$BannerPreview->TargetDaily                   = $this->getRequest()->getPost('targetdaily');
-		$BannerPreview->TargetMax                     = $this->getRequest()->getPost('targetmax');
-		$BannerPreview->DailyBudget                   = $this->getRequest()->getPost('dailybudget');
-		$BannerPreview->MaximumBudget                 = $this->getRequest()->getPost('maximumbudget');
+		$BannerPreview->TargetDaily                   = (int) $this->getRequest()->getPost('targetdaily');
+		$BannerPreview->TargetMax                     = (int) $this->getRequest()->getPost('targetmax');
+		$BannerPreview->DailyBudget                   = (int) $this->getRequest()->getPost('dailybudget');
+		$BannerPreview->MaximumBudget                 = (int) $this->getRequest()->getPost('maximumbudget');
 
 		$AdCampaignBannerPreviewFactory = \_factory\AdCampaignBannerPreview::get_instance();
 		$banner_preview_id_new = $AdCampaignBannerPreviewFactory->saveAdCampaignBannerPreview($BannerPreview);
@@ -2810,6 +2810,7 @@ class DemandController extends DemandAbstractActionController {
 		return $viewModel->setTemplate('dashboard-manager/demand/interstitial.phtml');
 
 	}
+
 
 	/**
 	 * 

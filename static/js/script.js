@@ -438,7 +438,7 @@ $().ready(function() {
 				required: true
 			},
 			label: {
-				required: true
+				required: false
 			},
 			// adUrl: {
 			// 	required: {
@@ -456,7 +456,7 @@ $().ready(function() {
 
 			// },
 			altText: {
-				required: true
+				required: false
 			},
 			startdate: {
 				required: true
@@ -468,10 +468,10 @@ $().ready(function() {
 				required: true
 			},
 			gEOCountry: {
-				required: true
+				required: false
 			},
 			timeZone: {
-				required: true
+				required: false
 			},
 			adtag: {
                required: false

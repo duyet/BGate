@@ -478,6 +478,56 @@ $(function() {
 			</select>
 		</div>
 	</div>
+
+		<div class="form-group">
+	    <div class="col-sm-9 col-md-offset-3">
+	    	<div class="checkbox">
+			  <label>
+			    <input type="checkbox" value="1" name="frequencyCap" onchange="frequency_cap_check()" <?php if (1 === intval($banner->FrequencyCap)){ echo 'checked';}?> >Frequency Cap in last 24 hours 
+			  </label>
+			</div>
+			
+	   </div>
+	</div>
+
+	<div class="form-group" style="display: <?php if (2 === intval($banner->FrequencyCap)){ echo 'block';}else { echo 'none'; }?>;" >
+	    <label class="col-sm-3 control-label"  for="freCapShowTime">Show times</label>
+	    <div class="col-sm-9">
+	    	<input type="number" name="freCapShowTime" id="freCapShowTime" class="form-control" value="<?php echo $banner->FreCapShowTime ;?>">
+	   </div>
+	</div>
+	<div class="form-group" style="display: none;">
+	    <label class="col-sm-3 control-label"  for="FreCapTimeHr">Time duration (hour)</label>
+	    <div class="col-sm-9">
+	    	<div class="row">
+	    		<label class="col-sm-2 control-label"  for="freCapTimeFromHr">from</label>
+			    <div class="col-sm-4">
+			    	<input type="number" name="freCapTimeFromHr" id="freCapTimeFromHr" class="form-control" value="<?php echo $banner->FreCapTimeFromHr ;?>">
+			   </div>
+			   <label class="col-sm-2 control-label"  for="freCapTimeToHr">to</label>
+			    <div class="col-sm-4">
+			    	
+			    	<input type="number" name="freCapTimeToHr" id="freCapTimeToHr" class="form-control" value="<?php echo $banner->FreCapTimeToHr ;?>">
+			   </div>
+	   </div>
+	   </div>
+	</div>
+
+	<div class="form-group" style="display: none;">
+		<label class="col-sm-3 control-label"  for="freCapApply">Apply</label>
+	    <div class="col-sm-9">
+	    	<div class="checkbox-inline">
+			  <label>
+			    <input type="checkbox" value="1" name="freCapCampaignApply" <?php if (1 === intval($banner->FreCapCampaignApply)){ echo 'checked';}?>>By campaign
+			  </label>
+			</div>
+			<div class="checkbox-inline">
+			  <label>
+			    <input type="checkbox" value="1" name="freCapZoneApply" <?php if (1 === intval($banner->FreCapZoneApply)){ echo 'checked';}?>>By zone 
+			  </label>
+			</div>
+	   </div>
+	</div>
 	
 <!-- 	<div class="form-group">
 		<label class="col-sm-3 control-label"  for="landingpagetld" class="input">LandingPage TLD [top level domain]
@@ -572,55 +622,7 @@ $(function() {
 	   </div>
 	</div>
 
-	<div class="form-group">
-	    <div class="col-sm-9 col-md-offset-3">
-	    	<div class="checkbox">
-			  <label>
-			    <input type="checkbox" value="1" name="frequencyCap" onchange="frequency_cap_check()" <?php if (1 === intval($banner->FrequencyCap)){ echo 'checked';}?> >Frequency Cap in last 24 hours 
-			  </label>
-			</div>
-			
-	   </div>
-	</div>
 
-	<div class="form-group" style="display: <?php if (2 === intval($banner->FrequencyCap)){ echo 'block';}else { echo 'none'; }?>;" >
-	    <label class="col-sm-3 control-label"  for="freCapShowTime">Show times</label>
-	    <div class="col-sm-9">
-	    	<input type="number" name="freCapShowTime" id="freCapShowTime" class="form-control" value="<?php echo $banner->FreCapShowTime ;?>">
-	   </div>
-	</div>
-	<div class="form-group" style="display: none;">
-	    <label class="col-sm-3 control-label"  for="FreCapTimeHr">Time duration (hour)</label>
-	    <div class="col-sm-9">
-	    	<div class="row">
-	    		<label class="col-sm-2 control-label"  for="freCapTimeFromHr">from</label>
-			    <div class="col-sm-4">
-			    	<input type="number" name="freCapTimeFromHr" id="freCapTimeFromHr" class="form-control" value="<?php echo $banner->FreCapTimeFromHr ;?>">
-			   </div>
-			   <label class="col-sm-2 control-label"  for="freCapTimeToHr">to</label>
-			    <div class="col-sm-4">
-			    	
-			    	<input type="number" name="freCapTimeToHr" id="freCapTimeToHr" class="form-control" value="<?php echo $banner->FreCapTimeToHr ;?>">
-			   </div>
-	   </div>
-	   </div>
-	</div>
-
-	<div class="form-group" style="display: none;">
-		<label class="col-sm-3 control-label"  for="freCapApply">Apply</label>
-	    <div class="col-sm-9">
-	    	<div class="checkbox-inline">
-			  <label>
-			    <input type="checkbox" value="1" name="freCapCampaignApply" <?php if (1 === intval($banner->FreCapCampaignApply)){ echo 'checked';}?>>By campaign
-			  </label>
-			</div>
-			<div class="checkbox-inline">
-			  <label>
-			    <input type="checkbox" value="1" name="freCapZoneApply" <?php if (1 === intval($banner->FreCapZoneApply)){ echo 'checked';}?>>By zone 
-			  </label>
-			</div>
-	   </div>
-	</div>
 
 
       </div>
