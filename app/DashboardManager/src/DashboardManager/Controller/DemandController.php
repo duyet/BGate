@@ -2504,7 +2504,7 @@ class DemandController extends DemandAbstractActionController {
 	 * @return Ambigous <\Zend\View\Model\ViewModel, \Zend\View\Model\ViewModel>
 	 */
 	public function newbannerAction() {
-
+		
 		$initialized = $this->initialize();
 		if ($initialized !== true) return $initialized;
 
@@ -2598,7 +2598,7 @@ class DemandController extends DemandAbstractActionController {
 		$weight = $this->getRequest()->getPost('weight');
 		$bidamount = $this->getRequest()->getPost('bidamount');
 		$adtag = $this->getRequest()->getPost('adtag');
-		$landingpagetld = $this->getRequest()->getPost('landingpagetld');
+		$landingpagetld = $this->getRequest()->getPost('landingPageTLD');
 		$bannerid = $this->getRequest()->getPost('bannerid');
 
 		if ($ImpressionType == 'video'):
@@ -2648,6 +2648,25 @@ class DemandController extends DemandAbstractActionController {
 		if ($banner_preview_id != null):
 		  $BannerPreview->AdCampaignBannerPreviewID             = $banner_preview_id;
 		endif;
+		// var_dump($_POST);
+		// die();
+		//Upload File
+		$tempPath = $_FILES[ 'adUrl' ][ 'tmp_name' ];
+		$imagesname = $campaign_preview_id.'_' .date('YmdHisB'). $_FILES[ 'adUrl' ][ 'name' ];
+		$separator = DIRECTORY_SEPARATOR;
+		$uploadPath = __DIR__ . $separator .'..'. $separator .'..'. $separator .'..'. $separator .'..'. $separator .'..'. $separator .'static'.$separator .'images'.$separator .'bannerpreview';//. $imagesname;
+		if (!file_exists($uploadPath)) {
+            mkdir($uploadPath, 0777);
+        }
+
+        $uploadPath .= $separator .$imagesname;
+        //var_dump($tempPath);
+        //die();
+		$re = move_uploaded_file( $tempPath, $uploadPath );
+		$adUrl = '';
+        if($re){
+        	$adUrl = 'static/images/bannerpreview/'.$imagesname;
+        }
 
 		$BannerPreview->UserID             	= $this->auth->getEffectiveUserID();
 
@@ -2677,7 +2696,7 @@ class DemandController extends DemandAbstractActionController {
 		$BannerPreview->DateUpdated               = date("Y-m-d H:i:s");
 		$BannerPreview->ChangeWentLive       	  = 0;
 
-		$BannerPreview->AdUrl                         = $this->getRequest()->getPost('adUrl');
+		$BannerPreview->AdUrl                         = $adUrl;
 		$BannerPreview->Label                         = $this->getRequest()->getPost('label');
 		$BannerPreview->AltText                       = $this->getRequest()->getPost('altText');
 		$BannerPreview->BidType                       = $this->getRequest()->getPost('bidType');
