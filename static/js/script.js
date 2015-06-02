@@ -404,10 +404,10 @@ $().ready(function() {
 				required: true
 			},
 			customername: {
-               required: true
+               required: false
            },
 			customerid: {
-				required: true,
+				required: false,
 				number: true
 			},
 			maximpressions: {
