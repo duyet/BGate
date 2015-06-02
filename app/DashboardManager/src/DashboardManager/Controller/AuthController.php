@@ -80,7 +80,9 @@ class AuthController extends ZendAbstractActionController {
             $params["user_email"] = $request->getPost('username');
             $authUsersFactory = \_factory\authUsers::get_instance();
             $auth_user = $authUsersFactory->get_row_object($params);
-            if ($auth_user == null):
+    
+            if ($auth_user->user_id == null):
+                $user_session = new Container('user');
                 $user_session->message = 'Invalid email';
             else:
                 
