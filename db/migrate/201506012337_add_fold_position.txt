@@ -1,1 +1,2 @@
-ALTER TABLE `adcampaignbannerpreview` ADD `FoldPosition` INT NOT NULL AFTER `Secure`;
+ALTER TABLE `adcampaignbannerpreview` ADD `FoldPosition` INT AFTER `Secure`;
+ALTER TABLE `AdCampaignBanner` ADD `FoldPosition` INT AFTER `Secure`;

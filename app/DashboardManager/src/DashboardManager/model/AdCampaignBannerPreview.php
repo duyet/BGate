@@ -41,8 +41,8 @@ class AdCampaignBannerPreview {
     public $Label;
     public $AltText;
     public $BidType;
-    public $Target;
-    public $TargetVal;
+    public $TargetDaily;
+    public $TargetMax;
     public $DailyBudget;
     public $MaximumBudget;
     public $IABAudienceCategory;

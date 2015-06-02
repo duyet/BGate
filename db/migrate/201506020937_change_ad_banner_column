@@ -1,0 +1,7 @@
+ALTER TABLE `AdCampaignBannerPreview` 
+CHANGE COLUMN `Target` `TargetDaily` INT(11) NULL DEFAULT NULL ,
+CHANGE COLUMN `TargetVal` `TargetMax` INT(11) NULL DEFAULT NULL ;
+
+ALTER TABLE `AdCampaignBanner` 
+CHANGE COLUMN `Target` `TargetDaily` INT(11) NULL DEFAULT NULL ,
+CHANGE COLUMN `TargetVal` `TargetMax` INT(11) NULL DEFAULT NULL ;
