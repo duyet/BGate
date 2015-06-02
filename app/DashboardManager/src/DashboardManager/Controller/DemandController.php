@@ -2700,10 +2700,7 @@ class DemandController extends DemandAbstractActionController {
 		$BannerPreview->Label                         = $this->getRequest()->getPost('label');
 		$BannerPreview->AltText                       = $this->getRequest()->getPost('altText');
 		$BannerPreview->BidType                       = $this->getRequest()->getPost('bidType');
-		// $BannerPreview->Target                        = $this->getRequest()->getPost('target');
-		// $BannerPreview->TargetVal                     = $this->getRequest()->getPost('TargetVal');
-		// $BannerPreview->DailyBudget                   = $this->getRequest()->getPost('DailyBudget');
-		// $BannerPreview->MaximumBudget                 = $this->getRequest()->getPost('MaximumBudget');
+
 		$BannerPreview->IABAudienceCategory           = $this->getRequest()->getPost('iABAudienceCategory');
 		$BannerPreview->GEOCountry                    = $this->getRequest()->getPost('gEOCountry');
 		$BannerPreview->TimeZone                      = $this->getRequest()->getPost('timeZone');
@@ -2728,6 +2725,12 @@ class DemandController extends DemandAbstractActionController {
 		$BannerPreview->PmpEnable                     = $this->getRequest()->getPost('pmpEnable');
 		$BannerPreview->Secure                        = $this->getRequest()->getPost('secure');
 		$BannerPreview->FoldPosition                  = $this->getRequest()->getPost('poldPosition');
+
+		$BannerPreview->BidType                       = $this->getRequest()->getPost('bidtype');
+		$BannerPreview->TargetDaily                   = $this->getRequest()->getPost('targetdaily');
+		$BannerPreview->TargetMax                     = $this->getRequest()->getPost('targetmax');
+		$BannerPreview->DailyBudget                   = $this->getRequest()->getPost('dailybudget');
+		$BannerPreview->MaximumBudget                 = $this->getRequest()->getPost('maximumbudget');
 
 		$AdCampaignBannerPreviewFactory = \_factory\AdCampaignBannerPreview::get_instance();
 		$banner_preview_id_new = $AdCampaignBannerPreviewFactory->saveAdCampaignBannerPreview($BannerPreview);

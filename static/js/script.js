@@ -462,7 +462,7 @@ $().ready(function() {
 				required: true
 			},
 			adtag: {
-               required: true
+               required: false
            },
            landingPageTLD: {  
                required:  {
