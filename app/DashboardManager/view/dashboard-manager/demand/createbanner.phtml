@@ -303,9 +303,15 @@ $(function() {
 		<label class="col-sm-3 control-label"  for="bidtype">Bid type</label>
 		<div class="col-sm-9">
 			<div id="size-select">
+			<?php 
+	    		$BidType = 1;
+	    		if(isset($banner->BidType) and !empty($banner->BidType)){
+	    			$BidType = $banner->BidType;
+	    		}
+	    	?>
 				<select id="bidtype"  class="form-control"  name="bidtype">
-					<option value="1">CPM</option>
-				  <option value="2">CPC</option>  
+					<option value="1" <?php if (1 === intval($BidType)){ echo 'selected';} ?>>CPM</option>
+				    <option value="2" <?php if (0 === intval($BidType)){ echo 'selected';} ?>>CPC</option>  
 				</select>
 			</div>
 		</div>
@@ -324,14 +330,14 @@ $(function() {
 	<div class="form-group">
 		<label class="col-sm-3 control-label"  for="targetdaily">Daily Target</label>
 		<div class="col-sm-9">
-			<input type="text" class="txtbox-width form-control" name="targetdaily">
+			<input type="text" class="txtbox-width form-control" name="targetdaily" value="<?php echo $banner->TargetDaily ;?>">
 		</div>
 	</div>
 
 	<div class="form-group">
 		<label class="col-sm-3 control-label"  for="targetmax">Maximum Target</label>
 		<div class="col-sm-9">
-			<input type="text" class="txtbox-width form-control" name="targetmax">
+			<input type="text" class="txtbox-width form-control" name="targetmax" value="<?php echo $banner->TargetMax ;?>">
 		</div>
 	</div>
 
@@ -340,7 +346,7 @@ $(function() {
 		<div class="col-sm-9">
 			<div class="input-prepend input-group">
 			<span class="add-on input-group-addon">$</span>
-			<input type="text" class="txtbox-width form-control" name="dailybudget">
+			<input type="text" class="txtbox-width form-control" name="dailybudget" value="<?php echo $banner->DailyBudget ;?>">
 			</div>
 
 		</div>
@@ -351,7 +357,7 @@ $(function() {
 		<div class="col-sm-9">
 			<div class="input-prepend input-group">
 			<span class="add-on input-group-addon">$</span>
-			<input type="text" class="txtbox-width form-control" name="maximumbudget">
+			<input type="text" class="txtbox-width form-control" name="maximumbudget" value="<?php echo $banner->MaximumBudget ;?>">
 			</div>
 			
 		</div>
