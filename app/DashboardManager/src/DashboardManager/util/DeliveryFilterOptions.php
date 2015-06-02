@@ -165,7 +165,7 @@ class DeliveryFilterOptions {
                 "4" =>"marketing manager"
     );
     public static $geo_country = array(
-    
+        '' => "No Preference",
 		'ZWE'=>'Zimbabwe',
         'ZMB'=>'Zambia',
         'YEM'=>'Yemen',
