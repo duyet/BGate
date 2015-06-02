@@ -440,9 +440,21 @@ $().ready(function() {
 			label: {
 				required: true
 			},
-			adUrl: {
-				required: true
-			},
+			// adUrl: {
+			// 	required: {
+   //                 depends:function(){
+   //                     var value = $('input[name="adUrl"]').attr('value');
+			// 		   var val = $('input[name="adUrl"]').val();
+			// 		   if(value.length > 0 || val.length > 0){
+			// 		   	return true;
+			// 		   }else{
+			// 		   	return false;
+			// 		   }
+                       
+   //                 }   
+   //             },
+
+			// },
 			altText: {
 				required: true
 			},

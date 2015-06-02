@@ -2443,6 +2443,7 @@ class DemandController extends DemandAbstractActionController {
         $current_linearity 				= "";
         
         return new ViewModel(array(
+        		'banner'                    => new \model\AdCampaignBannerPreview(),
         		'ispreview'	  				=> $is_preview == true ? '1' : '0',
         		'campaignid'       			=> $id,
         		'campaignpreviewid' 		=> $campaignpreviewid,
@@ -2966,7 +2967,8 @@ class DemandController extends DemandAbstractActionController {
 		$is_vast_url = \util\ParseHelper::isVastURL($adtag);
 		$vast_type = $is_vast_url == true ? "url" : "xml";
 		
-		return new ViewModel(array(
+		$view = new ViewModel(array(
+				'banner'                  => $AdCampaignBanner,
 				'campaignid'              => $campaignid,
 		        'bannerid'                => $bannerid,
 				'campaignpreviewid'       => $campaignpreviewid,
@@ -3015,8 +3017,14 @@ class DemandController extends DemandAbstractActionController {
 				'current_start_delay' => $current_start_delay,
 				'current_linearity' => $current_linearity,
 				
-				'impression_type' => $impression_type
+				'impression_type' => $impression_type,
+
+				'vertical_map' => \util\DeliveryFilterOptions::$vertical_map,
+        		'timezone_options' => \util\DeliveryFilterOptions::$timezone_options,
+        		'geo_country' => \util\DeliveryFilterOptions::$geo_country,
+        		'fold_position' => \util\DeliveryFilterOptions::$fold_position,
 		));
+		return $view->setTemplate('dashboard-manager/demand/createbanner.phtml');
 	}
 
 	/**

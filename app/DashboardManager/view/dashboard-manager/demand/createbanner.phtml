@@ -13,9 +13,17 @@ else:
 	$ad_campaign_id = $campaignid;
 endif;
 
+
+
 $enddate = date('Y-m-d', time() + (86400 * 30));
 $minEndDate = explode("/", $enddate);
-
+$startdate = date('Y-m-d');
+if(isset($banner->StartDate) and !empty($banner->StartDate)){
+	$startdate = date('Y-m-d', strtotime($banner->StartDate));
+}
+if(isset($banner->EndDate) and !empty($banner->EndDate)){
+	$enddate = date('Y-m-d', strtotime($banner->EndDate));
+}
 $this->headScript()->captureStart() ?>
 
 $(function() {
@@ -66,7 +74,11 @@ $(function() {
 			    <li class="active">Create Banner</li>
 		    </ul>
       </div> -->
-      <div ><h4>Create Banner</h4></div>
+      <?php if(isset($bannerpreviewid) and !empty($bannerpreviewid)) {?>
+      	<div ><h4>Edit Banner</h4></div>
+      <?php }else{?>
+      	<div ><h4>Create Banner</h4></div>
+      <?php }?>
     </div>
   </div>
 </div>
@@ -75,7 +87,7 @@ $(function() {
 <div class="row mrg20T">
 <div class="col-md-8 col-md-offset-2 col-sm-12 panel">
 <div class="panel-body">
-<form id="bannerform" class="form-horizontal form-top-magin" name="bannerform" method="POST" action="<?php echo $this->basePath() ?>/demand/newbanner">
+<form id="bannerform" class="form-horizontal form-top-magin" name="bannerform" method="POST" action="<?php echo $this->basePath() ?>/demand/newbanner" enctype="multipart/form-data">
 <fieldset>
 <div class="panel-group" id="banner-form-accordion" role="tablist" aria-multiselectable="true">
 
@@ -95,31 +107,37 @@ $(function() {
 	<input type="hidden" name="campaignpreviewid" value="<?php echo $campaignpreviewid; ?>">
 	<input type="hidden" name="ispreview" value="<?php echo $ispreview; ?>">
 
+    <?php if(isset($bannerpreviewid) and !empty($bannerpreviewid)) {?>
+    <input type="hidden" name="bannerid" value="<?php echo $bannerid;?>">
+	<input type="hidden" name="bannerpreviewid" value="<?php echo $bannerpreviewid;?>">
+	<?php }?>
+
+
 	<div class="form-group">
 		<label class="col-sm-3 control-label"  for="bannername">Ad Name</label>
 		<div class="col-sm-9">
-			<input type="text" class="txtbox-width form-control" name="bannername">
+			<input type="text" class="txtbox-width form-control" name="bannername" value="<?php echo $banner->Name;?>">
 		</div>
 	</div>
 
 	<div class="form-group">
 		<label class="col-sm-3 control-label"  for="adUrl">Upload Ad</label>
 		<div class="col-sm-9">
-			<input type="file" class="txtbox-width form-control" name="adUrl">
+			<input type="file" class="txtbox-width form-control" name="adUrl" value="<?php echo $banner->AdUrl;?>">
 		</div>
 	</div>
 
 	<div class="form-group">
 		<label class="col-sm-3 control-label"  for="label">Label</label>
 		<div class="col-sm-9">
-			<input type="text" class="txtbox-width form-control" name="label">
+			<input type="text" class="txtbox-width form-control" name="label" value="<?php echo $banner->Label;?>">
 		</div>
 	</div>
 
 	<div class="form-group">
 		<label class="col-sm-3 control-label"  for="altText">Alt text</label>
 		<div class="col-sm-9">
-			<input type="text" class="txtbox-width form-control" name="altText">
+			<input type="text" class="txtbox-width form-control" name="altText" value="<?php echo $banner->AltText;?>">
 		</div>
 	</div>
 
@@ -140,7 +158,7 @@ $(function() {
 	    <div class="row">
 			<div class="col-sm-4">
 		        <div class="">
-				  <input name="startdate" id="startdate" class="form-control" size="16" type="date" value="<?php echo date('Y-m-d');?>"  />
+				  <input name="startdate" id="startdate" class="form-control" size="16" type="date" value="<?php echo $startdate;?>"  />
 				  
 			   </div>
 			</div>
@@ -254,7 +272,12 @@ $(function() {
 				<select id="iabsize"  class="selbox-width form-control"  name="iabsize" onchange="formSelectSize(this);">
 				    <option value="" selected="selected">[ SELECT A SIZE ]</option>
 				    <?php foreach ($size_list as $shortcode => $name): ?>
-				        <option value="<?php echo $shortcode;?>"><?php echo $name;?></option>
+				        <!-- <option value="<?php //echo $shortcode;?>"><?php //echo $name;?></option> -->
+				        <?php if ((string)$shortcode === $banner->IABSize): ?>
+				            <option value="<?php echo $shortcode;?>" selected="selected"><?php echo $name;?></option>
+				        <?php else: ?>
+				            <option value="<?php echo $shortcode;?>"><?php echo $name;?></option>
+				        <?php endif; ?>
 				    <?php endforeach; ?>
 				</select>
 			</div>
@@ -266,13 +289,13 @@ $(function() {
 		<div class="form-group novideo">
 		<label class="col-sm-3 control-label"  for="height">Height</label>
 		<div class="col-sm-9">
-			<input type="text" id="height" name="height" class="input-mini form-control">
+			<input type="text" id="height" name="height" class="input-mini form-control" value="<?php echo $banner->Height;?>">
 		</div>
 	</div>
 	<div class="form-group novideo">
 		<label class="col-sm-3 control-label"  for="width">Width</label>
 		<div class="col-sm-9">
-		<input type="text" id="width" name="width" class="input-mini form-control">
+		<input type="text" id="width" name="width" class="input-mini form-control" value="<?php echo $banner->Width;?>">
 		</div>
 	</div>
 
@@ -293,7 +316,7 @@ $(function() {
 		<div class="col-sm-9">
 			<div class="input-prepend input-group">
 			<span class="add-on input-group-addon">$</span>
-			<input type="text" name="bidamount"  class="input-small form-control" value="0.25">
+			<input type="text" name="bidamount"  class="input-small form-control" value="0.25" value="<?php echo $banner->BidAmount ;?>">
 			</div>
 		</div>
 	</div>
@@ -345,12 +368,11 @@ $(function() {
 			</div>
 		</div>
 	</div>
-	
 
 	<div class="form-group">
 		<label class="col-sm-3 control-label"  for="landingPageTLD">Landing Page TLD</label>
 		<div class="col-sm-9">
-			<input type="text" name="landingPageTLD"  class="form-control" >
+			<input type="text" name="landingPageTLD"  class="form-control" value="<?php echo $banner->LandingPageTLD ;?>">
 		</div>
 	</div>
 
@@ -360,11 +382,14 @@ $(function() {
 			<div id="size-select">
 				<select id="iABAudienceCategory"  class="selbox-width form-control"  name="iABAudienceCategory" >
 				    
-				    <?php 
-	                   foreach($vertical_map as $key=>$value): 
-	                  echo '<option value="'. $key .'">'. $value .'</option>';
-	                 endforeach;
-                	?>
+				    <?php foreach($vertical_map as $key => $value): ?>
+	                  
+	                	<?php if ((string)$key === $banner->IABAudienceCategory): ?>
+				            <option value="<?php echo $key;?>" selected="selected"><?php echo $value;?></option>
+				        <?php else: ?>
+				            <option value="<?php echo $key;?>"><?php echo $value;?></option>
+				        <?php endif; ?>
+	                <?php endforeach;?>
 				</select>
 			</div>
 		</div>
@@ -374,13 +399,14 @@ $(function() {
 		<label class="col-sm-3 control-label"  for="gEOCountry">GEO country</label>
 		<div class="col-sm-9">
 			<div id="size-select">
-				<select id="gEOCountry"  class="selbox-width form-control"  name="gEOCountry" >
-				    
-				    <?php 
-	                   foreach($geo_country as $key=>$value): 
-	                  echo '<option value="'. $key .'">'. $value .'</option>';
-	                 endforeach;
-                	?>
+				<select id="gEOCountry"  class="selbox-width form-control"  name="gEOCountry" >				  
+                	<?php foreach($geo_country as $key => $value): ?>	                  
+	                	<?php if ((string)$key === $banner->GEOCountry): ?>
+				            <option value="<?php echo $key;?>" selected="selected"><?php echo $value;?></option>
+				        <?php else: ?>
+				            <option value="<?php echo $key;?>"><?php echo $value;?></option>
+				        <?php endif; ?>
+	                <?php endforeach;?>
 				</select>
 			</div>
 		</div>
@@ -390,11 +416,13 @@ $(function() {
 		<div class="col-sm-9">
 			<div id="size-select">
 				<select id="timeZone"  class="selbox-width form-control"  name="timeZone" >
-				    <?php 
-	                   foreach($timezone_options as $key=>$value): 
-	                  echo '<option value="'. $key .'">'. $value .'</option>';
-	                 endforeach;
-                	?>
+                	<?php foreach($timezone_options as $key => $value): ?>	                  
+	                	<?php if ((string)$key === $banner->TimeZone): ?>
+				            <option value="<?php echo $key;?>" selected="selected"><?php echo $value;?></option>
+				        <?php else: ?>
+				            <option value="<?php echo $key;?>"><?php echo $value;?></option>
+				        <?php endif; ?>
+	                <?php endforeach;?>
 				</select>
 			</div>
 		</div>
@@ -468,33 +496,42 @@ $(function() {
       </h4>
     </div>
     <div id="collapse-advance-options" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-advance-options">
-      <div class="panel-body">
-
-
-
-	<div class="form-group">
+    	<div class="panel-body">
+    	<div class="form-group">
 	    <label class="col-sm-3 control-label"  for="adTagType">Ad tag-type</label>
 	    <div class="col-sm-9">
+	    	<?php 
+	    		$AdTagType = 'iframe';
+	    		if(isset($banner->AdTagType) and !empty($banner->AdTagType)){
+	    			$AdTagType = $banner->AdTagType;
+	    		}
+	    	?>
 	    	<label class="radio-inline">
-			  <input type="radio" name="adTagType" id="iframe" value="iframe" checked> Iframe
+			  <input type="radio" name="adTagType" id="iframe" value="iframe"  <?php if ('iframe' === $AdTagType){ echo 'checked';} ?> > Iframe
 			</label>
 			<label class="radio-inline">
-			  <input type="radio" name="adTagType" id="javascript" value="javascript"> Javascript
+			  <input type="radio" name="adTagType" id="javascript" value="javascript" <?php if ('javascript' === $AdTagType){ echo 'checked';} ?>> Javascript
 			</label>
-	   </div>
-	</div>
+		</div>
+		</div>
 
 	<div class="form-group">
 	    <label class="col-sm-3 control-label"  for="inAnIframe">In an Iframe</label>
 	    <div class="col-sm-9">
+	    	<?php 
+	    		$InAnIframe = 0;
+	    		if(isset($banner->InAnIframe) and !empty($banner->InAnIframe)){
+	    			$InAnIframe = $banner->InAnIframe;
+	    		}
+	    	?>
 	    	<label class="radio-inline">
-			  <input type="radio" name="inAnIframe" id="iframe-no-preference" value="0" checked> No preference
+			  <input type="radio" name="inAnIframe" id="iframe-no-preference" value="0" <?php if (0 === intval($InAnIframe)){ echo 'checked';} ?>> No preference
 			</label>
 			<label class="radio-inline">
-			  <input type="radio" name="inAnIframe" id="iframe-yes" value="1"> Yes
+			  <input type="radio" name="inAnIframe" id="iframe-yes" value="1" <?php if (1 === intval($InAnIframe)){ echo 'checked';} ?>> Yes
 			</label>
 			<label class="radio-inline">
-			  <input type="radio" name="inAnIframe" id="iframe-no" value="2"> No
+			  <input type="radio" name="inAnIframe" id="iframe-no" value="2" <?php if (2 === intval($InAnIframe)){ echo 'checked';} ?>> No
 			</label>
 	   </div>
 	</div>
@@ -503,7 +540,7 @@ $(function() {
 		<label class="col-sm-3 control-label"  for="adtag">Ad Tag</label>
 		<div class="col-sm-9">
 		<span id="adtagwrapper">
-			<textarea class="txtbox-width form-control"  id="adtag" name="adtag" rows="6"></textarea>
+			<textarea class="txtbox-width form-control"  id="adtag" name="adtag" rows="6"><?php echo $banner->AdTag ;?></textarea>
 		</span>
 		</div>
 	</div>
@@ -511,14 +548,20 @@ $(function() {
 	<div class="form-group">
 	    <label class="col-sm-3 control-label"  for="multiNestedIframe">In Multi Nested Iframe</label>
 	    <div class="col-sm-9">
+	    	<?php 
+	    		$MultiNestedIframe = 0;
+	    		if(isset($banner->MultiNestedIframe) and !empty($banner->MultiNestedIframe)){
+	    			$MultiNestedIframe = $banner->MultiNestedIframe;
+	    		}
+	    	?>
 	    	<label class="radio-inline">
-			  <input type="radio" name="multiNestedIframe" id="multi-no-preference" value="0" checked> No preference
+			  <input type="radio" name="multiNestedIframe" id="multi-no-preference" value="0" <?php if (0 === intval($MultiNestedIframe)){ echo 'checked';} ?>> No preference
 			</label>
 			<label class="radio-inline">
-			  <input type="radio" name="multiNestedIframe" id="multi-yes" value="1"> Yes
+			  <input type="radio" name="multiNestedIframe" id="multi-yes" value="1" <?php if (1 === intval($MultiNestedIframe)){ echo 'checked';} ?>> Yes
 			</label>
 			<label class="radio-inline">
-			  <input type="radio" name="multiNestedIframe" id="multi-no" value="2"> No
+			  <input type="radio" name="multiNestedIframe" id="multi-no" value="2" <?php if (2 === intval($MultiNestedIframe)){ echo 'checked';} ?>> No
 			</label>
 	   </div>
 	</div>
@@ -527,31 +570,31 @@ $(function() {
 	    <div class="col-sm-9 col-md-offset-3">
 	    	<div class="checkbox">
 			  <label>
-			    <input type="checkbox" value="1" name="frequencyCap" onchange="frequency_cap_check()">Frequency Cap in last 24 hours 
+			    <input type="checkbox" value="1" name="frequencyCap" onchange="frequency_cap_check()" <?php if (1 === intval($banner->FrequencyCap)){ echo 'checked';}?> >Frequency Cap in last 24 hours 
 			  </label>
 			</div>
 			
 	   </div>
 	</div>
 
-	<div class="form-group" style="display: none;">
-	    <label class="col-sm-3 control-label"  for="FreCapShowTime">Show times</label>
+	<div class="form-group" style="display: <?php if (2 === intval($banner->FrequencyCap)){ echo 'block';}else { echo 'none'; }?>;" >
+	    <label class="col-sm-3 control-label"  for="freCapShowTime">Show times</label>
 	    <div class="col-sm-9">
-	    	<input type="number" name="FreCapShowTime" id="FreCapShowTime" class="form-control" >
+	    	<input type="number" name="freCapShowTime" id="freCapShowTime" class="form-control" value="<?php echo $banner->FreCapShowTime ;?>">
 	   </div>
 	</div>
 	<div class="form-group" style="display: none;">
 	    <label class="col-sm-3 control-label"  for="FreCapTimeHr">Time duration (hour)</label>
 	    <div class="col-sm-9">
 	    	<div class="row">
-	    		<label class="col-sm-2 control-label"  for="FreCapTimeFromHr">from</label>
+	    		<label class="col-sm-2 control-label"  for="freCapTimeFromHr">from</label>
 			    <div class="col-sm-4">
-			    	<input type="number" name="FreCapTimeFromHr" id="FreCapTimeFromHr" class="form-control" >
+			    	<input type="number" name="freCapTimeFromHr" id="freCapTimeFromHr" class="form-control" value="<?php echo $banner->FreCapTimeFromHr ;?>">
 			   </div>
-			   <label class="col-sm-2 control-label"  for="FreCapTimeToHr">to</label>
+			   <label class="col-sm-2 control-label"  for="freCapTimeToHr">to</label>
 			    <div class="col-sm-4">
 			    	
-			    	<input type="number" name="FreCapTimeToHr" id="FreCapTimeToHr" class="form-control" >
+			    	<input type="number" name="freCapTimeToHr" id="freCapTimeToHr" class="form-control" value="<?php echo $banner->FreCapTimeToHr ;?>">
 			   </div>
 	   </div>
 	   </div>
@@ -562,12 +605,12 @@ $(function() {
 	    <div class="col-sm-9">
 	    	<div class="checkbox-inline">
 			  <label>
-			    <input type="checkbox" value="1" name="freCapCampaignApply">By campaign
+			    <input type="checkbox" value="1" name="freCapCampaignApply" <?php if (1 === intval($banner->FreCapCampaignApply)){ echo 'checked';}?>>By campaign
 			  </label>
 			</div>
 			<div class="checkbox-inline">
 			  <label>
-			    <input type="checkbox" value="1" name="freCapZoneApply">By zone 
+			    <input type="checkbox" value="1" name="freCapZoneApply" <?php if (1 === intval($banner->FreCapZoneApply)){ echo 'checked';}?>>By zone 
 			  </label>
 			</div>
 	   </div>
@@ -594,18 +637,28 @@ $(function() {
 	<div class="form-group">
 	    <label class="col-sm-3 control-label"  for="adTagType">Ad position</label>
 	    <div class="col-sm-9">
+	    	<?php 
+	    		$AdPostLeft = 0;
+	    		if(isset($banner->AdPostLeft) and !empty($banner->AdPostLeft)){
+	    			$AdPostLeft = $banner->AdPostLeft;
+	    		}
+	    		$AdPostTop = 0;
+	    		if(isset($banner->AdPostTop) and !empty($banner->AdPostTop)){
+	    			$AdPostTop = $banner->AdPostTop;
+	    		}
+	    	?>
 	    	<label class="radio-inline">
-			  <input type="radio" name="adPosLeft" id="Min-Left" value="0" checked> Min Left
+			  <input type="radio" name="adPosLeft" id="Min-Left" value="0" <?php if (0 === intval($AdPostLeft)){ echo 'checked';} ?>> Min Left
 			</label>
 			<label class="radio-inline">
-			  <input type="radio" name="adPosLeft" id="Max-Left" value="1"> Max Left
+			  <input type="radio" name="adPosLeft" id="Max-Left" value="1" <?php if (1 === intval($AdPostLeft)){ echo 'checked';} ?>> Max Left
 			</label>	
 			<br>   
 	    	<label class="radio-inline">
-			  <input type="radio" name="adPostTop" id="Min-Top" value="0" checked> Min Top
+			  <input type="radio" name="adPostTop" id="Min-Top" value="0" <?php if (0 === intval($AdPostTop)){ echo 'checked';} ?>> Min Top
 			</label>
 			<label class="radio-inline">
-			  <input type="radio" name="adPostTop" id="Max-Top" value="1"> Max Top
+			  <input type="radio" name="adPostTop" id="Max-Top" value="1" <?php if (1 === intval($AdPostTop)){ echo 'checked';} ?>> Max Top
 			</label>
 	   </div>
 	</div>
@@ -613,10 +666,16 @@ $(function() {
 	<div class="form-group">
 	    <label class="col-sm-3 control-label"  for="foldPosition">Fold position</label>
 	    <div class="col-sm-9">
-	    	<select id="foldPosition"  class="selbox-width form-control"  name="foldPosition">
-			
-			    <?php foreach ($fold_position as $value => $name): ?>
-			        <option value="<?php echo $value;?>"><?php echo $name;?></option>
+	    	<select id="foldPosition"  class="selbox-width form-control"  name="foldPosition">			
+			    <?php //foreach ($fold_position as $value => $name): ?>
+			        <!-- <option value="<?php //echo $value;?>"><?php //echo $name;?></option> -->
+			    <?php //endforeach; ?>
+			    <?php foreach ($fold_position as $code => $name): ?>
+			        <?php if (intval($key) === intval($banner->FoldPosition)): ?>
+			            <option value="<?php echo $code;?>" selected="selected"><?php echo $name;?></option>
+			        <?php else: ?>
+			            <option value="<?php echo $code;?>"><?php echo $name;?></option>
+			        <?php endif; ?>
 			    <?php endforeach; ?>
 			</select>
 	   </div>
@@ -638,26 +697,26 @@ $(function() {
 	<div class="form-group">
 	    <label class="col-sm-3 control-label"  for="resolutionMinW">Min screen res width</label>
 	    <div class="col-sm-9">
-	    	<input type="number" name="resolutionMinW"  class="form-control" >
+	    	<input type="number" name="resolutionMinW"  class="form-control" value="<?php echo $banner->ResolutionMinW ;?>">
 	   </div>
 	</div>
 
 	<div class="form-group">
 	    <label class="col-sm-3 control-label"  for="resolutionMaxW">Max screen res width</label>
 	    <div class="col-sm-9">
-	    	<input type="number" name="resolutionMaxW"  class="form-control" >
+	    	<input type="number" name="resolutionMaxW"  class="form-control" value="<?php echo $banner->ResolutionMaxW ;?>">
 	   </div>
 	</div>
 	<div class="form-group">
 	    <label class="col-sm-3 control-label"  for="resolutionMinH">Min screen res height</label>
 	    <div class="col-sm-9">
-	    	<input type="number" name="resolutionMinH"  class="form-control" >
+	    	<input type="number" name="resolutionMinH"  class="form-control" value="<?php echo $banner->ResolutionMinH ;?>">
 	   </div>
 	</div>
 	<div class="form-group">
 	    <label class="col-sm-3 control-label"  for="resolutionMaxH">Max screen res height</label>
 	    <div class="col-sm-9">
-	    	<input type="number" name="resolutionMaxH"  class="form-control" >
+	    	<input type="number" name="resolutionMaxH"  class="form-control" value="<?php echo $banner->ResolutionMaxH ;?>">
 	   </div>
 	</div>
 
@@ -679,33 +738,43 @@ $(function() {
 	<div class="form-group">
 	    <label class="col-sm-3 control-label"  for="httpLang">HTTP Language</label>
 	    <div class="col-sm-9">
-	    	<input type="text" name="httpLang" id="httpLang"  class="form-control" >
+	    	<input type="text" name="httpLang" id="httpLang"  class="form-control" value="<?php echo $banner->HttpLang ;?>">
 	   </div>
 	</div>
 
 	<div class="form-group">
 	    <label class="col-sm-3 control-label"  for="browerAgentGrep">Browser User Agent Grep</label>
 	    <div class="col-sm-9">
-	    	<input type="text" name="browerAgentGrep" id="browerAgentGrep"  class="form-control" >
+	    	<input type="text" name="browerAgentGrep" id="browerAgentGrep"  class="form-control" value="<?php echo $banner->BrowerAgentGrep ;?>" >
 	   </div>
 	</div>
 	<div class="form-group">
 	    <label class="col-sm-3 control-label"  for="cookieGrep">Cookie Grep</label>
 	    <div class="col-sm-9">
-	    	<input type="text" name="cookieGrep" id="cookieGrep" class="form-control" >
+	    	<input type="text" name="cookieGrep" id="cookieGrep" class="form-control" value="<?php echo $banner->CookieGrep ;?>" >
 	   </div>
 	</div>
+	<?php 
+		$PmpEnable = 0;
+		if(isset($banner->PmpEnable) and !empty($banner->PmpEnable)){
+			$PmpEnable = $banner->PmpEnable;
+		}
+		$Secure = 0;
+		if(isset($banner->Secure) and !empty($banner->Secure)){
+			$Secure = $banner->Secure;
+		}
+	?>
 	<div class="form-group">
 	    <label class="col-sm-3 control-label"  for="resolutionMaxH">Pmp Enable</label>
 	    <div class="col-sm-9">
 	    	<label class="radio-inline">
-			  <input type="radio" name="pmpEnable" id="no-preference" value="0" checked> No Preference
+			  <input type="radio" name="pmpEnable" id="no-preference" value="0" <?php if (0 === intval($PmpEnable)){ echo 'checked';} ?>> No Preference
 			</label>
 			<label class="radio-inline">
-			  <input type="radio" name="pmpEnable" id="PMP-Enable-On" value="1"> PMP Enable On
+			  <input type="radio" name="pmpEnable" id="PMP-Enable-On" value="1" <?php if (1 === intval($PmpEnable)){ echo 'checked';} ?>> PMP Enable On
 			</label>		
 	    	<label class="radio-inline">
-			  <input type="radio" name="pmpEnable" id="PMP-Enable-Off" value="2"> PMP Enable Off
+			  <input type="radio" name="pmpEnable" id="PMP-Enable-Off" value="2" <?php if (2 === intval($PmpEnable)){ echo 'checked';} ?>> PMP Enable Off
 			</label>
 	   </div>
 	</div>
@@ -714,13 +783,13 @@ $(function() {
 	    <label class="col-sm-3 control-label"  for="secure">Secure</label>
 	    <div class="col-sm-9">
 	    	<label class="radio-inline">
-			  <input type="radio" name="secure" id="Secure-no-preference" value="0" checked> No Preference
+			  <input type="radio" name="secure" id="Secure-no-preference" value="0" <?php if (0 === intval($Secure)){ echo 'checked';} ?>> No Preference
 			</label>
 			<label class="radio-inline">
-			  <input type="radio" name="secure" id="Secure-Secure-On" value="1"> https:// Secure on
+			  <input type="radio" name="secure" id="Secure-Secure-On" value="1" <?php if (1 === intval($Secure)){ echo 'checked';} ?>> https:// Secure on
 			</label>		
 	    	<label class="radio-inline">
-			  <input type="radio" name="secure" id="Secure-Secure-Off" value="2"> https:// Secure off
+			  <input type="radio" name="secure" id="Secure-Secure-Off" value="2" <?php if (2 === intval($Secure)){ echo 'checked';} ?>> https:// Secure off
 			</label>
 	   </div>
 	</div>
@@ -735,8 +804,15 @@ $(function() {
 
 	<div class="span12">
 	<div class="form-group text-center">
-		<p>
-	   <input type="submit" class="btn btn-primary" name="B1" value="Create New Banner" /></p>
+		<p>   
+
+	   <?php if(isset($bannerpreviewid) and !empty($bannerpreviewid)) {?>
+      	<input type="submit" class="btn btn-primary" name="B1" value="Update Banner" />
+      <?php }else{?>
+      	<input type="submit" class="btn btn-primary" name="B1" value="Create New Banner" />
+      <?php }?>
+
+	   </p>
 	   </div>
 	</div>
 
