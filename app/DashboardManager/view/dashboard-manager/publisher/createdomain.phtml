@@ -46,7 +46,18 @@ $this->headScript()->captureStart(); ?>
               <textarea maxlength="5000" class="form-control" id="Description" name="Description"></textarea>    
             </div>
           </div> 
-
+          <?php
+            if($is_admin):
+          ?>
+            <div class="form-group">
+                <label for="desc" class="control-label col-sm-3">Domain Markup<sup>(*)</sup></label>
+                <div class="controls col-sm-7">
+                  <input type="text" class="form-control" id="DomainMarkup" name="DomainMarkup">
+                </div>
+            </div>     
+          <?php
+            endif;
+          ?>  
           <div class="form-group">
             <label for="IABCategory" class="control-label col-sm-3">IABCategory</label>
             <div class="controls col-sm-7">

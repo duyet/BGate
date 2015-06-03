@@ -161,6 +161,22 @@ function deleteDomainConfirm() {
 
 }
 
+// Change domain flag
+
+function changeDomainFlag(flag, id){
+	$.post("/bgate/publisher/changedomainflag/" + id, {param1: id, flag: flag }, function( data ) {
+		
+		if(data.success == false) {
+
+			return false;
+		}
+		if(data.success == true) {
+			
+			window.location.reload();
+		}
+	},'json');	
+}
+
 // Campaign delete modal popup
 function deleteCampaignModal( campaign_id, campaign_name ) {
 	
@@ -596,6 +612,9 @@ $().ready(function() {
                validatedomain: true
            },
            Description: {
+				required: true
+			},
+			DomainMarkup: {
 				required: true
 			}
 		},

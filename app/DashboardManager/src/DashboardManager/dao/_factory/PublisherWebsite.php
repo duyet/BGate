@@ -188,7 +188,7 @@ class PublisherWebsite extends \_factory\CachedTableRead
        
    	$data['WebDomain'] = substr($rawData->WebDomain,0,255);
    	$data['DomainOwnerID'] = intval($rawData->DomainOwnerID);
-   	if (intval($rawData->ApprovalFlag) >= 0 && intval($rawData->ApprovalFlag) <= 2): 
+   	if (intval($rawData->ApprovalFlag) >= 0 && intval($rawData->ApprovalFlag) <= 3): 
    		$data['ApprovalFlag'] = intval($rawData->ApprovalFlag);
    	endif;
    	if (intval($rawData->AutoApprove) == 0 || intval($rawData->AutoApprove) == 1):
@@ -198,6 +198,7 @@ class PublisherWebsite extends \_factory\CachedTableRead
    	$data['IABCategory'] 	= $rawData->IABCategory;
    	$data['IABSubCategory'] = $rawData->IABSubCategory;
    	$data['Description'] 	= $rawData->Description;
+    $data['DomainMarkup']  = $rawData->DomainMarkup;
    	
    	$data['DateUpdated'] = date('Y-m-d H:i:s');
    	if (intval($rawData->PublisherWebsiteID) > 0):

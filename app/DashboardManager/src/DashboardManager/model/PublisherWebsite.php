@@ -13,6 +13,7 @@ class PublisherWebsite
 {
     public $PublisherWebsiteID;
     public $WebDomain;
+    public $DomainMarkup;
     public $DomainOwnerID;
     public $AutoApprove;
     public $ApprovalFlag;

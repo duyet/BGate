@@ -74,7 +74,12 @@ class PublisherController extends PublisherAbstractActionController {
 
 		$parameters = array(); // Set the parameters to empty first.
 		// sort map array
-		$SortMap = array("1"=> "WebDomain", "4" => "DateCreated");
+		// if ($this->is_admin):
+			$SortMap = array("1"=> "WebDomain","5" => "DateCreated");
+		// else:
+		// 	$SortMap = array("1"=> "WebDomain", "4" => "DateCreated");
+		// endif;
+
 		$OrderArr = $this->getRequest()->getQuery("order");
 		$order = $SortMap[$OrderArr[0]["column"]] . " " . strtoupper($OrderArr[0]["dir"]);
 		
@@ -95,7 +100,9 @@ class PublisherController extends PublisherAbstractActionController {
 
 		//Pull list of websites.
 		$PublisherWebsiteFactory = \_factory\PublisherWebsite::get_instance();
-		$parameters['DomainOwnerID'] = $this->PublisherInfoID;
+		if (!$this->is_admin):
+			$parameters['DomainOwnerID'] = $this->PublisherInfoID;
+		endif;
 
 		$PublisherWebsiteList = $PublisherWebsiteFactory->get($parameters, $order, $search, $PageSize, $Offset);
 		$TotalPublisherWebsiteCount = $PublisherWebsiteFactory->count($parameters, $search);
@@ -117,9 +124,12 @@ class PublisherController extends PublisherAbstractActionController {
 					$row["DomainName"] = array('name' => $row_data["WebDomain"], "id" => $row_data["PublisherWebsiteID"] );
 					$row["IABCategory"] = $category_mapper[$row_data["IABCategory"]];
 					$row["AdZones"] = "";
+					$row["DomainMarkup"] = $row_data["DomainMarkup"];
 					$row["DomainOwnerID"] = $row_data["DomainOwnerID"];
-					$row["ApprovalFlag"] = $approval_mapper[$row_data["ApprovalFlag"]];
+					$row["ApprovalFlag"] = array('flag' => $approval_mapper[$row_data["ApprovalFlag"]], "id" => $row_data["PublisherWebsiteID"] );
 					$row["created_at"] = $row_data["DateCreated"];
+					$row["updated_at"] = $row_data["DateUpdated"];
+					$row["is_admin"] = $this->is_admin;
 					$result[] = $row;
 
 				endforeach;
@@ -147,10 +157,11 @@ class PublisherController extends PublisherAbstractActionController {
 		
 		$PublisherWebsiteList = $PublisherWebsiteFactory->get($parameters);
 	   
-		if ($this->is_admin):
+		// if ($this->is_admin):
 		
-			$headers = array("#","Domain","Domain Markup","Imps Loss Rate","Domain Owner","Created","Updated","Approval");
-			$meta_data = array("WebDomain","DomainMarkupRate","DomainPublisherImpressionsLossRate","DomainOwnerID","DateCreated","DateUpdated","ApprovalFlag");
+			//"Imps Loss Rate","DomainPublisherImpressionsLossRate"	
+			$headers = array("#","Domain","Domain Markup","Domain Owner","IAB Category","Created","Updated","Approval");
+			$meta_data = array("WebDomain","DomainMarkupRate","DomainOwnerID","DateCreated","DateUpdated","ApprovalFlag");
 		
 			// admin is logged in as a user, get the markup if any for that user
 			if ($this->ImpersonateID != 0 && !empty($this->PublisherInfoID)):
@@ -167,11 +178,11 @@ class PublisherController extends PublisherAbstractActionController {
 				
 			endif;
 			
-		else:
+		// else:
 		
-			$headers = array("#","Domain","Ad Zone","IAB Category","Created Date","Approval");
-			$meta_data = array("WebDomain","AutoApprove","DateCreated","DateUpdated","ApprovalFlag");
-		endif;
+		// 	$headers = array("#","Domain","Ad Zone","IAB Category","Created Date","Approval");
+		// 	$meta_data = array("WebDomain","AutoApprove","DateCreated","DateUpdated","ApprovalFlag");
+		// endif;
 
 		foreach ($PublisherWebsiteList as $PublisherWebsite):
 
@@ -232,6 +243,61 @@ class PublisherController extends PublisherAbstractActionController {
 		
 	}
 	
+
+	/*
+	 * Change domain flag
+	*/
+	public function changedomainflagAction()
+	{
+		// Initialize things.
+		$error_message = null;
+		$initialized = $this->initialize();
+		if ($initialized !== true) return $initialized;
+		$request = $this->getRequest();
+		$PublisherWebsiteFactory = \_factory\PublisherWebsite::get_instance();
+
+		$success = false;
+		
+		// Check to make sure the value is valid to begin with.
+		$PublisherWebsiteID = intval($this->params()->fromRoute('param1', 0));
+		$flag = $request->getPost('flag');
+		// print_r($PublisherWebsiteID);
+		// print_r($flag);
+		// die();
+
+		$params = array();
+	    $params["PublisherWebsiteID"] = $PublisherWebsiteID;
+	    $_PublisherWebsite = $PublisherWebsiteFactory->get_row($params);
+
+		$PublisherWebsite = new \model\PublisherWebsite();
+		$PublisherWebsite->PublisherWebsiteID  = $_PublisherWebsite->PublisherWebsiteID;
+		$PublisherWebsite->WebDomain       	   = $_PublisherWebsite->WebDomain;
+		$PublisherWebsite->DomainMarkup    	   = $_PublisherWebsite->DomainMarkup;
+		$PublisherWebsite->DomainOwnerID   	   = $_PublisherWebsite->DomainOwnerID;
+		$PublisherWebsite->AutoApprove     	   = $_PublisherWebsite->AutoApprove;
+		$PublisherWebsite->IABCategory     	   = $_PublisherWebsite->IABCategory;
+		$PublisherWebsite->IABSubCategory  	   = $_PublisherWebsite->IABSubCategory;
+		$PublisherWebsite->Description     	   = $_PublisherWebsite->Description;
+		$PublisherWebsite->DateCreated     	   = $_PublisherWebsite->DateCreated;
+		$PublisherWebsite->DateUpdated     	   = date("Y-m-d H:i:s");
+
+		//Update Deleted flag
+		$PublisherWebsite->ApprovalFlag      = $flag;
+		
+	    $update_publisher_website_id = $PublisherWebsiteFactory->save_domain($PublisherWebsite);;
+		if($update_publisher_website_id):
+			$success = true;
+		else:
+			$error_message = "Unable to update the entry. Please contact customer service.";
+		endif;			
+
+		$data = array(
+			'success' => $success,
+			'data' => array('error_msg' => $error_message)
+		 );
+		 
+		 return $this->getResponse()->setContent(json_encode($data));
+	}
 	/**
 	 * Allows an administrator to "login as another user", to impersonate a lower user to manage another user's objects.
 	 * @return Ambigous <\Zend\Http\Response, \Zend\Stdlib\ResponseInterface>
@@ -476,7 +542,13 @@ class PublisherController extends PublisherAbstractActionController {
 				$domain->DomainOwnerID = $domain_owner_id;
 				$auto_approve_websites = $this->config_handle['settings']['publisher']['auto_approve_websites'];
 				if ($auto_approve_websites == true):
+					$domain->AutoApprove = 1;
 					$domain->ApprovalFlag = 1;
+					#Flag of domain:
+					# 1: Auto Approved
+					# 2: Stop
+					# 3: Running
+					
 				endif;
 				// Check if an entry exists with the same name. A NULL means there is no duplicate.
 				if ($PublisherWebsiteFactory->get_row(array("WebDomain" => $domain->WebDomain)) === null):
@@ -592,15 +664,19 @@ class PublisherController extends PublisherAbstractActionController {
 		if ($PublisherWebsiteID > 0):
 		
 			// Only modify entries that belong to the user.
-			$parameters = array("PublisherWebsiteID" => $PublisherWebsiteID, "DomainOwnerID" => $this->PublisherInfoID);
+			if ($this->is_admin):
+				$parameters = array("PublisherWebsiteID" => $PublisherWebsiteID);
+			else:
+				$parameters = array("PublisherWebsiteID" => $PublisherWebsiteID, "DomainOwnerID" => $this->PublisherInfoID);
+			endif;
 			$editResultObj = $PublisherWebsiteFactory->get_row_object($parameters);
 			
 			$request = $this->getRequest();
 
 			// Check to make sure this entry exists for editing and make sure the user owns this entry.
 			// Prevent the display of entries that the user does not own or have access.
-			if (intval($editResultObj->PublisherWebsiteID) == $PublisherWebsiteID &&
-				$editResultObj->DomainOwnerID == $this->PublisherInfoID):
+			if ((intval($editResultObj->PublisherWebsiteID) == $PublisherWebsiteID &&
+				$editResultObj->DomainOwnerID == $this->PublisherInfoID) || $this->is_admin):
 			
 				if ($request->isPost()):
 				
@@ -611,13 +687,17 @@ class PublisherController extends PublisherAbstractActionController {
 						$web_domain = $request->getPost("WebDomain");
 						$description = $request->getPost("Description");
 						$iab_category = $request->getPost("IABCategory");
-				
+						if ($this->is_admin):
+							$domain_markup = $request->getPost("DomainMarkup");
+						else:
+							$domain_markup = 0;
+						endif;
 				// Check if an entry exists with the same name. A NULL means there is no duplicate.
 						//if ($PublisherWebsiteFactory->get_row(array("WebDomain" => $web_domain)) === null):
 						$editResultObj->WebDomain = $web_domain;
 						$editResultObj->Description = $description;
 						$editResultObj->IABCategory = $iab_category;
- 
+ 						$editResultObj->DomainMarkup = $domain_markup;
 						try {
 						$PublisherWebsiteFactory->save_domain($editResultObj);
 							return $this->redirect()->toRoute('publisher');

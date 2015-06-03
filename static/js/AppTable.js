@@ -6,7 +6,7 @@ var DomainTable = {
       this.source_path = table.data("url");
       this.init_datatable();
       this.fix_layout();
-
+      // this.table.fnSetColumnVis(1, false);
     }
   },
   reload_table: function(){
@@ -35,8 +35,11 @@ var DomainTable = {
             // d.created_at = "efg";
           }
         },
-        "aoColumnDefs": [
-         { bSortable: false, 'aTargets': [ 0,2,3,5 ] },    
+        "aoColumnDefs": 
+        [
+         { 
+          bSortable: false, 'aTargets': [ 0,2,3,4,7 ] 
+         },    
         ],
         "columns": [
             { "data": "index", className: "text-center" },
@@ -51,13 +54,31 @@ var DomainTable = {
                 return detail_url + "<hr class='mrg5T mrg5B'/><div class='row-action'>" + edit_url + " " + delete_url + " | " + create_ad_zone + "</div>";
               } 
             },
-            { "data": "AdZones" },
+            { "data": "DomainMarkup" },
+            // { "data": "AdZones" },
+            { "data": "DomainOwnerID" },
             { "data": "IABCategory" },
             { "data": "created_at" },
-            { "data": "ApprovalFlag" }
+            { "data": "updated_at" },
+            { "data": "ApprovalFlag",
+              render: function(data){
+                var dt = self.table.fnGetData();
+                var is_admin = dt[0].is_admin;
+                if (is_admin)
+                  if (data.flag=="Auto-Approved" || data.flag=="Running")
+                    return "<p class='text-center' id='domain-flag-" + data.id + "'>" + data.flag + "</p><hr class='mrg5T mrg5B'/><div class='row-action text-center'><a id='domain-flag-action"+ data.id +"' href='javascript:;' onclick='changeDomainFlag(2, "+ data.id +")'>STOP</a></div>";
+                  else
+                    return "<p class='text-center' id='domain-flag-" + data.id + "'>" + data.flag + "</p><hr class='mrg5T mrg5B'/><div class='row-action text-center'><a id='domain-flag-action"+ data.id +"' href='javascript:;' onclick='changeDomainFlag(3, "+ data.id +")'>RESUME</a></div>";
+                else
+                  return "<p class='text-center'>" + data.flag + "</p>";
+              }
+            }
         ],
         initComplete: function () {
-          
+          var dt = self.table.fnGetData();
+          var is_admin = dt[0].is_admin;
+          if (!is_admin)
+            self.table.fnSetColumnVis(2, false);
         },
         fnDrawCallback: function(data){
           return data;
@@ -131,7 +152,7 @@ var AdzoneTable = {
             { "data": "DateCreated" }
         ],
         initComplete: function () {
-          
+
         },
         fnDrawCallback: function(data){
           return data;
