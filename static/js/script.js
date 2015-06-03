@@ -1026,7 +1026,7 @@ function userRejectionConfirm() {
 	$("#user_rejection_yes_btn").button('loading');
 	$("#user_rejection_no_btn").attr("disabled",true);
 
-	$.post("/users/rejectuser", { q: 1, user_id: user_id, description: description, user_type:user_type }, function( data ) {
+	$.post(basePath+"/users/rejectuser", { q: 1, user_id: user_id, description: description, user_type:user_type }, function( data ) {
 		
 		$("#user_rejection_no_btn").attr("disabled",false);
 		if(data.success == false) {
@@ -1074,7 +1074,7 @@ function userAcceptConfirm() {
 	$("#user_accept_yes_btn").button('loading');
 	$("#user_accept_no_btn").attr("disabled",true);
 
-	$.post("/users/acceptuser", { q: 1, user_id: user_id, user_type:user_type }, function( data ) {
+	$.post(basePath+"/users/acceptuser", { q: 1, user_id: user_id, user_type:user_type }, function( data ) {
 
 		$("#user_accept_no_btn").attr("disabled",false);
 		$("#user_accept_yes_btn").button('reset');

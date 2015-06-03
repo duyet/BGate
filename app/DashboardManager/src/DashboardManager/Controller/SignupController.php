@@ -542,6 +542,71 @@ class SignupController extends PublisherAbstractActionController {
 	  return $view->setTemplate('dashboard-manager/auth/publishers.phtml');
 
 	}
+
+	public function publishersinitAction() {
+		
+		$initialized = $this->initialize();
+		if ($initialized !== true) return $initialized;
+		
+		$authUsers = new \model\authUsers();
+		$authUsersFactory = \_factory\authUsers::get_instance();
+		
+		$userData = $authUsersFactory->get_row(array("user_id" => $this->auth->getUserID()));
+		
+		if (!$this->is_admin) :
+     		return $this->redirect()->toRoute($this->dashboard_home);
+		endif;
+		
+		$PublisherInfo = new \model\PublisherInfo();
+		$PublisherInfoFactory = \_factory\PublisherInfo::get_instance();
+		
+		$orders = 'DateCreated DESC'; 	    
+		$userDetail = $PublisherInfoFactory->get(null, $orders);
+		$userData = $authUsersFactory->get_row(array("user_id" => $this->auth->getUserID()));
+		$publisherData = $PublisherInfoFactory->get_row(array("PublisherInfoID" => $userData->PublisherInfoID));
+		$authUsersFactory = \_factory\authUsers::get_instance();
+		$data = array();
+		foreach ($userDetail as $value): //{
+			
+		//}
+				$userData = $authUsersFactory->get_row(array("PublisherInfoID" => $value->PublisherInfoID));
+    	   		$approval = FALSE;
+    	   		// fixes bad auth_User data from previous signup bug which was fixed in 1.4
+    	   		if (!is_object($userData)):
+    	   			continue;
+    	   		endif;
+    	   		if(isset($userData) && $userData->user_enabled == 1 && $userData->user_verified == 1):
+    	   			$approval = TRUE;
+    	   		endif;
+    	   		array_push($data, array_merge((array)$value, array(
+    	   			'user' => $userData,
+    	   			'approval' => $approval
+    	   		)));
+    	endforeach;
+		// $view = new ViewModel(array(
+	 //    	'dashboard_view' => 'account',
+	 //    	'user_detail' => $userDetail,
+	 //    	'authUsersFactory' => $authUsersFactory,
+	 //    	'user_type' => 'publisher',
+	 //    	'user_id' => $this->auth->getUserID(),
+	 //       	'user_id_list' => $this->user_id_list,
+	 //      	'user_identity' => $this->identity(),
+		//   	'true_user_name' => $this->auth->getUserName(),
+		// 	'header_title' => 'Publishers List',
+		// 	'is_admin' => $this->is_admin,
+		// 	'effective_id' => $this->auth->getEffectiveIdentityID(),
+		// 	'impersonate_id' => $this->ImpersonateID
+	 //    ));
+	    header('Content-type: application/json');
+		echo json_encode(array(
+			"recordsTotal" => count($userDetail), 
+			"recordsFiltered" => count($userDetail) , 
+			'data' => $data));
+
+		die;
+	  //return $view->setTemplate('dashboard-manager/auth/publishers.phtml');
+
+	}
 	
 	public function customersAction() {
 		$initialized = $this->initialize();
