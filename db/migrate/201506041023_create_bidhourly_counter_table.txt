@@ -7,5 +7,5 @@ CREATE TABLE `BidHourlyCounter` (
   `ErrorCount` INT UNSIGNED NULL DEFAULT 0,
   `DateCreated` TIMESTAMP NULL,
   `DateUpdated` TIMESTAMP NULL,
-  PRIMARY KEY (`HourlyBidID`),
+  PRIMARY KEY (`BidHourlyCounterID`),
   INDEX `FOREIGNKEY` (`PublisherAdZoneID` ASC, `AdCampaignBannerID` ASC));
