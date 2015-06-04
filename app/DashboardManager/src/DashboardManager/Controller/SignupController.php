@@ -570,13 +570,13 @@ class SignupController extends PublisherAbstractActionController {
 			
 		//}
 				$userData = $authUsersFactory->get_row(array("PublisherInfoID" => $value->PublisherInfoID));
-    	   		$approval = FALSE;
+    	   		$approval = 'false';
     	   		// fixes bad auth_User data from previous signup bug which was fixed in 1.4
     	   		if (!is_object($userData)):
     	   			continue;
     	   		endif;
     	   		if(isset($userData) && $userData->user_enabled == 1 && $userData->user_verified == 1):
-    	   			$approval = TRUE;
+    	   			$approval = 'true';
     	   		endif;
     	   		array_push($data, array_merge((array)$value, array(
     	   			'user' => $userData,
@@ -599,8 +599,8 @@ class SignupController extends PublisherAbstractActionController {
 	 //    ));
 	    header('Content-type: application/json');
 		echo json_encode(array(
-			"recordsTotal" => count($userDetail), 
-			"recordsFiltered" => count($userDetail) , 
+			"recordsTotal" => count($data), 
+			"recordsFiltered" => count($data) , 
 			'data' => $data));
 
 		die;
@@ -608,6 +608,65 @@ class SignupController extends PublisherAbstractActionController {
 
 	}
 	
+	public function customerslistAction() {
+		$initialized = $this->initialize();
+		if ($initialized !== true) return $initialized;
+		
+		$authUsers = new \model\authUsers();
+		$authUsersFactory = \_factory\authUsers::get_instance();
+		
+		$userData = $authUsersFactory->get_row(array("user_id" => $this->auth->getUserID()));
+
+		if (!$this->is_admin) :
+			return $this->redirect()->toRoute($this->dashboard_home);
+		endif;
+		
+		$DemandCustomerInfo = new \model\DemandCustomerInfo();
+		$DemandCustomerInfoFactory = \_factory\DemandCustomerInfo::get_instance();
+		
+		$orders = 'DateCreated DESC'; 	    
+		$userDetail = $DemandCustomerInfoFactory->get(null, $orders);
+		$data = array();
+		foreach ($userDetail as $user_data) :  
+	   		$userData = $authUsersFactory->get_row(array("DemandCustomerInfoID" => $user_data->DemandCustomerInfoID));
+	   		$approval = false;
+	   		// fixes bad auth_User data from previous signup bug which was fixed in 1.4
+	   		if (!is_object($userData)):
+	   			continue;
+	   		endif;
+	   		if(isset($userData) && $userData->user_enabled == 1 && $userData->user_verified == 1):
+	   			$approval = true;
+	   		endif;
+	   		array_push($data, array_merge((array)$user_data, array(
+	   			'user' => $userData,
+	   			'approval' => $approval
+	   		)));
+	   	endforeach;
+		header('Content-type: application/json');
+		echo json_encode(array(
+			"recordsTotal" => count($data), 
+			"recordsFiltered" => count($data) , 
+			'data' => $data));
+
+		die;
+		// $view = new ViewModel(array(
+	 //    	'dashboard_view' => 'account',
+	 //    	'user_detail' => $userDetail,
+	 //    	'authUsersFactory' => $authUsersFactory,
+	 //    	'user_type' => 'customer',
+	 //    	'user_id' => $this->auth->getUserID(),
+	 //       	'user_id_list' => $this->user_id_list,
+	 //      	'user_identity' => $this->identity(),
+		//   	'true_user_name' => $this->auth->getUserName(),
+		// 	'header_title' => 'Demand Customers List',
+		// 	'is_admin' => $this->is_admin,
+		// 	'effective_id' => $this->auth->getEffectiveIdentityID(),
+		// 	'impersonate_id' => $this->ImpersonateID
+	 //    ));
+	    
+	 //  return $view->setTemplate('dashboard-manager/auth/customers.phtml');
+
+	}	
 	public function customersAction() {
 		$initialized = $this->initialize();
 		if ($initialized !== true) return $initialized;
