@@ -2,8 +2,8 @@
 $this->headLink()->appendStylesheet($this->basePath() . '/static/css/jquery-ui/smoothness/jquery-ui-1.9.2.custom.min.css');
 $this->headScript()->appendFile($this->basePath() . '/static/js/3rdparty/jquery-ui-1.9.2.custom.min.js');
 $this->headScript()->appendFile($this->basePath() . '/static/js/script.js');
-$this->headScript()->appendFile('http://cdn.jsdelivr.net/webshim/1.12.4/extras/modernizr-custom.js');
-$this->headScript()->appendFile('http://cdn.jsdelivr.net/webshim/1.12.4/polyfiller.js');
+//$this->headScript()->appendFile('http://cdn.jsdelivr.net/webshim/1.12.4/extras/modernizr-custom.js');
+//$this->headScript()->appendFile('http://cdn.jsdelivr.net/webshim/1.12.4/polyfiller.js');
 
 
 $enddate = date('m/d/Y', time() + (86400 * 30));
@@ -11,9 +11,41 @@ $minEndDate = explode("/", $enddate);
 
 $this->headScript()->captureStart();?>
 $(function() {
-  webshims.setOptions('waitReady', false);
-  webshims.setOptions('forms-ext', {types: 'date'});
-  webshims.polyfill('forms forms-ext');
+  //webshims.setOptions('waitReady', false);
+  //webshims.setOptions('forms-ext', {types: 'date'});
+  //webshims.polyfill('forms forms-ext');
+    $( "#startdate" ).datepicker(
+  {
+    changeMonth: true,
+    changeYear: true,
+    showOtherMonths: true,
+        selectOtherMonths: false,
+        yearRange: "-1:+6",
+      onSelect: function(date){
+          var selectedDate = new Date(date);
+          var msecsInADay = 86400000;
+          var endDate = new Date(selectedDate.getTime() + msecsInADay);
+          $("#enddate").datepicker( "option", "minDate", endDate );
+      }
+  });
+  
+  $( '#startdateicon' ).click(function() {
+          $('#startdate').datepicker('show');
+    });
+    
+    $( "#enddate" ).datepicker(
+  {
+    changeMonth: true,
+    changeYear: true,
+    showOtherMonths: true,
+        selectOtherMonths: false,
+        yearRange: "-1:+6",
+        minDate:new Date(<?php echo $minEndDate[2];?>,<?php echo $minEndDate[0];?>,<?php echo $minEndDate[1];?>)
+  });
+  
+  $( '#enddateicon' ).click(function() {
+          $('#enddate').datepicker('show');
+    });
 });
 <?php $this->headScript()->captureEnd();?>
 <style type="text/css">
@@ -58,20 +90,28 @@ margin-left: 253px;
           <div class="form-group">
             <label for="startdate" class="control-label col-sm-3">Start Date</label>
             <div class="controls col-sm-7">
-              <input type="date" value="" maxlength="255" class="form-control" id="startdate" name="startdate">
+              <!-- <input type="date" value="" maxlength="255" class="form-control" id="startdate" name="startdate"> -->
+              <div class="input-append date">
+                <input name="startdate" id="startdate" class="span2 form-control" class="" type="text" value="<?php echo date('m/d/Y');?>" readonly="readonly" />
+                <span class="add-on" id="startdateicon"><i class="icon-calendar"></i></span>
+               </div>
             </div>
           </div>
           <div class="form-group">
             <label for="enddate" class="control-label col-sm-3">End Date</label>
             <div class="controls col-sm-7">
-              <input type="date" value="" maxlength="255" class="form-control" id="enddate" name="enddate">
+              <!-- <input type="date" value="" maxlength="255" class="form-control" id="enddate" name="enddate"> -->
+              <div class="input-append date">
+                <input name="enddate" id="enddate" class="span2 form-control" size="16" type="text" value="<?php echo $enddate;?>" readonly="readonly" />
+                <span class="add-on" id="enddateicon"><i class="icon-calendar"></i></span>
+               </div>
             </div>
           </div>
 
           <div class="form-group">
             <label for="maximpressions" class="control-label col-sm-3">Maximum Impressions <br><sup>(Maximum campaign impressions before the bids stop)</sup></label>
             <div class="controls col-sm-7">
-              <input type="text" value="" maxlength="255" class="form-control" id="maximpressions" name="maximpressions">
+              <input type="number" value="" maxlength="255" class="form-control" id="maximpressions" name="maximpressions">
             </div>
           </div>
 
@@ -86,7 +126,7 @@ margin-left: 253px;
           <div class="form-group">
             <label for="maxspend" class="control-label col-sm-3">Maximum spend<br><sup>(Maximum campaign $$$ spent before the bids stop)</sup></label>
             <div class="controls col-sm-7">
-              <input type="text" value="" maxlength="255" class="form-control" id="maxspend" name="maxspend">
+              <input type="number" value="" maxlength="255" class="form-control" id="maxspend" name="maxspend">
             </div>
           </div>
           <h4 class="underline mrg0T">Advance Options</h4>

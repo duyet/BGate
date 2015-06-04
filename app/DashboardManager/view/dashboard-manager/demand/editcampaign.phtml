@@ -9,7 +9,40 @@ $minEndDate = explode("/", $enddate);
 
 $this->headScript()->captureStart() ?>
 $(function() {
-
+$( "#startdate" ).datepicker(
+  {
+    changeMonth: true,
+    changeYear: true,
+    showOtherMonths: true,
+        selectOtherMonths: false,
+        yearRange: "-1:+6",
+      onSelect: function(date){
+          var selectedDate = new Date(date);
+          var msecsInADay = 86400000;
+          var endDate = new Date(selectedDate.getTime() + msecsInADay);
+          $("#enddate").datepicker( "option", "setDate", endDate );
+      }
+  });
+  
+  $( '#startdateicon' ).click(function() {
+          $('#startdate').datepicker('show');
+    });
+    
+    $( "#enddate" ).datepicker(
+  {
+    changeMonth: true,
+    changeYear: true,
+    showOtherMonths: true,
+        selectOtherMonths: true,
+        yearRange: "-1:+6",
+        <?php if($minEndDate[2]!='0000'):?>
+        setDate:new Date(<?php echo $minEndDate[2];?>,<?php echo $minEndDate[0];?>,<?php echo $minEndDate[1];?>)
+       <?php endif;?>
+  });
+  
+  $( '#enddateicon' ).click(function() {
+          $('#enddate').datepicker('show');
+    });
 });
 <?php $this->headScript()->captureEnd();  ?>
 <div class="docs-header">
@@ -26,6 +59,7 @@ $(function() {
       <div class="panel-body">
         <div id="cdn_form_msg" class="alert alert-error" style="margin: 5px; display: none;"></div>
         <form id="campaignform" name="campaignform" class="form-horizontal form-top-magin" method="POST" action="<?php echo $this->basePath() ?>/demand/newcampaign">
+        <h4 class="underline mrg0T">General Options</h4>
           <input type="hidden" name="campaignid" value="<?php echo $campaignid;?>">
           <input type="hidden" name="campaignpreviewid" value="<?php echo $campaignpreviewid;?>">
           <input type="hidden" name="ispreview" value="<?php echo $ispreview;?>">
@@ -47,29 +81,25 @@ $(function() {
           <div class="form-group">
             <label for="startdate" class="control-label col-sm-3">Start Date</label>
             <div class="controls col-sm-7">
-              <input type="date" value="<?php $date = date_create($startdate); echo date_format($date,"Y-m-d");?>" maxlength="255" class="form-control" id="startdate" name="startdate">
+            <div class="input-append date">
+      <input name="startdate" id="startdate" class="span2 form-control" size="16" type="text" value="<?php echo $startdate;?>" readonly="readonly" />
+      <span class="add-on" id="startdateicon"><i class="icon-calendar"></i></span>
+      </div>
+              <!-- <input type="date" value="<?php $date = date_create($startdate); echo date_format($date,"Y-m-d");?>" maxlength="255" class="form-control" id="startdate" name="startdate"> -->
             </div>
           </div>
           <div class="form-group">
             <label for="enddate" class="control-label col-sm-3">End Date</label>
             <div class="controls col-sm-7">
-              <input type="date" value="<?php $date = date_create($enddate); echo date_format($date,"Y-m-d");?>" maxlength="255" class="form-control" id="enddate" name="enddate">
+              <!-- <input type="date" value="<?php $date = date_create($enddate); echo date_format($date,"Y-m-d");?>" maxlength="255" class="form-control" id="enddate" name="enddate"> -->
+              <div class="input-append date">
+      <input name="enddate" id="enddate" class="span2 form-control" size="16" type="text" value="<?php echo $enddate;?>" readonly="readonly" />
+      <span class="add-on" id="enddateicon"><i class="icon-calendar"></i></span>
+   </div>
             </div>
           </div>
 
-          <div class="form-group">
-            <label for="customername" class="control-label col-sm-3">Customer Name <br><sup>(Use this field for your own customer reference if any)</sup></label>
-            <div class="controls col-sm-7">
-              <input type="text" value="<?php echo $customername;?>" maxlength="255" class="form-control" id="customername" name="customername">
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="customerid" class="control-label col-sm-3">Customer Id <br><sup>(Use this field for your own customer reference if any)</sup></label>
-            <div class="controls col-sm-7">
-              <input type="text" value="<?php echo $customerid;?>" maxlength="255" class="form-control" id="customerid" name="customerid">
-            </div>
-          </div>
+          
 
           <div class="form-group">
             <label for="maximpressions" class="control-label col-sm-3">Maximum Impressions <br><sup>(Maximum campaign impressions before the bids stop)</sup></label>
@@ -90,6 +120,20 @@ $(function() {
             <label for="maxspend" class="control-label col-sm-3">Maximum spend<br><sup>(Maximum campaign $$$ spent before the bids stop)</sup></label>
             <div class="controls col-sm-7">
               <input type="number" value="<?php echo $maxspend;?>" maxlength="255" class="form-control" id="maxspend" name="maxspend">
+            </div>
+          </div>
+          <h4 class="underline mrg0T">Advance Options</h4>
+          <div class="form-group">
+            <label for="customername" class="control-label col-sm-3">Customer Name <br><sup>(Use this field for your own customer reference if any)</sup></label>
+            <div class="controls col-sm-7">
+              <input type="text" value="<?php echo $customername;?>" maxlength="255" class="form-control" id="customername" name="customername">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="customerid" class="control-label col-sm-3">Customer Id <br><sup>(Use this field for your own customer reference if any)</sup></label>
+            <div class="controls col-sm-7">
+              <input type="text" value="<?php echo $customerid;?>" maxlength="255" class="form-control" id="customerid" name="customerid">
             </div>
           </div>
           <div class="form-group text-center">
