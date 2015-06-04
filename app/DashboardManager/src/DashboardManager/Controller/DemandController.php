@@ -75,7 +75,7 @@ class DemandController extends DemandAbstractActionController {
 
 		$params = array(); // Set the parameters to empty first.
 		// sort map array
-		$SortMap = array("1"=> "Name", "3" => "StartDate",  "4" => "EndDate");
+		$SortMap = array("1"=> "Name", "5" => "StartDate",  "6" => "EndDate");
 		$OrderArr = $this->getRequest()->getQuery("order");
 		$order = $SortMap[$OrderArr[0]["column"]] . " " . strtoupper($OrderArr[0]["dir"]);
 		// get search value
@@ -85,25 +85,35 @@ class DemandController extends DemandAbstractActionController {
 		$PageSize = (int) $this->getRequest()->getQuery("length");
 		$Offset =   (int) $this->getRequest()->getQuery("start");
 
+
+		//If admin, show all campaign including deleted campaign.
+	    if (!$this->is_admin):
+	    	$params["Deleted"] = 0;	    	
+	    endif;
+
 		// custom filter
 		if ($this->getRequest()->getQuery("approval") != ""):
-			$params["IABCategory"] = $this->getRequest()->getQuery("approval");
+			if ($this->getRequest()->getQuery("approval") == "1"):
+				$params["Deleted"] = $this->getRequest()->getQuery("approval");
+			else:
+				$params["Deleted"] = 0;
+				$params["Approval"] = $this->getRequest()->getQuery("approval");
+			endif;
 		endif;
 
 		//Pull list of campaigns.
 		$AdCampaignPreviewFactory = \_factory\AdCampaignPreview::get_instance();
 	    // get previews
-	    $params = array();
 	    $params["Active"] = 1;
-	    $params["Deleted"] = 0;
+	    // print_r($params);
+	    // die();
 	    if ($this->is_admin == true && $this->auth->getEffectiveIdentityID() != 0):
-	   		$params["UserID"] = $this->auth->getEffectiveUserID();
+	   		// $params["UserID"] = $this->auth->getEffectiveUserID();
 	    elseif ($this->is_admin == false):
 	    	$params["UserID"] = $this->auth->getUserID();
 	    endif;
 	    
 	    $ad_campaign_list = array();
-
 	    $_ad_campaign_preview_list = $AdCampaignPreviewFactory->get($params, $order, $search, $PageSize, $Offset);
 
 	    foreach ($_ad_campaign_preview_list as $ad_campaign_preview):
@@ -135,21 +145,31 @@ class DemandController extends DemandAbstractActionController {
 				foreach ($CampaignsList AS $row_number => $row_data): 
 					$row = array();
 
+					$row["index"] = $Offset + $row_number+1;
 					$row["Id"] = $row_data["AdCampaignPreviewID"];
 
 					//Name
 					$preview_query = isset($row_data["AdCampaignPreviewID"]) ? "?ispreview=true" : "";
 					$row["Name"] = array('name' => $row_data["Name"], "id" => $row_data["AdCampaignPreviewID"], "preview_query" => $preview_query);
-
+					$row["CampaignMarkup"] = $row_data["CampaignMarkup"];
+					$row["UserID"] = $row_data["UserID"];
 					//Status
+					$do_action = '';
+					$do_action_id = '';
 					$row["Status"] = '';
-          if (!isset($row_data["AdCampaignPreviewID"])):
-            $row["Status"] = "APROVED";
-          elseif (isset($row_data["Deleted"]) && $row_data["Deleted"] == 1): 
-            $row["Status"] = "DELETED"; 
-          else: 
-           	$row["Status"] = "PENDING APPROVAL"; 
-          endif;
+					if (isset($row_data["Deleted"]) && $row_data["Deleted"] == 1): 
+		            	$row["Status"] = "DELETED";
+		            	$do_action = "RESTORE";
+		            	$do_action_id = 0;
+		          	elseif (isset($row_data["Approval"]) && $row_data["Approval"] == 0): 
+		           		$row["Status"] = "PENDING APPROVAL";
+		           		$do_action = "APPROVE";
+		           		$do_action_id = 2;
+		           	else:
+		           		$row["Status"] = "APPROVED";
+		           		$do_action = "REJECT";
+		           		$do_action_id = 0;
+		          	endif;
 
 					$row["StartDate"] = $row_data["StartDate"];
 					$row["EndDate"] = $row_data["EndDate"];
@@ -157,6 +177,8 @@ class DemandController extends DemandAbstractActionController {
 					$row["MaxImpressions"] = $row_data["MaxImpressions"];
 					$row["CurrentSpend"] = $row_data["CurrentSpend"];
 					$row["MaxSpend"] = $row_data["MaxSpend"];
+					$row["Action"] = array('do_action' => $do_action, 'do_action_id' => $do_action_id, "campaign_id" => $row_data["AdCampaignPreviewID"] );
+					$row["is_admin"] = $this->is_admin;
 					$result[] = $row;
 
 				endforeach;
@@ -282,7 +304,7 @@ class DemandController extends DemandAbstractActionController {
 	    // var_dump($ad_campaign_list);
 	    $view = new ViewModel(array(
 	    		'ad_campaigns' => $ad_campaign_list,
-	    		'is_admin' => strpos($this->auth->getPrimaryRole(), $this->config_handle['roles']['admin']) !== false,
+	    		// 'is_admin' => strpos($this->auth->getPrimaryRole(), $this->config_handle['roles']['admin']) !== false,
 	    		'user_id_list' => $this->user_id_list_demand_customer,
 	    		'effective_id' => $this->auth->getEffectiveIdentityID(),
 	    		'campaign_markup_rate_list'=>$campaign_markup_rate_list,
@@ -306,6 +328,69 @@ class DemandController extends DemandAbstractActionController {
 	    return $view;
 	}
 
+
+	/*
+	 * Change domain flag
+	*/
+	public function changecampaignflagAction()
+	{
+		// Initialize things.
+		$error_message = null;
+		$initialized = $this->initialize();
+		if ($initialized !== true) return $initialized;
+		$request = $this->getRequest();
+		$AdCampaignPreviewFactory = \_factory\AdCampaignPreview::get_instance();
+
+		$success = false;
+		
+		// Check to make sure the value is valid to begin with.
+		$AdCampaignPreviewID = intval($this->params()->fromRoute('param1', 0));
+		$flag = $request->getPost('flag');
+
+		$params = array();
+	    $params["AdCampaignPreviewID"] = $AdCampaignPreviewID;
+	    $_AdCampaignPreview = $AdCampaignPreviewFactory->get_row($params);
+
+		$AdCampaignPreview = new \model\AdCampaignPreview();
+		$AdCampaignPreview->AdCampaignPreviewID       = $_AdCampaignPreview->AdCampaignPreviewID;
+	    $AdCampaignPreview->UserID             		  = $_AdCampaignPreview->UserID;
+
+    	$AdCampaignPreview->Name                      = $_AdCampaignPreview->Name;
+    	$AdCampaignPreview->CampaignMarkup            = $_AdCampaignPreview->CampaignMarkup;
+    	$AdCampaignPreview->StartDate                 = $_AdCampaignPreview->StartDate;
+    	$AdCampaignPreview->EndDate                   = $_AdCampaignPreview->EndDate;
+    	$AdCampaignPreview->Customer                  = $_AdCampaignPreview->Customer;
+    	$AdCampaignPreview->CustomerID                = $_AdCampaignPreview->CustomerID;
+    	$AdCampaignPreview->ImpressionsCounter        = $_AdCampaignPreview->ImpressionsCounter;
+    	$AdCampaignPreview->MaxImpressions            = $_AdCampaignPreview->MaxImpressions;
+    	$AdCampaignPreview->CurrentSpend              = $_AdCampaignPreview->CurrentSpend;
+    	$AdCampaignPreview->MaxSpend                  = $_AdCampaignPreview->MaxSpend;
+    	$AdCampaignPreview->CPMTarget                 = $_AdCampaignPreview->CPMTarget;
+    	$AdCampaignPreview->CPMTargetValue            = $_AdCampaignPreview->CPMTargetValue;
+    	$AdCampaignPreview->CPCTarget                 = $_AdCampaignPreview->CPCTarget;
+    	$AdCampaignPreview->CPCTargetValue            = $_AdCampaignPreview->CPCTargetValue;
+    	$AdCampaignPreview->Active                    = $_AdCampaignPreview->Active;
+    	$AdCampaignPreview->DateCreated               = $_AdCampaignPreview->DateCreated;
+    	$AdCampaignPreview->DateUpdated               = date("Y-m-d H:i:s");
+    	$AdCampaignPreview->ChangeWentLive            = $_AdCampaignPreview->ChangeWentLive;
+
+		//Update Deleted flag
+		$AdCampaignPreview->Approval      = $flag;
+		
+	    $update_campaign_preview_id = $AdCampaignPreviewFactory->saveAdCampaignPreview($AdCampaignPreview);
+		if($update_campaign_preview_id):
+			$success = true;
+		else:
+			$error_message = "Unable to update the entry. Please contact customer service.";
+		endif;			
+
+		$data = array(
+			'success' => $success,
+			'data' => array('error_msg' => $error_message)
+		 );
+		 
+		 return $this->getResponse()->setContent(json_encode($data));
+	}
 	/**
 	 * Allows an administrator to "login as another user", to impersonate a lower user to manage another user's objects.
 	 * @return Ambigous <\Zend\Http\Response, \Zend\Stdlib\ResponseInterface>
@@ -2265,7 +2350,7 @@ class DemandController extends DemandAbstractActionController {
 
         // verify
 		if ($is_preview == "true"):
-			$is_preview = \transformation\TransformPreview::doesPreviewAdCampaignExist($id, $this->auth);
+			$is_preview = \transformation\TransformPreview::doesPreviewAdCampaignExist($id, $this->auth, $this->config_handle);
 		endif;
 
 		if ($is_preview == true):
@@ -2347,7 +2432,7 @@ class DemandController extends DemandAbstractActionController {
 
         // verify
 		if ($is_preview == "true"):
-			$is_preview = \transformation\TransformPreview::doesPreviewAdCampaignExist($id, $this->auth);
+			$is_preview = \transformation\TransformPreview::doesPreviewAdCampaignExist($id, $this->auth, $this->config_handle);
 		endif;
 
 		if ($is_preview == true):
@@ -2418,7 +2503,7 @@ class DemandController extends DemandAbstractActionController {
 
         // verify
         if ($is_preview == "true"):
-        	$is_preview = \transformation\TransformPreview::doesPreviewAdCampaignExist($id, $this->auth);
+        	$is_preview = \transformation\TransformPreview::doesPreviewAdCampaignExist($id, $this->auth, $this->config_handle);
         endif;
 
         $campaignpreviewid = "";
@@ -3169,7 +3254,7 @@ class DemandController extends DemandAbstractActionController {
 
 		// verify
 		if ($is_preview == "true"):
-			$is_preview = \transformation\TransformPreview::doesPreviewAdCampaignExist($id, $this->auth);
+			$is_preview = \transformation\TransformPreview::doesPreviewAdCampaignExist($id, $this->auth, $this->config_handle);
 		endif;
 		$campaign_preview_id = "";
 
@@ -3376,7 +3461,7 @@ class DemandController extends DemandAbstractActionController {
 
 		// verify
 		if ($is_preview == "true"):
-			$is_preview = \transformation\TransformPreview::doesPreviewAdCampaignExist($id, $this->auth);
+			$is_preview = \transformation\TransformPreview::doesPreviewAdCampaignExist($id, $this->auth, $this->config_handle);
 		endif;
 		$campaign_preview_id = "";
 
@@ -3413,6 +3498,7 @@ class DemandController extends DemandAbstractActionController {
 		endif;
 
 		$campaignname              = $AdCampaign->Name;
+		$campaignmarkup            = $AdCampaign->CampaignMarkup;
 		$startdate                 = date('m/d/Y', strtotime($AdCampaign->StartDate));
 		$enddate                   = date('m/d/Y', strtotime($AdCampaign->EndDate));
 		$customername              = $AdCampaign->Customer;
@@ -3428,6 +3514,7 @@ class DemandController extends DemandAbstractActionController {
 				'campaignpreviewid' => $campaign_preview_id,
 				'ispreview' => $is_preview == true ? '1' : '0',
 				'campaignname' => $campaignname,
+				'campaignmarkup' => $campaignmarkup,
 				'startdate' => $startdate,
 				'enddate' => $enddate,
 				'customername' => $customername,
@@ -3489,6 +3576,7 @@ class DemandController extends DemandAbstractActionController {
 	    $this->validateInput($needed_input);
 
 	    $campaignname = $this->getRequest()->getPost('campaignname');
+	    $campaignmarkup = $this->getRequest()->getPost('campaignmarkup');
 	    $startdate = $this->getRequest()->getPost('startdate');
 	    $enddate = $this->getRequest()->getPost('enddate');
 	    $customername = $this->getRequest()->getPost('customername');
@@ -3571,6 +3659,12 @@ class DemandController extends DemandAbstractActionController {
     	$AdCampaignPreview->DateCreated               = date("Y-m-d H:i:s");
     	$AdCampaignPreview->DateUpdated               = date("Y-m-d H:i:s");
     	$AdCampaignPreview->ChangeWentLive            = 0;
+
+    	if($this->is_admin):
+    		$AdCampaignPreview->CampaignMarkup        = $campaignmarkup;
+    	else:
+    		$AdCampaignPreview->CampaignMarkup        = 0;
+    	endif;
 
 	    $AdCampaignPreviewFactory = \_factory\AdCampaignPreview::get_instance();
 	    $new_campaign_preview_id = $AdCampaignPreviewFactory->saveAdCampaignPreview($AdCampaignPreview);

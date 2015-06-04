@@ -117,7 +117,8 @@ class AdCampaignPreview extends AbstractTableGateway
     	        'Active'               => $AdCampaignPreview->Active,
     	        'DateUpdated'          => $AdCampaignPreview->DateUpdated,
     			'ChangeWentLive'       => $AdCampaignPreview->ChangeWentLive,
-    			'WentLiveDate'         => $AdCampaignPreview->WentLiveDate
+    			'WentLiveDate'         => $AdCampaignPreview->WentLiveDate,
+                'CampaignMarkup'       => $AdCampaignPreview->CampaignMarkup
     	);
 
     	$ad_campaign_preview_id = (int)$AdCampaignPreview->AdCampaignPreviewID;
@@ -130,6 +131,7 @@ class AdCampaignPreview extends AbstractTableGateway
     		return $this->getLastInsertValue();
     	else: 
             $data['Deleted']                 = $AdCampaignPreview->Deleted;
+            $data['Approval']                = $AdCampaignPreview->Approval;
     		$this->update($data, array('AdCampaignPreviewID' => $ad_campaign_preview_id));
     		return 1;
     	endif;

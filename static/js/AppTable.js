@@ -197,31 +197,44 @@ var CampaignTable = {
           }
         },
         "aoColumnDefs": [
-         { bSortable: false, 'aTargets': [ 0,2,5,6,7,8 ] },    
+         { bSortable: false, 'aTargets': [ 0,2,3,4,7,8,9,10,11 ] },    
         ],
         "columns": [
-            { "data": "Id", className: "text-center" },
+            { "data": "index", className: "text-center" },
             { 
               "data": "Name", 
               render: function(data) {
                 // deleteDomainModal(<?php echo $domain_id;?>,'<?php echo $domain_list_raw[$row_number]["WebDomain"];?>')
-                var  detail_url= "<a href='"+ basePath  + "/demand/campaign/" + data.id + "/"+ data.preview_query +"'>"+ data.name + " (" + "Details" + ")"  +"</a>"; 
-                var edit_url= "<a href='"+ basePath  + "/demand/editcampaign/" + data.id + "/"+ data.preview_query +"'>Edit</a>";
-                var delete_url= '<a href="javascript:;" onclick="deleteCampaignModal('+data.id+ ', \'' + data.name +'\' )">Delete' + '</a>';
-                var create_banner = "<a href='"+ basePath  + "/demand/createbanner/" + data.id + "/"+ data.preview_query +"'> "+ 'Create Banner'  +"</a>"; 
-                return detail_url + "<hr class='mrg5T mrg5B'/><div class='row-action'>" + edit_url + " " + delete_url + " | " + create_banner + "</div>";
+                var  detail_url= "<a href='"+ basePath  + "/demand/campaign/" + data.id + "/"+ data.preview_query +"'>"+ data.name + " (" + data.id + ")"  +"</a>"; 
+                var edit_url= "<a href='"+ basePath  + "/demand/editcampaign/" + data.id + "/"+ data.preview_query +"'><span class='glyphicon glyphicon-pencil'></span></a>";
+                var delete_url= '<a href="javascript:;" onclick="deleteCampaignModal('+data.id+ ', \'' + data.name +'\' )"><span class="glyphicon glyphicon-remove"></span>' + '</a>';
+                var create_banner = "<a href='"+ basePath  + "/demand/createbanner/" + data.id + "/"+ data.preview_query +"'> "+ '<span class="glyphicon glyphicon-plus"></span>'  +"</a>"; 
+                return detail_url + "<hr class='mrg5T mrg5B'/><div class='row-action'>" + edit_url + " | " + delete_url + " | " + create_banner + "</div>";
               } 
             },
+            { "data": "CampaignMarkup" },
+            { "data": "UserID" },
             { "data": "Status" },
             { "data": "StartDate" },
             { "data": "EndDate" },
             { "data": "ImpressionsCounter" },
             { "data": "MaxImpressions" },
             { "data": "CurrentSpend" },
-            { "data": "MaxSpend" }
+            { "data": "MaxSpend" },
+            { 
+              "data": "Action",
+              render: function(data){
+                return "<div class='row-action text-center'><a id='campaign-flag-action"+ data.campaign_id +"' href='javascript:;' onclick='changeCampaignFlag(" + data.do_action_id + ", "+ data.campaign_id +")'>"+ data.do_action +"</a></div>";
+              }
+            }
         ],
         initComplete: function () {
-          
+          var dt = self.table.fnGetData();
+          var is_admin = dt[0].is_admin;
+          if (!is_admin){
+            self.table.fnSetColumnVis(2, false); 
+            self.table.fnSetColumnVis(11, false);
+          }   
         },
         fnDrawCallback: function(data){
           return data;

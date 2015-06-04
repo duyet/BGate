@@ -77,11 +77,15 @@ $effective_user_in_dashboard = false;
     <div class="table-filter row">
       <div class="col-sm-4">
         Status:
-        <select id="campaign-status" onchange="DomainTable.reload_table()">
-          <option value="0">All</option>
-          <option value="1">Pending approval</option>
-          <option value="2">Deleted</option>
-          <option value="3">Approved</option>
+        <select id="campaign-status" onchange="CampaignTable.reload_table()">
+          <option value>All</option>
+          <option value="0">Pending approval</option>
+          <?php
+            if ($is_admin === true):
+          ?>
+            <option value="1">Deleted</option>
+          <?php endif; ?>
+          <option value="2">Approved</option>
         </select>
       </div>
     </div>
@@ -90,24 +94,17 @@ $effective_user_in_dashboard = false;
       <table id="campaign-table" class="table table-hover table-striped table-bordered table-margin" data-url="<?php echo $this->basePath() ?>/demand/campaignlist">
         <thead>
           <tr>
-            <?php if ($is_admin === true): ?>
-              <th>
-                USER ID
-              </th>
-              <th>
-                ADMIN ACTION
-              </th>
-            <?php endif; ?>
-            <?php if ($is_admin === true && $effective_id != 0): ?>
-              <th>
-                CAMPAIGN MARKUP
-              </th>
-            <?php endif; ?>
               <th style="text-align:center;">
-                Id
+                #
               </th>
               <th style="text-align:center;">
                 Name
+              </th>
+              <th>
+                Campaign markup
+              </th>
+              <th>
+                User ID
               </th>
               <th>
                 Status
@@ -129,7 +126,10 @@ $effective_user_in_dashboard = false;
               </th>
               <th>
                 Max Spend
-              </th>         
+              </th>
+              <th>
+                Action
+              </th>        
           </tr>
         </thead>
       </table>

@@ -15,6 +15,7 @@ class AdCampaignPreview {
     public $AdCampaignID;
     public $UserID;
     public $Name;
+    public $CampaignMarkup;
     public $StartDate;
     public $EndDate;
     public $Customer;
@@ -32,6 +33,7 @@ class AdCampaignPreview {
     public $ChangeWentLive;
     public $WentLiveDate;
     public $Deleted;
+    public $Approval;
 }
 
 ?>

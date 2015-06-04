@@ -1,0 +1,3 @@
+ALTER TABLE `AdCampaignPreview`
+ADD COLUMN `CampaignMarkup` FLOAT NULL DEFAULT 0 AFTER `Name`,
+ADD COLUMN `Approval` TINYINT NULL DEFAULT 0 AFTER `WentLiveDate`;
