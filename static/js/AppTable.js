@@ -48,15 +48,15 @@ var DomainTable = {
               render: function(data) {
                 // deleteDomainModal(<?php echo $domain_id;?>,'<?php echo $domain_list_raw[$row_number]["WebDomain"];?>')
                 var  detail_url= "<a href='"+ basePath  + "/publisher/zone/" + data.id + "'>"+ data.name + " (" + data.id + ")"  +"</a>"; 
-                var edit_url= "<a href='"+ basePath  + "/publisher/editdomain/" + data.id + "'>Edit</a>";
-                var delete_url= '<a href="javascript:;" onclick="deleteDomainModal('+data.id+ ', \'' + data.name +'\' )">Delete' + '</a>';
-                var create_ad_zone = "<a href='"+ basePath  + "/publisher/zone/" + data.id + "/create'> "+ 'Create Ad-Zone'  +"</a>"; 
-                return detail_url + "<hr class='mrg5T mrg5B'/><div class='row-action'>" + edit_url + " " + delete_url + " | " + create_ad_zone + "</div>";
+                var edit_url= "<a href='"+ basePath  + "/publisher/editdomain/" + data.id + "'><span class='glyphicon glyphicon-pencil'></span></a>";
+                var delete_url= '<a href="javascript:;" onclick="deleteDomainModal('+data.id+ ', \'' + data.name +'\' )"><span class="glyphicon glyphicon-remove"></span>' + '</a>';
+                var create_ad_zone = "<a href='"+ basePath  + "/publisher/zone/" + data.id + "/create'> "+ '<span class="glyphicon glyphicon-plus"></span> Adz'  +"</a>"; 
+                return detail_url + "<hr class='mrg5T mrg5B'/><div class='row-action'>" + edit_url + " | " + delete_url + " | " + create_ad_zone + "</div>";
               } 
             },
             { "data": "DomainMarkup" },
-            // { "data": "AdZones" },
-            { "data": "DomainOwnerID" },
+            { "data": "AdZones" },
+            // { "data": "DomainOwnerID" },
             { "data": "IABCategory" },
             { "data": "created_at" },
             { "data": "updated_at" },

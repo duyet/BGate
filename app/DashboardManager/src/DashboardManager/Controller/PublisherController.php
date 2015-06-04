@@ -123,13 +123,18 @@ class PublisherController extends PublisherAbstractActionController {
 					$row["PublisherWebsiteID"] = $row_data["PublisherWebsiteID"];
 					$row["DomainName"] = array('name' => $row_data["WebDomain"], "id" => $row_data["PublisherWebsiteID"] );
 					$row["IABCategory"] = $category_mapper[$row_data["IABCategory"]];
-					$row["AdZones"] = "";
 					$row["DomainMarkup"] = $row_data["DomainMarkup"];
 					$row["DomainOwnerID"] = $row_data["DomainOwnerID"];
 					$row["ApprovalFlag"] = array('flag' => $approval_mapper[$row_data["ApprovalFlag"]], "id" => $row_data["PublisherWebsiteID"] );
 					$row["created_at"] = $row_data["DateCreated"];
 					$row["updated_at"] = $row_data["DateUpdated"];
 					$row["is_admin"] = $this->is_admin;
+
+					//Count Ad-Zone
+					$PublisherAdZoneFactory = \_factory\PublisherAdZone::get_instance();
+					$PublisherAdZoneList = $PublisherAdZoneFactory->get(array("PublisherWebsiteID" => $row_data["PublisherWebsiteID"]));
+					$adzones = count($PublisherAdZoneList);
+					$row["AdZones"] = $adzones;
 					$result[] = $row;
 
 				endforeach;
@@ -160,7 +165,7 @@ class PublisherController extends PublisherAbstractActionController {
 		// if ($this->is_admin):
 		
 			//"Imps Loss Rate","DomainPublisherImpressionsLossRate"	
-			$headers = array("#","Domain","Domain Markup","Domain Owner","IAB Category","Created","Updated","Approval");
+			$headers = array("#","Domain","Domain Markup","Ad-Zones","IAB Category","Created","Updated","Approval");
 			$meta_data = array("WebDomain","DomainMarkupRate","DomainOwnerID","DateCreated","DateUpdated","ApprovalFlag");
 		
 			// admin is logged in as a user, get the markup if any for that user

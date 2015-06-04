@@ -164,7 +164,7 @@ function deleteDomainConfirm() {
 // Change domain flag
 
 function changeDomainFlag(flag, id){
-	$.post("/bgate/publisher/changedomainflag/" + id, {param1: id, flag: flag }, function( data ) {
+	$.post(basePath + "/publisher/changedomainflag/" + id, {param1: id, flag: flag }, function( data ) {
 		
 		if(data.success == false) {
 
@@ -179,7 +179,7 @@ function changeDomainFlag(flag, id){
 
 //Change campaign flag
 function changeCampaignFlag(flag, id){
-	$.post("/bgate/demand/changecampaignflag/" + id, {param1: id, flag: flag }, function( data ) {
+	$.post(basePath + "/demand/changecampaignflag/" + id, {param1: id, flag: flag }, function( data ) {
 		
 		if(data.success == false) {
 
@@ -204,14 +204,13 @@ function deleteCampaignModal( campaign_id, campaign_name ) {
 
 // Campaign delete true action
 function deleteCampaignConfirm() {
-	
 	var campaign_id = $('#modal_campaign_id').val();
 	//var campaign_id = 65;
 	$("#campaign_alert_msg").css("display","none");
 	$("#campaign_yes_btn").button('loading');
 	$("#campaign_no_btn").attr("disabled",true);
 	
-	$.post("/bgate/demand/deletecampaignpreview/" + campaign_id, { del: 'Yes', param1: campaign_id }, function( data ) {
+	$.post(basePath + "/demand/deletecampaignpreview/" + campaign_id, { del: 'Yes', param1: campaign_id }, function( data ) {
 		
 		$("#domain_no_btn").attr("disabled",false);
 		if(data.success == false) {
