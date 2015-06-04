@@ -469,21 +469,22 @@ $().ready(function() {
 			label: {
 				required: false
 			},
-			// adUrl: {
-			// 	required: {
-   //                 depends:function(){
-   //                     var value = $('input[name="adUrl"]').attr('value');
-			// 		   var val = $('input[name="adUrl"]').val();
-			// 		   if(value.length > 0 || val.length > 0){
-			// 		   	return true;
-			// 		   }else{
-			// 		   	return false;
-			// 		   }
+			adUrl: {
+				required: {
+                   depends:function(){
+                       var value = $('input[name="adUrl"]').attr('value');
+					   var val = $('input[name="adUrl"]').val();
+					   console.log('adUrl',$('input[name="adUrl"]'),value,val);
+					   if(value.length > 0 || val.length > 0){
+					   	return false;
+					   }else{
+					   	return true;
+					   }
                        
-   //                 }   
-   //             },
+                   }   
+               },
 
-			// },
+			},
 			altText: {
 				required: false
 			},

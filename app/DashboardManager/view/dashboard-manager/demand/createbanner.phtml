@@ -15,19 +15,19 @@ endif;
 
 
 
-$enddate = date('Y-m-d', time() + (86400 * 30));
+$enddate = date('m/d/Y', time() + (86400 * 30));
 $minEndDate = explode("/", $enddate);
-$startdate = date('Y-m-d');
+$startdate = date('m/d/Y');
 if(isset($banner->StartDate) and !empty($banner->StartDate)){
-	$startdate = date('Y-m-d', strtotime($banner->StartDate));
+	$startdate = date('m/d/Y', strtotime($banner->StartDate));
 }
 if(isset($banner->EndDate) and !empty($banner->EndDate)){
-	$enddate = date('Y-m-d', strtotime($banner->EndDate));
+	$enddate = date('m/d/Y', strtotime($banner->EndDate));
 }
 $this->headScript()->captureStart() ?>
 
 $(function() {
-	/*$( "#startdate" ).datepicker(
+	$( "#startdate" ).datepicker(
 	{
 		changeMonth: true,
 		changeYear: true,
@@ -58,7 +58,7 @@ $(function() {
 	
 	$( '#enddateicon' ).click(function() {
           $('#enddate').datepicker('show');
-    });*/
+    });
 });
 <?php $this->headScript()->captureEnd();  ?>
 
@@ -158,8 +158,11 @@ $(function() {
 	    <div class="row">
 			<div class="col-sm-4">
 		        <div class="">
-				  <input name="startdate" id="startdate" class="form-control" size="16" type="date" value="<?php echo $startdate;?>"  />
-				  
+				  <!-- <input name="startdate" id="startdate" class="form-control" size="16" type="date" value="<?php echo $startdate;?>"  /> -->
+				  <div class="input-append date">
+		  <input name="startdate" id="startdate" class="txtbox-datepicker-width form-control" size="16" type="text" value="<?php echo $startdate;?>" readonly="readonly" />
+		  <span class="add-on" id="startdateicon"><i class="icon-calendar"></i></span>
+	   </div>
 			   </div>
 			</div>
 			<div class="col-sm-8">
@@ -167,8 +170,11 @@ $(function() {
 				    <label class="col-sm-6 control-label"  for="enddate">End Date</label>
 				    <div class="col-sm-6">
 			        <div class="">
-					  <input name="enddate" id="enddate" class="form-control" size="16" type="date" value="<?php echo $enddate;?>" />
-					  
+					  <!-- <input name="enddate" id="enddate" class="form-control" size="16" type="date" value="<?php echo $enddate;?>" /> -->
+					  <div class="input-append date">
+		  <input name="enddate" id="enddate" class="txtbox-datepicker-width form-control" size="16" type="text" value="<?php echo $enddate;?>" readonly="readonly" />
+		  <span class="add-on" id="enddateicon"><i class="icon-calendar"></i></span>
+	   </div>
 				   </div>
 				   </div>
 				</div>
@@ -502,12 +508,12 @@ $(function() {
 	    	<div class="row">
 	    		<label class="col-sm-2 control-label"  for="freCapTimeFromHr">from</label>
 			    <div class="col-sm-4">
-			    	<input type="number" name="freCapTimeFromHr" id="freCapTimeFromHr" class="form-control" value="<?php echo $banner->FreCapTimeFromHr ;?>">
+			    	<input type="number" name="freCapTimeFromHr" min="0" max="24" id="freCapTimeFromHr" class="form-control" value="<?php echo $banner->FreCapTimeFromHr ;?>">
 			   </div>
 			   <label class="col-sm-2 control-label"  for="freCapTimeToHr">to</label>
 			    <div class="col-sm-4">
 			    	
-			    	<input type="number" name="freCapTimeToHr" id="freCapTimeToHr" class="form-control" value="<?php echo $banner->FreCapTimeToHr ;?>">
+			    	<input type="number" min="0" max="24" name="freCapTimeToHr" id="freCapTimeToHr" class="form-control" value="<?php echo $banner->FreCapTimeToHr ;?>">
 			   </div>
 	   </div>
 	   </div>
