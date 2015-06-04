@@ -190,23 +190,23 @@ class AuthController extends ZendAbstractActionController {
    			 	$user_session->message = 'Invalid username or password.';
                 return $this->redirect()->toRoute($redirect);
    			else:
-          //check if it has rememberMe :
-          if ($request->getPost('rememberme') == 1 ): 
-            $this->getSessionStorage()
-            ->setRememberMe(1);
-            //set storage again
-            $this->getAuthService()->setStorage($this->getSessionStorage());
-          endif;
-   				$redirect = 'demand';
+              //check if it has rememberMe :
+              if ($request->getPost('rememberme') == 1 ): 
+                $this->getSessionStorage()
+                ->setRememberMe(1);
+                //set storage again
+                $this->getAuthService()->setStorage($this->getSessionStorage());
+              endif;
+
+   				$redirect = 'demand_dashboard';
 	   			if ($this->getAuthService()->getPublisherInfoID() != null):
 	   				$redirect = 'publisher';
 
-            return $this->redirect()->toRoute("publisher_dashboard");
+                    return $this->redirect()->toRoute("publisher_dashboard");
 	   			endif;
-   				
+
    			endif;
     	endif;
-
     	return $this->redirect()->toRoute($redirect);
     }
 

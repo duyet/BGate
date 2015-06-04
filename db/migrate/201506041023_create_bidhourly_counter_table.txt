@@ -1,0 +1,11 @@
+CREATE TABLE `BidHourlyCounter` (
+  `BidHourlyCounterID` BIGINT(20) UNSIGNED NOT NULL,
+  `PublisherAdZoneID` BIGINT(20) UNSIGNED NOT NULL,
+  `AdCampaignBannerID` INT(11) UNSIGNED NOT NULL,
+  `WinCount` INT UNSIGNED NULL DEFAULT 0,
+  `LoseCount` INT UNSIGNED NULL DEFAULT 0,
+  `ErrorCount` INT UNSIGNED NULL DEFAULT 0,
+  `DateCreated` TIMESTAMP NULL,
+  `DateUpdated` TIMESTAMP NULL,
+  PRIMARY KEY (`HourlyBidID`),
+  INDEX `FOREIGNKEY` (`PublisherAdZoneID` ASC, `AdCampaignBannerID` ASC));
