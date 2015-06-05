@@ -19,8 +19,42 @@ function validateEmail(email)
 
 function getValidDomain(domain)
 {
-    var reg = /^(?!:\/\/)([a-zA-Z0-9]+\.)?[a-zA-Z0-9][a-zA-Z0-9-]+\.[a-zA-Z]{2,6}?$/i;
-	if (reg.test(domain))
+	var re_weburl = new RegExp(
+  "^" +
+    // protocol identifier
+    "(?:(?:https?|ftp)://)" +
+    // user:pass authentication
+    "(?:\\S+(?::\\S*)?@)?" +
+    "(?:" +
+      // IP address exclusion
+      // private & local networks
+      "(?!(?:10|127)(?:\\.\\d{1,3}){3})" +
+      "(?!(?:169\\.254|192\\.168)(?:\\.\\d{1,3}){2})" +
+      "(?!172\\.(?:1[6-9]|2\\d|3[0-1])(?:\\.\\d{1,3}){2})" +
+      // IP address dotted notation octets
+      // excludes loopback network 0.0.0.0
+      // excludes reserved space >= 224.0.0.0
+      // excludes network & broacast addresses
+      // (first & last IP address of each class)
+      "(?:[1-9]\\d?|1\\d\\d|2[01]\\d|22[0-3])" +
+      "(?:\\.(?:1?\\d{1,2}|2[0-4]\\d|25[0-5])){2}" +
+      "(?:\\.(?:[1-9]\\d?|1\\d\\d|2[0-4]\\d|25[0-4]))" +
+    "|" +
+      // host name
+      "(?:(?:[a-z\\u00a1-\\uffff0-9]-*)*[a-z\\u00a1-\\uffff0-9]+)" +
+      // domain name
+      "(?:\\.(?:[a-z\\u00a1-\\uffff0-9]-*)*[a-z\\u00a1-\\uffff0-9]+)*" +
+      // TLD identifier
+      "(?:\\.(?:[a-z\\u00a1-\\uffff]{2,}))" +
+    ")" +
+    // port number
+    "(?::\\d{2,5})?" +
+    // resource path
+    "(?:/\\S*)?" +
+  "$", "i"
+);
+    var reg = /^((?:(?:(?:\w[\.\-\+]?)*)\w)+)((?:(?:(?:\w[\.\-\+]?){0,62})\w)+)\.(\w{2,6})$/;
+	if (re_weburl.test(domain))
 	{
 		return true;
 	}
@@ -414,9 +448,42 @@ $.validator.addMethod("validatedomain", function(value) {
 		return getValidDomain(value);
 }, 'Please enter a valid domain.');
 
+// $.validator.addMethod("validateIABSize", function(value) {
+// 		var IAB_height = $('#IAB-height').val();
+// 		var IAB_width = $('#IAB-width').val();
+// 		var img_element = 
+// 		var t = new Image();
+//     	t.src = (img_element.getAttribute ? img_element.getAttribute("src") : false) || img_element.src;
+//     // return t.width;
+// 		if(!empty(IAB_height) && !empty(IAB_width)){
+
+// 		}
+// 		return getValidDomain(value);
+// }, 'This image has size not same IABSize.');
+
+
+
+
 $.validator.addMethod("validatewebsite", function(value) {
 		return getValidDomain(value);
 }, 'Please enter a valid website name.');
+
+$.validator.addMethod("validatefile", function(value) {
+		var invalid = $('input[name="adUrl"]').attr('invalid');
+		var value = $('input[name="adUrl"]').attr('value');
+		var val = $('input[name="adUrl"]').val();
+		if((value.length > 0 || val.length > 0) && invalid.length === 0){
+		   	return true;
+		}else{
+		   	return false;
+		}
+	    // if(!(invalid == 'invalid')){
+	   	// 	return true;
+	    // }else{
+	    // 	return false;
+	    // }
+		return getValidDomain(value);
+}, 'This file field is required.');
 
 $.validator.addMethod("validateuser", function(value) {
 		return validateUser(value);
@@ -467,26 +534,26 @@ $().ready(function() {
 				required: true
 			},
 			label: {
-				required: false
+				required: true
 			},
 			adUrl: {
-				required: {
-                   depends:function(){
-                       var value = $('input[name="adUrl"]').attr('value');
-					   var val = $('input[name="adUrl"]').val();
-					   console.log('adUrl',$('input[name="adUrl"]'),value,val);
-					   if(value.length > 0 || val.length > 0){
-					   	return false;
-					   }else{
-					   	return true;
-					   }
-                       
-                   }   
-               },
+				// required: {
+    //                depends:function(){
+    //                    var value = $('input[name="adUrl"]').attr('value');
+				// 	   var val = $('input[name="adUrl"]').val();					   
+				// 	   if(value.length > 0 || val.length > 0){
+				// 	   	return false;
+				// 	   }else{
+				// 	   	return true;
+				// 	   }                       
+    //                }   
+    //            },
+    			required: false,
+               validatefile : true
 
 			},
 			altText: {
-				required: false
+				required: true
 			},
 			startdate: {
 				required: true
@@ -498,13 +565,13 @@ $().ready(function() {
 				required: true
 			},
 			gEOCountry: {
-				required: false
+				required: true
 			},
 			timeZone: {
-				required: false
+				required: true
 			},
 			adtag: {
-               required: false
+               required: true
            },
            landingPageTLD: {  
                required:  {
@@ -541,7 +608,43 @@ $().ready(function() {
 	                    return $("#ImpressionType").val() != 'video';
 	                }   
 	            },
+			},
+			targetdaily: {
+				required: true,
+				number: true
+			},
+			targetmax: {
+				required: true,
+				number: true
+			},
+			dailybudget: {
+				required: true,
+				number: true
+			},
+			maximumbudget: {
+				required: true,
+				number: true
+			},
+			freCapTimeToHr:{
+				required: {
+	                depends:function(){
+	                    return $("input[name=frequencyCap]").is(':checked');
+	                }   
+	            },
+				min: {
+			        // min needs a parameter passed to it
+			        param: function () {
+			        	var freCapTimeFromHr = ($("input[name=freCapTimeFromHr]").val());
+			        	if(!empty(freCapTimeFromHr)){
+			        		return parseInt(freCapTimeFromHr);
+			        	}else{
+			        		return 0;
+			        	}
+			        },
+			      }
 			}
+
+			
 		},
 		errorContainer: $("#cdn_form_msg"),
 		errorClass: 'cdn_form_error',
@@ -1252,7 +1355,6 @@ function helpWindow(page, width, height) {
 	return false;
 }
 
-
 function viewIncomeList(){
 	$("#income-list").toggle("slow");
 	if ($("#income-action").text() == 'View all income list')
@@ -1267,4 +1369,21 @@ function viewOutcomeList(){
 	 	$("#outcome-action").text("Hide outcome list");
 	else
 		$("#outcome-action").text("View all outcome list");
+
+function empty(object) {
+  if((typeof(object) == 'object' && $.isEmptyObject(object)) || 
+	    object == '' || 
+	    object == null || 
+	    object == undefined || 
+	    object == 'null' || 
+	    object == 'undefined' ||
+	    object == NaN ||
+	    object == {} ||
+	    object == 'NaN'
+    ){
+    return true;
+  }else{
+    return false;
+  }
+
 }

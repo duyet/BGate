@@ -2734,9 +2734,16 @@ class DemandController extends DemandAbstractActionController {
 		if ($banner_preview_id != null):
 		  $BannerPreview->AdCampaignBannerPreviewID             = $banner_preview_id;
 		endif;
+		$AdCampaignBannerPreviewFactory = \_factory\AdCampaignBannerPreview::get_instance();
+
 		// var_dump($_POST);
 		// die();
 		//Upload File
+		// $banner_preview_id = (int)$BannerPreview->AdCampaignBannerPreviewID;
+		// var_dump((int)$BannerPreview->AdCampaignBannerPreviewID);
+		// var_dump($_FILES[ 'adUrl' ]);
+		// die();
+
 		$tempPath = $_FILES[ 'adUrl' ][ 'tmp_name' ];
 		$imagesname = $campaign_preview_id.'_' .date('YmdHisB'). $_FILES[ 'adUrl' ][ 'name' ];
 		$separator = DIRECTORY_SEPARATOR;
@@ -2750,6 +2757,10 @@ class DemandController extends DemandAbstractActionController {
         //die();
 		$re = move_uploaded_file( $tempPath, $uploadPath );
 		$adUrl = '';
+		if((int)$BannerPreview->AdCampaignBannerPreviewID !== 0){
+			$banner = $AdCampaignBannerPreviewFactory->get_row(array('AdCampaignBannerPreviewID' => $BannerPreview->AdCampaignBannerPreviewID));
+			$adUrl = $banner->AdUrl;
+		}
         if($re){
         	$adUrl = 'static/images/bannerpreview/'.$imagesname;
         }
@@ -2818,7 +2829,7 @@ class DemandController extends DemandAbstractActionController {
 		$BannerPreview->DailyBudget                   = (int) $this->getRequest()->getPost('dailybudget');
 		$BannerPreview->MaximumBudget                 = (int) $this->getRequest()->getPost('maximumbudget');
 
-		$AdCampaignBannerPreviewFactory = \_factory\AdCampaignBannerPreview::get_instance();
+		
 		$banner_preview_id_new = $AdCampaignBannerPreviewFactory->saveAdCampaignBannerPreview($BannerPreview);
 
 		if ($banner_preview_id_new != null):

@@ -56,6 +56,7 @@ function formSelectSize (elem) {
 			$("#width").val(hw[0]);
 			$("#height").val(hw[1]);
 		}
+		validator_ad_url();
 
 }
 
@@ -296,5 +297,105 @@ function frequency_cap_check () {
 		FreCapTimeHr.fadeOut('slow');
 		freCapApply.fadeOut('slow');
 	}
-	console.log('frequencyCap',frequencyCap);
+	//console.log('frequencyCap',frequencyCap);
 }
+
+function  auto_complete_url(name) {
+	var $input = $('input[name="'+name+'"]');
+	var value = $input.val();
+	var n = value.indexOf('http://');
+	if(n == -1){
+		$input.val('http://'+value);
+	}
+}
+$().ready(function() {
+	if($('input').is('input[name="landingPageTLD"]')){
+		$('input[name="landingPageTLD"]').change(function () {
+			auto_complete_url($(this).attr('name'));
+		})
+	}
+	
+});
+function readImage(file) {
+	var reader = new FileReader();
+    var image  = new Image();
+
+    reader.readAsDataURL(file);  
+    reader.onload = function(_file) {
+        image.src    = _file.target.result;              // url.createObjectURL(file);
+        image.onload = function() {
+            var w = this.width;
+                h = this.height;
+                //t = file.type,                           // ext only: // file.type.split('/')[1],
+                //n = file.name,
+                //s = ~~(file.size/1024) +'KB';
+
+            var max_size = $('input[name="adUrl"]').attr('size-file');
+            if(max_size < file.size/(1024*1024)){
+            	$('input[name="adUrl"]').attr({invalid:'invalid'});
+            	$('input[name="adUrl"]').parent().append('<label class="adUrl-error cdn_form_error" for="altText">Invalid file size: '+ file.size/(1024*1024)+' MB</label>');
+            }else{
+            	
+        		$('#uploadPreview').append('<img src="'+ this.src +'" style="height:64px;"> ');
+            }
+        	var IAB_height = $('#height').val();
+			var IAB_width = $('#width').val();
+			if(!empty(IAB_height) && !empty(IAB_width)){
+				if(IAB_height != this.height || IAB_width != this.width){				
+					$('input[name="adUrl"]').parent().append('<label class="adUrl-error cdn_form_error" for="altText">Warning - This image has size ('+this.height +'X'+this.width +') not same IABSize.</label>');
+				}
+			}
+        }; 
+        image.onerror= function() {
+        	$('.adUrl-error').remove();
+        	$('input[name="adUrl"]').attr({invalid:'invalid'});
+        	$('input[name="adUrl"]').parent().append('<label class="adUrl-error cdn_form_error" for="altText">Invalid file type: '+ file.type+'</label>');
+        };     
+    };
+
+}
+function validator_ad_url () {
+	var upload_ad = $("#upload-ad")[0];
+    if(upload_ad.disabled){
+    	$('.adUrl-error').remove();
+    	$('input[name="adUrl"]').attr({invalid:'invalid'});
+    	$('input[name="adUrl"]').parent().append('<label class="adUrl-error" class="cdn_form_error" for="altText">File upload not supported!</label>');
+    } 
+    var F = upload_ad.files;
+    if(F && F[0]) for(var i=0; i<F.length; i++) readImage( F[i] );
+}
+$().ready(function() {
+$("#upload-ad").change(function (e) {
+	$('input[name="adUrl"]').attr({invalid:''});
+	$('input[name="adUrl"]').attr({value:''});
+	$('.adUrl-error').remove();
+	$('#uploadPreview img').remove();
+	validator_ad_url();
+});
+});
+
+// var validator_url = {
+// 	init: function(input, preview, error_class){
+// 		this.input = input;
+// 		this.preview = preview;
+// 		this.error_class = error_class;
+// 		this.check_validator();
+// 	},
+// 	validator_check_init: function () {
+// 		$(this.input).attr({invalid:''});
+// 		$(this.input).attr({value:''});
+// 		$(this.error_class).remove();
+// 		$(this.preview+' img').remove();
+// 		this.validator_check();
+// 	},
+// 	validator_check:function () {
+// 		var upload_ad = $(this.input)[0];
+// 	    if(upload_ad.disabled){
+// 	    	$(this.error_class).remove();
+// 	    	$(this.input).attr({invalid:'invalid'});
+// 	    	$(this.input).parent().append('<label class="'+this.error_class+'" class="cdn_form_error" for="altText">File upload not supported!</label>');
+// 	    } 
+// 	    var F = upload_ad.files;
+// 	    if(F && F[0]) for(var i=0; i<F.length; i++) readImage( F[i] );
+// 	}
+// }
