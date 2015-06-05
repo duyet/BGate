@@ -152,7 +152,7 @@ class DemandController extends DemandAbstractActionController {
 					$preview_query = isset($row_data["AdCampaignPreviewID"]) ? "?ispreview=true" : "";
 					$row["Name"] = array('name' => $row_data["Name"], "id" => $row_data["AdCampaignPreviewID"], "preview_query" => $preview_query);
 					$row["CampaignMarkup"] = $row_data["CampaignMarkup"];
-					$row["UserID"] = $row_data["UserID"];
+					$row["UserName"] = $row_data["UserName"];
 					//Status
 					$do_action = '';
 					$do_action_id = '';

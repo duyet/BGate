@@ -64,7 +64,14 @@ class AdCampaignPreview extends AbstractTableGateway
         $obj_list = array();
 
     	$resultSet = $this->select(function (\Zend\Db\Sql\Select $select) use ($params,  $orders, $search, $limit, $offset) {
-        		foreach ($params as $name => $value):
+                $select->join("auth_Users",
+                    "auth_Users.user_id = AdCampaignPreview.UserID",
+                    array(
+                        "UserName" => "user_login"
+                        ),
+                    $select::JOIN_INNER);	
+
+                foreach ($params as $name => $value):
         		$select->where(
         				$select->where->equalTo($name, $value)
         		);
@@ -95,7 +102,6 @@ class AdCampaignPreview extends AbstractTableGateway
     	    foreach ($resultSet as $obj):
     	        $obj_list[] = $obj;
     	    endforeach;
-
     		return $obj_list;
     }
 

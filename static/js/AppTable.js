@@ -213,7 +213,7 @@ var CampaignTable = {
               } 
             },
             { "data": "CampaignMarkup" },
-            { "data": "UserID" },
+            { "data": "UserName" },
             { "data": "Status" },
             { "data": "StartDate" },
             { "data": "EndDate" },
