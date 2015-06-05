@@ -141,6 +141,45 @@ class PublisherController extends PublisherAbstractActionController {
 		die;
 	}
 
+
+	public function datareportAction(){
+
+	}
+	public function reportAction(){
+		$initialized = $this->initialize();
+		if ($initialized !== true) return $initialized;
+		
+		//Pull list of websites.
+		$PublisherWebsiteFactory = \_factory\PublisherWebsite::get_instance();
+		$parameters = array(); // Set the parameters to empty first.
+
+		$parameters['DomainOwnerID'] = $this->PublisherInfoID;
+		$PublisherWebsiteList = $PublisherWebsiteFactory->get($parameters);
+	   
+		$headers = array("#","Domain","Zone","Total Impressions","Total Click","Total Money");
+		$meta_data = array("WebDomain","DomainMarkupRate","DomainOwnerID","DateCreated","DateUpdated","ApprovalFlag");
+	
+
+		$view = new ViewModel(array(
+			 'time_filter_map' => \util\DeliveryFilterOptions::$time_filter_map,
+			 'true_user_name' => $this->auth->getUserName(),
+			 'domain_list_raw' => $PublisherWebsiteList,
+			 'domain_list' => $this->order_data_table($meta_data, $PublisherWebsiteList, $headers),
+			 'is_admin' => $this->is_admin,
+			 'user_id_list' => $this->user_id_list_publisher,
+			 'domain_owner' => isset($PublisherInfo->Name) ? $PublisherInfo->Name : "",
+			 'impersonate_id' => $this->ImpersonateID,
+			 'effective_id' => $this->auth->getEffectiveIdentityID(),
+			 'publisher_info_id' => $this->PublisherInfoID,
+			 'dashboard_view' => 'publisher',
+			 'user_identity' => $this->identity(),
+			 'website_markup_rate_list' => isset($website_markup_rate_list) ? $website_markup_rate_list : array(),
+			 'website_impressions_network_loss_rate_list' => isset($website_impressions_network_loss_rate_list) ? $website_impressions_network_loss_rate_list : array()
+		));
+		
+		return $view;
+
+	}
 	public function indexAction()
 	{	    
 		$initialized = $this->initialize();
