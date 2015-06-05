@@ -1,0 +1,40 @@
+CREATE TABLE `AdzoneDailyTracker` (
+  `AdzoneDailyTrackerID` BIGINT(20) NOT NULL,
+  `PublisherAdZoneID` BIGINT(20) NOT NULL,
+  `ClickCount` BIGINT(20) UNSIGNED NULL,
+  `ImpCount` BIGINT(20) UNSIGNED NULL,
+  `Income` FLOAT NULL DEFAULT 0,
+  `DateCreated` TIMESTAMP NULL,
+  `DateUpdated` TIMESTAMP NULL,
+  PRIMARY KEY (`AdzoneDailyTrackerID`));
+
+CREATE TABLE `AdBannerDailyTracker` (
+  `AdBannerDailyTrackerID` INT UNSIGNED NOT NULL,
+  `AdCampaignBannerID` INT(11) NULL,
+  `ClickCount` BIGINT UNSIGNED NULL,
+  `ImpCount` BIGINT UNSIGNED NULL,
+  `Outcome` FLOAT NULL,
+  `DateCreated` TIMESTAMP NULL,
+  `DateUpdated` TIMESTAMP NULL,
+  PRIMARY KEY (`AdBannerDailyTrackerID`));
+
+
+CREATE TABLE `RawClick` (
+  `RawClickID` BIGINT(20) UNSIGNED NOT NULL,
+  `PublisherAdZoneID` BIGINT(20) NULL,
+  `AdCampaignBannerID` INT(11) NULL,
+  `UserIP` VARCHAR(255) NULL,
+  `Country` VARCHAR(255) NULL,
+  `DateCreated` TIMESTAMP NULL,
+  `DateUpdated` TIMESTAMP NULL,
+  PRIMARY KEY (`RawClickID`));
+
+CREATE TABLE `RawImp` (
+  `RawImpID` BIGINT UNSIGNED NOT NULL,
+  `PublisherAdZoneID` BIGINT(20) NULL,
+  `AdCampaignBannerID` INT(11) NULL,
+  `UserIP` VARCHAR(255) NULL,
+  `Country` VARCHAR(255) NULL,
+  `DateCreated` TIMESTAMP NULL,
+  `DateUpdated` TIMESTAMP NULL,
+  PRIMARY KEY (`RawImpID`));
