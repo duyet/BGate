@@ -1251,3 +1251,20 @@ function helpWindow(page, width, height) {
 	win.focus();
 	return false;
 }
+
+
+function viewIncomeList(){
+	$("#income-list").toggle("slow");
+	if ($("#income-action").text() == 'View all income list')
+	 	$("#income-action").text("Hide income list");
+	else
+		$("#income-action").text("View all income list");
+}
+
+function viewOutcomeList(){
+	$("#outcome-list").toggle("slow");
+	if ($("#outcome-action").text() == 'View all outcome list')
+	 	$("#outcome-action").text("Hide outcome list");
+	else
+		$("#outcome-action").text("View all outcome list");
+}

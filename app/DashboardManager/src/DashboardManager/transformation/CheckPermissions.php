@@ -69,9 +69,17 @@ class CheckPermissions {
 		return $params;
 	}
 
+	public static function checkEditPermissionRevenueReport($auth, $config) {
+		if (strpos(self::getPrimaryRole($auth), $config['roles']['admin']) === false):
+			die("You are trying to view/edit an item you do not have permissions on");
+		endif;
+	}
+
 	public static function getPrimaryRole($auth) {
 		$roles = $auth->getRoles();
 		return $roles[0];
 	}
+
+
 
 }

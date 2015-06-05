@@ -986,3 +986,10 @@ input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     -webkit-appearance: none;
 }
+
+.admin-titles{
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.1;
+    color: inherit;
+}
