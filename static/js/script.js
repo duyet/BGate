@@ -715,13 +715,14 @@ $().ready(function() {
 	// Domain form validation
 	var validator = $("#domain").bind("invalid-form.validate", function() {
 			$("#cdn_form_msg").html("Required fields are missing.");
-			if(document.getElementById("cdn_form_success")) $("#cdn_form_success").css("display","none");
+			// if(document.getElementById("cdn_form_success")) $("#cdn_form_success").css("display","none");
 
 		}).validate({
 		rules: {
            WebDomain: {  
                required:  {
                    depends:function(){
+                   	// alert('domain');
                        $(this).val($.trim($(this).val()));
                        return true;
                    }   
@@ -1369,7 +1370,7 @@ function viewOutcomeList(){
 	 	$("#outcome-action").text("Hide outcome list");
 	else
 		$("#outcome-action").text("View all outcome list");
-
+}
 function empty(object) {
   if((typeof(object) == 'object' && $.isEmptyObject(object)) || 
 	    object == '' || 
@@ -1385,5 +1386,36 @@ function empty(object) {
   }else{
     return false;
   }
-
 }
+function  auto_complete_url(name) {
+	var $input = $('input[name="'+name+'"]');
+	var value = $input.val();
+	var http = value.indexOf('http');
+	var https = value.indexOf('https');
+	if((http == -1 && https == -1)){
+		var length = value.length > 3 ? 3 : value.length;
+		for (var i = length-1; i >=0 ; i--) {
+			if('://'.indexOf(value[i]) != -1){
+				value = value.replaceAt(i, 1);
+			}
+		};
+		$input.val('http://'+value);
+	}
+}
+String.prototype.replaceAt = function(index, charcount) {
+  return this.substr(0, index) + this.substr(index + charcount);
+}
+
+$().ready(function() {
+	if($('input').is('input[name="landingPageTLD"]')){
+		$('input[name="landingPageTLD"]').change(function () {
+			auto_complete_url($(this).attr('name'));
+		})
+	}
+	if($('input').is('input[name="WebDomain"]')){
+		$('input[name="WebDomain"]').change(function () {
+			auto_complete_url($(this).attr('name'));
+		})
+	}
+	
+});

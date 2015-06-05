@@ -300,22 +300,7 @@ function frequency_cap_check () {
 	//console.log('frequencyCap',frequencyCap);
 }
 
-function  auto_complete_url(name) {
-	var $input = $('input[name="'+name+'"]');
-	var value = $input.val();
-	var n = value.indexOf('http://');
-	if(n == -1){
-		$input.val('http://'+value);
-	}
-}
-$().ready(function() {
-	if($('input').is('input[name="landingPageTLD"]')){
-		$('input[name="landingPageTLD"]').change(function () {
-			auto_complete_url($(this).attr('name'));
-		})
-	}
-	
-});
+
 function readImage(file) {
 	var reader = new FileReader();
     var image  = new Image();
