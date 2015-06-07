@@ -57,17 +57,53 @@ class AdBannerDailyTracker extends \_factory\CachedTableRead
         	return null;
     }
 
-    public function get($params = null, $orders = null, $limit = null, $offset = 0) {
+
+    public function get($params = null, $orders = null, $search = null, $limit = null, $offset = 0, $flag = 0 ) {
         	// http://files.zend.com/help/Zend-Framework/zend.db.select.html
 
         $obj_list = array();
 
-    	$resultSet = $this->select(function (\Zend\Db\Sql\Select $select) use ($params, $orders, $search, $limit, $offset) {
-        		foreach ($params as $name => $value):
-        		$select->where(
-        				$select->where->equalTo($name, $value)
-        		);
-        		endforeach;
+        $resultSet = $this->select(function (\Zend\Db\Sql\Select $select) use ($params, $orders, $search, $limit, $offset, $flag) {
+
+                $select->columns(
+                    array(
+                        "AdBannerDailyTrackerID" => "AdBannerDailyTrackerID",
+                        "AdCampaignBannerID" => "AdCampaignBannerID",
+                        "ClickCount" => new \Zend\Db\Sql\Expression("SUM(ClickCount)"),
+                        "ImpCount" => new \Zend\Db\Sql\Expression("SUM(ImpCount)"),
+                        "Outcomes" => new \Zend\Db\Sql\Expression("SUM(Outcome)"),
+                        "Date" => new \Zend\Db\Sql\Expression("CAST(AdBannerDailyTracker.DateCreated AS DATE)")
+                    )
+                );
+
+                $select->join("AdCampaignBannerPreview",
+                    "AdCampaignBannerPreview.AdCampaignBannerPreviewID = AdBannerDailyTracker.AdCampaignBannerID",
+                    array(
+                        "BannerName" => "Name",
+                        ),
+                    $select::JOIN_INNER);
+
+                $select->group(array('Date', 'BannerName'));
+
+                //Condition filter
+                $condition = $this->getConditionByFlag($flag);
+
+                $select->where($condition);
+
+                foreach ($params as $name => $value):
+                $select->where(
+                        $select->where->equalTo($name, $value)
+                );
+                endforeach;
+
+                if ($search != null):
+                  $select->where
+                          ->nest
+                            ->like("Name", "%". $search ."%" )
+                            ->or
+                            ->equalTo("AdBannerDailyTrackerID", (int) $search) 
+                          ->unnest;
+                endif;
 
                 if($orders == null):
                         $select->order('AdBannerDailyTrackerID');
@@ -80,15 +116,88 @@ class AdBannerDailyTracker extends \_factory\CachedTableRead
                   $select->offset($offset);
                 endif;
 
-        	}
-    	);
+                // $sql = $select->getSqlString();
+                // print_r($sql);
+                // die();
 
-    	    foreach ($resultSet as $obj):
-    	        $obj_list[] = $obj;
-    	    endforeach;
+            }
+        );
 
-    		return $obj_list;
+        foreach ($resultSet as $obj):
+            $obj_list[] = $obj;
+        endforeach;
+
+        return $obj_list;
     }
+
+    public function get_outcome($flag) {
+
+        $obj_list = array();
+
+        $resultSet = $this->select(function (\Zend\Db\Sql\Select $select) use ($flag){
+
+                $select->columns(
+                    array(
+                        "Outcomes" => new \Zend\Db\Sql\Expression("SUM(Outcome)")
+                    )
+                );
+                //Condition filter
+                $condition = $this->getConditionByFlag($flag);
+
+                $select->where($condition);
+            }
+        );
+
+        foreach ($resultSet as $obj):
+            $obj_list[] = $obj;
+        endforeach;
+
+        return $obj_list;
+    }
+
+    function getConditionByFlag($flag)
+    {
+        $condition = null;
+        switch ($flag) {
+          case "0":
+            //Today
+            $condition = 'DATEDIFF(AdBannerDailyTracker.DateCreated,NOW()) = 0';  
+            break;
+          case "1":
+            //Yesterday
+            $condition = 'DATEDIFF(AdBannerDailyTracker.DateCreated,NOW()) = -1';
+            break;
+          case "2":
+            //This week
+            $condition = 'YEARWEEK(AdBannerDailyTracker.DateCreated) - YEARWEEK(NOW()) = 0';
+            break;
+          case "3":
+            //Last week
+            $condition = 'YEARWEEK(AdBannerDailyTracker.DateCreated) - YEARWEEK(NOW()) = -1';   
+            break;
+          case "4":
+            //This month
+            $condition = 'MONTH(AdBannerDailyTracker.DateCreated) - MONTH(NOW()) = 0 AND YEAR(AdBannerDailyTracker.DateCreated) = YEAR(NOW())'; 
+            break;
+          case "5":
+            //Last month
+            $condition = 'MONTH(AdBannerDailyTracker.DateCreated) - MONTH(NOW()) = -1 AND YEAR(AdBannerDailyTracker.DateCreated) = YEAR(NOW())'; 
+            break;
+          case "6":
+            //This year
+            $condition = 'YEAR(AdBannerDailyTracker.DateCreated) = YEAR(NOW())'; 
+            break; 
+          case "7":
+            //This year
+            $condition = 'YEAR(AdBannerDailyTracker.DateCreated) = YEAR(NOW())'; 
+            break;             
+          default:
+            $condition = null;
+            break;
+        }
+        return $condition;
+    }
+
 
     public function saveRecord(\model\AdBannerDailyTracker $AdBannerDailyTracker) {
     	$data = array(

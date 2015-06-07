@@ -85,44 +85,7 @@ class AdzoneDailyTracker extends \_factory\CachedTableRead
                 $select->group(array('Date', 'AdName'));
 
                 //Condition filter
-                $condition = null;
-                switch ($flag) {
-                  case "0":
-                    //Today
-                    $condition = 'DATEDIFF(AdzoneDailyTracker.DateCreated,NOW()) = 0';  
-                    break;
-                  case "1":
-                    //Yesterday
-                    $condition = 'DATEDIFF(AdzoneDailyTracker.DateCreated,NOW()) = -1';
-                    break;
-                  case "2":
-                    //This week
-                    $condition = 'YEARWEEK(AdzoneDailyTracker.DateCreated) - YEARWEEK(NOW()) = 0';
-                    break;
-                  case "3":
-                    //Last week
-                    $condition = 'YEARWEEK(AdzoneDailyTracker.DateCreated) - YEARWEEK(NOW()) = -1';   
-                    break;
-                  case "4":
-                    //This month
-                    $condition = 'MONTH(AdzoneDailyTracker.DateCreated) - MONTH(NOW()) = 0 AND YEAR(AdzoneDailyTracker.DateCreated) = YEAR(NOW())'; 
-                    break;
-                  case "5":
-                    //Last month
-                    $condition = 'MONTH(AdzoneDailyTracker.DateCreated) - MONTH(NOW()) = -1 AND YEAR(AdzoneDailyTracker.DateCreated) = YEAR(NOW())'; 
-                    break;
-                  case "6":
-                    //This year
-                    $condition = 'YEAR(AdzoneDailyTracker.DateCreated) = YEAR(NOW())'; 
-                    break; 
-                  case "7":
-                    //This year
-                    $condition = 'YEAR(AdzoneDailyTracker.DateCreated) = YEAR(NOW())'; 
-                    break;             
-                  default:
-                    $condition = null;
-                    break;
-                }
+                $condition = $this->getConditionByFlag($flag);
 
                 $select->where($condition);
 
@@ -167,18 +130,21 @@ class AdzoneDailyTracker extends \_factory\CachedTableRead
     }
 
 
-    public function get_income() {
+    public function get_income($flag = null) {
             // http://files.zend.com/help/Zend-Framework/zend.db.select.html
 
         $obj_list = array();
 
-        $resultSet = $this->select(function (\Zend\Db\Sql\Select $select) {
+        $resultSet = $this->select(function (\Zend\Db\Sql\Select $select) use ($flag){
 
                 $select->columns(
                     array(
                         "Incomes" => new \Zend\Db\Sql\Expression("SUM(Income)")
                     )
                 );
+                //Condition filter
+                $condition = $this->getConditionByFlag($flag);
+                $select->where($condition);
             }
         );
 
@@ -187,6 +153,48 @@ class AdzoneDailyTracker extends \_factory\CachedTableRead
             endforeach;
 
             return $obj_list;
+    }
+
+    function getConditionByFlag($flag){
+        $condition = null;
+        switch ($flag) {
+          case "0":
+            //Today
+            $condition = 'DATEDIFF(AdzoneDailyTracker.DateCreated,NOW()) = 0';  
+            break;
+          case "1":
+            //Yesterday
+            $condition = 'DATEDIFF(AdzoneDailyTracker.DateCreated,NOW()) = -1';
+            break;
+          case "2":
+            //This week
+            $condition = 'YEARWEEK(AdzoneDailyTracker.DateCreated) - YEARWEEK(NOW()) = 0';
+            break;
+          case "3":
+            //Last week
+            $condition = 'YEARWEEK(AdzoneDailyTracker.DateCreated) - YEARWEEK(NOW()) = -1';   
+            break;
+          case "4":
+            //This month
+            $condition = 'MONTH(AdzoneDailyTracker.DateCreated) - MONTH(NOW()) = 0 AND YEAR(AdzoneDailyTracker.DateCreated) = YEAR(NOW())'; 
+            break;
+          case "5":
+            //Last month
+            $condition = 'MONTH(AdzoneDailyTracker.DateCreated) - MONTH(NOW()) = -1 AND YEAR(AdzoneDailyTracker.DateCreated) = YEAR(NOW())'; 
+            break;
+          case "6":
+            //This year
+            $condition = 'YEAR(AdzoneDailyTracker.DateCreated) = YEAR(NOW())'; 
+            break; 
+          case "7":
+            //This year
+            $condition = 'YEAR(AdzoneDailyTracker.DateCreated) = YEAR(NOW())'; 
+            break;             
+          default:
+            $condition = null;
+            break;
+        }
+        return $condition;
     }
 
     public function saveRecord(\model\AdzoneDailyTracker $AdzoneDailyTracker) {

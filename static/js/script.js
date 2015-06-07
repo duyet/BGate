@@ -1373,8 +1373,17 @@ function viewOutcomeList(){
 }
 
 function loadIncomeAdzone(){
-	$.get(basePath + "/manager/getincome" , function( data ) {
+	var flag = $("#income-time option:selected").val();
+	$.get(basePath + "/manager/getincome/" + flag, {param1: flag}  , function( data ) {
 		$("#income-value").text(data.data[0].Incomes);
+	},'json');		
+
+}
+
+function loadOutcomeAdzone(){
+	var flag = $("#income-time option:selected").val();
+	$.get(basePath + "/manager/getoutcome/" + flag, {param1: flag} , function( data ) {
+		$("#outcome-value").text(data.data[0].Outcomes);
 	},'json');		
 
 }
@@ -1427,5 +1436,6 @@ $().ready(function() {
 	}
 
 	loadIncomeAdzone();
+	loadOutcomeAdzone();
 	
 });
