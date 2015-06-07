@@ -1,0 +1,135 @@
+<?php
+$this->headScript()->appendFile($this->basePath() . '/static/js/script.js');
+$this->headScript()->appendFile($this->basePath() . '/static/js/AppTable.js');
+$this->headScript()->appendFile($this->basePath() . '/static/js/qtip/jquery.qtip.min.js');
+$this->headLink()->appendStylesheet($this->basePath() . '/static/css/qtip/jquery.qtip.min.css');
+
+$this->headScript()->captureStart() ?>
+function submitForm() {
+  $('#loginas').submit();
+}
+
+$(document).ready(function () {
+
+    $('span[title]').qtip();
+    
+});
+
+<?php $this->headScript()->captureEnd();  
+$effective_user_in_dashboard = false;
+?>
+<div class="docs-header">
+  <div class="topic">
+    <div class="row">
+      <div class="col-md-5 col-md-offset-1 col-sm-5 col-sm-offset-1 col-xs-6"><h4>Report</h4></div>
+      
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+      <div class="col-md-4 col-md-offset-8">
+           <?php if ($is_admin === true): ?>
+          
+           <form name="loginas" id="loginas" action="<?php echo $this->basePath() ?>/publisher/loginas" class="form-inline" >
+            <span style="font-size: 12px; font-weight: bold;">LOG IN AS USER</span>
+            <select name="userid" onchange="submitForm();" class="form-control">
+              <option value="0">Admin (<?php echo $true_user_name; ?>)</option>
+              <?php foreach ($user_id_list as $user_info_id => $user_info_name): ?>
+                <option <?php 
+                if ($user_info_id == $effective_id): 
+                  $effective_user_in_dashboard = true; 
+                  echo 'selected="selected"'; 
+                endif; ?> value="<?php echo $user_info_id;?>"><?php echo $user_info_name;?></option>
+              <?php endforeach; ?>
+            </select>
+           </form>
+
+       <?php endif; ?>
+      </div>
+  </div>
+</div>
+
+
+
+
+<div class="steps-container step1">
+
+<div class="row mrg20T">
+  <div id="domain-details" class="col-md-10 col-md-offset-1 panel pad20T">
+    <h4 class="underline mrg0T">Info</h4>
+    
+    <div class="row">
+
+      <div class="col-sm-8">
+        Time filter:
+        <select id="time-filter" onchange="ReportPublisherTable.reload_table()">
+              <option selected value="all">All time</option>
+              <option value="today">Today</option>
+              <option value="yesterday">Yesterday</option>
+              <option value="this_week">This week</option>
+              <option value="last_week">Last week</option>
+              <option value="this_month">This month</option>
+              <option value="last_month">Last month</option>
+              <option value="this_year">This year</option>
+        </select>  
+      </div>
+
+    </div>
+    <br>
+    <div class="row col-sm-8">
+      <div class="row">
+        <div class="col-sm-3">Income (USD): <strong id="Income">0</strong> $</div>
+        <div class="col-sm-3">Click Total: <strong id="ClickTotal">0</strong> </div>
+        <div class="col-sm-3">Impression Total: <strong id="ImpTotal">0</strong> </div>
+      </div>
+      <br>
+    </div>
+  </div>
+
+</div>
+
+<div id="container">
+<div class="row mrg20T">
+<div class="col-md-10 col-md-offset-1 col-sm-12 panel">
+
+    <div class="formbox">      
+      <br clear="all"/>
+
+    <div class="table-filter row">
+      <div class="col-sm-4">
+        Domain:
+        
+        <select id="domain-publisher" onchange="ReportPublisherTable.reload_table()">
+            <option selected value="-1">All</option>
+            <?php
+              $list = array();
+              foreach($PublisherWebsiteList as $key=>$value): 
+                echo '<option value="'. $value->PublisherWebsiteID .'">'. $value->WebDomain .'</option>';
+                
+             endforeach; ?>
+             
+        </select>
+      </div>
+    </div>
+
+    <div id="selection-results" class="steps-box">
+
+        <table id="report-publisher-table" class="table table-hover table-bordered table-margin" data-url="<?php echo $this->basePath() ?>/publisher/reportlist">
+          <thead>
+            <tr>
+            <?php 
+            foreach($table_list as $order => $title):
+                echo "\n<th style=\"text-align:center;\">" . $title . "</th>\n";
+            endforeach;
+            ?>
+            </tr>
+            </thead>
+            
+        </table>
+    </div>
+    </div>
+    </div>
+    </div>
+</div>

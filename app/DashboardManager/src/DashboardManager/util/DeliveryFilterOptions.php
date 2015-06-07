@@ -423,6 +423,13 @@ class DeliveryFilterOptions {
         "3" =>"Completely Below the Fold",
         "4" =>"Partially Above the Fold"
     );
+
+    public static $time_filter = array(
+        "1" =>"A day ago",
+        "2" =>"A week ago",
+        "3" =>"A Month ago",
+        "4" =>"All",
+    );
 }
 
 ?>

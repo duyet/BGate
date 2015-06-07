@@ -122,19 +122,17 @@ class AdzoneDailyTracker extends \_factory\CachedTableRead
         	}
     	);
 
-    	    foreach ($resultSet as $obj):
-    	        $obj_list[] = $obj;
-    	    endforeach;
+	    foreach ($resultSet as $obj):
+	        $obj_list[] = $obj;
+	    endforeach;
 
-    		return $obj_list;
+		return $obj_list;
     }
 
 
+
     public function get_income($flag = null) {
-            // http://files.zend.com/help/Zend-Framework/zend.db.select.html
-
         $obj_list = array();
-
         $resultSet = $this->select(function (\Zend\Db\Sql\Select $select) use ($flag){
 
                 $select->columns(
@@ -147,13 +145,100 @@ class AdzoneDailyTracker extends \_factory\CachedTableRead
                 $select->where($condition);
             }
         );
+        foreach ($resultSet as $obj):
+            $obj_list[] = $obj;
+        endforeach;
 
-            foreach ($resultSet as $obj):
-                $obj_list[] = $obj;
-            endforeach;
-
-            return $obj_list;
+        return $obj_list;
     }
+
+    public function single_report_get($params = null, $orders = null, $search = null, $limit = null, $offset = 0, $flag = 'all', $PublisherWebsiteIDs = array()) {
+
+        $obj_list = array();
+
+        $resultSet = $this->select(function (\Zend\Db\Sql\Select $select) use ($params, $orders, $search, $limit, $offset, $flag, $PublisherWebsiteIDs) {
+
+                $select->columns(
+                    array(
+                        "AdzoneDailyTrackerID" => "AdzoneDailyTrackerID",
+                        "PublisherAdZoneID" => "PublisherAdZoneID",
+                        "Incomes" => new \Zend\Db\Sql\Expression("SUM(Income)"),
+                        "ClickCount" => new \Zend\Db\Sql\Expression("SUM(ClickCount)"),
+                        "ImpCount" => new \Zend\Db\Sql\Expression("SUM(ImpCount)"),
+                        "DateCreated" => new \Zend\Db\Sql\Expression("CAST(AdzoneDailyTracker.DateCreated AS DATE)"),
+                    )
+                );
+
+                $select->join("PublisherAdZone",
+                    "PublisherAdZone.PublisherAdZoneID = AdzoneDailyTracker.PublisherAdZoneID",
+                    array(
+                        "AdName" => "AdName",
+                        "PublisherWebsiteID" => "PublisherWebsiteID",
+                        ),
+                    $select::JOIN_INNER);
+
+                $select->group('AdzoneDailyTracker.PublisherAdZoneID');
+
+                switch ($flag) {
+                    case 'all':
+                        break;
+                    case 'today':
+                        $select->where('DATEDIFF(AdzoneDailyTracker.DateCreated,NOW()) = 0');
+                        break;
+                    case 'yesterday':
+                        $select->where('DATEDIFF(AdzoneDailyTracker.DateCreated,NOW()) = -1');
+                        break;
+                    case 'this_week':
+                        $select->where('YEARWEEK(AdzoneDailyTracker.DateCreated,NOW()) = YEARWEEK(CURRENT_DATE) ');
+                        break;
+                    case 'last_week':
+                        $select->where('YEARWEEK(AdzoneDailyTracker.DateCreated) = YEARWEEK(CURRENT_DATE - INTERVAL 7 DAY) ');
+                        break;
+                    case 'this_month':
+                        $select->where('MONTH(AdzoneDailyTracker.DateCreated) = MONTH(NOW())');
+                        break;
+                    case 'last_month':
+                        $select->where('MONTH(AdzoneDailyTracker.DateCreated) = MONTH(NOW()) - 1');
+                        break;
+                    case 'this_year':
+                        $select->where('YEAR(AdzoneDailyTracker.DateCreated) = YEAR(Now())');
+                        break;
+                    
+                    default:
+                        # code...
+                        break;
+                }
+                
+                $PublisherWebsiteIDsString = implode(', ', $PublisherWebsiteIDs);
+                $select->where('PublisherAdZone.PublisherWebsiteID in ('.$PublisherWebsiteIDsString.')');
+
+                foreach ($params as $name => $value):
+                $select->where(
+                        $select->where->equalTo($name, $value)
+                );
+                endforeach;
+
+                if($orders == null):
+                        $select->order('AdzoneDailyTrackerID');
+                    else:
+                        $select->order($orders);
+                    endif;
+
+                if ($limit != null):
+                  $select->limit($limit);
+                  $select->offset($offset);
+                endif;
+
+            }
+        );
+
+        foreach ($resultSet as $obj):
+            $obj_list[] = $obj;
+        endforeach;
+
+        return $obj_list;
+    }
+
 
     function getConditionByFlag($flag){
         $condition = null;
@@ -196,6 +281,7 @@ class AdzoneDailyTracker extends \_factory\CachedTableRead
         }
         return $condition;
     }
+
 
     public function saveRecord(\model\AdzoneDailyTracker $AdzoneDailyTracker) {
     	$data = array(

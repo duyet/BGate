@@ -146,6 +146,110 @@ class PublisherController extends PublisherAbstractActionController {
 		die;
 	}
 
+	public function reportlistAction() {
+		$initialized = $this->initialize();
+		if ($initialized !== true) return $initialized;
+
+		$parameters = array();
+		$order = null;
+		
+		// get search value
+		$search = $this->getRequest()->getQuery("search")["value"];
+		// pagination value
+		$PageSize = (int) $this->getRequest()->getQuery("length");
+		$Offset =   (int) $this->getRequest()->getQuery("start");
+		
+		$flag = $this->getRequest()->getQuery("timefilter");
+
+		$PublisherWebsiteFactory = \_factory\PublisherWebsite::get_instance();
+
+		$PublisherWebsiteIDs = array();
+		if ($this->getRequest()->getQuery("PublisherWebsiteID") != -1):
+			$PublisherWebsiteIDs[] = $this->getRequest()->getQuery("PublisherWebsiteID");
+		else:
+			if (!$this->is_admin):
+				$para['DomainOwnerID'] = $this->PublisherInfoID;
+			endif;
+			$PublisherWebsiteList = $PublisherWebsiteFactory->get($para, null, $search, $PageSize, $Offset);
+			$PublisherWebsiteIDs = array();
+			foreach ($PublisherWebsiteList as $key => $value) {
+				$PublisherWebsiteIDs[] = $value->PublisherWebsiteID;
+			}
+		endif;
+
+		//Pull list of websites.		
+		$AdzoneDailyTrackerFactory = \_factory\AdzoneDailyTracker::get_instance();
+		$AdzoneDailyTrackerList = $AdzoneDailyTrackerFactory->single_report_get($parameters, $order, $search, $PageSize, $Offset, $flag, $PublisherWebsiteIDs);
+
+		$result = array();
+		$TotalAdzoneDailyTrackerListCount = count($AdzoneDailyTrackerList);
+		$ClickTotal = 0;
+		$ImpTotal = 0;
+		$Incomes = 0;
+
+		if (count($AdzoneDailyTrackerList)> 0):
+				foreach ($AdzoneDailyTrackerList AS $row_number => $row_data): 
+
+					$ClickTotal += (int)$row_data["ClickCount"];
+					$ImpTotal 	+= (int)$row_data["ImpCount"];
+					$Incomes 	+= (float)$row_data["Incomes"];
+
+					$row = array();	
+					$row["index"] = $Offset + $row_number+1;
+					$row["AdName"] = $row_data["AdName"];
+
+					$para['PublisherWebsiteID'] = $row_data["PublisherWebsiteID"];
+					$PublisherWebsiteList = $PublisherWebsiteFactory->get($para, null, $search, $PageSize, $Offset);
+					$row["AdDomain"] = $PublisherWebsiteList[0]->WebDomain;
+
+					//$row["AdDomain"] = 'Join 3 table loi dang sua';
+					$row["ClickCount"] = $row_data["ClickCount"];
+					$row["ImpCount"] = $row_data["ImpCount"];
+					$row["Incomes"] = $row_data["Incomes"];
+					$row["created_at"] = $row_data["DateCreated"];
+					$row["is_admin"] = $this->is_admin;
+					$result[] = $row;
+
+				endforeach;
+		endif;
+
+		header('Content-type: application/json');
+		echo json_encode(array("ClickTotal" => $ClickTotal, "ImpTotal" => $ImpTotal, "Incomes" => $Incomes, "recordsTotal" => $TotalAdzoneDailyTrackerListCount, "recordsFiltered" => $TotalAdzoneDailyTrackerListCount , 'data' => $result));
+
+		die;
+		
+	}
+
+	public function reportAction()
+	{    
+		$initialized = $this->initialize();
+		if ($initialized !== true) return $initialized;
+		// get search value
+		$search = $this->getRequest()->getQuery("search")["value"];
+		// pagination value
+		$PageSize = (int) $this->getRequest()->getQuery("length");
+		$Offset =   (int) $this->getRequest()->getQuery("start");
+		$PublisherWebsiteFactory = \_factory\PublisherWebsite::get_instance();
+		
+		if (!$this->is_admin):
+			$parameters['DomainOwnerID'] = $this->PublisherInfoID;
+		endif;
+		$PublisherWebsiteList = $PublisherWebsiteFactory->get($parameters, null, $search, $PageSize, $Offset);
+		// End List web
+		$headers = array("#","Ad-Domain","Ad-Zones","Click Count","Imp Count","Income","Date",);
+		$view = new ViewModel(array(
+			'is_admin' => $this->is_admin,
+			'user_id_list' => $this->user_id_list_publisher,
+			'true_user_name' => $this->true_user_name,
+			'PublisherWebsiteList' => $PublisherWebsiteList,
+			'user_identity' => $this->identity(),
+			'table_list' => $headers
+
+
+		));
+		return $view;
+	}
+
 	public function indexAction()
 	{	    
 		$initialized = $this->initialize();
