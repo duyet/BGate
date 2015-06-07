@@ -34,22 +34,22 @@ $effective_user_in_dashboard = false;
       <div id="revenue-overview" class="col-md-10 col-md-offset-1 panel pad20T">
         <p class="underline mrg0T" style="padding-bottom: 3px;">
           <span class="admin-titles">Revenue Overview </span>
-            <select id="campaign-status" onchange="CampaignTable.reload_table()">
+            <select id="income-time" onchange="IncomeTable.reload_table(); loadIncomeAdzone();">
               <option value>All time</option>
               <option value="0">Today</option>
               <option value="1">Yesterday</option>
               <option value="2">This week</option>
-              <option value="2">Last week</option>
-              <option value="2">This month</option>
-              <option value="2">Last month</option>
-              <option value="2">This year</option>
+              <option value="3">Last week</option>
+              <option value="4">This month</option>
+              <option value="5">Last month</option>
+              <option value="6">This year</option>
             </select>
         </p>
         <div class="row">
-          <div class="col-sm-3">Income: <strong>$992,556</strong></div>
-          <div class="col-sm-3"><a id="income-action" onclick="viewIncomeList();" href="javascript:void(0);">View all income list</a></div>
+          <div class="col-sm-3">Income: <strong>$<span id="income-value"></span></strong></div>
+          <div class="col-sm-3"><a id="income-action" onclick="viewIncomeList();" href="javascript:void(0);">Hide income list</a></div>
           <div class="col-sm-3">Outcome: <strong>$112,322</strong></div>
-          <div class="col-sm-3"><a id="outcome-action" onclick="viewOutcomeList();" href="javascript:void(0);">View all outcome list</a></div>
+          <div class="col-sm-3"><a id="outcome-action" onclick="viewOutcomeList();" href="javascript:void(0);">Hide outcome list</a></div>
         </div>
         <br>
       </div>
@@ -59,19 +59,17 @@ $effective_user_in_dashboard = false;
 
   <div class="container-fluid">
     <div class="row mrg20T">
-      <div id="income-list" class="col-md-10 col-md-offset-1 panel pad20T" style="display:none;">
+      <div id="income-list" class="col-md-10 col-md-offset-1 panel pad20T">
         <h4 class="underline mrg0T">Income List</h4>
-        <table class="table table-bordered table-hover" data-url="" id="income-table">
+        <table class="table table-hover table-striped table-bordered table-margin" data-url="<?php echo $this->basePath() ?>/manager/incomelist" id="income-table">
           <thead>
             <tr >
               <th class="text-center">#</th>
-              <th class="text-center">Name</th>
-              <th class="text-center">Size</th>
-              <th class="text-center">Start/End Date</th>
-              <th class="text-center">Bid Amount</th>
-              <th class="text-center">Bid Counter</th>
-              <th class="text-center">Impression Counter</th>
-              <th class="text-center">Current Spend</th>
+              <th class="text-center">Time</th>
+              <th class="text-center">Ad Name</th>
+              <th class="text-center">Click Count</th>
+              <th class="text-center">Imp Count</th>
+              <th class="text-center">Income</th>
             </tr>
           </thead>
         </table>
@@ -81,7 +79,7 @@ $effective_user_in_dashboard = false;
 
   <div class="container-fluid">
     <div class="row mrg20T">
-      <div id="outcome-list" class="col-md-10 col-md-offset-1 panel pad20T" style="display:none;">
+      <div id="outcome-list" class="col-md-10 col-md-offset-1 panel pad20T">
         <h4 class="underline mrg0T">Outcome List</h4>
         <table class="table table-bordered table-hover" data-url="" id="income-table">
           <thead>
@@ -91,7 +89,7 @@ $effective_user_in_dashboard = false;
               <th class="text-center">Ad Name</th>
               <th class="text-center">Click Count</th>
               <th class="text-center">Imp Count</th>
-              <th class="text-center">Income</th>
+              <th class="text-center">Outcome</th>
             </tr>
           </thead>
         </table>

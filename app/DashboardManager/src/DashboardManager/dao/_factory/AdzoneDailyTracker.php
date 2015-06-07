@@ -57,17 +57,19 @@ class AdzoneDailyTracker extends \_factory\CachedTableRead
         	return null;
     }
 
-    public function get($params = null, $orders = null, $search = null, $limit = null, $offset = 0) {
+    public function get($params = null, $orders = null, $search = null, $limit = null, $offset = 0, $flag = 0 ) {
         	// http://files.zend.com/help/Zend-Framework/zend.db.select.html
 
         $obj_list = array();
 
-    	$resultSet = $this->select(function (\Zend\Db\Sql\Select $select) use ($params, $orders, $search, $limit, $offset) {
+    	$resultSet = $this->select(function (\Zend\Db\Sql\Select $select) use ($params, $orders, $search, $limit, $offset, $flag) {
 
                 $select->columns(
                     array(
                         "AdzoneDailyTrackerID" => "AdzoneDailyTrackerID",
                         "PublisherAdZoneID" => "PublisherAdZoneID",
+                        "ClickCount" => new \Zend\Db\Sql\Expression("SUM(ClickCount)"),
+                        "ImpCount" => new \Zend\Db\Sql\Expression("SUM(ImpCount)"),
                         "Incomes" => new \Zend\Db\Sql\Expression("SUM(Income)"),
                         "Date" => new \Zend\Db\Sql\Expression("CAST(AdzoneDailyTracker.DateCreated AS DATE)")
                     )
@@ -80,14 +82,64 @@ class AdzoneDailyTracker extends \_factory\CachedTableRead
                         ),
                     $select::JOIN_INNER);
 
-                $select->group('AdzoneDailyTracker.PublisherAdZoneID');
-                $select->where('DATEDIFF(AdzoneDailyTracker.DateCreated,NOW()) = 0');
+                $select->group(array('Date', 'AdName'));
+
+                //Condition filter
+                $condition = null;
+                switch ($flag) {
+                  case "0":
+                    //Today
+                    $condition = 'DATEDIFF(AdzoneDailyTracker.DateCreated,NOW()) = 0';  
+                    break;
+                  case "1":
+                    //Yesterday
+                    $condition = 'DATEDIFF(AdzoneDailyTracker.DateCreated,NOW()) = -1';
+                    break;
+                  case "2":
+                    //This week
+                    $condition = 'YEARWEEK(AdzoneDailyTracker.DateCreated) - YEARWEEK(NOW()) = 0';
+                    break;
+                  case "3":
+                    //Last week
+                    $condition = 'YEARWEEK(AdzoneDailyTracker.DateCreated) - YEARWEEK(NOW()) = -1';   
+                    break;
+                  case "4":
+                    //This month
+                    $condition = 'MONTH(AdzoneDailyTracker.DateCreated) - MONTH(NOW()) = 0 AND YEAR(AdzoneDailyTracker.DateCreated) = YEAR(NOW())'; 
+                    break;
+                  case "5":
+                    //Last month
+                    $condition = 'MONTH(AdzoneDailyTracker.DateCreated) - MONTH(NOW()) = -1 AND YEAR(AdzoneDailyTracker.DateCreated) = YEAR(NOW())'; 
+                    break;
+                  case "6":
+                    //This year
+                    $condition = 'YEAR(AdzoneDailyTracker.DateCreated) = YEAR(NOW())'; 
+                    break; 
+                  case "7":
+                    //This year
+                    $condition = 'YEAR(AdzoneDailyTracker.DateCreated) = YEAR(NOW())'; 
+                    break;             
+                  default:
+                    $condition = null;
+                    break;
+                }
+
+                $select->where($condition);
 
                 foreach ($params as $name => $value):
         		$select->where(
         				$select->where->equalTo($name, $value)
         		);
         		endforeach;
+
+                if ($search != null):
+                  $select->where
+                          ->nest
+                            ->like("AdName", "%". $search ."%" )
+                            ->or
+                            ->equalTo("AdzoneDailyTrackerID", (int) $search) 
+                          ->unnest;
+                endif;
 
                 if($orders == null):
                         $select->order('AdzoneDailyTrackerID');
@@ -100,6 +152,10 @@ class AdzoneDailyTracker extends \_factory\CachedTableRead
                   $select->offset($offset);
                 endif;
 
+                // $sql = $select->getSqlString();
+                // print_r($sql);
+                // die();
+
         	}
     	);
 
@@ -108,6 +164,29 @@ class AdzoneDailyTracker extends \_factory\CachedTableRead
     	    endforeach;
 
     		return $obj_list;
+    }
+
+
+    public function get_income() {
+            // http://files.zend.com/help/Zend-Framework/zend.db.select.html
+
+        $obj_list = array();
+
+        $resultSet = $this->select(function (\Zend\Db\Sql\Select $select) {
+
+                $select->columns(
+                    array(
+                        "Incomes" => new \Zend\Db\Sql\Expression("SUM(Income)")
+                    )
+                );
+            }
+        );
+
+            foreach ($resultSet as $obj):
+                $obj_list[] = $obj;
+            endforeach;
+
+            return $obj_list;
     }
 
     public function saveRecord(\model\AdzoneDailyTracker $AdzoneDailyTracker) {

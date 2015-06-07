@@ -1371,6 +1371,14 @@ function viewOutcomeList(){
 	else
 		$("#outcome-action").text("View all outcome list");
 }
+
+function loadIncomeAdzone(){
+	$.get(basePath + "/manager/getincome" , function( data ) {
+		$("#income-value").text(data.data[0].Incomes);
+	},'json');		
+
+}
+
 function empty(object) {
   if((typeof(object) == 'object' && $.isEmptyObject(object)) || 
 	    object == '' || 
@@ -1417,5 +1425,7 @@ $().ready(function() {
 			auto_complete_url($(this).attr('name'));
 		})
 	}
+
+	loadIncomeAdzone();
 	
 });
