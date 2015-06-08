@@ -169,7 +169,7 @@ class PublisherController extends PublisherAbstractActionController {
 
 		//Pull list of websites.		
 		$AdzoneDailyTrackerFactory = \_factory\AdzoneDailyTracker::get_instance();
-		$AdzoneDailyTrackerList = $AdzoneDailyTrackerFactory->single_report_get($parameters, $order, $search, $PageSize, $Offset, $flag);
+		$AdzoneDailyTrackerList = $AdzoneDailyTrackerFactory->get($parameters, $order, $search, $PageSize, $Offset, $flag);
 
 		$result = array();
 		$TotalAdzoneDailyTrackerListCount = count($AdzoneDailyTrackerList);
@@ -191,7 +191,7 @@ class PublisherController extends PublisherAbstractActionController {
 					$row["ClickCount"] = $row_data["ClickCount"];
 					$row["ImpCount"] = $row_data["ImpCount"];
 					$row["Incomes"] = $row_data["Incomes"];
-					$row["created_at"] = $row_data["DateCreated"];
+					$row["created_at"] = $row_data["Date"];
 					$row["is_admin"] = $this->is_admin;
 					$result[] = $row;
 
@@ -214,19 +214,12 @@ class PublisherController extends PublisherAbstractActionController {
 		// pagination value
 		$PageSize = (int) $this->getRequest()->getQuery("length");
 		$Offset =   (int) $this->getRequest()->getQuery("start");
-		$PublisherWebsiteFactory = \_factory\PublisherWebsite::get_instance();
-		
-		if (!$this->is_admin):
-			$parameters['DomainOwnerID'] = $this->PublisherInfoID;
-		endif;
-		$PublisherWebsiteList = $PublisherWebsiteFactory->get($parameters, null, $search, $PageSize, $Offset);
 		// End List web
 		$headers = array("#","Ad-Domain","Ad-Zones","Click Count","Imp Count","Income","Date",);
 		$view = new ViewModel(array(
 			'is_admin' => $this->is_admin,
 			'user_id_list' => $this->user_id_list_publisher,
 			'true_user_name' => $this->true_user_name,
-			'PublisherWebsiteList' => $PublisherWebsiteList,
 			'user_identity' => $this->identity(),
 			'table_list' => $headers
 

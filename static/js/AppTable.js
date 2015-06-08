@@ -574,11 +574,12 @@ var OutcomeTable = {
           }
         },
         "aoColumnDefs": [
-         { bSortable: false, 'aTargets': [ 0,3,4 ] },    
+         { bSortable: false, 'aTargets': [ 0,4,5 ] },    
         ],
         "columns": [
             { "data": "index", className: "text-center" },
             { "data": "Time" },
+            { "data": "CampaignName" },
             { "data": "BannerName" },
             { "data": "ClickCount" },
             { "data": "ImpCount" },

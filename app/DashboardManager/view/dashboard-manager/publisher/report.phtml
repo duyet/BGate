@@ -27,33 +27,6 @@ $effective_user_in_dashboard = false;
   </div>
 </div>
 
-<div class="container">
-  <div class="row">
-      <div class="col-md-4 col-md-offset-8">
-           <?php if ($is_admin === true): ?>
-          
-           <form name="loginas" id="loginas" action="<?php echo $this->basePath() ?>/publisher/loginas" class="form-inline" >
-            <span style="font-size: 12px; font-weight: bold;">LOG IN AS USER</span>
-            <select name="userid" onchange="submitForm();" class="form-control">
-              <option value="0">Admin (<?php echo $true_user_name; ?>)</option>
-              <?php foreach ($user_id_list as $user_info_id => $user_info_name): ?>
-                <option <?php 
-                if ($user_info_id == $effective_id): 
-                  $effective_user_in_dashboard = true; 
-                  echo 'selected="selected"'; 
-                endif; ?> value="<?php echo $user_info_id;?>"><?php echo $user_info_name;?></option>
-              <?php endforeach; ?>
-            </select>
-           </form>
-
-       <?php endif; ?>
-      </div>
-  </div>
-</div>
-
-
-
-
 <div class="steps-container step1">
 
 <div class="row mrg20T">
@@ -65,7 +38,7 @@ $effective_user_in_dashboard = false;
       <div class="col-sm-8">
         Time filter:
         <select id="time-filter" onchange="ReportPublisherTable.reload_table()">
-              <option selected value="-1">All time</option>
+              <option selected value>All time</option>
               <option value="0">Today</option>
               <option value="1">Yesterday</option>
               <option value="2">This week</option>
@@ -80,7 +53,7 @@ $effective_user_in_dashboard = false;
     <br>
     <div class="row col-sm-8">
       <div class="row">
-        <div class="col-sm-3">Income (USD): <strong id="Income">0</strong> $</div>
+        <div class="col-sm-3">Income (USD): $<strong id="Income">0</strong></div>
         <div class="col-sm-3">Click Total: <strong id="ClickTotal">0</strong> </div>
         <div class="col-sm-3">Impression Total: <strong id="ImpTotal">0</strong> </div>
       </div>

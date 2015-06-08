@@ -83,6 +83,13 @@ class AdBannerDailyTracker extends \_factory\CachedTableRead
                         ),
                     $select::JOIN_INNER);
 
+                $select->join("AdCampaignPreview",
+                    "AdCampaignPreview.AdCampaignPreviewID = AdCampaignBannerPreview.AdCampaignPreviewID",
+                    array(
+                        "CampaignName" => "Name",
+                        ),
+                    $select::JOIN_INNER);
+
                 $select->group(array('Date', 'BannerName'));
 
                 //Condition filter
@@ -130,82 +137,6 @@ class AdBannerDailyTracker extends \_factory\CachedTableRead
         return $obj_list;
     }
 
-    public function single_report_get($params = null, $orders = null, $search = null, $limit = null, $offset = 0, $flag ) {
-        $obj_list = array();
-
-        $resultSet = $this->select(function (\Zend\Db\Sql\Select $select) use ($params, $orders, $search, $limit, $offset, $flag) {
-
-                $select->columns(
-                    array(
-                        "AdBannerDailyTrackerID" => "AdBannerDailyTrackerID",
-                        "AdCampaignBannerID" => "AdCampaignBannerID",
-                        "ClickCount" => new \Zend\Db\Sql\Expression("SUM(ClickCount)"),
-                        "ImpCount" => new \Zend\Db\Sql\Expression("SUM(ImpCount)"),
-                        "Outcomes" => new \Zend\Db\Sql\Expression("SUM(Outcome)"),
-                        "Date" => new \Zend\Db\Sql\Expression("CAST(AdBannerDailyTracker.DateCreated AS DATE)")
-                    )
-                );
-
-                $select->join("AdCampaignBannerPreview",
-                    "AdCampaignBannerPreview.AdCampaignBannerPreviewID = AdBannerDailyTracker.AdCampaignBannerID",
-                    array(
-                        "BannerName" => "Name",
-                        ),
-                    $select::JOIN_INNER);
-
-                $select->join("AdCampaignPreview",
-                    "AdCampaignPreview.AdCampaignPreviewID = AdCampaignBannerPreview.AdCampaignPreviewID",
-                    array(
-                        "CampaignName" => "Name",
-                        ),
-                    $select::JOIN_INNER);
-
-                $select->group(array('Date', 'BannerName'));
-
-                //Condition filter
-                $condition = $this->getConditionByFlag($flag);
-                if($condition != null):
-                    $select->where($condition);
-                endif;
-                foreach ($params as $name => $value):
-                $select->where(
-                        $select->where->equalTo($name, $value)
-                );
-                endforeach;
-
-                if ($search != null):
-                  $select->where
-                          ->nest
-                            ->like("Name", "%". $search ."%" )
-                            ->or
-                            ->equalTo("AdBannerDailyTrackerID", (int) $search) 
-                          ->unnest;
-                endif;
-
-                if($orders == null):
-                        $select->order('AdBannerDailyTrackerID');
-                    else:
-                        $select->order($orders);
-                    endif;
-
-                if ($limit != null):
-                  $select->limit($limit);
-                  $select->offset($offset);
-                endif;
-
-                // $sql = $select->getSqlString();
-                // print_r($sql);
-                // die();
-
-            }
-        );
-
-        foreach ($resultSet as $obj):
-            $obj_list[] = $obj;
-        endforeach;
-
-        return $obj_list;
-    }
 
     public function get_outcome($flag) {
 
@@ -234,7 +165,7 @@ class AdBannerDailyTracker extends \_factory\CachedTableRead
 
     function getConditionByFlag($flag)
     {
-        $condition = null;
+        $condition = array();
         switch ($flag) {
           case "0":
             //Today
@@ -269,7 +200,7 @@ class AdBannerDailyTracker extends \_factory\CachedTableRead
             $condition = 'YEAR(AdBannerDailyTracker.DateCreated) = YEAR(NOW())'; 
             break;             
           default:
-            $condition = null;
+            $condition = array();
             break;
         }
         return $condition;

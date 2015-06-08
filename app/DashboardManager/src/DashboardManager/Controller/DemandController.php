@@ -3902,19 +3902,13 @@ class DemandController extends DemandAbstractActionController {
 		// pagination value
 		$PageSize = (int) $this->getRequest()->getQuery("length");
 		$Offset =   (int) $this->getRequest()->getQuery("start");
-		$PublisherWebsiteFactory = \_factory\PublisherWebsite::get_instance();
-		
-		if (!$this->is_admin):
-			$parameters['DomainOwnerID'] = $this->PublisherInfoID;
-		endif;
-		$PublisherWebsiteList = $PublisherWebsiteFactory->get($parameters, null, $search, $PageSize, $Offset);
+
 		// End List web
 		$headers = array("#","Ad-Campaign","Ad-Banner","Click Count","Imp Count","Outcome","Date",);
 		$view = new ViewModel(array(
 			'is_admin' => $this->is_admin,
 			'user_id_list' => $this->user_id_list_publisher,
 			'true_user_name' => $this->true_user_name,
-			'PublisherWebsiteList' => $PublisherWebsiteList,
 			'user_identity' => $this->identity(),
 			'table_list' => $headers
 
@@ -3949,7 +3943,7 @@ class DemandController extends DemandAbstractActionController {
 
 		//Pull list of websites.		
 		$AdBannerDailyTrackerFactory = \_factory\AdBannerDailyTracker::get_instance();
-		$AdBannerDailyTrackerList = $AdBannerDailyTrackerFactory->single_report_get($parameters, $order, $search, $PageSize, $Offset, $flag);
+		$AdBannerDailyTrackerList = $AdBannerDailyTrackerFactory->get($parameters, $order, $search, $PageSize, $Offset, $flag);
 
 		$result = array();
 		$TotalAdBannerDailyTrackerListCount = count($AdBannerDailyTrackerList);

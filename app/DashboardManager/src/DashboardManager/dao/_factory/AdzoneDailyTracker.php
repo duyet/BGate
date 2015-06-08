@@ -159,75 +159,9 @@ class AdzoneDailyTracker extends \_factory\CachedTableRead
         return $obj_list;
     }
 
-    public function single_report_get($params = null, $orders = null, $search = null, $limit = null, $offset = 0, $flag = 0) {
-
-        $obj_list = array();
-
-        $resultSet = $this->select(function (\Zend\Db\Sql\Select $select) use ($params, $orders, $search, $limit, $offset, $flag) {
-
-                $select->columns(
-                    array(
-                        "AdzoneDailyTrackerID" => "AdzoneDailyTrackerID",
-                        "PublisherAdZoneID" => "PublisherAdZoneID",
-                        "Incomes" => new \Zend\Db\Sql\Expression("SUM(Income)"),
-                        "ClickCount" => new \Zend\Db\Sql\Expression("SUM(ClickCount)"),
-                        "ImpCount" => new \Zend\Db\Sql\Expression("SUM(ImpCount)"),
-                        "DateCreated" => new \Zend\Db\Sql\Expression("CAST(AdzoneDailyTracker.DateCreated AS DATE)"),
-                    )
-                );
-
-                $select->join("PublisherAdZone",
-                    "PublisherAdZone.PublisherAdZoneID = AdzoneDailyTracker.PublisherAdZoneID",
-                    array(
-                        "AdName" => "AdName",
-                        ),
-                    $select::JOIN_INNER);
-
-                $select->join("PublisherWebsite",
-                    "PublisherWebsite.PublisherWebsiteID = PublisherAdZone.PublisherWebsiteID",
-                    array(
-                        "WebDomain" => "WebDomain",
-                        
-                        ),
-                    $select::JOIN_INNER);
-
-                $select->group('AdzoneDailyTracker.PublisherAdZoneID');
-
-                $condition = $this->getConditionByFlag($flag);
-                if($condition != null):
-                    $select->where($condition);
-                endif;   
-
-                foreach ($params as $name => $value):
-                $select->where(
-                        $select->where->equalTo($name, $value)
-                );
-                endforeach;
-
-                if($orders == null):
-                        $select->order('AdzoneDailyTrackerID');
-                    else:
-                        $select->order($orders);
-                    endif;
-
-                if ($limit != null):
-                  $select->limit($limit);
-                  $select->offset($offset);
-                endif;
-
-            }
-        );
-
-        foreach ($resultSet as $obj):
-            $obj_list[] = $obj;
-        endforeach;
-
-        return $obj_list;
-    }
-
 
     function getConditionByFlag($flag){
-        $condition = null;
+        $condition = array();
         switch ($flag) {
           case "0":
             //Today
@@ -262,7 +196,7 @@ class AdzoneDailyTracker extends \_factory\CachedTableRead
             $condition = 'YEAR(AdzoneDailyTracker.DateCreated) = YEAR(NOW())'; 
             break;             
           default:
-            $condition = null;
+            $condition = array();
             break;
         }
         return $condition;
