@@ -660,7 +660,6 @@ var ReportPublisherTable = {
 
 var ReportDemandTable = {
   init: function(table){
-   
     if (table.length > 0) {
       this.table = table;
       this.source_path = table.data("url");
@@ -709,17 +708,6 @@ var ReportDemandTable = {
         ],
         initComplete: function () {
  
-        },
-        fnDrawCallback: function(data){
-            { "data": "AdDomain" },
-            { "data": "AdName" },
-            { "data": "ClickCount" },
-            { "data": "ImpCount" },
-            { "data": "Incomes" },
-            { "data": "created_at" }
-        ],
-        initComplete: function () {
-          
         },
         fnDrawCallback: function(data){
           $("#Outcomes").text(data.json.Outcomes);

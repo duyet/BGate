@@ -3910,35 +3910,11 @@ class DemandController extends DemandAbstractActionController {
 		$PublisherWebsiteList = $PublisherWebsiteFactory->get($parameters, null, $search, $PageSize, $Offset);
 		// End List web
 		$headers = array("#","Ad-Campaign","Ad-Banner","Click Count","Imp Count","Outcome","Date",);
-
-
-		$AdCampaignPreviewFactory = \_factory\AdCampaignPreview::get_instance();
-	    // get previews
-	    $params["Active"] = 1;
-	    // print_r($params);
-	    // die();
-	    if ($this->is_admin == true && $this->auth->getEffectiveIdentityID() != 0):
-	   		// $params["UserID"] = $this->auth->getEffectiveUserID();
-	    elseif ($this->is_admin == false):
-	    	$params["UserID"] = $this->auth->getUserID();
-	    endif;
-	    
-	    $ad_campaign_list = array();
-	    $_ad_campaign_preview_list = $AdCampaignPreviewFactory->get($params,null, $search, $PageSize, $Offset);
-	    foreach ($_ad_campaign_preview_list as $ad_campaign_preview):
-		    if ($ad_campaign_preview != null):
-		    	$ad_campaign_list[] = $ad_campaign_preview;
-		    endif;
-	    endforeach;
-
-
-		// End List web
-		$headers = array("#","Ad-Campaign","Ad-Campaign-Banner","Click Count","Imp Count","Out come","Date",);
 		$view = new ViewModel(array(
 			'is_admin' => $this->is_admin,
 			'user_id_list' => $this->user_id_list_publisher,
 			'true_user_name' => $this->true_user_name,
-
+			'PublisherWebsiteList' => $PublisherWebsiteList,
 			'user_identity' => $this->identity(),
 			'table_list' => $headers
 
@@ -3999,54 +3975,6 @@ class DemandController extends DemandAbstractActionController {
 					$row["ImpCount"] = $row_data["ImpCount"];
 					$row["Outcomes"] = $row_data["Outcomes"];
 					$row["created_at"] = $row_data["Date"];
-
-		$PublisherWebsiteFactory = \_factory\PublisherWebsite::get_instance();
-
-		$PublisherWebsiteIDs = array();
-		if ($this->getRequest()->getQuery("PublisherWebsiteID") != -1):
-			$PublisherWebsiteIDs[] = $this->getRequest()->getQuery("PublisherWebsiteID");
-		else:
-			if (!$this->is_admin):
-				$para['DomainOwnerID'] = $this->PublisherInfoID;
-			endif;
-			$PublisherWebsiteList = $PublisherWebsiteFactory->get($para, null, $search, $PageSize, $Offset);
-			$PublisherWebsiteIDs = array();
-			foreach ($PublisherWebsiteList as $key => $value) {
-				$PublisherWebsiteIDs[] = $value->PublisherWebsiteID;
-			}
-		endif;
-
-		//Pull list of websites.		
-		$AdzoneDailyTrackerFactory = \_factory\AdzoneDailyTracker::get_instance();
-		$AdzoneDailyTrackerList = $AdzoneDailyTrackerFactory->single_report_get($parameters, $order, $search, $PageSize, $Offset, $flag, $PublisherWebsiteIDs);
-
-		$result = array();
-		$TotalAdzoneDailyTrackerListCount = count($AdzoneDailyTrackerList);
-		$ClickTotal = 0;
-		$Outcomes = 0;
-		$Incomes = 0;
-
-		if (count($AdzoneDailyTrackerList)> 0):
-				foreach ($AdzoneDailyTrackerList AS $row_number => $row_data): 
-
-					$ClickTotal += (int)$row_data["ClickCount"];
-					$ImpTotal 	+= (int)$row_data["ImpCount"];
-					$Outcomes 	+= (float)$row_data["Outcomes"];
-
-					$row = array();	
-					$row["index"] = $Offset + $row_number+1;
-					$row["AdName"] = $row_data["AdName"];
-
-					$para['PublisherWebsiteID'] = $row_data["PublisherWebsiteID"];
-					$PublisherWebsiteList = $PublisherWebsiteFactory->get($para, null, $search, $PageSize, $Offset);
-					$row["AdDomain"] = $PublisherWebsiteList[0]->WebDomain;
-
-					//$row["AdDomain"] = 'Join 3 table loi dang sua';
-					$row["ClickCount"] = $row_data["ClickCount"];
-					$row["ImpCount"] = $row_data["ImpCount"];
-					$row["Outcomes"] = $row_data["Outcomes"];
-					$row["created_at"] = $row_data["DateCreated"];
-
 					$row["is_admin"] = $this->is_admin;
 					$result[] = $row;
 
@@ -4055,7 +3983,6 @@ class DemandController extends DemandAbstractActionController {
 
 		header('Content-type: application/json');
 		echo json_encode(array("ClickTotal" => $ClickTotal, "ImpTotal" => $ImpTotal, "Outcomes" => $Outcomes, "recordsTotal" => $TotalAdBannerDailyTrackerListCount, "recordsFiltered" => $TotalAdBannerDailyTrackerListCount , 'data' => $result));
-
 
 		die;
 		
