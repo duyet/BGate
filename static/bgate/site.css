@@ -933,6 +933,14 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     background-color: #E9573F;
 }
 
+.bg-custom-girl {
+    background-color: #A6746B;
+}
+
+.bg-custom-more {
+    background-color: #BDB6A9;
+}
+
 .box .box-inner {
     padding: 5px;
 }
