@@ -654,6 +654,80 @@ var ReportPublisherTable = {
 
 
 
+var ReportDemandTable = {
+  init: function(table){
+   
+    if (table.length > 0) {
+      this.table = table;
+      this.source_path = table.data("url");
+      this.init_datatable();
+      this.fix_layout();
+    }
+  },
+  reload_table: function(){
+    this.table.DataTable().ajax.reload();
+  },
+  fix_layout: function(){
+    var dt_filter_area = $(".custom-filter");
+    $(".table-filter").appendTo(dt_filter_area);
+  },
+  init_datatable: function(){
+    var self = this;
+    this.table.dataTable({
+        "processing": true,
+        "bLengthChange": false,
+        "serverSide": true,
+        "iDisplayLength": 10,
+        "scrollX": true,
+        "dom": '<"row" <"col-sm-8 custom-filter"> <"col-sm-4" f> >r<"datatable-wrapper" t> <"row mrg20B" <"col-sm-6" il> <"col-sm-6"p> >',
+        "order": [[1,"asc"]],
+        "autoWidth": false,
+        "ajax": {
+          url: self.source_path,
+          data: function(d){
+            d.timefilter = $("#time-filter option:selected").val();
+          }
+        },
+        "aoColumnDefs": 
+        [
+         { 
+          bSortable: false, 'aTargets': [ 0] 
+         },    
+        ],
+        "columns": [
+            { "data": "index", className: "text-center" },
+            { "data": "CampaignName" },
+            { "data": "BannerName" },
+            { "data": "ClickCount" },
+            { "data": "ImpCount" },
+            { "data": "Outcomes" },
+            { "data": "created_at" }
+        ],
+        initComplete: function () {
+ 
+        },
+        fnDrawCallback: function(data){
+            { "data": "AdDomain" },
+            { "data": "AdName" },
+            { "data": "ClickCount" },
+            { "data": "ImpCount" },
+            { "data": "Incomes" },
+            { "data": "created_at" }
+        ],
+        initComplete: function () {
+          
+        },
+        fnDrawCallback: function(data){
+          $("#Outcomes").text(data.json.Outcomes);
+          $("#ClickTotal").text(data.json.ClickTotal);
+          $("#ImpTotal").text(data.json.ImpTotal);
+          return data;
+        }
+    });
+  }
+}
+
+
 $(function(){
   DomainTable.init($("#domain-table"));
   AdzoneTable.init($("#ssp-ad-zone-table"));
@@ -664,4 +738,5 @@ $(function(){
   IncomeTable.init($("#income-table"));
   OutcomeTable.init($("#outcome-table"));
   ReportPublisherTable.init($("#report-publisher-table"));
+  ReportDemandTable.init($("#report-demand-table"));
 });

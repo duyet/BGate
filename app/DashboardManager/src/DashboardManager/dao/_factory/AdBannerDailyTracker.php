@@ -130,7 +130,7 @@ class AdBannerDailyTracker extends \_factory\CachedTableRead
         return $obj_list;
     }
 
-    public function single_report_get($params = null, $orders = null, $search = null, $limit = null, $offset = 0, $flag = 0 ) {
+    public function single_report_get($params = null, $orders = null, $search = null, $limit = null, $offset = 0, $flag ) {
         $obj_list = array();
 
         $resultSet = $this->select(function (\Zend\Db\Sql\Select $select) use ($params, $orders, $search, $limit, $offset, $flag) {
@@ -153,13 +153,20 @@ class AdBannerDailyTracker extends \_factory\CachedTableRead
                         ),
                     $select::JOIN_INNER);
 
+                $select->join("AdCampaignPreview",
+                    "AdCampaignPreview.AdCampaignPreviewID = AdCampaignBannerPreview.AdCampaignPreviewID",
+                    array(
+                        "CampaignName" => "Name",
+                        ),
+                    $select::JOIN_INNER);
+
                 $select->group(array('Date', 'BannerName'));
 
                 //Condition filter
                 $condition = $this->getConditionByFlag($flag);
-
-                $select->where($condition);
-
+                if($condition != null):
+                    $select->where($condition);
+                endif;
                 foreach ($params as $name => $value):
                 $select->where(
                         $select->where->equalTo($name, $value)

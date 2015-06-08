@@ -65,14 +65,14 @@ $effective_user_in_dashboard = false;
       <div class="col-sm-8">
         Time filter:
         <select id="time-filter" onchange="ReportPublisherTable.reload_table()">
-              <option selected value="all">All time</option>
-              <option value="today">Today</option>
-              <option value="yesterday">Yesterday</option>
-              <option value="this_week">This week</option>
-              <option value="last_week">Last week</option>
-              <option value="this_month">This month</option>
-              <option value="last_month">Last month</option>
-              <option value="this_year">This year</option>
+              <option selected value="-1">All time</option>
+              <option value="0">Today</option>
+              <option value="1">Yesterday</option>
+              <option value="2">This week</option>
+              <option value="3">Last week</option>
+              <option value="4">This month</option>
+              <option value="5">Last month</option>
+              <option value="6">This year</option>
         </select>  
       </div>
 
@@ -98,7 +98,6 @@ $effective_user_in_dashboard = false;
       <br clear="all"/>
 
     <div class="table-filter row">
-      
     </div>
 
     <div id="selection-results" class="steps-box">

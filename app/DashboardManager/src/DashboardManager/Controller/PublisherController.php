@@ -163,19 +163,13 @@ class PublisherController extends PublisherAbstractActionController {
 
 		$PublisherWebsiteFactory = \_factory\PublisherWebsite::get_instance();
 
-		$PublisherWebsiteIDs = array();
 		if (!$this->is_admin):
-			$para['DomainOwnerID'] = $this->PublisherInfoID;
+			$parameters['PublisherWebsite.DomainOwnerID'] = $this->PublisherInfoID;
 		endif;
-		$PublisherWebsiteList = $PublisherWebsiteFactory->get($para, null, $search, $PageSize, $Offset);
-		$PublisherWebsiteIDs = array();
-		foreach ($PublisherWebsiteList as $key => $value) {
-			$PublisherWebsiteIDs[] = $value->PublisherWebsiteID;
-		}
 
 		//Pull list of websites.		
 		$AdzoneDailyTrackerFactory = \_factory\AdzoneDailyTracker::get_instance();
-		$AdzoneDailyTrackerList = $AdzoneDailyTrackerFactory->single_report_get($parameters, $order, $search, $PageSize, $Offset, $flag, $PublisherWebsiteIDs);
+		$AdzoneDailyTrackerList = $AdzoneDailyTrackerFactory->single_report_get($parameters, $order, $search, $PageSize, $Offset, $flag);
 
 		$result = array();
 		$TotalAdzoneDailyTrackerListCount = count($AdzoneDailyTrackerList);
@@ -193,12 +187,7 @@ class PublisherController extends PublisherAbstractActionController {
 					$row = array();	
 					$row["index"] = $Offset + $row_number+1;
 					$row["AdName"] = $row_data["AdName"];
-
-					$para['PublisherWebsiteID'] = $row_data["PublisherWebsiteID"];
-					$PublisherWebsiteList = $PublisherWebsiteFactory->get($para, null, $search, $PageSize, $Offset);
-					$row["AdDomain"] = $PublisherWebsiteList[0]->WebDomain;
-
-					//$row["AdDomain"] = 'Join 3 table loi dang sua';
+					$row["AdDomain"] = $row_data["WebDomain"];
 					$row["ClickCount"] = $row_data["ClickCount"];
 					$row["ImpCount"] = $row_data["ImpCount"];
 					$row["Incomes"] = $row_data["Incomes"];

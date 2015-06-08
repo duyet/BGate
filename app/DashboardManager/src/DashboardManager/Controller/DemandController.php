@@ -3909,12 +3909,36 @@ class DemandController extends DemandAbstractActionController {
 		endif;
 		$PublisherWebsiteList = $PublisherWebsiteFactory->get($parameters, null, $search, $PageSize, $Offset);
 		// End List web
-		$headers = array("#","Ad-Domain","Ad-Zones","Click Count","Imp Count","Income","Date",);
+		$headers = array("#","Ad-Campaign","Ad-Banner","Click Count","Imp Count","Outcome","Date",);
+
+
+		$AdCampaignPreviewFactory = \_factory\AdCampaignPreview::get_instance();
+	    // get previews
+	    $params["Active"] = 1;
+	    // print_r($params);
+	    // die();
+	    if ($this->is_admin == true && $this->auth->getEffectiveIdentityID() != 0):
+	   		// $params["UserID"] = $this->auth->getEffectiveUserID();
+	    elseif ($this->is_admin == false):
+	    	$params["UserID"] = $this->auth->getUserID();
+	    endif;
+	    
+	    $ad_campaign_list = array();
+	    $_ad_campaign_preview_list = $AdCampaignPreviewFactory->get($params,null, $search, $PageSize, $Offset);
+	    foreach ($_ad_campaign_preview_list as $ad_campaign_preview):
+		    if ($ad_campaign_preview != null):
+		    	$ad_campaign_list[] = $ad_campaign_preview;
+		    endif;
+	    endforeach;
+
+
+		// End List web
+		$headers = array("#","Ad-Campaign","Ad-Campaign-Banner","Click Count","Imp Count","Out come","Date",);
 		$view = new ViewModel(array(
 			'is_admin' => $this->is_admin,
 			'user_id_list' => $this->user_id_list_publisher,
 			'true_user_name' => $this->true_user_name,
-			'PublisherWebsiteList' => $PublisherWebsiteList,
+
 			'user_identity' => $this->identity(),
 			'table_list' => $headers
 
@@ -3938,17 +3962,59 @@ class DemandController extends DemandAbstractActionController {
 		
 		$flag = $this->getRequest()->getQuery("timefilter");
 
+		//Pull list of campaigns.
+		$flag = $this->getRequest()->getQuery("timefilter");
+
+		$PublisherWebsiteFactory = \_factory\PublisherWebsite::get_instance();
+
+		if (!$this->is_admin):
+			$parameters['AdCampaignPreview.UserID'] = $this->auth->getUserID();
+		endif;
+
+		//Pull list of websites.		
+		$AdBannerDailyTrackerFactory = \_factory\AdBannerDailyTracker::get_instance();
+		$AdBannerDailyTrackerList = $AdBannerDailyTrackerFactory->single_report_get($parameters, $order, $search, $PageSize, $Offset, $flag);
+
+		$result = array();
+		$TotalAdBannerDailyTrackerListCount = count($AdBannerDailyTrackerList);
+		$ClickTotal = 0;
+		$ImpTotal = 0;
+		$Outcomes = 0;
+
+		if ($TotalAdBannerDailyTrackerListCount > 0):
+				foreach ($AdBannerDailyTrackerList AS $row_number => $row_data): 
+
+					$ClickTotal += (int)$row_data["ClickCount"];
+					$ImpTotal 	+= (int)$row_data["ImpCount"];
+					$Outcomes 	+= (float)$row_data["Outcomes"];
+
+					$row = array();	
+					$row["index"] = $Offset + $row_number+1;
+					$row["BannerName"] = $row_data["BannerName"];
+
+					//$para['PublisherWebsiteID'] = $row_data["PublisherWebsiteID"];
+					//$PublisherWebsiteList = $PublisherWebsiteFactory->get($para, null, $search, $PageSize, $Offset);
+					$row["CampaignName"] = $row_data["CampaignName"];
+					$row["ClickCount"] = $row_data["ClickCount"];
+					$row["ImpCount"] = $row_data["ImpCount"];
+					$row["Outcomes"] = $row_data["Outcomes"];
+					$row["created_at"] = $row_data["Date"];
+
 		$PublisherWebsiteFactory = \_factory\PublisherWebsite::get_instance();
 
 		$PublisherWebsiteIDs = array();
-		if (!$this->is_admin):
-			$para['DomainOwnerID'] = $this->PublisherInfoID;
+		if ($this->getRequest()->getQuery("PublisherWebsiteID") != -1):
+			$PublisherWebsiteIDs[] = $this->getRequest()->getQuery("PublisherWebsiteID");
+		else:
+			if (!$this->is_admin):
+				$para['DomainOwnerID'] = $this->PublisherInfoID;
+			endif;
+			$PublisherWebsiteList = $PublisherWebsiteFactory->get($para, null, $search, $PageSize, $Offset);
+			$PublisherWebsiteIDs = array();
+			foreach ($PublisherWebsiteList as $key => $value) {
+				$PublisherWebsiteIDs[] = $value->PublisherWebsiteID;
+			}
 		endif;
-		$PublisherWebsiteList = $PublisherWebsiteFactory->get($para, null, $search, $PageSize, $Offset);
-		$PublisherWebsiteIDs = array();
-		foreach ($PublisherWebsiteList as $key => $value) {
-			$PublisherWebsiteIDs[] = $value->PublisherWebsiteID;
-		}
 
 		//Pull list of websites.		
 		$AdzoneDailyTrackerFactory = \_factory\AdzoneDailyTracker::get_instance();
@@ -3957,7 +4023,7 @@ class DemandController extends DemandAbstractActionController {
 		$result = array();
 		$TotalAdzoneDailyTrackerListCount = count($AdzoneDailyTrackerList);
 		$ClickTotal = 0;
-		$ImpTotal = 0;
+		$Outcomes = 0;
 		$Incomes = 0;
 
 		if (count($AdzoneDailyTrackerList)> 0):
@@ -3965,7 +4031,7 @@ class DemandController extends DemandAbstractActionController {
 
 					$ClickTotal += (int)$row_data["ClickCount"];
 					$ImpTotal 	+= (int)$row_data["ImpCount"];
-					$Incomes 	+= (float)$row_data["Incomes"];
+					$Outcomes 	+= (float)$row_data["Outcomes"];
 
 					$row = array();	
 					$row["index"] = $Offset + $row_number+1;
@@ -3978,8 +4044,9 @@ class DemandController extends DemandAbstractActionController {
 					//$row["AdDomain"] = 'Join 3 table loi dang sua';
 					$row["ClickCount"] = $row_data["ClickCount"];
 					$row["ImpCount"] = $row_data["ImpCount"];
-					$row["Incomes"] = $row_data["Incomes"];
+					$row["Outcomes"] = $row_data["Outcomes"];
 					$row["created_at"] = $row_data["DateCreated"];
+
 					$row["is_admin"] = $this->is_admin;
 					$result[] = $row;
 
@@ -3987,7 +4054,8 @@ class DemandController extends DemandAbstractActionController {
 		endif;
 
 		header('Content-type: application/json');
-		echo json_encode(array("ClickTotal" => $ClickTotal, "ImpTotal" => $ImpTotal, "Incomes" => $Incomes, "recordsTotal" => $TotalAdzoneDailyTrackerListCount, "recordsFiltered" => $TotalAdzoneDailyTrackerListCount , 'data' => $result));
+		echo json_encode(array("ClickTotal" => $ClickTotal, "ImpTotal" => $ImpTotal, "Outcomes" => $Outcomes, "recordsTotal" => $TotalAdBannerDailyTrackerListCount, "recordsFiltered" => $TotalAdBannerDailyTrackerListCount , 'data' => $result));
+
 
 		die;
 		

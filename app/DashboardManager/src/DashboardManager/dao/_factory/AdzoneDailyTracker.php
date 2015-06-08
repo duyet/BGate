@@ -159,11 +159,11 @@ class AdzoneDailyTracker extends \_factory\CachedTableRead
         return $obj_list;
     }
 
-    public function single_report_get($params = null, $orders = null, $search = null, $limit = null, $offset = 0, $flag = 'all', $PublisherWebsiteIDs = array()) {
+    public function single_report_get($params = null, $orders = null, $search = null, $limit = null, $offset = 0, $flag = 0) {
 
         $obj_list = array();
 
-        $resultSet = $this->select(function (\Zend\Db\Sql\Select $select) use ($params, $orders, $search, $limit, $offset, $flag, $PublisherWebsiteIDs) {
+        $resultSet = $this->select(function (\Zend\Db\Sql\Select $select) use ($params, $orders, $search, $limit, $offset, $flag) {
 
                 $select->columns(
                     array(
@@ -180,44 +180,23 @@ class AdzoneDailyTracker extends \_factory\CachedTableRead
                     "PublisherAdZone.PublisherAdZoneID = AdzoneDailyTracker.PublisherAdZoneID",
                     array(
                         "AdName" => "AdName",
-                        "PublisherWebsiteID" => "PublisherWebsiteID",
+                        ),
+                    $select::JOIN_INNER);
+
+                $select->join("PublisherWebsite",
+                    "PublisherWebsite.PublisherWebsiteID = PublisherAdZone.PublisherWebsiteID",
+                    array(
+                        "WebDomain" => "WebDomain",
+                        
                         ),
                     $select::JOIN_INNER);
 
                 $select->group('AdzoneDailyTracker.PublisherAdZoneID');
 
-                switch ($flag) {
-                    case 'all':
-                        break;
-                    case 'today':
-                        $select->where('DATEDIFF(AdzoneDailyTracker.DateCreated,NOW()) = 0');
-                        break;
-                    case 'yesterday':
-                        $select->where('DATEDIFF(AdzoneDailyTracker.DateCreated,NOW()) = -1');
-                        break;
-                    case 'this_week':
-                        $select->where('YEARWEEK(AdzoneDailyTracker.DateCreated,NOW()) = YEARWEEK(CURRENT_DATE)');
-                        break;
-                    case 'last_week':
-                        $select->where('YEARWEEK(AdzoneDailyTracker.DateCreated) - YEARWEEK(NOW()) = -1');
-                        break;
-                    case 'this_month':
-                        $select->where('MONTH(AdzoneDailyTracker.DateCreated) = MONTH(NOW()) AND YEAR(AdzoneDailyTracker.DateCreated) = YEAR(NOW())');
-                        break;
-                    case 'last_month':
-                        $select->where('MONTH(AdzoneDailyTracker.DateCreated) = MONTH(NOW()) - 1 AND YEAR(AdzoneDailyTracker.DateCreated) = YEAR(NOW())');
-                        break;
-                    case 'this_year':
-                        $select->where('YEAR(AdzoneDailyTracker.DateCreated) = YEAR(Now())');
-                        break;
-                    
-                    default:
-                        # code...
-                        break;
-                }
-                
-                $PublisherWebsiteIDsString = implode(', ', $PublisherWebsiteIDs);
-                $select->where('PublisherAdZone.PublisherWebsiteID in ('.$PublisherWebsiteIDsString.')');
+                $condition = $this->getConditionByFlag($flag);
+                if($condition != null):
+                    $select->where($condition);
+                endif;   
 
                 foreach ($params as $name => $value):
                 $select->where(
