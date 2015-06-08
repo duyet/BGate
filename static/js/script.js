@@ -1163,6 +1163,72 @@ function userRejectionConfirm() {
 
 }
 
+// User ban modal popup by admin
+function userBanModal( domain_id, domain_name ) {
+	
+	var user_type =  $('#user_type').val();
+	var user = '';
+	if(user_type == 'publisher') {
+		user = 'Publisher';
+	}
+	if(user_type == 'customer') {
+		user = 'Customer';
+	}
+	$('#ban_user_id').val(domain_id);
+	$("#user_ban_alert_msg").css("display","none");
+	var msg = '<b>'+user+':</b> ' + domain_name;
+	$("#UserBanModal #msg").html(msg);
+	$('#UserBanModal').modal('show');
+
+}
+
+// User rejection confirm by admin
+function userBanConfirm() {
+	
+	var user_id = $('#ban_user_id').val();
+    var description = emptystr($('#UserBanModal #description').val());
+    var user_type =  $('#user_type').val();
+
+    if(description == null) {
+		$('#UserBanModal #description').parent().parent().addClass("error");
+		$('#UserBanModal #description').focus();
+		return false;
+	}
+	else {
+		$('#UserBanModal #description').parent().parent().removeClass("error");
+	}
+	description = description.toString();
+
+	$("#user_ban_alert_msg").css("display","none");
+	$("#user_ban_yes_btn").button('loading');
+	$("#user_ban_no_btn").attr("disabled",true);
+
+	$.post(basePath+"/users/banuser", { q: 1, user_id: user_id, description: description, user_type:user_type }, function( data ) {
+		
+		$("#user_rejection_no_btn").attr("disabled",false);
+		console.log(data);
+		if(data.success == false) {
+			$("#user_ban_yes_btn").button('reset');
+			$("#user_ban_alert_msg").html(data.data.msg);
+			$("#user_ban_alert_msg").css("display","block");
+			return false;
+		}
+		if(data.success == true) {
+			$("#user_ban_yes_btn").button('reset');
+			$("#user_ban_alert_msg").html(data.data.msg);
+			$("#user_ban_alert_msg").css("display","block");
+			window.location.reload();
+		}
+	},'json');
+	// .done(function(data) {
+	//     console.log(data);
+	// })
+	// .fail(function(data) {
+	//     console.log(data);
+	// });
+
+}
+
 // User accept modal popup by admin
 function userAcceptModal( domain_id, domain_name ) {
 	

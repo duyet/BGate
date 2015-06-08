@@ -82,11 +82,12 @@ $(function() {
     </div>
   </div>
 </div>
-<div id="cdn_form_msg" class="alert alert-error" style="margin: 5px; display: none;"></div>
+
 <div id="container" class="container">
 <div class="row mrg20T">
 <div class="col-md-8 col-md-offset-2 col-sm-12 panel">
 <div class="panel-body">
+<div id="cdn_form_msg" class="alert alert-danger" style="display: none;"></div>
 <form id="bannerform" class="form-horizontal form-top-magin" name="bannerform" method="POST" action="<?php echo $this->basePath() ?>/demand/newbanner" enctype="multipart/form-data">
 <fieldset>
 <div class="panel-group" id="banner-form-accordion" role="tablist" aria-multiselectable="true">
@@ -124,7 +125,11 @@ $(function() {
 		<label class="col-sm-3 control-label"  for="adUrl">Upload Ad</label>
 		<div class="col-sm-9">
 			<input type="file" id="upload-ad" size-file="1" class="txtbox-width form-control" name="adUrl" value="<?php echo $banner->AdUrl;?>">
-			<div id="uploadPreview"></div>
+			<div id="uploadPreview">
+				<?php if(isset($banner->AdUrl) AND !empty($banner->AdUrl)): ?>
+					<img src="<?php echo $this->basePath() .'/'. $banner->AdUrl;?>" style="height:64px;" alt="<?php echo $banner->Name;?>">
+				<?php endif?>
+			</div>
 		</div>
 	</div>
 

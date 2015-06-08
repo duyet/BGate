@@ -728,6 +728,29 @@ class SignupController extends PublisherAbstractActionController {
 	    	endif;
 		endif;
 	}
+
+	public function banuserAction() {
+		
+		$initialized = $this->initialize();
+		if ($initialized !== true) return $initialized;
+		
+		if (!$this->is_admin) :
+			return $this->redirect()->toRoute($this->dashboard_home);
+		endif;
+		
+		$request = $this->getRequest();
+		if ($request->isPost()):
+			$user_id = $request->getPost('user_id');
+	    	$description = $request->getPost('description');
+	    	$user_type = $request->getPost('user_type');
+	    	if($user_type == 'publisher'):
+	    		return $this->banpublisherAction($user_id, $description, $user_type);
+	    	endif;
+	    	if($user_type == 'customer'):
+	    		return $this->bancustomerAction($user_id, $description, $user_type);
+	    	endif;
+		endif;
+	}
 	
 	public function acceptuserAction() {
 		
@@ -791,6 +814,56 @@ class SignupController extends PublisherAbstractActionController {
 			  
 	          $success = true;
 	          $msg = 'Publisher rejected. Email sent successfully.';
+	       endif;
+        
+        //endif;
+		
+		$data = array(
+	        'success' => $success,
+	        'data' => array('msg' => $msg)
+   		 );
+
+        return $this->getResponse()->setContent(json_encode($data));
+	}
+	public function banpublisherAction($publisher_id, $description, $user_type) {
+
+		$initialized = $this->initialize();
+		if ($initialized !== true) return $initialized;
+		
+		if (!$this->is_admin) :
+			return $this->redirect()->toRoute($this->dashboard_home);
+		endif;
+		
+		$msg = null;
+		$success = false;
+		$PublisherInfoFactory = \_factory\PublisherInfo::get_instance();
+		
+			$publisher_obj = $PublisherInfoFactory->get_row_object(array('PublisherInfoID'=>$publisher_id));
+	        $bol = $this->userApprovalToggle(2, $publisher_id, $user_type);
+	        if($bol == true):
+	          
+	          $message = '<b>Publisher banned.<b><br />';
+	          $message = $message.$description;
+
+			  $subject = "Publisher banned.";
+			  
+			  $transport = $this->getServiceLocator()->get('mail.transport');
+			  
+			  $text = new Mime\Part($message);
+			  $text->type = Mime\Mime::TYPE_HTML;
+			  $text->charset = 'utf-8';
+			  
+			  $mimeMessage = new Mime\Message();
+			  $mimeMessage->setParts(array($text));
+			  $zf_message = new Message();
+			  $zf_message->addTo($publisher_obj->Email)
+				  ->addFrom($this->config_handle['mail']['reply-to']['email'], $this->config_handle['mail']['reply-to']['name'])
+				  ->setSubject($subject)
+				  ->setBody($mimeMessage);
+			  $transport->send($zf_message);
+			  
+	          $success = true;
+	          $msg = 'Publisher banned. Email sent successfully.';
 	       endif;
         
         //endif;
@@ -905,6 +978,56 @@ class SignupController extends PublisherAbstractActionController {
    		 );
 
         return $this->getResponse()->setContent(json_encode($data));
+	}	
+	public function bancustomerAction($customer_id, $description, $user_type) {
+
+		$initialized = $this->initialize();
+		if ($initialized !== true) return $initialized;
+		
+		if (!$this->is_admin) :
+			return $this->redirect()->toRoute($this->dashboard_home);
+		endif;
+		
+		$msg = null;
+		$success = false;
+		$DemandCustomerFactory = \_factory\DemandCustomerInfo::get_instance();
+		
+			$customer_obj = $DemandCustomerFactory->get_row_object(array('DemandCustomerInfoID'=>$customer_id));
+	        $bol = $this->userApprovalToggle(2, $customer_id, $user_type);
+	        if($bol == true):
+	          
+	          $message = '<b>Customer banned.<b><br />';
+	          $message = $message.$description;
+
+			  $subject = "Customer banned.";
+			  
+			  $transport = $this->getServiceLocator()->get('mail.transport');
+			  
+			  $text = new Mime\Part($message);
+			  $text->type = Mime\Mime::TYPE_HTML;
+			  $text->charset = 'utf-8';
+			  
+			  $mimeMessage = new Mime\Message();
+			  $mimeMessage->setParts(array($text));
+			  $zf_message = new Message();
+			  $zf_message->addTo($customer_obj->Email)
+				  ->addFrom($this->config_handle['mail']['reply-to']['email'], $this->config_handle['mail']['reply-to']['name'])
+				  ->setSubject($subject)
+				  ->setBody($mimeMessage);
+			  $transport->send($zf_message);
+			  
+	          $success = true;
+	          $msg = 'Customer banned. Email sent successfully.';
+	       endif;
+        
+        //endif;
+		
+		$data = array(
+	        'success' => $success,
+	        'data' => array('msg' => $msg)
+   		 );
+
+        return $this->getResponse()->setContent(json_encode($data));
 	}
 	
 	
@@ -967,8 +1090,7 @@ class SignupController extends PublisherAbstractActionController {
 	    	         
 		$initialized = $this->initialize();
 		if ($initialized !== true) return $initialized;
-	
-	    if ($this->is_admin && $user_id > 0 && ($flag === 1 || $flag === 0)):
+	    if ($this->is_admin && $user_id > 0 && ($flag === 1 || $flag === 0|| $flag === 2)):
 	    
 	    	$authUsers = new \model\authUsers();
 			$authUsersFactory = \_factory\authUsers::get_instance();
@@ -998,6 +1120,11 @@ class SignupController extends PublisherAbstractActionController {
     			$DemandCustomerFactory->deleteCustomerInfo($user_id);
     		  endif;		
     		    $authUsersFactory->delete_user($authUsers->user_id);
+    			return true;
+    		endif;
+    		if($flag === 2):
+    			$authUsers->user_ban = 1;
+    			$authUsersFactory->saveUser($authUsers);
     			return true;
     		endif;
     	endif;	

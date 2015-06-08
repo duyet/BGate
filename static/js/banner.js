@@ -318,33 +318,40 @@ function readImage(file) {
             var max_size = $('input[name="adUrl"]').attr('size-file');
             if(max_size < file.size/(1024*1024)){
             	$('input[name="adUrl"]').attr({invalid:'invalid'});
-            	$('input[name="adUrl"]').parent().append('<label class="adUrl-error cdn_form_error" for="altText">Invalid file size: '+ file.size/(1024*1024)+' MB</label>');
+            	add_label_error('Invalid file size: '+ file.size/(1024*1024)+' MB');
             }else{
             	
-        		$('#uploadPreview').append('<img src="'+ this.src +'" style="height:64px;"> ');
+        		$('#uploadPreview').html('<img src="'+ this.src +'" style="height:64px;"> ');
             }
         	var IAB_height = $('#height').val();
 			var IAB_width = $('#width').val();
 			if(!empty(IAB_height) && !empty(IAB_width)){
 				if(IAB_height != this.height || IAB_width != this.width){				
-					$('input[name="adUrl"]').parent().append('<label class="adUrl-error cdn_form_error" for="altText">Warning - This image has size ('+this.height +'X'+this.width +') not same IABSize.</label>');
+					add_label_error('Warning - This image has size ('+this.height +'X'+this.width +') not same IABSize.');
 				}
 			}
         }; 
         image.onerror= function() {
-        	$('.adUrl-error').remove();
+        	// $('.adUrl-error').remove();
         	$('input[name="adUrl"]').attr({invalid:'invalid'});
-        	$('input[name="adUrl"]').parent().append('<label class="adUrl-error cdn_form_error" for="altText">Invalid file type: '+ file.type+'</label>');
+        	add_label_error('Invalid file type: '+ file.type);
         };     
     };
 
 }
+function add_label_error (error) {
+	if($('label').is('.adUrl-error')){
+		$('.adUrl-error').html(error);
+	}else{
+		$('input[name="adUrl"]').parent().append('<label class="adUrl-error cdn_form_error" for="altText">'+error+'</label>');
+	}
+}
 function validator_ad_url () {
 	var upload_ad = $("#upload-ad")[0];
     if(upload_ad.disabled){
-    	$('.adUrl-error').remove();
+    	// $('.adUrl-error').remove();
     	$('input[name="adUrl"]').attr({invalid:'invalid'});
-    	$('input[name="adUrl"]').parent().append('<label class="adUrl-error" class="cdn_form_error" for="altText">File upload not supported!</label>');
+    	add_label_error('File upload not supported!');
     } 
     var F = upload_ad.files;
     if(F && F[0]) for(var i=0; i<F.length; i++) readImage( F[i] );
@@ -353,7 +360,7 @@ $().ready(function() {
 $("#upload-ad").change(function (e) {
 	$('input[name="adUrl"]').attr({invalid:''});
 	$('input[name="adUrl"]').attr({value:''});
-	$('.adUrl-error').remove();
+	// $('.adUrl-error').remove();
 	$('#uploadPreview img').remove();
 	validator_ad_url();
 });

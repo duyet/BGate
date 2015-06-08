@@ -144,19 +144,48 @@ $this->headScript()->appendFile($this->basePath() . '/static/js/AppTable.js');
       </div>
       <div class="modal-body">
       <div id="user_rejection_alert_msg" class="alert alert-success" style="display: none;">Error</div>
+    <div class="control-group">
+        <label for="desc" class="control-label" id="msg"></label>
+      </div>
+    <div class="control-group">
+        <label for="desc" class="control-label">Reason for Rejection:</label>
+        <div class="controls">
+        <textarea  id="description" name="description" style="width: 500px;height:130px;"></textarea>    </div>
+      </div>
+  <!--<h5 style="color: #b94a48;">This action is IMMEDIATE and NOT REVERSABLE!</h5>-->
+      </div>
+      <div class="modal-footer">
+      <button type="button" data-loading-text="Processing..." id="user_rejection_yes_btn" class="btn btn-primary" onclick="userRejectionConfirm();">Yes</button>
+        <button type="button" class="btn btn-default" id="user_rejection_no_btn" data-dismiss="modal">No</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Publisher Rejection Modal -->
+
+<!-- Publisher Ban Modal -->
+<input type="hidden" name="ban_user_id" id="ban_user_id" value="0" />
+<div class="modal fade" id="UserBanModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel">Publisher Ban</h4>
+      </div>
+      <div class="modal-body">
+      <div id="user_ban_alert_msg" class="alert alert-success" style="display: none;">Error</div>
 		<div class="control-group">
 		    <label for="desc" class="control-label" id="msg"></label>
 	    </div>
 		<div class="control-group">
-		    <label for="desc" class="control-label">Reason for Rejection:</label>
+		    <label for="desc" class="control-label">Reason for Ban:</label>
 		    <div class="controls">
 		    <textarea  id="description" name="description" style="width: 500px;height:130px;"></textarea>    </div>
 	    </div>
 	<!--<h5 style="color: #b94a48;">This action is IMMEDIATE and NOT REVERSABLE!</h5>-->
       </div>
       <div class="modal-footer">
-      <button type="button" data-loading-text="Processing..." id="user_rejection_yes_btn" class="btn btn-primary" onclick="userRejectionConfirm();">Yes</button>
-        <button type="button" class="btn btn-default" id="user_rejection_no_btn" data-dismiss="modal">No</button>
+      <button type="button" data-loading-text="Processing..." id="user_ban_yes_btn" class="btn btn-primary" onclick="userBanConfirm();">Yes</button>
+        <button type="button" class="btn btn-default" id="user_ban_no_btn" data-dismiss="modal">No</button>
       </div>
     </div>
   </div>

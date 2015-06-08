@@ -379,11 +379,13 @@ var PublishersTable = {
             { "data": "Name" ,
               render : function(data, type, row){
                 if(row.approval==true || row.approval== 'true'                             ){
-                  return '<span class="label label-success">Approved</span>';
+                  return '<span class="label label-success">Approved</span>'
+                  +'&nbsp;|&nbsp;'
+                 +'<a href="javascript:void(0);" onclick="userBanModal('+row.PublisherInfoID+','+"'"+row.Name+"'"+');">Ban</a>';
                 }else{
                   return '<a href="javascript:void(0);" onclick="userAcceptModal('+row.PublisherInfoID+','+"'"+row.Name+"'"+');">Approve</a>'
                  +'&nbsp;|&nbsp;'
-                 +'<a href="javascript:void(0);" onclick="userRejectionModal('+row.PublisherInfoID+','+"'"+row.Name+"'"+');">Reject</a>'
+                 +'<a href="javascript:void(0);" onclick="userRejectionModal('+row.PublisherInfoID+','+"'"+row.Name+"'"+');">Reject</a>';
                 }
               }
             },
@@ -460,7 +462,9 @@ var AdvertiserTable = {
             { "data": "Name" ,
               render : function(data, type, row){
                 if(row.approval==true || row.approval== 'true'                             ){
-                  return '<span class="label label-success">Approved</span>';
+                  return '<span class="label label-success">Approved</span>'
+                  +'&nbsp;|&nbsp;'
+                  +'<a href="javascript:void(0);" onclick="userBanModal('+row.DemandCustomerInfoID+','+"'"+row.Name+"'"+');">Ban</a>';
                 }else{
                   return '<a href="javascript:void(0);" onclick="userAcceptModal('+row.DemandCustomerInfoID+','+"'"+row.Name+"'"+');">Approve</a>'
                  +'&nbsp;|&nbsp;'

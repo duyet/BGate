@@ -29,6 +29,7 @@ class authUsers {
     public $user_agreement_acceptance_date;
     public $user_permission_cache;
     public $user_role;
+    public $user_ban;
 }
 
 ?>
