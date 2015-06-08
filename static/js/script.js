@@ -1434,8 +1434,9 @@ $().ready(function() {
 			auto_complete_url($(this).attr('name'));
 		})
 	}
+	if (window.location.pathname.indexOf("manager/revenue") > -1){
+		loadIncomeAdzone();
+		loadOutcomeAdzone();
+	}
 
-	loadIncomeAdzone();
-	loadOutcomeAdzone();
-	
 });
