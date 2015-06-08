@@ -274,7 +274,7 @@ class SignupController extends PublisherAbstractActionController {
 			$authUsers->user_role		 			= 3; //role as member
 			$authUsers->user_enabled     			= 1; 
 			$authUsers->user_verified    			= 1;
-			$authUsers->user_agreement_accepted	   	= 1;
+			$authUsers->user_agreement_accepted	   	= $request->getPost('aggreement');
 			$authUsers->create_date	   	 			= date("Y-m-d H:i:s");
 			
 			$authUsersFactory->saveUser($authUsers);
@@ -1104,9 +1104,9 @@ class SignupController extends PublisherAbstractActionController {
 				$authUsers = $authUsersFactory->get_row_object(array("DemandCustomerInfoID" => $user_id));
 	        endif;
 
-	   		$authUsers->user_enabled 						= $flag;
-    		$authUsers->user_verified 						= $flag;
-    		$authUsers->user_agreement_accepted				= 0;
+	   		$authUsers->user_enabled 						= $flag != 2 ? $flag : 0;
+    		$authUsers->user_verified 						= $flag != 2 ? $flag : 0; 
+    		$authUsers->user_agreement_accepted				= 1;
 
     		if($flag === 1):
     			$authUsersFactory->saveUser($authUsers);
@@ -1123,7 +1123,6 @@ class SignupController extends PublisherAbstractActionController {
     			return true;
     		endif;
     		if($flag === 2):
-    			$authUsers->user_ban = 1;
     			$authUsersFactory->saveUser($authUsers);
     			return true;
     		endif;

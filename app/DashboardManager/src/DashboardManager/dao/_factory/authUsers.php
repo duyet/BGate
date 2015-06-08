@@ -114,9 +114,6 @@ class authUsers extends \_factory\CachedTableRead
 		if(isset($authUsers->user_agreement_acceptance_date)) {
 			$data['user_agreement_acceptance_date']  = $authUsers->user_agreement_acceptance_date;
 		}
-		if(isset($authUsers->user_ban)) {
-            $data['user_ban']  = $authUsers->user_ban;
-        }
 		$data['user_agreement_accepted']  	= $authUsers->user_agreement_accepted;
 	    $data['user_role']        			= $authUsers->user_role;
 	    $data['user_verified']    			= $authUsers->user_verified;

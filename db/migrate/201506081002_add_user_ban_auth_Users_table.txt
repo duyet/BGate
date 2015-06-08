@@ -1,1 +1,0 @@
-ALTER TABLE `auth_Users` ADD `user_ban` BOOLEAN NOT NULL DEFAULT FALSE AFTER `user_role`;
