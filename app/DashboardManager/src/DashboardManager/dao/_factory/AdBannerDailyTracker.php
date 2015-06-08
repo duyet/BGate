@@ -106,7 +106,7 @@ class AdBannerDailyTracker extends \_factory\CachedTableRead
                 if ($search != null):
                   $select->where
                           ->nest
-                            ->like("Name", "%". $search ."%" )
+                            ->like("AdCampaignPreview.Name", "%". $search ."%" )
                             ->or
                             ->equalTo("AdBannerDailyTrackerID", (int) $search) 
                           ->unnest;
