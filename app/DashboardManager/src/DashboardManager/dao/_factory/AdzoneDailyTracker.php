@@ -189,16 +189,16 @@ class AdzoneDailyTracker extends \_factory\CachedTableRead
                         $select->where('DATEDIFF(AdzoneDailyTracker.DateCreated,NOW()) = -1');
                         break;
                     case 'this_week':
-                        $select->where('YEARWEEK(AdzoneDailyTracker.DateCreated,NOW()) = YEARWEEK(CURRENT_DATE) ');
+                        $select->where('YEARWEEK(AdzoneDailyTracker.DateCreated,NOW()) = YEARWEEK(CURRENT_DATE)');
                         break;
                     case 'last_week':
-                        $select->where('YEARWEEK(AdzoneDailyTracker.DateCreated) = YEARWEEK(CURRENT_DATE - INTERVAL 7 DAY) ');
+                        $select->where('YEARWEEK(AdzoneDailyTracker.DateCreated) - YEARWEEK(NOW()) = -1');
                         break;
                     case 'this_month':
-                        $select->where('MONTH(AdzoneDailyTracker.DateCreated) = MONTH(NOW())');
+                        $select->where('MONTH(AdzoneDailyTracker.DateCreated) = MONTH(NOW()) AND YEAR(AdzoneDailyTracker.DateCreated) = YEAR(NOW())');
                         break;
                     case 'last_month':
-                        $select->where('MONTH(AdzoneDailyTracker.DateCreated) = MONTH(NOW()) - 1');
+                        $select->where('MONTH(AdzoneDailyTracker.DateCreated) = MONTH(NOW()) - 1 AND YEAR(AdzoneDailyTracker.DateCreated) = YEAR(NOW())');
                         break;
                     case 'this_year':
                         $select->where('YEAR(AdzoneDailyTracker.DateCreated) = YEAR(Now())');

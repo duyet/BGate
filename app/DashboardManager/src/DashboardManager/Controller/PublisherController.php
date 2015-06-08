@@ -164,18 +164,14 @@ class PublisherController extends PublisherAbstractActionController {
 		$PublisherWebsiteFactory = \_factory\PublisherWebsite::get_instance();
 
 		$PublisherWebsiteIDs = array();
-		if ($this->getRequest()->getQuery("PublisherWebsiteID") != -1):
-			$PublisherWebsiteIDs[] = $this->getRequest()->getQuery("PublisherWebsiteID");
-		else:
-			if (!$this->is_admin):
-				$para['DomainOwnerID'] = $this->PublisherInfoID;
-			endif;
-			$PublisherWebsiteList = $PublisherWebsiteFactory->get($para, null, $search, $PageSize, $Offset);
-			$PublisherWebsiteIDs = array();
-			foreach ($PublisherWebsiteList as $key => $value) {
-				$PublisherWebsiteIDs[] = $value->PublisherWebsiteID;
-			}
+		if (!$this->is_admin):
+			$para['DomainOwnerID'] = $this->PublisherInfoID;
 		endif;
+		$PublisherWebsiteList = $PublisherWebsiteFactory->get($para, null, $search, $PageSize, $Offset);
+		$PublisherWebsiteIDs = array();
+		foreach ($PublisherWebsiteList as $key => $value) {
+			$PublisherWebsiteIDs[] = $value->PublisherWebsiteID;
+		}
 
 		//Pull list of websites.		
 		$AdzoneDailyTrackerFactory = \_factory\AdzoneDailyTracker::get_instance();

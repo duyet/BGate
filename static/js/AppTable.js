@@ -621,7 +621,6 @@ var ReportPublisherTable = {
           url: self.source_path,
           data: function(d){
             d.timefilter = $("#time-filter option:selected").val();
-            d.PublisherWebsiteID = $("#domain-publisher option:selected").val();
           }
         },
         "aoColumnDefs": 
