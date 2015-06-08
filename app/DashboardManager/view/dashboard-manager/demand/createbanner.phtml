@@ -125,7 +125,7 @@ $(function() {
 		<label class="col-sm-3 control-label"  for="adUrl">Upload Ad</label>
 		<div class="col-sm-9">
 			<input type="file" id="upload-ad" size-file="1" class="txtbox-width form-control" name="adUrl" value="<?php echo $banner->AdUrl;?>">
-			<div id="uploadPreview">
+			<div class="pad10T" id="uploadPreview">
 				<?php if(isset($banner->AdUrl) AND !empty($banner->AdUrl)): ?>
 					<img src="<?php echo $this->basePath() .'/'. $banner->AdUrl;?>" style="height:64px;" alt="<?php echo $banner->Name;?>">
 				<?php endif?>
@@ -514,12 +514,12 @@ $(function() {
 	    	<div class="row">
 	    		<label class="col-sm-2 control-label"  for="freCapTimeFromHr">from</label>
 			    <div class="col-sm-4">
-			    	<input type="number" name="freCapTimeFromHr" min="0" max="24" id="freCapTimeFromHr" class="form-control" value="<?php echo $banner->FreCapTimeFromHr ;?>">
+			    	<input type="number" name="freCapTimeFromHr" min="0" max="24" id="freCapTimeFromHr" class="form-control" value="<?php echo isset($banner->FreCapTimeFromHr) ? $banner->FreCapTimeFromHr : 0 ;?>">
 			   </div>
 			   <label class="col-sm-2 control-label"  for="freCapTimeToHr">to</label>
 			    <div class="col-sm-4">
 			    	
-			    	<input type="number"  max="24" name="freCapTimeToHr" id="freCapTimeToHr" class="form-control" value="<?php echo $banner->FreCapTimeToHr ;?>">
+			    	<input type="number"  max="24" name="freCapTimeToHr" id="freCapTimeToHr" class="form-control" value="<?php echo  isset($banner->FreCapTimeToHr) ? $banner->FreCapTimeToHr : 24 ;?>">
 			   </div>
 	   </div>
 	   </div>
