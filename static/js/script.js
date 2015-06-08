@@ -178,7 +178,7 @@ function deleteDomainConfirm() {
 	$("#domain_yes_btn").button('loading');
 	$("#domain_no_btn").attr("disabled",true);
 	
-	$.post("/publisher/deletedomain/" + domain_id, { del: 'Yes', param1: domain_id }, function( data ) {
+	$.post(basePath + "/publisher/deletedomain/" + domain_id, { del: 'Yes', param1: domain_id }, function( data ) {
 		
 		$("#domain_no_btn").attr("disabled",false);
 		if(data.success == false) {

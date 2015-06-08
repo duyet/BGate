@@ -19,13 +19,15 @@ class ZoneController extends PublisherAbstractActionController {
     
     protected $ad_template_data; 
     
-    protected function get_domain_data($DomainID, $DomainOwnerID) {
-        if (!is_int($DomainID) || !is_int($DomainOwnerID)):
-        
-            throw new \InvalidArgumentException(
-                "ZoneController class, get_domain_data function expects an integer for \$DomainID and \$DomainOwnerID;" .
-                " However, type " . gettype($DomainID) . " and type " . gettype($DomainOwnerID) . " was provided instead."
-            );
+    protected function get_domain_data($DomainID, $DomainOwnerID = null) {
+        if (isset($DomainOwnerID) && !$this->is_admin):
+            if (!is_int($DomainID) || !is_int($DomainOwnerID)):
+            
+                throw new \InvalidArgumentException(
+                    "ZoneController class, get_domain_data function expects an integer for \$DomainID and \$DomainOwnerID;" .
+                    " However, type " . gettype($DomainID) . " and type " . gettype($DomainOwnerID) . " was provided instead."
+                );
+            endif;
         endif;
 
         //Initialize and define variables.
@@ -34,7 +36,9 @@ class ZoneController extends PublisherAbstractActionController {
         $parameters = array(); // Set the parameters to empty first.
         
         //Populate parameters.
-        $parameters['DomainOwnerID'] = $DomainOwnerID;
+        if (!$this->is_admin):
+            $parameters['DomainOwnerID'] = $DomainOwnerID;
+        endif;
         $parameters['PublisherWebsiteID'] = $DomainID;
 
         // Pull website information.
@@ -129,7 +133,9 @@ class ZoneController extends PublisherAbstractActionController {
             // problem. You also need to specify the PublisherAdZone for the PublisherWebsiteID, since both
             // Websites and Ads tables have PublisherWebsiteID as a column.
             $parameters["PublisherAdZone.PublisherWebsiteID"] = $DomainID;
-            $parameters["PublisherWebsite.DomainOwnerID"] = $this->PublisherInfoID;
+            if(!$this->is_admin):
+                $parameters["PublisherWebsite.DomainOwnerID"] = $this->PublisherInfoID;
+            endif;
             
             try {
                 $ZoneList = $PublisherAdZoneFactory->get_joined($parameters, $order, $search, $PageSize, $Offset, true);
@@ -177,8 +183,11 @@ class ZoneController extends PublisherAbstractActionController {
         $ZoneList = array();
         $DomainID = intval($this->params()->fromRoute('param1', 0));
         
-        $DomainObj = $this->get_domain_data($DomainID, $this->PublisherInfoID);
-        
+        if ($this->is_admin):
+            $DomainObj = $this->get_domain_data($DomainID);
+        else:
+            $DomainObj = $this->get_domain_data($DomainID, $this->PublisherInfoID);
+        endif;
         $domain_owner_factory = \_factory\PublisherInfo::get_instance();
         $DomainOwner = new \model\PublisherInfo;
         $DomainOwner = $domain_owner_factory->get_row_object(array("PublisherInfoID" => $DomainObj->DomainOwnerID));
