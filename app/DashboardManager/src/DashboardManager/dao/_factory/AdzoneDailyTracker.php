@@ -81,6 +81,13 @@ class AdzoneDailyTracker extends \_factory\CachedTableRead
                         "AdName" => "AdName",
                         ),
                     $select::JOIN_INNER);
+                
+                $select->join("PublisherWebsite",
+                    "PublisherWebsite.PublisherWebsiteID = PublisherAdZone.PublisherWebsiteID",
+                    array(
+                        "WebDomain" => "WebDomain",
+                        ),
+                    $select::JOIN_INNER);
 
                 $select->group(array('Date', 'AdName'));
 
@@ -98,7 +105,7 @@ class AdzoneDailyTracker extends \_factory\CachedTableRead
                 if ($search != null):
                   $select->where
                           ->nest
-                            ->like("AdName", "%". $search ."%" )
+                            ->like("WebDomain", "%". $search ."%" )
                             ->or
                             ->equalTo("AdzoneDailyTrackerID", (int) $search) 
                           ->unnest;

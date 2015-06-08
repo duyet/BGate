@@ -45,7 +45,7 @@ class ManagerController extends DemandAbstractActionController {
         $params = array(); // Set the parameters to empty first.
         $flag = 7;
         // sort map array
-        $SortMap = array("1"=> "AdzoneDailyTracker.DateCreated", "2" => "PublisherAdZone.AdName",  "5" => "Incomes");
+        $SortMap = array("1"=> "AdzoneDailyTracker.DateCreated", "2" => "PublisherWebsite.WebDomain", "3" => "PublisherAdZone.AdName",  "6" => "Incomes");
         $OrderArr = $this->getRequest()->getQuery("order");
         $order = $SortMap[$OrderArr[0]["column"]] . " " . strtoupper($OrderArr[0]["dir"]);
         // get search value
@@ -70,6 +70,7 @@ class ManagerController extends DemandAbstractActionController {
 
                 $row["index"] = $Offset + $row_number+1;
                 $row["Time"] = $row_data["Date"];
+                $row["Domain"] = $row_data["WebDomain"];
                 $row["AdName"] = $row_data["AdName"];
                 $row["ClickCount"] = $row_data["ClickCount"];
                 $row["ImpCount"] = $row_data["ImpCount"];
@@ -111,7 +112,7 @@ class ManagerController extends DemandAbstractActionController {
         $params = array(); // Set the parameters to empty first.
         $flag = 7;
         // sort map array
-        $SortMap = array("1"=> "AdBannerDailyTracker.DateCreated", "2" => "AdCampaignBannerPreview.BannerName",  "5" => "Outcomes");
+        $SortMap = array("1"=> "AdBannerDailyTracker.DateCreated", "2" => "AdCampaignBannerPreview.Name",  "5" => "Outcomes");
         $OrderArr = $this->getRequest()->getQuery("order");
         $order = $SortMap[$OrderArr[0]["column"]] . " " . strtoupper($OrderArr[0]["dir"]);
         // get search value

@@ -514,11 +514,12 @@ var IncomeTable = {
           }
         },
         "aoColumnDefs": [
-         { bSortable: false, 'aTargets': [ 0,3,4 ] },    
+         { bSortable: false, 'aTargets': [ 0,4,5 ] },    
         ],
         "columns": [
             { "data": "index", className: "text-center" },
             { "data": "Time" },
+            { "data": "Domain" },
             { "data": "AdName" },
             { "data": "ClickCount" },
             { "data": "ImpCount" },
