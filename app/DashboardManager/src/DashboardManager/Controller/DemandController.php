@@ -39,6 +39,11 @@ class DemandController extends DemandAbstractActionController {
 	    $params = array();
 	    $params["Active"] = 1;
 	    $params["Deleted"] = 0;
+
+	    if ($this->is_admin):
+	    	$this->redirect()->toRoute("manager");
+	    endif;
+
 	    if ($this->is_admin == true && $this->auth->getEffectiveIdentityID() != 0):
 	   		$params["UserID"] = $this->auth->getEffectiveUserID();
 	    elseif ($this->is_admin == false):
@@ -373,6 +378,7 @@ class DemandController extends DemandAbstractActionController {
     	$AdCampaignPreview->DateCreated               = $_AdCampaignPreview->DateCreated;
     	$AdCampaignPreview->DateUpdated               = date("Y-m-d H:i:s");
     	$AdCampaignPreview->ChangeWentLive            = $_AdCampaignPreview->ChangeWentLive;
+    	$AdCampaignPreview->Deleted            = 0;
 
 		//Update Deleted flag
 		$AdCampaignPreview->Approval      = $flag;
