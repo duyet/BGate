@@ -132,7 +132,23 @@ echo $this->doctype(); ?>
                         <li class="divider-vertical"></li>
                         <?php endif;?>
 
-                        
+                        <?php if ($userRole=='admin' || $userRole=='superadmin'): ?>
+                            <li class="<?php if($home_dashboard_view == " demand ") echo "active ";?>">
+                                <a class="navlink" href="<?php echo $this->basePath() ?>/users/publishers">
+                                    Publisher List
+                                </a>
+                            </li>         
+                            <li class="divider-vertical"></li>
+                        <?php endif;?>
+                        <?php if ($userRole=='admin' || $userRole=='superadmin'): ?>
+                            <li class="<?php if($home_dashboard_view == " demand ") echo "active ";?>">
+                                <a class="navlink" href="<?php echo $this->basePath() ?>/users/customers">
+                                    Customer List
+                                </a>
+                            </li>         
+                            <li class="divider-vertical"></li>
+                        <?php endif;?>
+
                         <li class="divider-vertical"></li>
                         <?php endif;?>
                         <li class="<?php if($home_dashboard_view == " login ") echo "active ";?><?php if($home_dashboard_view == "account ") echo "active ";?>">
@@ -140,11 +156,14 @@ echo $this->doctype(); ?>
                             <a data-toggle="dropdown" class="dropdown-toggle navlink">
                                 <?php echo $user_name;?> <span class="caret"></span></a>
                             <ul class="dropdown-menu pull-right">
-                                <li><a href="<?php echo $this->basePath() ?>/users/account">Account Settings</a></li>
-                                <?php if($userRole=='admin' || $userRole=='superadmin' ): ?>
+                                <?php if ($userRole!='admin' && $userRole!='superadmin'): ?>
+                                  <li><a href="<?php echo $this->basePath() ?>/users/account">Account Settings</a></li>
+                                <?php endif; ?>
+                                <base></base>
+<!--                                 <?php if($userRole=='admin' || $userRole=='superadmin' ): ?>
                                 <li><a href="<?php echo $this->basePath() ?>/users/publishers">Publisher List</a></li>
                                 <li><a href="<?php echo $this->basePath() ?>/users/customers">Customer List</a></li>
-                                <?php endif;?>
+                                <?php endif;?> -->
                                 <li><a href="<?php echo $this->url('login/process', array('action'=>'logout')); ?>">Logout</a></li>
                             </ul>
                             <?php else: ?>

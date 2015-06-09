@@ -178,13 +178,15 @@ class TransformPreview {
 
 	}
 
-	public static function doesPreviewBannerExist($banner_preview_id, $auth) {
+	public static function doesPreviewBannerExist($banner_preview_id, $auth, $config) {
 
 		$AdCampaignBannerPreviewFactory = \_factory\AdCampaignBannerPreview::get_instance();
 		$params = array();
 		$params["AdCampaignBannerPreviewID"] = $banner_preview_id;
 		$params["Active"] = 1;
-		$params["UserID"] = $auth->getEffectiveUserID();
+		if ($config['roles']['admin'] === false):
+			$params["UserID"] = $auth->getEffectiveUserID();
+		endif;
 		$AdCampaignBannerPreview = $AdCampaignBannerPreviewFactory->get_row($params);
 
 		return $AdCampaignBannerPreview !== null;

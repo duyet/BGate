@@ -2926,7 +2926,7 @@ class DemandController extends DemandAbstractActionController {
 		
 		// verify
 		if ($is_preview == "true"):
-			$is_preview = \transformation\TransformPreview::doesPreviewBannerExist($id, $this->auth);
+			$is_preview = \transformation\TransformPreview::doesPreviewBannerExist($id, $this->auth,$this->config_handle);
 		endif;
 		$banner_preview_id = "";
 

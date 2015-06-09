@@ -46,11 +46,15 @@ var DomainTable = {
             { 
               "data": "DomainName", 
               render: function(data) {
+                var dt = self.table.fnGetData();
+                var is_admin = dt[0].is_admin;
                 // deleteDomainModal(<?php echo $domain_id;?>,'<?php echo $domain_list_raw[$row_number]["WebDomain"];?>')
                 var  detail_url= "<a href='"+ basePath  + "/publisher/zone/" + data.id + "'>"+ data.name + " (" + data.id + ")"  +"</a>"; 
                 var edit_url= "<a href='"+ basePath  + "/publisher/editdomain/" + data.id + "'><span class='glyphicon glyphicon-pencil'></span></a>";
                 var delete_url= '<a href="javascript:;" onclick="deleteDomainModal('+data.id+ ', \'' + data.name +'\' )"><span class="glyphicon glyphicon-trash"></span>' + '</a>';
-                var create_ad_zone = "<a href='"+ basePath  + "/publisher/zone/" + data.id + "/create'> "+ '<span class="glyphicon glyphicon-plus"></span> Adz'  +"</a>"; 
+                var create_ad_zone = '';
+                if (!is_admin)
+                  create_ad_zone = "<a href='"+ basePath  + "/publisher/zone/" + data.id + "/create'> "+ '<span class="glyphicon glyphicon-plus"></span> Adz'  +"</a>"; 
                 return detail_url + "<hr class='mrg5T mrg5B'/><div class='row-action'>" + edit_url + "&nbsp;" + delete_url + "&nbsp;" + create_ad_zone + "</div>";
               } 
             },
@@ -205,11 +209,15 @@ var CampaignTable = {
               "data": "Name",
               "width": "20%", 
               render: function(data) {
+                var dt = self.table.fnGetData();
+                var is_admin = dt[0].is_admin;
                 // deleteDomainModal(<?php echo $domain_id;?>,'<?php echo $domain_list_raw[$row_number]["WebDomain"];?>')
                 var  detail_url= "<a href='"+ basePath  + "/demand/campaign/" + data.id + "/"+ data.preview_query +"'>"+ data.name + " (" + data.id + ")"  +"</a>"; 
                 var edit_url= "<a href='"+ basePath  + "/demand/editcampaign/" + data.id + "/"+ data.preview_query +"'><span class='glyphicon glyphicon-pencil'></span></a>";
                 var delete_url= '<a href="javascript:;" onclick="deleteCampaignModal('+data.id+ ', \'' + data.name +'\' )"><span class="glyphicon glyphicon-trash"></span>' + '</a>';
-                var create_banner = "<a href='"+ basePath  + "/demand/createbanner/" + data.id + "/"+ data.preview_query +"'> "+ '<span class="glyphicon glyphicon-plus"></span> Banner'  +"</a>"; 
+                var create_banner = '';
+                if (!is_admin)
+                  create_banner = "<a href='"+ basePath  + "/demand/createbanner/" + data.id + "/"+ data.preview_query +"'> "+ '<span class="glyphicon glyphicon-plus"></span> Banner'  +"</a>"; 
                 return detail_url + "<hr class='mrg5T mrg5B'/><div class='row-action'>" + edit_url + "&nbsp;" + delete_url + "&nbsp;" + create_banner + "</div>";
               } 
             },
