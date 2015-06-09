@@ -2810,15 +2810,15 @@ class DemandController extends DemandAbstractActionController {
 		$BannerPreview->AdTagType                     = $this->getRequest()->getPost('adTagType');
 		$BannerPreview->InAnIframe                    = $this->getRequest()->getPost('inAnIframe');
 		$BannerPreview->MultiNestedIframe             = $this->getRequest()->getPost('multiNestedIframe');
-		$BannerPreview->AdPostLeft                    = $this->getRequest()->getPost('adPostLeft');
+		$BannerPreview->AdPostLeft                    = $this->getRequest()->getPost('adPosLeft');
 		$BannerPreview->AdPostTop                     = $this->getRequest()->getPost('adPostTop');
-		$BannerPreview->ResolutionMinW                = (int) $this->getRequest()->getPost('resolutionMinW');
+		$BannerPreview->ResolutionMinW                = (int)$this->getRequest()->getPost('adPostTop') ;$this->getRequest()->getPost('resolutionMinW');
 		$BannerPreview->ResolutionMaxW                = (int) $this->getRequest()->getPost('resolutionMaxW');
 		$BannerPreview->ResolutionMinH                = (int) $this->getRequest()->getPost('resolutionMinH');
 		$BannerPreview->ResolutionMaxH                = (int) $this->getRequest()->getPost('resolutionMaxH');
 		$BannerPreview->HttpLang                      = $this->getRequest()->getPost('httpLang');
 		$BannerPreview->BrowerAgentGrep               = $this->getRequest()->getPost('browerAgentGrep');
-		$BannerPreview->CookieGrep                    = $this->getRequest()->getPost('bookieGrep');
+		$BannerPreview->CookieGrep                    = $this->getRequest()->getPost('cookieGrep');
 		$BannerPreview->PmpEnable                     = $this->getRequest()->getPost('pmpEnable');
 		$BannerPreview->Secure                        = $this->getRequest()->getPost('secure');
 		$BannerPreview->FoldPosition                  = $this->getRequest()->getPost('foldPosition');
@@ -3308,10 +3308,11 @@ class DemandController extends DemandAbstractActionController {
 		$customerid                = $AdCampaign->CustomerID;
 		$maximpressions            = $AdCampaign->MaxImpressions;
 		$maxspend                  = sprintf("%1.2f", $AdCampaign->MaxSpend);
-		$cpmtarget                 = 0;#$AdCampaign->CPMTarget;
-		$cpctarget                 = 0;#$AdCampaign->CPCTarget;
+		$cpmtarget                 = $AdCampaign->CPMTarget;
+		$cpctarget                 = $AdCampaign->CPCTarget;
 		$deleted                   = $AdCampaign->Deleted;
-
+		$impressions_counter	   = $AdCampaign->ImpressionsCounter;
+		$current_spend	   		   = $AdCampaign->CurrentSpend;
 
 		return new ViewModel(array(
 				'campaignid' => $id,
@@ -3323,7 +3324,9 @@ class DemandController extends DemandAbstractActionController {
 				'customername' => $customername,
 				'customerid' => $customerid,
 				'maximpressions' => $maximpressions,
+				'impressions_counter' => $impressions_counter,
 				'maxspend' => $maxspend,
+				'current_spend' => $current_spend,
 				'cpmtarget' => $cpmtarget,
 				'cpctarget' => $cpctarget,
 				'bread_crumb_info' => $this->getBreadCrumbInfoFromAdCampaign($id, $campaign_preview_id, $is_preview),

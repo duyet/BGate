@@ -26,8 +26,9 @@ $this->headScript()->appendFile($this->basePath() . '/static/js/script.js');
     			    <form id="ad" class="form-horizontal form-top-magin" name="ad" method="post" action="">
     			    	<?php if ($campaignbanner_preview->AdUrl != ""): ?>
 	    			    	<h4 class="underline mrg0T">Banner Preview</h4>
-	    			    	<img src="<?php echo '/' . $campaignbanner_preview->AdUrl ?>" alt="<?php echo $campaignbanner_preview->AltText ?>" height="<?php echo $campaignbanner_preview->Height ?>" width="<?php echo $campaignbanner_preview->Width ?>">
+	    			    	<img src="<?php echo $this->basePath().'/' . $campaignbanner_preview->AdUrl ?>" alt="<?php echo $campaignbanner_preview->AltText ?>" height="<?php echo $campaignbanner_preview->Height ?>" width="<?php echo $campaignbanner_preview->Width ?>" class="img-responsive center-block">
 	    			    <?php endif; ?>
+	    				<br>
 						<h4 class="underline mrg0T">General Options</h4>
 						<div class="form-group">
 						    <label for="adname" class="control-label col-sm-4">Ad Name </label>
@@ -38,37 +39,63 @@ $this->headScript()->appendFile($this->basePath() . '/static/js/script.js');
 						 <div class="form-group">
 						    <label for="adname" class="control-label col-sm-4">Label </label>
 						    <div class="controls col-sm-8">
-						      <label class="control-label"><?php echo $campaignbanner_preview->Label?></label>
+						      <label class="control-label"><?php echo $campaignbanner_preview->Label;?></label>
 						    </div>
 						 </div>
 						<div class="form-group">
 						    <label for="adname" class="control-label col-sm-4">Alt Text </label>
 						    <div class="controls col-sm-8">
-						      <label class="control-label"><?php echo $campaignbanner_preview->AltText?></label>
+						      <label class="control-label"><?php echo $campaignbanner_preview->AltText;?></label>
 						    </div>
 						 </div>
 						 <div class="form-group">
 						    <label for="adname" class="control-label col-sm-4">Ad delivery type </label>
 						    <div class="controls col-sm-8">
-						      <label class="control-label"><?php echo $campaignbanner_preview->ImpressionType?></label>
+						      <label class="control-label">
+						      	<?php 
+						      		if ($campaignbanner_preview->ImpressionType == 'banner'):
+						      			echo 'Banner Ad';
+						      		elseif ($campaignbanner_preview->ImpressionType == 'video'):
+						      			echo 'Video Ad';
+						      		endif;
+						      	?>
+						      </label>
 						    </div>
 						 </div>
 						<div class="form-group">
 						    <label for="adname" class="control-label col-sm-4">Start Date </label>
 						    <div class="controls col-sm-8">
-						      <label class="control-label"><?php echo $campaignbanner_preview->StartDate?></label>
+						      <label class="control-label">
+						      	<?php
+						      		$date = date_create($campaignbanner_preview->StartDate); 
+						      		echo date_format($date,"Y-m-d"); 
+						      	?>
+						      </label>
 						    </div>
 						 </div>
 						 <div class="form-group">
 						    <label for="adname" class="control-label col-sm-4">End Date </label>
 						    <div class="controls col-sm-8">
-						      <label class="control-label"><?php echo $campaignbanner_preview->EndDate?></label>
+						      <label class="control-label">
+						      	<?php
+						   			$date = date_create($campaignbanner_preview->EndDate); 
+						      		echo date_format($date,"Y-m-d"); 
+						      	?>
+						      </label>
 						    </div>
 						 </div>
 						 <div class="form-group">
 						    <label for="adname" class="control-label col-sm-4">Device Ad type </label>
 						    <div class="controls col-sm-8">
-						      <label class="control-label"><?php echo $campaignbanner_preview->IsMobile?></label>
+						      <label class="control-label">
+						      	<?php 
+						      		if ($campaignbanner_preview->IsMobile == '0'):
+						      			echo 'Desktop';
+						      		elseif ($campaignbanner_preview->IsMobile == '1'):
+						      			echo 'Mobile';
+						      		endif;
+						      	?>
+						      </label>
 						    </div>
 						 </div>
 						 <div class="form-group">
@@ -82,7 +109,31 @@ $this->headScript()->appendFile($this->basePath() . '/static/js/script.js');
 						    <div class="controls col-sm-8">
 						      <label class="control-label"><?php echo $campaignbanner_preview->BidAmount?></label>
 						    </div>
-						 </div>	
+						 </div>
+						 <div class="form-group">
+						    <label for="adname" class="control-label col-sm-4">Daily Target </label>
+						    <div class="controls col-sm-8">
+						      <label class="control-label"><?php echo $campaignbanner_preview->TargetDaily?></label>
+						    </div>
+						 </div>
+						 <div class="form-group">
+						    <label for="adname" class="control-label col-sm-4">Maximum Target </label>
+						    <div class="controls col-sm-8">
+						      <label class="control-label"><?php echo $campaignbanner_preview->TargetMax?></label>
+						    </div>
+						 </div>
+						 <div class="form-group">
+						    <label for="adname" class="control-label col-sm-4">Daily Budget </label>
+						    <div class="controls col-sm-8">
+						      <label class="control-label"><?php echo $campaignbanner_preview->DailyBudget?></label>
+						    </div>
+						 </div>
+						 <div class="form-group">
+						    <label for="adname" class="control-label col-sm-4">Maximum Budget </label>
+						    <div class="controls col-sm-8">
+						      <label class="control-label"><?php echo $campaignbanner_preview->MaximumBudget?></label>
+						    </div>
+						 </div>
 						 <div class="form-group">
 						    <label for="adname" class="control-label col-sm-4">Ad tag </label>
 						    <div class="controls col-sm-8">
@@ -137,13 +188,30 @@ $this->headScript()->appendFile($this->basePath() . '/static/js/script.js');
 						 <div class="form-group">
 						    <label for="adname" class="control-label col-sm-4">In an Iframe </label>
 						    <div class="controls col-sm-8">
-						      <label class="control-label"><?php echo $campaignbanner_preview->InAnIframe?></label>
+						      <label class="control-label">
+						      	<?php 
+						      		if($campaignbanner_preview->InAnIframe == '0'):
+						      			echo "false";
+						      		elseif ($campaignbanner_preview->InAnIframe == '1'):
+						      			echo 'true';
+						      		endif;
+						      	?>
+						      </label>
 						    </div>
 						 </div>
 						 <div class="form-group">
 						    <label for="adname" class="control-label col-sm-4">In Multiple Nested IFrames </label>
 						    <div class="controls col-sm-8">
-						      <label class="control-label"><?php echo $campaignbanner_preview->MultiNestedIframe?></label>
+						      <label class="control-label">
+						      	<?php 
+						      		if($campaignbanner_preview->MultiNestedIframe == '0'):
+						      			echo "No preference";
+						      		elseif ($campaignbanner_preview->MultiNestedIframe == '1'):
+						      			echo 'Yes';
+						      		elseif ($campaignbanner_preview->MultiNestedIframe == '2'):
+						      			echo 'No';
+						      		endif;
+						      	?>
 						    </div>
 						 </div>	
 					</form>
@@ -163,13 +231,37 @@ $this->headScript()->appendFile($this->basePath() . '/static/js/script.js');
 						 <div class="form-group">
 						    <label for="adname" class="control-label col-sm-4">Ad position </label>
 						    <div class="controls col-sm-8">
-						      <label class="control-label">Left: <?php echo $campaignbanner_preview->AdPostLeft?> - Top: <?php echo $campaignbanner_preview->AdPostTop?></label>
+						      <label class="control-label">
+						      	<?php
+						      		if ($campaignbanner_preview->AdPostLeft == '0'):
+						      			echo 'Min Left';
+						      		elseif ($campaignbanner_preview->AdPostLeft == '1'):
+						      			echo 'Max Left';
+						      		endif;
+
+						      		if ($campaignbanner_preview->AdPostTop == '0'):
+						      			echo ' - Min Top';
+						      		elseif ($campaignbanner_preview->AdPostTop == '1'):
+						      			echo ' - Max Top';
+						      		endif;
+						      	?>
 						    </div>
 						 </div>
 						 <div class="form-group">
 						    <label for="adname" class="control-label col-sm-4">Fold position </label>
 						    <div class="controls col-sm-8">
-						      <label class="control-label">Unknown</label>
+						      <label class="control-label">
+						      	<?php
+						      		if ($campaignbanner_preview->FoldPosition == '1'):
+						      			echo 'Not available/ applicable';
+						      		elseif ($campaignbanner_preview->FoldPosition == '2'):
+						      			echo 'Completely Above the Fold';
+						      		elseif ($campaignbanner_preview->FoldPosition == '3'):
+						      			echo 'Completely Below the Fold';
+						      		elseif ($campaignbanner_preview->FoldPosition == '4'):
+						      			echo 'Partially Above the Fold';
+						      		endif;
+						      	?></label>
 						    </div>
 						 </div>	
 					</form>

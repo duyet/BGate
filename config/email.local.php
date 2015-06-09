@@ -17,19 +17,19 @@ return array(
 	 * ad campaign changes
 	 */
 	'subscribe' => array(
-		'zones' 			=> true,
-		'campaigns'			=> true,
-		'signups'			=> true,
-		'websites'			=> true,
-		'recover_password'  => true,
+		'zones' 			=> false,
+		'campaigns'			=> false,
+		'signups'			=> false,
+		'websites'			=> false,
+		'recover_password'  => false,
 		// dashboard user emails settings
-		'user_zones'		=> true,
-		'user_domains'		=> true,
-		'user_ad_campaigns'	=> true,
+		'user_zones'		=> false,
+		'user_domains'		=> false,
+		'user_ad_campaigns'	=> false,
 		),
     'transport' => array(
     	// if SMTP is false sendmail will be used
-    	'smtp'	  => true,
+    	'smtp'	  => false,
         'options' => array(
             'name'              => 'smtp.sendgrid.net',
             'host'              => 'smtp.sendgrid.net',

@@ -82,9 +82,9 @@ $effective_user_in_dashboard = false;
           <div class="col-sm-3">End Date: <strong><?php $date = date_create($enddate); echo date_format($date,"Y-m-d");?></strong></div>
         </div>
         <div class="row">
-          <div class="col-sm-3">Impress Counter:<strong></strong></div>
+          <div class="col-sm-3">Impress Counter:<strong><?php echo $impressions_counter;?></strong></div>
           <div class="col-sm-3">Max Impressions:<strong><?php echo $maximpressions;?></strong></div>
-          <div class="col-sm-3">Current Spend:<strong></strong></div>
+          <div class="col-sm-3">Current Spend:<strong><?php echo $current_spend;?></strong></div>
           <div class="col-sm-3">Max Spend:<strong><?php echo $maxspend;?></strong></div>
         </div>
         <div class="row">
