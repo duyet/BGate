@@ -71,7 +71,7 @@ class AdBannerDailyTracker extends \_factory\CachedTableRead
                         "AdCampaignBannerID" => "AdCampaignBannerID",
                         "ClickCount" => new \Zend\Db\Sql\Expression("SUM(ClickCount)"),
                         "ImpCount" => new \Zend\Db\Sql\Expression("SUM(ImpCount)"),
-                        "Outcomes" => new \Zend\Db\Sql\Expression("SUM(Outcome)"),
+                        "Outcomes" => new \Zend\Db\Sql\Expression("ROUND(SUM(Outcome),2)"),
                         "Date" => new \Zend\Db\Sql\Expression("CAST(AdBannerDailyTracker.DateCreated AS DATE)")
                     )
                 );

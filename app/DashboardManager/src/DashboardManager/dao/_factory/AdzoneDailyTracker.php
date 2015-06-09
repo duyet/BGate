@@ -70,7 +70,7 @@ class AdzoneDailyTracker extends \_factory\CachedTableRead
                         "PublisherAdZoneID" => "PublisherAdZoneID",
                         "ClickCount" => new \Zend\Db\Sql\Expression("SUM(ClickCount)"),
                         "ImpCount" => new \Zend\Db\Sql\Expression("SUM(ImpCount)"),
-                        "Incomes" => new \Zend\Db\Sql\Expression("SUM(Income)"),
+                        "Incomes" => new \Zend\Db\Sql\Expression("ROUND(SUM(Income),2)"),
                         "Date" => new \Zend\Db\Sql\Expression("CAST(AdzoneDailyTracker.DateCreated AS DATE)")
                     )
                 );
