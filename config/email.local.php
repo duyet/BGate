@@ -21,7 +21,7 @@ return array(
 		'campaigns'			=> false,
 		'signups'			=> false,
 		'websites'			=> false,
-		'recover_password'  => false,
+		'recover_password'  => true,
 		// dashboard user emails settings
 		'user_zones'		=> false,
 		'user_domains'		=> false,
