@@ -769,7 +769,7 @@ class PublisherController extends PublisherAbstractActionController {
 				
 					$validate = $this->validateInput($needed_input, false);
 			
-					if ($validate && $editResultObj->DomainOwnerID == $this->PublisherInfoID): 
+					if ($validate && ( $this->is_admin || ($editResultObj->DomainOwnerID == $this->PublisherInfoID ) )): 
 					
 						$web_domain = $request->getPost("WebDomain");
 						$description = $request->getPost("Description");
