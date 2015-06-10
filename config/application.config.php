@@ -171,6 +171,8 @@ return array(
         	'./app/BuySidePartners',
         	'./app/SellSidePartners',
             './vendor',
+            './library',
+            './library/SpeckPaypal',
         ),
 
         // An array of paths from which to glob configuration files after

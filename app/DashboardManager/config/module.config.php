@@ -175,6 +175,21 @@ return array(
             				),
             		),
             ),
+            'payment' => array(
+                    'type'    => 'segment',
+                    'options' => array(
+                            'route'    =>  '/payment[/[:action[/[:param1[/]]]]]',
+                            'constraints' => array(
+                                    'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                    'param1'     => '[0-9]+',
+                            ),
+                            'defaults' => array(
+                                    '__NAMESPACE__' => 'DashboardManager\Controller',
+                                    'controller' => 'DashboardManager\Controller\Payment',
+                                    'action'     => 'index',
+                            ),
+                    ),
+            ),
 			// 'report' => array(
    //                  'type'    => 'segment',
    //                  'options' => array(
@@ -337,6 +352,7 @@ return array(
             'DashboardManager\Controller\Manager' => 'DashboardManager\Controller\ManagerController',
             'DashboardManager\Controller\Demand' => 'DashboardManager\Controller\DemandController',
             'DashboardManager\Controller\Publisher' => 'DashboardManager\Controller\PublisherController',
+            'DashboardManager\Controller\Payment' => 'DashboardManager\Controller\PaymentController',
             'DashboardManager\Controller\Auth' => 'DashboardManager\Controller\AuthController',
             'DashboardManager\Controller\Success' => 'DashboardManager\Controller\SuccessController',
             'DashboardManager\Controller\Report' => 'DashboardManager\Controller\ReportController',

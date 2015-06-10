@@ -38,6 +38,13 @@ return array(
 				),
 				'shell' => array(
 						'has_curl_on_path'		=> false
+				),
+				'paypal' => array(
+					'username'      => '08520282-facilitator_api1.sv.uit.edu.vn',
+				    'password'      => 'WQKVWE3P5Q6Y3TQS',
+				    'signature'     => 'AFcWxV21C7fd0v3bYYYRCpSSRl31AQ1NTw.fWvFMLd2Pl-iL0FKxsS.g',
+				    'endpoint'      => 'https://api-3t.sandbox.paypal.com/nvp', //this is sandbox endpoint,
+				    'url'			=> 'https://www.sandbox.paypal.com/webscr&cmd=_express-checkout&token='
 				)
 		),
 		'maintenance' => array(
