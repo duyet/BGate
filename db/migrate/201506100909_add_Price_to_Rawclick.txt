@@ -1,0 +1,2 @@
+ALTER TABLE `RawClick` ADD `Price` DOUBLE NOT NULL AFTER `Country`;
+ALTER TABLE `RawImp` ADD `Price` DOUBLE NOT NULL AFTER `Country`;
