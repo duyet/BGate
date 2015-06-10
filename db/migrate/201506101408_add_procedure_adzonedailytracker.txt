@@ -1,0 +1,54 @@
+
+DELIMITER $$
+--
+-- Procedures
+--
+CREATE PROCEDURE `AdzoneDailyTracker`()
+BEGIN
+	
+	DECLARE zones_id INT DEFAULT 0;
+	DECLARE Sum_click INT DEFAULT 0;
+    DECLARE Sum_imp INT DEFAULT 0;
+    
+    DECLARE Sum_income FLOAT DEFAULT 0;
+    DECLARE Sum_income_click FLOAT DEFAULT 0;
+    DECLARE Sum_income_imp FLOAT DEFAULT 0;
+
+    DECLARE done INT DEFAULT FALSE;
+
+	DECLARE zones_list CURSOR FOR SELECT PublisherAdZoneID FROM PublisherAdZone;
+	DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+
+    OPEN zones_list;
+    read_loop: LOOP
+
+	    FETCH zones_list INTO zones_id;
+	      
+	    SELECT COUNT(*),SUM(Price) INTO Sum_click,Sum_income_click FROM RawClick WHERE DATEDIFF(DateCreated,now()) = 0 and PublisherAdZoneID = zones_id;
+
+	    SELECT COUNT(*),SUM(Price) INTO Sum_imp,Sum_income_imp FROM RawImp WHERE DATEDIFF(DateCreated,now()) = 0 and PublisherAdZoneID = zones_id;
+	    
+	    IF Sum_income_click IS NULL THEN
+	      Set Sum_income_click = 0;
+	    END IF;
+
+	    IF Sum_income_imp IS NULL THEN
+	      Set Sum_income_imp = 0;
+	    END IF;
+
+	    set Sum_income = Sum_income_click + Sum_income_imp;
+
+	    IF done THEN
+	      LEAVE read_loop;
+	    END IF;
+	    
+	    INSERT INTO AdzoneDailyTracker (PublisherAdZoneID, ClickCount, ImpCount, Income, DateCreated) VALUES (zones_id,Sum_click,Sum_imp,Sum_income,now());
+
+	    
+    END LOOP;
+
+    CLOSE zones_list;
+
+END$$
+
+DELIMITER ;
