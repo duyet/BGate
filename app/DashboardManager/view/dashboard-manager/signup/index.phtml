@@ -95,44 +95,10 @@ $this->headScript()->prependFile($this->basePath() . '/static/js/signup.js');
                 <div class="controls col-sm-7">
                 <input type="text" value="" class="form-control" maxlength="255" name="Addr" id="Addr">    </div>
             </div>
-
-          
-            <div class="form-group mrg20B underline">
-              <h4 class="mrg0A">Site Information</h4>    
-            </div>
-
-            <div class="form-group">
-                <label for="Name" class="control-label col-sm-3">Publisher Name</label>
-                <div class="controls col-sm-7">
-                <input type="text" value="" class="form-control" maxlength="100" name="Name" id="Name" placeholder="Name">    </div>
-            </div>
-            <div class="form-group">
-                <label for="Domain" class="control-label col-sm-3">Website</label>
-                <div class="controls col-sm-7">
-                <input type="text" value="" class="form-control" maxlength="50" name="Domain" id="Domain" placeholder="example.com">    </div>
-            </div>
-            <div class="form-group">
-                <label for="Domain" class="control-label col-sm-3">Website Describe</label>
-                <div class="controls col-sm-7">
-                  <textarea  rows="4" class="form-control" name="DomainDescribe" id="DomainDescribe"></textarea>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="IABCategory" class="control-label col-sm-3">IABCategory</label>
-                <div class="controls col-sm-7">
-                <select id="IABCategory" class="form-control" name="IABCategory">
-                   <?php 
-                   foreach($vertical_map as $key=>$value): 
-                  echo '<option value="'. $key .'">'. $value .'</option>';
-                 endforeach;
-                 ?>
-              </select>
-              </div>
-
-            </div> 
+            
             <hr>
             <div class="form-group">
-              <label style="display: inline" class=" checked"> <input id="accept-agreement" type="checkbox" class="" name="aggreement" />&nbsp;By checking this box I confirm I have read, understand, acknowledge and accept <a href="">Privacy policy</a> and <a href="">User Agreement</a></label>
+              <label style="display: inline" class=" checked"> <input id="accept-agreement" type="checkbox" class="" name="aggreement" value="1" />&nbsp;By checking this box I confirm I have read, understand, acknowledge and accept <a href="">Privacy policy</a> and <a href="">User Agreement</a></label>
             </div>
               <div class="text-center">
                <button name="b1" type="button" class="btn btn-success btn-lg signupform" id="submitbutton" disabled>Create Account</button>

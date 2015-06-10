@@ -229,10 +229,8 @@ class SignupController extends PublisherAbstractActionController {
 
 		$Password = str_replace(array("'",";"), array("",""), $Password);
 		
-		if (preg_match('/[^-_. 0-9A-Za-z]/', $Name)
+		if (preg_match('/[^-_. 0-9A-Za-z]/', $user_login)
 			|| !filter_var($Email, FILTER_VALIDATE_EMAIL)
-			|| empty($Domain)|| preg_match('/[^-_. 0-9A-Za-z]/', $Domain)
-			|| empty($IABCategory) || preg_match('/[^-_. 0-9A-Za-z]/', $IABCategory)
 			|| empty($Password)
 			|| !ctype_alnum($user_login)):
 			
@@ -242,10 +240,10 @@ class SignupController extends PublisherAbstractActionController {
 		$PublisherInfo = new \model\PublisherInfo();
 		$PublisherInfoFactory = \_factory\PublisherInfo::get_instance();
 		
-		$PublisherInfo->Name		    = 	$Name;
+		$PublisherInfo->Name		    = 	$user_login;
 		$PublisherInfo->Email			=	$Email;
-		$PublisherInfo->Domain			=	$Domain;
-		$PublisherInfo->IABCategory		=	$IABCategory;
+		$PublisherInfo->Domain			=	"";
+		$PublisherInfo->IABCategory		=	"";
 		$PublisherInfo->DateCreated		=	date("Y-m-d H:i:s");
 		$PublisherInfo->FirstName 		=	$first_name;
 		$PublisherInfo->LastName 		=	$last_name;
@@ -375,8 +373,8 @@ class SignupController extends PublisherAbstractActionController {
 				$country = $request->getPost("Country");
 				$city = $request->getPost("City");
 				$addr = $request->getPost("Addr");
-				$DomainDescribe = $request->getPost("DomainDescribe");
-				$IABCategory = $request->getPost('IABCategory');
+				// $DomainDescribe = $request->getPost("DomainDescribe");
+				// $IABCategory = $request->getPost('IABCategory');
 
 				$PublisherInfo->PublisherInfoID = $userData->PublisherInfoID;
 				$PublisherInfo->Name		    = $name;
@@ -386,8 +384,8 @@ class SignupController extends PublisherAbstractActionController {
 				$PublisherInfo->Country 		=	$country;
 				$PublisherInfo->City 			=	$city;
 				$PublisherInfo->Addr 			=	$addr;
-				$PublisherInfo->IABCategory		=	$IABCategory;
-				$PublisherInfo->DomainDescribe	=	$DomainDescribe;
+				// $PublisherInfo->IABCategory		=	$IABCategory;
+				// $PublisherInfo->DomainDescribe	=	$DomainDescribe;
 				$PublisherInfoFactory->savePublisherInfo($PublisherInfo);
 			endif;
 			
