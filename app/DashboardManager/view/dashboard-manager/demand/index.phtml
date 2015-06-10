@@ -22,7 +22,13 @@ $effective_user_in_dashboard = false;
   <div class="topic">
     <div class="row">
       <div class="col-md-5 col-md-offset-1 col-sm-5 col-sm-offset-1 col-xs-6"><h4>Campaigns List</h4></div>
+      <?php
+        if ($is_admin === false):
+      ?>
       <div class="col-md-5 col-sm-5 text-right col-xs-6"><a href="<?php echo $this->basePath() ?>/demand/createcampaign" class="btn btn-success mrg5T">Create Campaign</a></div>
+      <?php
+        endif;
+      ?>
     </div>
   </div>
 </div>

@@ -108,6 +108,9 @@ class PublisherWebsite extends \_factory\CachedTableRead
     	);
 
     	    foreach ($resultSet as $obj):
+              if (!preg_match("~^(?:f|ht)tps?://~i",$obj->WebDomain)) {
+                  $obj->WebDomain = "http://" . $obj->WebDomain;
+              }
     	        $obj_list[] = $obj;
     	    endforeach;
 
@@ -143,8 +146,10 @@ class PublisherWebsite extends \_factory\CachedTableRead
        if ($rawData !== null):
        
            foreach (get_object_vars($DataObj) AS $key => $value):
-           
-               $DataObj->$key =$rawData[$key];
+                if (!preg_match("~^(?:f|ht)tps?://~i",$DataObj->WebDomain)) {
+                  $DataObj->WebDomain = "http://" . $DataObj->WebDomain;
+                }
+                $DataObj->$key =$rawData[$key];
            endforeach;
        endif;
 
@@ -168,7 +173,9 @@ class PublisherWebsite extends \_factory\CachedTableRead
                // New instance of model object in each row.
                $DataObj[$row_number] = new \model\PublisherWebsite();
        	        foreach (get_object_vars($DataObj[$row_number]) AS $key => $value): //Assign to object.
-       	        
+                if (!preg_match("~^(?:f|ht)tps?://~i",$DataObj[$row_number]->WebDomain)) {
+                  $DataObj[$row_number]->WebDomain = "http://" . $DataObj[$row_number]->WebDomain;
+                }
        		       $DataObj[$row_number]->$key = $row_data[$key];
        	        endforeach;
            endforeach;

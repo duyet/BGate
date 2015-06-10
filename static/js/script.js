@@ -719,17 +719,11 @@ $().ready(function() {
 
 		}).validate({
 		rules: {
-           WebDomain: {  
-               required:  {
-                   depends:function(){
-                   	// alert('domain');
-                       $(this).val($.trim($(this).val()));
-                       return true;
-                   }   
-               },
+           	WebDomain: {  
+               required: true,
                validatedomain: true
-           },
-           Description: {
+           	},
+           	Description: {
 				required: true
 			},
 			DomainMarkup: {
