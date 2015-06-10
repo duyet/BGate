@@ -46,10 +46,9 @@ $effective_user_in_dashboard = false;
             </select>
         </p>
         <div class="row">
-          <div class="col-sm-3">Income: <strong>$<span id="income-value"></span></strong></div>
+          <div class="col-sm-3">Income: <strong>$<span id="outcome-value"></span></strong></div>
           <div class="col-sm-3"><a id="income-action" onclick="viewIncomeList();" href="javascript:void(0);"></a></div>
-          <div class="col-sm-3">Outcome: <strong>$<span id="outcome-value"></span></strong></div>
-<!--           <div class="col-sm-3"><a id="outcome-action" onclick="viewOutcomeList();" href="javascript:void(0);">Hide outcome list</a></div> -->
+          <div class="col-sm-3">Outcome: <strong>$<span id="income-value"></span></strong></div>
         </div>
         <br>
       </div>
@@ -59,29 +58,8 @@ $effective_user_in_dashboard = false;
 
   <div class="container-fluid">
     <div class="row mrg20T">
-      <div id="income-list" class="col-md-10 col-md-offset-1 panel pad20T">
-        <h4 class="underline mrg0T">Income List</h4>
-        <table class="table table-hover table-striped table-bordered table-margin" data-url="<?php echo $this->basePath() ?>/manager/incomelist" id="income-table">
-          <thead>
-            <tr >
-              <th class="text-center">#</th>
-              <th class="text-center">Time</th>
-              <th class="text-center">Domain</th>
-              <th class="text-center">AdZone Name</th>
-              <th class="text-center">Click Count</th>
-              <th class="text-center">Imp Count</th>
-              <th class="text-center">Income</th>
-            </tr>
-          </thead>
-        </table>
-      </div>
-    </div>
-  </div>
-
-  <div class="container-fluid">
-    <div class="row mrg20T">
       <div id="outcome-list" class="col-md-10 col-md-offset-1 panel pad20T">
-        <h4 class="underline mrg0T">Outcome List</h4>
+        <h4 class="underline mrg0T">System Income List</h4>
         <table class="table table-hover table-striped table-bordered table-margin" data-url="<?php echo $this->basePath() ?>/manager/outcomelist" id="outcome-table">
           <thead>
             <tr >
@@ -91,6 +69,27 @@ $effective_user_in_dashboard = false;
               <th class="text-center">Banner Name</th>
               <th class="text-center">Click Count</th>
               <th class="text-center">Imp Count</th>
+              <th class="text-center">Income</th>
+            </tr>
+          </thead>
+        </table>
+      </div>
+    </div>
+  </div>
+  
+  <div class="container-fluid">
+    <div class="row mrg20T">
+      <div id="income-list" class="col-md-10 col-md-offset-1 panel pad20T">
+        <h4 class="underline mrg0T">System Outcome List</h4>
+        <table class="table table-hover table-striped table-bordered table-margin" data-url="<?php echo $this->basePath() ?>/manager/incomelist" id="income-table">
+          <thead>
+            <tr >
+              <th class="text-center">#</th>
+              <th class="text-center">Time</th>
+              <th class="text-center">Domain</th>
+              <th class="text-center">AdZone Name</th>
+              <th class="text-center">Click Count</th>
+              <th class="text-center">Imp Count</th>
               <th class="text-center">Outcome</th>
             </tr>
           </thead>
@@ -98,4 +97,6 @@ $effective_user_in_dashboard = false;
       </div>
     </div>
   </div>
+
+
 </div>
