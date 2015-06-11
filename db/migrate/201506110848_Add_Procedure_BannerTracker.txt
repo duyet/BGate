@@ -1,0 +1,44 @@
+CREATE PROCEDURE `BannerClickImpCounter`()
+    NO SQL
+BEGIN
+
+    DECLARE banner_id INT(11);
+    DECLARE click_count INT(11) DEFAULT 0;
+    DECLARE imp_count INT(11) DEFAULT 0;
+    DECLARE click_outcome FLOAT DEFAULT 0;
+    DECLARE imp_outcome FLOAT DEFAULT 0;
+    DECLARE total_outcome FLOAT DEFAULT 0;
+    DECLARE done INT DEFAULT FALSE;
+    DECLARE banners_list CURSOR FOR SELECT AdCampaignBannerPreviewID FROM AdCampaignBannerPreview;
+	DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+    OPEN banners_list;
+    read_loop: LOOP
+
+        FETCH banners_list INTO banner_id;
+
+        SELECT COUNT(*), SUM(Price) INTO click_count, click_outcome FROM RawClick WHERE DATEDIFF(DateCreated,NOW()) = -1 AND AdCampaignBannerID= banner_id;
+
+
+        SELECT COUNT(*), SUM(Price) INTO imp_count, imp_outcome FROM RawImp WHERE DATEDIFF(DateCreated,NOW()) = -1 AND AdCampaignBannerID= banner_id;
+
+        IF click_outcome IS NULL THEN
+          Set click_outcome = 0;
+        END IF;
+        
+        IF imp_outcome IS NULL THEN
+          Set imp_outcome = 0;
+        END IF;
+
+        set total_outcome = click_outcome + imp_outcome;
+
+        IF done THEN
+          LEAVE read_loop;
+        END IF;
+
+        INSERT INTO AdBannerDailyTracker(AdCampaignBannerID, ClickCount, ImpCount, Outcome, DateCreated) VALUES(banner_id, click_count, imp_count, total_outcome, NOW());   
+
+    END LOOP;
+
+    CLOSE banners_list;
+
+END
