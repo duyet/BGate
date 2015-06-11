@@ -1095,7 +1095,29 @@ $().ready(function() {
 			$(element).parent().removeClass("error");
 		}
 	});
-	
+	// Payment form validation
+	var validator = $("#payment-form").bind("invalid-form.validate", function() {
+			$("#cdn_form_msg").html("Required fields are missing.");
+			if(document.getElementById("cdn_form_success")) $("#cdn_form_success").css("display","none");
+		}).validate({
+		rules: {
+			Amount: {
+				required: true,
+				number: true
+			},
+			method: {
+               required: true
+           }
+		},
+		errorContainer: $("#cdn_form_msg"),
+		errorClass: 'cdn_form_error',
+		highlight: function(element, errorClass, validClass) {
+			$(element).parent().addClass("error");
+		},
+		unhighlight: function(element, errorClass, validClass) {
+			$(element).parent().removeClass("error");
+		}
+	});
 });
 
 // User rejection modal popup by admin

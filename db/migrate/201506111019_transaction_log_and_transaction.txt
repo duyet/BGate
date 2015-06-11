@@ -1,0 +1,65 @@
+--
+-- Table structure for table `TransactionLog`
+--
+
+CREATE TABLE IF NOT EXISTS `TransactionLog` (
+  `ID` int(11) NOT NULL,
+  `Identify` int(11) DEFAULT NULL,
+
+  `RequestURL` mediumtext COMMENT 'URL request',
+  `RequestIP` char(20) DEFAULT NULL,
+  `RequestTime` datetime DEFAULT NULL,
+
+  `ResponseURL` mediumtext COMMENT 'URL response',
+  `ResponseIP` char(20) DEFAULT NULL,
+  `ResponseTime` datetime DEFAULT NULL,
+
+  `MerchTxnRef` varchar(50) DEFAULT NULL,
+  `IP` char(20) DEFAULT NULL,
+  `Type` int(11) DEFAULT '0' COMMENT '0 paypal, 1 onepay',
+  `Status` int(11) DEFAULT '0' COMMENT '0 request, 1 response',
+
+  `HashValidated` varchar(250) DEFAULT NULL,
+  `ResponseCode` int(11) DEFAULT NULL,
+  `ResponseDescription` text,
+  
+  `Result` text,
+  `DateCreated` timestamp NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Table structure for table `TransactionDetail`
+--
+
+CREATE TABLE IF NOT EXISTS `TransactionDetail` (
+  `id` int(11) NOT NULL,
+  `TransactionLogID` int(11) DEFAULT NULL,
+  `UserID` int(11) DEFAULT NULL,
+  `Type` int(11) NOT NULL DEFAULT '0' COMMENT '0 income, 1 outcome',
+  `Amount` int(11) DEFAULT '0',
+  `Description` text,
+  `DateCreated` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `DateUpdated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `TransactionDetail`
+--
+ALTER TABLE `TransactionDetail`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `TransactionDetail`
+--
+ALTER TABLE `TransactionDetail`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+  

@@ -60,97 +60,118 @@ class PaymentController extends PublisherAbstractActionController {
 		return $paypalRequest;
 	}
 	public function indexAction()
+	{
+		$auth = $this->getServiceLocator()->get('AuthService');
+		 if (!$auth->hasIdentity()):
+     	 	return $this->redirect()->toRoute('login');
+    	 endif;
+    	 
+		$initialized = $this->initialize();
+		if ($initialized !== true) return $initialized;
+		$success_msg = null;
+
+		$request = $this->getRequest();
+	    if ($request->isPost()):
+	    	$Amount	 = $request->getPost('Amount');
+	    	$method	 = $request->getPost('method');
+	    	if(intval($method) === 0):
+	   //  		return $this->redirect()->toRoute('paypaltransfer', array(
+				//     'amount' => $Amount
+				// ));
+	    		return $this->redirect()->toRoute('payment',
+					array('controller'=>'payment',
+				        'action' => 'paypaltransfer',
+				        'param1' => $Amount));
+	    	endif;
+	    	var_dump($_POST);
+	    	die();
+	   	endif;
+	}
+	public function paypaltransferAction()
     {
+    	$auth = $this->getServiceLocator()->get('AuthService');
+		if (!$auth->hasIdentity()):
+     	 	return $this->redirect()->toRoute('login');
+    	endif;
+    	 
+		$initialized = $this->initialize();
+		if ($initialized !== true) return $initialized;
+		$success_msg = null;
+
+		$authUsers = new \model\authUsers();
+		$authUsersFactory = \_factory\authUsers::get_instance();
+		$userData = $authUsersFactory->get_row(array("user_id" => $this->auth->getUserID()));
+		$user_id = $this->auth->getUserID();
+		$user_login = $userData->user_login;
+
+		$Amount = $this->getEvent()->getRouteMatch()->getParam('param1');
+
 		//setup config object
 		$paypalRequest = $this->initPaypal();
-		$details = new \SpeckPaypal\Element\PaymentDetails (array('amt' => '100.00'));
-        //$details->setSellerPaypalAccountId('123456');
-        // $details->setItemAmt('10.00');
-        // //$details->setShippingAmt('10.00');
-        // //$details->setInsuranceAmt('1.00');
-        // //$details->setShipDiscAmt('5.00');
-        // //$details->setInsuranceOptionOffered(true);
-        // $details->setHandlingAmt('1.00');
-        // $details->setTaxAmt('1.00');
-        $details->setDesc('BGATE description');
+		$details = new \SpeckPaypal\Element\PaymentDetails (array('amt' => $Amount));
+
+        $details->setDesc("Transfer money online ($".$Amount.") to ".$user_login."'s account on BGATE");
         $details->setCustom('custom');
-        $details->setInvNum('1234');
-        // //$details->setNotifyUrl('http://notify.url');
-        // //$details->setNoteText('note');
-        // $details->setTransactionId('1234');
-        // $details->setAllowedPaymentMethod('InstantPaymentOnly');
-        $details->setPaymentRequestId('1234');
+        $details->setInvNum($Amount);
+        $details->setPaymentRequestId($user_login);
         $details->setPaymentReason('Refund');
-        // //$details->setButtonSource('http://buttonsource.url');
-        // //$details->setRecurring(true);
-        $item = new \SpeckPaypal\Element\PaymentItem;
-        $item->setName('name');
-        $item->setDesc('desc');
-        $item->setAmt('10.00');
-        $item->setNumber('1234');
-        $item->setQty('1');
-        // $item->setTaxAmt('0.00');
-        // $item->setItemWeightValue('1.0');
-        // $item->setItemWeightUnit('lbs');
-        // $item->setItemLengthValue('1.0');
-        // $item->setItemLengthUnit('inch');
-        // $item->setItemWidthValue('1.0');
-        // $item->setItemWidthUnit('inch');
-        // $item->setItemHeightValue('1.0');
-        // $item->setItemHeightUnit('inch');
-        // $item->setItemUrl('http://anitem.url');
-        // $item->setItemCategory('Digital');
-
-        $details->setItems(array($item));
-
 		$express = new \SpeckPaypal\Request\SetExpressCheckout(array('paymentDetails' => $details));
-		$express->setReturnUrl('http://localhost/bgate/payment/returnpaypal');
-		$express->setCancelUrl('http://localhost/bgate/payment/cancel');
+
+		$uri = new \Zend\Uri\Uri($this->getRequest()->getUri());
+
+		$returnUrl = $uri->getScheme() . '://' . $uri->getHost() . $this->url()->fromRoute('payment',
+					array('controller'=>'payment',
+				        'action' => 'returnpaypal'));
+		$cancelUrl = $uri->getScheme() . '://' . $uri->getHost() . $this->url()->fromRoute('payment',
+					array('controller'=>'payment',
+				        'action' => 'cancelpaypal'));
+		// var_dump($returnUrl);
+		// var_dump($cancelUrl);
+		// die();
+		$express->setReturnUrl($returnUrl);
+		$express->setCancelUrl($cancelUrl);
 		$response = $paypalRequest->send($express);
 
-		return $this->redirect()->toUrl("https://www.sandbox.paypal.com/webscr&cmd=_express-checkout&token=".$response->getToken());
+		$token = $response->getToken();
+		$url = $this->config_handle['settings']['paypal']['url'].$token;
+		//Log Transaction
+		$TransactionLog = new \model\TransactionLog();
+		$TransactionLogFactory = \_factory\TransactionLog::get_instance();
 
-		//echo $response->isSuccess();
-		// var_dump($response->getToken());
+		$TransactionLog->ID = 0;
+		$TransactionLog->Identify = $user_id;
+		$TransactionLog->RequestURL = $url;
+		$TransactionLog->RequestIP = $_SERVER ['REMOTE_ADDR'];
+		$TransactionLog->RequestTime = date("Y-m-d H:i:s");
+		$TransactionLog->MerchTxnRef = $token;
+		$TransactionLog->IP = $_SERVER ['REMOTE_ADDR'];
+		$TransactionLog->Type = 0;
+		$TransactionLog->Status = 1;
 
+		$TransactionLogFactory->saveTransactionLog($TransactionLog);
 
-		// $token = $response->getToken();
+		return $this->redirect()->toUrl($url);
 
-		// $details = new \SpeckPaypal\Request\GetExpressCheckoutDetails(array('token' => $token));
-
-		// $response = $paypalRequest->send($details);
-
-		// $payerId = $response->getPayerId();
-
-		// var_dump($response->getPayerId());
-
-		// To capture express payment
-		// $captureExpress = new \SpeckPaypal\Request\DoExpressCheckoutPayment(array(
-		//     'token'             => $token,
-		//     'payerId'           => $payerId,
-		//     'paymentDetails'    => $paymentDetails
-		// ));
-		// $response = $paypalRequest->send($captureExpress);
-
-		// echo $response->isSuccess();
-
-		// $transactionSearch = new \SpeckPaypal\Request\TransactionSearch();
-		// $transactionSearch->setStartDate('2014-06-21T00:00:00Z');
-
-		// $paypalRequest = $serviceManager->get('SpeckPaypal\Service\Request');
-		// $response = $paypalRequest->send($transactionSearch);
-
-		//var_dump($response->isSuccess());
-
-		// echo $response->getTransactionId();
-		// var_dump($paypalRequest->getConfig());
-		//var_dump($response->isSuccess());
-		//var_dump($token);
-		// var_dump($response->getTransactionId());
-		// die();
-		// var_dump(	}
 	}
 	public function returnpaypalAction()
+	{
+		//To capture express payment
+		$captureExpress = new \SpeckPaypal\Request\DoExpressCheckoutPayment(array(
+		    'token'             => $token,
+		    'payerId'           => $payerId,
+		    'paymentDetails'    => $paymentDetails
+		));
+		$response = $paypalRequest->send($captureExpress);
+
+		$paypalRequest = $this->initPaypal();
+		$token = $_GET['token'];
+		$details = new \SpeckPaypal\Request\GetExpressCheckoutDetails(array('token' => $token));
+		$response = $paypalRequest->send($details);
+		var_dump($response);
+		die();
+
+	}
+	public function cancelpaypalAction()
 	{
 		$paypalRequest = $this->initPaypal();
 		$token = $_GET['token'];
