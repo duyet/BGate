@@ -15,7 +15,13 @@ function submitForm() {
       <div class="col-sm-5 text-right">
           <a href="<?php echo $this->basePath() ?>/publisher/editdomain/<?php echo $domain_id ?>" class="btn btn-primary btn-margin mrg5T">Edit</a> &nbsp;
           <a href="javascript:;" class="btn btn-danger btn-margin mrg5T" onclick="deleteDomainModal(<?php echo $domain_id ?>,'<?php echo $domain_obj->WebDomain ?>')">Delete</a> &nbsp;
+          <?php
+          if (!$is_admin):
+          ?>
           <a href="<?php echo $this->basePath() ?>/publisher/zone/<?php echo $domain_id ?>/create/" class="btn btn-success mrg5T">Create Ad-Zone</a>
+          <?php
+          endif;
+          ?>
       </div>
     </div>
   </div>

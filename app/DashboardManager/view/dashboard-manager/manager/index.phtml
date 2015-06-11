@@ -24,7 +24,6 @@
                 <hr class="mrg5T mrg5B">
                 <div class="text-right">
                   <a class="bright-text tooltip-item" title="Domain List" href="<?php echo $this->basePath() ?>/publisher"><i class="glyphicon glyphicon-th-list"></i></a>&nbsp;
-                  <a class="bright-text tooltip-item" title="Add Domain" href="<?php echo $this->basePath() ?>/publisher/createdomain"><i class="glyphicon glyphicon-plus"></i></a>
                 </div>
               </div>
             </div>
@@ -53,21 +52,6 @@
                       
                     </ul>
                   </div>
-                  <div class="toggle-item display-inline tooltip-item" title="Add Ad-zone">
-                    <a class="dropdown-toggle bright-text"  data-toggle="dropdown" href="#">
-                      <i class="glyphicon glyphicon-plus"></i>
-                    </a>
-
-                    <ul class="dropdown-menu pull-right"  role="menu" aria-labelledby="dropdownMenu">
-                      <?php foreach ($domain_list as $key => $val): ?>
-                      <li> <a tabindex="-1" class="disabled" href="<?php echo $this->basePath() ?>/publisher/zone/<?php echo $val->PublisherWebsiteID ?>/create"><?php echo $val->WebDomain ?></a>
-
-                      </li>
-                      <?php endforeach; ?>
-                      
-                    </ul>
-                  </div>
-
                 </div>
               </div>
             </div>
@@ -99,7 +83,6 @@
                 <hr class="mrg5T mrg5B">
                 <div class="text-right">
                   <a class="bright-text tooltip-item" title="Campaigns List" href="<?php echo $this->basePath() ?>/demand"><i class="glyphicon glyphicon-th-list"></i></a>&nbsp;
-                  <a class="bright-text tooltip-item" title="Add Campaign" href="<?php echo $this->basePath() ?>/demand/createcampaign"><i class="glyphicon glyphicon-plus"></i></a>
                 </div>
               </div>
             </div>
@@ -128,21 +111,6 @@
                       
                     </ul>
                   </div>
-                  <div class="toggle-item display-inline tooltip-item" title="Add Banner">
-                    <a class="dropdown-toggle bright-text"  data-toggle="dropdown" href="#">
-                      <i class="glyphicon glyphicon-plus"></i>
-                    </a>
-
-                    <ul class="dropdown-menu pull-right"  role="menu" aria-labelledby="dropdownMenu">
-                      <?php foreach ($campaigns_list as $key => $val): ?>
-                      <li> <a tabindex="-1" class="disabled" href="<?php echo $this->basePath() ?>/demand/createbanner/<?php echo $val->AdCampaignPreviewID ?>/?ispreview=true"><?php echo $val->Name ?></a>
-
-                      </li>
-                      <?php endforeach; ?>
-                      
-                    </ul>
-                  </div>
-
                 </div>
               </div>
             </div>

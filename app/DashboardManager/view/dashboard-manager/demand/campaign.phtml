@@ -26,7 +26,13 @@ $effective_user_in_dashboard = false;
       <div class="col-md-5 col-sm-5 text-right col-xs-6">
         <a href="<?php echo $this->basePath() ?>/demand/editcampaign/<?php echo $campaignpreviewid;?>/?ispreview=<?php echo $ispreview?>" class="btn btn-primary btn-margin mrg5T">Edit</a>
         <a href="javascript:;" class="btn btn-danger btn-margin mrg5T" onclick="DeleteCampaignModal(<?php echo $campaignpreviewid;?>,<?php echo $campaignname;?>)">Delete</a>
+        <?php
+        if (!$is_admin):
+        ?>
         <a href="<?php echo $this->basePath() ?>/demand/createbanner/<?php echo $campaignpreviewid;?>/?ispreview=<?php if ($ispreview=='1')echo 'true'?>" class="btn btn-success mrg5T">Create Ad</a>
+        <?php
+        endif;
+        ?>
       </div>
     </div>
   </div>

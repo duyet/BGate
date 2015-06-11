@@ -97,7 +97,7 @@ function InvocationShow ( domain_id, ad_id ) {
 	
 	$('#InvocationCodeModal').modal('show');
 	
-	$.post("/publisher/zone/" + domain_id + "/generatetag", { ad_id: ad_id }, function( data ) {
+	$.post(basePath + "/publisher/zone/" + domain_id + "/generatetag", { ad_id: ad_id }, function( data ) {
 		$('#adtag_progress_bar').css("display","none");
 		$('#adtag').html(data.data.tag);
 		$('#adtag').css("display","block");

@@ -138,8 +138,9 @@ var AdzoneTable = {
                 // var detail_url= data.name + " (" + data.id + ")"; 
                 var edit_url= "<a href='"+ basePath  + "/publisher/zone/"+data.domain_id+"/edit/" + data.id + "'><span class='glyphicon glyphicon-pencil'></span></a>&nbsp;";
                 var delete_url= '<a href="javascript:;" onclick="deleteZoneModal('+ data.domain_id +','+data.id+ ', \'' + data.name +'\' )"><span class="glyphicon glyphicon-trash"></span>' + '</a>';
+                var copy_code_url = '<a href="javascript:;" onclick="InvocationShow('+ data.domain_id +','+data.id+ ')"><span class="glyphicon glyphicon-copy"></span>' + '</a>';
           
-                return detail_url + "<hr class='mrg5T mrg5B'/><div class='row-action'>" + edit_url + " " + delete_url + "</div>";
+                return detail_url + "<hr class='mrg5T mrg5B'/><div class='row-action'>" + edit_url + " " + delete_url + "  " + copy_code_url + "</div>";
               } 
             },
             { "data": "AdStatus" },
