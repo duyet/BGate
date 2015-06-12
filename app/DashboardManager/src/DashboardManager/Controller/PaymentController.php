@@ -113,7 +113,7 @@ class PaymentController extends PublisherAbstractActionController {
         $details->setDesc("Transfer money online ($".$Amount.") to ".$user_login."'s account on BGATE");
         $details->setCustom('custom');
         $details->setInvNum($Amount);
-        $details->setPaymentRequestId($user_login);
+        $details->setPaymentRequestId($user_id);
         $details->setPaymentReason('Refund');
 		$express = new \SpeckPaypal\Request\SetExpressCheckout(array('paymentDetails' => $details));
 
@@ -146,39 +146,146 @@ class PaymentController extends PublisherAbstractActionController {
 		$TransactionLog->MerchTxnRef = $token;
 		$TransactionLog->IP = $_SERVER ['REMOTE_ADDR'];
 		$TransactionLog->Type = 0;
-		$TransactionLog->Status = 1;
+		$TransactionLog->Status = 0;
 
 		$TransactionLogFactory->saveTransactionLog($TransactionLog);
 
 		return $this->redirect()->toUrl($url);
 
 	}
+	protected function checkSuccessPaypal($response)
+    {
+    	$success = false;
+    	$Message = '';
+        if(!isset($response['ACK'])) {
+            $success = false;
+            $Message = 'ACK key not found in response.';
+        } else if($response['ACK'] == "Success" || $response['ACK'] == "SuccessWithWarning") {
+            $success = true;
+        }
+
+        if(isset($response['ERRORS'])) {
+            foreach($response['ERRORS'] as $error) {
+                if(isset($error['LONGMESSAGE'])) {
+                    $Message .= ' '.$error['LONGMESSAGE'];
+                }
+            }
+        } 
+
+        return array('result' => $success, 'message' => $Message);
+    }
 	public function returnpaypalAction()
 	{
-		//To capture express payment
-		$captureExpress = new \SpeckPaypal\Request\DoExpressCheckoutPayment(array(
-		    'token'             => $token,
-		    'payerId'           => $payerId,
-		    'paymentDetails'    => $paymentDetails
-		));
-		$response = $paypalRequest->send($captureExpress);
+		$request = $this->getRequest();
+		if ($request->isGet()):
+			$token		   = $request->getQuery('token');
+			$payerId       = $request->getQuery('PayerID');
+			$paypalRequest = $this->initPaypal();
 
-		$paypalRequest = $this->initPaypal();
-		$token = $_GET['token'];
-		$details = new \SpeckPaypal\Request\GetExpressCheckoutDetails(array('token' => $token));
-		$response = $paypalRequest->send($details);
-		var_dump($response);
-		die();
+			$details = new \SpeckPaypal\Request\GetExpressCheckoutDetails(array('token' => $token));
+			$response = $paypalRequest->send($details);
+			$response_arr = $response->toArray();
 
+			$doAuthorize = new \SpeckPaypal\Request\DoAuthorize(array(
+				'transactionId' => '6H9860437V720670R',
+				'amt' => $response_arr['AMT'],
+				'msgSubId' => $response_arr['CHECKOUTSTATUS']
+
+			));
+
+			$paymentDetails = new \SpeckPaypal\Element\PaymentDetails (array('amt' => $response_arr['AMT']));
+	        $paymentDetails->setDesc($response_arr['DESC']);
+	        $paymentDetails->setCustom($response_arr['CUSTOM']);
+	        $paymentDetails->setInvNum($response_arr['INVNUM']);
+	        $paymentDetails->setPaymentRequestId($response_arr['PAYMENTREQUEST'][0]['PAYMENTREQUESTID']);
+	        $paymentDetails->setPaymentReason($response_arr['PAYMENTREQUEST'][0]['PAYMENTREASON']);
+
+			//To capture express payment			
+			$captureExpress = new \SpeckPaypal\Request\DoExpressCheckoutPayment(array(
+			    'token'             => $token,
+			    'payerId'           => $payerId,
+			    'paymentDetails'    => $paymentDetails
+			));
+			$response = $paypalRequest->send($captureExpress);
+			$response_arr = $response->toArray();
+
+			$result = $this->checkSuccessPaypal($response_arr);
+
+			$initialized = $this->initialize();
+			$user_id = $this->auth->getUserID();
+
+			if($result['result'] AND isset($user_id) AND !empty($user_id)):
+				// $TransactionLog = new \model\TransactionLog();
+
+				// var_dump($user_id);
+				// die();
+				$TransactionLogFactory = \_factory\TransactionLog::get_instance();
+				$TransactionLog = $TransactionLogFactory->get_row_object(array(
+					"MerchTxnRef" => $token,
+					'Identify' => $user_id
+					));
+				if(empty($TransactionLog->ResponseURL)):
+					$uri = new \Zend\Uri\Uri($this->getRequest()->getUri());
+
+					$TransactionLog->RequestURL =  $uri;
+					$TransactionLog->RequestIP =  $_SERVER ['REMOTE_ADDR'];
+					$TransactionLog->RequestTime =  date("Y-m-d H:i:s");
+					$TransactionLog->Status = 1;
+					
+					$TransactionLog->HashValidated =  $_SERVER ['REMOTE_ADDR'];
+					$TransactionLog->ResponseCode =  $response_arr['PAYMENTREQUEST'];
+					$TransactionLog->ResponseDescription = $result['message'];
+
+
+				else:
+
+				endif;
+
+				die();
+			else:
+
+			endif;
+
+                var_dump ($result);
+			die();
+		endif;
 	}
 	public function cancelpaypalAction()
 	{
-		$paypalRequest = $this->initPaypal();
-		$token = $_GET['token'];
-		$details = new \SpeckPaypal\Request\GetExpressCheckoutDetails(array('token' => $token));
-		$response = $paypalRequest->send($details);
-		var_dump($response);
-		die();
+		$request = $this->getRequest();
+		if ($request->isGet()):
+			$token		   = $request->getQuery('token');
+			$payerId       = $request->getQuery('PayerID');
+			$paypalRequest = $this->initPaypal();
+		// $token = $_GET['token'];
+			$details = new \SpeckPaypal\Request\GetExpressCheckoutDetails(array('token' => $token));
+			$response = $paypalRequest->send($details);
+			$response_arr = $response->toArray();
+
+
+			var_dump($response);
+			die('paymentDetails');
+			$paymentDetails = new \SpeckPaypal\Element\PaymentDetails (array('amt' => $response_arr['AMT']));
+	        $paymentDetails->setDesc($response_arr['DESC']);
+	        $paymentDetails->setCustom($response_arr['CUSTOM']);
+	        $paymentDetails->setInvNum($response_arr['INVNUM']);
+	        $paymentDetails->setPaymentRequestId($response_arr['PAYMENTREQUEST'][0]['PAYMENTREQUESTID']);
+	        $paymentDetails->setPaymentReason($response_arr['PAYMENTREQUEST'][0]['PAYMENTREASON']);
+			//To capture express payment
+			
+			$captureExpress = new \SpeckPaypal\Request\DoExpressCheckoutPayment(array(
+			    'token'             => $token,
+			    'payerId'           => $payerId,
+			    'paymentDetails'    => $paymentDetails
+			));
+			$response = $paypalRequest->send($captureExpress);
+
+
+			var_dump($response);
+			// die();
+
+			die();
+		endif;
 
 	}
 }
