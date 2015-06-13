@@ -112,17 +112,22 @@ class PaymentController extends PublisherAbstractActionController {
 
         $details->setDesc("Transfer money online ($".$Amount.") to ".$user_login."'s account on BGATE");
         $details->setCustom('custom');
-        $details->setInvNum($Amount);
+        // $details->setInvNum(date("YmdHisu"));
         $details->setPaymentRequestId($user_id);
         $details->setPaymentReason('Refund');
 		$express = new \SpeckPaypal\Request\SetExpressCheckout(array('paymentDetails' => $details));
 
 		$uri = new \Zend\Uri\Uri($this->getRequest()->getUri());
 
-		$returnUrl = $uri->getScheme() . '://' . $uri->getHost() . $this->url()->fromRoute('payment',
+		$port = intval($uri->getPort());
+		$url_base = $uri->getScheme() . '://' . $uri->getHost();
+		if($port !== 80):
+			$url_base = $uri->getScheme() . '://' . $uri->getHost() . ':' . $port;
+		endif;
+		$returnUrl = $url_base . $this->url()->fromRoute('payment',
 					array('controller'=>'payment',
 				        'action' => 'returnpaypal'));
-		$cancelUrl = $uri->getScheme() . '://' . $uri->getHost() . $this->url()->fromRoute('payment',
+		$cancelUrl = $url_base . $this->url()->fromRoute('payment',
 					array('controller'=>'payment',
 				        'action' => 'cancelpaypal'));
 		// var_dump($returnUrl);
@@ -134,6 +139,9 @@ class PaymentController extends PublisherAbstractActionController {
 
 		$token = $response->getToken();
 		$url = $this->config_handle['settings']['paypal']['url'].$token;
+		// var_dump($response->isSuccess());
+		// var_dump($response);
+		// die();
 		//Log Transaction
 		$TransactionLog = new \model\TransactionLog();
 		$TransactionLogFactory = \_factory\TransactionLog::get_instance();
@@ -177,6 +185,8 @@ class PaymentController extends PublisherAbstractActionController {
 	public function returnpaypalAction()
 	{
 		$request = $this->getRequest();
+		// var_dump($request->isGet());
+		// 			die('getRequest');
 		if ($request->isGet()):
 			$token		   = $request->getQuery('token');
 			$payerId       = $request->getQuery('PayerID');
@@ -184,21 +194,22 @@ class PaymentController extends PublisherAbstractActionController {
 
 			$details = new \SpeckPaypal\Request\GetExpressCheckoutDetails(array('token' => $token));
 			$response = $paypalRequest->send($details);
-			$response_arr = $response->toArray();
-
+			$details_arr = $response->toArray();
+			//var_dump($response_arr);
+			//die('getRequest');
 			$doAuthorize = new \SpeckPaypal\Request\DoAuthorize(array(
 				'transactionId' => '6H9860437V720670R',
-				'amt' => $response_arr['AMT'],
-				'msgSubId' => $response_arr['CHECKOUTSTATUS']
+				'amt' => $details_arr['AMT'],
+				'msgSubId' => $details_arr['CHECKOUTSTATUS']
 
 			));
 
-			$paymentDetails = new \SpeckPaypal\Element\PaymentDetails (array('amt' => $response_arr['AMT']));
-	        $paymentDetails->setDesc($response_arr['DESC']);
-	        $paymentDetails->setCustom($response_arr['CUSTOM']);
-	        $paymentDetails->setInvNum($response_arr['INVNUM']);
-	        $paymentDetails->setPaymentRequestId($response_arr['PAYMENTREQUEST'][0]['PAYMENTREQUESTID']);
-	        $paymentDetails->setPaymentReason($response_arr['PAYMENTREQUEST'][0]['PAYMENTREASON']);
+			$paymentDetails = new \SpeckPaypal\Element\PaymentDetails (array('amt' => $details_arr['AMT']));
+	        $paymentDetails->setDesc($details_arr['DESC']);
+	        $paymentDetails->setCustom($details_arr['CUSTOM']);
+	        $paymentDetails->setInvNum($details_arr['INVNUM']);
+	        $paymentDetails->setPaymentRequestId($details_arr['PAYMENTREQUEST'][0]['PAYMENTREQUESTID']);
+	        $paymentDetails->setPaymentReason($details_arr['PAYMENTREQUEST'][0]['PAYMENTREASON']);
 
 			//To capture express payment			
 			$captureExpress = new \SpeckPaypal\Request\DoExpressCheckoutPayment(array(
@@ -214,40 +225,62 @@ class PaymentController extends PublisherAbstractActionController {
 			$initialized = $this->initialize();
 			$user_id = $this->auth->getUserID();
 
-			if($result['result'] AND isset($user_id) AND !empty($user_id)):
-				// $TransactionLog = new \model\TransactionLog();
+			$checkout_details = $paypalRequest->send($details);
+			$checkout_details_arr = $checkout_details->toArray();
 
-				// var_dump($user_id);
-				// die();
-				$TransactionLogFactory = \_factory\TransactionLog::get_instance();
-				$TransactionLog = $TransactionLogFactory->get_row_object(array(
-					"MerchTxnRef" => $token,
-					'Identify' => $user_id
-					));
+			$TransactionLogFactory = \_factory\TransactionLog::get_instance();
+			$TransactionLog = $TransactionLogFactory->get_row_object(array(
+				"MerchTxnRef" => $token,
+			));
+
+			if($result['result'] AND isset($user_id) AND !empty($user_id)):			
 				if(empty($TransactionLog->ResponseURL)):
 					$uri = new \Zend\Uri\Uri($this->getRequest()->getUri());
 
 					$TransactionLog->RequestURL =  $uri;
 					$TransactionLog->RequestIP =  $_SERVER ['REMOTE_ADDR'];
-					$TransactionLog->RequestTime =  date("Y-m-d H:i:s");
+					$TransactionLog->RequestTime =  $response_arr["TIMESTAMP"];
 					$TransactionLog->Status = 1;
 					
-					$TransactionLog->HashValidated =  $_SERVER ['REMOTE_ADDR'];
-					$TransactionLog->ResponseCode =  $response_arr['PAYMENTREQUEST'];
+					$TransactionLog->HashValidated =  $response_arr['ACK'];
+					$TransactionLog->ResponseCode =  $checkout_details_arr['CHECKOUTSTATUS'];					
 					$TransactionLog->ResponseDescription = $result['message'];
+					$TransactionLog->Result = 'Transaction was paid successful';
+					$TransactionLogFactory->saveTransactionLog($TransactionLog);
 
+					$TransactionDetail = new \model\TransactionDetail();
+					$TransactionDetailFactory = \_factory\TransactionDetail::get_instance();
+					$TransactionDetail->TransactionLogID = $TransactionLog->ID;
+					$TransactionDetail->UserID = $user_id;
+					$TransactionDetail->Type = 0;
+					$TransactionDetail->Amount = $details_arr['AMT'];
+					$TransactionDetail->Description = $details_arr['DESC'];
+					$TransactionDetailFactory->saveTransactionDetail($TransactionDetail);
 
+					return $this->redirect()->toRoute('payment',
+					array('controller'=>'payment',
+				        'action' => 'paypaltransfer',
+				        'param1' => $TransactionLog->ID));
 				else:
-
+					return $this->redirect()->toRoute('payment',
+					array('controller'=>'payment',
+				        'action' => 'paypaltransfer',
+				        'param1' => $TransactionLog->ID));
 				endif;
-
-				die();
 			else:
-
+				$TransactionLog->ResponseDescription = $result['message'];
+				$TransactionLog->Result = 'Transaction was not paid successful';
+				$TransactionLogFactory->saveTransactionLog($TransactionLog);
+				return $this->redirect()->toRoute('payment',
+					array('controller'=>'payment',
+				        'action' => 'paypaltransfer',
+				        'param1' => $TransactionLog->ID));
 			endif;
 
-                var_dump ($result);
-			die();
+                // var_dump ($result);
+			// die();
+		else:
+			return $this->notFoundAction ();
 		endif;
 	}
 	public function cancelpaypalAction()
@@ -255,37 +288,48 @@ class PaymentController extends PublisherAbstractActionController {
 		$request = $this->getRequest();
 		if ($request->isGet()):
 			$token		   = $request->getQuery('token');
-			$payerId       = $request->getQuery('PayerID');
-			$paypalRequest = $this->initPaypal();
-		// $token = $_GET['token'];
-			$details = new \SpeckPaypal\Request\GetExpressCheckoutDetails(array('token' => $token));
-			$response = $paypalRequest->send($details);
-			$response_arr = $response->toArray();
-
-
-			var_dump($response);
-			die('paymentDetails');
-			$paymentDetails = new \SpeckPaypal\Element\PaymentDetails (array('amt' => $response_arr['AMT']));
-	        $paymentDetails->setDesc($response_arr['DESC']);
-	        $paymentDetails->setCustom($response_arr['CUSTOM']);
-	        $paymentDetails->setInvNum($response_arr['INVNUM']);
-	        $paymentDetails->setPaymentRequestId($response_arr['PAYMENTREQUEST'][0]['PAYMENTREQUESTID']);
-	        $paymentDetails->setPaymentReason($response_arr['PAYMENTREQUEST'][0]['PAYMENTREASON']);
-			//To capture express payment
-			
-			$captureExpress = new \SpeckPaypal\Request\DoExpressCheckoutPayment(array(
-			    'token'             => $token,
-			    'payerId'           => $payerId,
-			    'paymentDetails'    => $paymentDetails
+			$TransactionLogFactory = \_factory\TransactionLog::get_instance();
+			$TransactionLog = $TransactionLogFactory->get_row_object(array(
+				"MerchTxnRef" => $token,
 			));
-			$response = $paypalRequest->send($captureExpress);
 
-
-			var_dump($response);
-			// die();
-
-			die();
+			$TransactionLog->ResponseDescription = 'A customer had cancel a transaction';
+			$TransactionLog->Result = 'Transaction was not paid successful';
+			$TransactionLogFactory->saveTransactionLog($TransactionLog);
+			return $this->redirect()->toRoute('payment',
+				array('controller'=>'payment',
+			        'action' => 'paypaltransfer',
+			        'param1' => $TransactionLog->ID));
+		else:
+			return $this->notFoundAction ();
 		endif;
+
+	}
+	public function resultpaymentAction()
+	{
+		$auth = $this->getServiceLocator()->get('AuthService');
+		if (!$auth->hasIdentity()):
+     	 	return $this->redirect()->toRoute('login');
+    	endif;
+    	 
+		$initialized = $this->initialize();
+		if ($initialized !== true) return $initialized;
+		$success_msg = null;
+
+		$ID = $this->getEvent()->getRouteMatch()->getParam('param1');
+
+		$TransactionLogFactory = \_factory\TransactionLog::get_instance();
+		$TransactionLog = $TransactionLogFactory->get_row_object(array(
+			"ID" => $ID,
+		));
+
+		$view = new ViewModel(array(
+    		// 'dashboard_view' => 'signup',
+    		'transaction' => $TransactionLog,
+    		// 'success_msg' => $success_msg,
+    		// 'partner_type' => \util\DeliveryFilterOptions::$partner_type
+    	));
+		return $view->setTemplate('dashboard-manager/payment/resultpayment.phtml');
 
 	}
 }
