@@ -22,6 +22,13 @@ use Zend\Mime;
  */
 class DemandController extends DemandAbstractActionController {
 
+	// public function __construct(){
+	// 	$initialized = $this->initialize();
+	// 	if ($initialized !== true) return $initialized;
+
+ //       	var_dump($this);die;
+ //    }
+
 	/**
 	 * Display the demand dashboard page
 	 * 
@@ -3904,6 +3911,7 @@ class DemandController extends DemandAbstractActionController {
 
 	public function reportAction()
 	{    
+
 		$initialized = $this->initialize();
 		if ($initialized !== true) return $initialized;
 		// get search value
@@ -3911,7 +3919,6 @@ class DemandController extends DemandAbstractActionController {
 		// pagination value
 		$PageSize = (int) $this->getRequest()->getQuery("length");
 		$Offset =   (int) $this->getRequest()->getQuery("start");
-
 		// End List web
 		$headers = array("#","Ad-Campaign","Ad-Banner","Click Count","Imp Count","Outcome","Date",);
 		$view = new ViewModel(array(
@@ -3919,7 +3926,8 @@ class DemandController extends DemandAbstractActionController {
 			'user_id_list' => $this->user_id_list_publisher,
 			'true_user_name' => $this->true_user_name,
 			'user_identity' => $this->identity(),
-			'table_list' => $headers
+			'table_list' => $headers,
+			'translator' => $this->getServiceLocator()->get('translator')
 
 
 		));

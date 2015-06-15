@@ -44,6 +44,8 @@ class Module implements AutoloaderProviderInterface
     {
         // Define all the shortcut variables to the various managers in the system.
         $e->getApplication()->getServiceManager()->get('translator');
+
+
         $eventManager   = $e->getApplication()->getEventManager();
         $serviceManager = $e->getApplication()->getServiceManager();
         $sm = $e->getApplication()->getServiceManager();
@@ -70,6 +72,11 @@ class Module implements AutoloaderProviderInterface
         $dbAdapter = $serviceManager->get('Zend\Db\Adapter\Adapter');
         \Zend\Db\TableGateway\Feature\GlobalAdapterFeature::setStaticAdapter($dbAdapter);
 
+
+        $auth = $sm->get('AuthService');
+        $auth->getLocale();
+        $e->getApplication()->getServiceManager()->get('translator')->setlocale($auth->getLocale());
+         
     }
 
     /**

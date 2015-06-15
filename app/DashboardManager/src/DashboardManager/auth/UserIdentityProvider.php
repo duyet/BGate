@@ -47,6 +47,10 @@ class UserIdentityProvider extends AuthenticationService implements IdentityProv
     	if (null !== $adapter): 
     		$this->setAdapter($adapter);
     	endif;
+
+
+        
+
     }
     
     /**
@@ -369,6 +373,18 @@ class UserIdentityProvider extends AuthenticationService implements IdentityProv
         
         return $auth_Users_list;
     }
+
+    public function getLocale()
+    {
+        $authUsersFactory = \_factory\authUsers::get_instance();
+        $params = array();
+        $params["user_id"] = $this->getUserID(); 
+        $auth_Users_list = $authUsersFactory->get($params);
+
+        return $auth_Users_list[0]->locale;
+    
+    }
+
     
 }
 

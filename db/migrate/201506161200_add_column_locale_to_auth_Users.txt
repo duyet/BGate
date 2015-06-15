@@ -1,0 +1,1 @@
+ALTER TABLE `auth_Users` ADD `locale` CHAR(10) NOT NULL DEFAULT 'en_US' ;
