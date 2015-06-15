@@ -17,6 +17,17 @@ function validateEmail(email)
 	}
 }
 
+function validateAmount (amount) {
+	var balance = $("#currentBalance").val();
+	if (parseInt(amount) > parseInt(balance)){
+		$("#cdn_form_msg").html("Required fields are missing.");
+		return false;
+	}
+	else{
+		return true;
+	}
+}
+
 function getValidDomain(domain)
 {
 	var re_weburl = new RegExp(
@@ -464,6 +475,10 @@ $.validator.addMethod("validatedomain", function(value) {
 		return getValidDomain(value);
 }, 'Please enter a valid domain.');
 
+$.validator.addMethod("validateamount", function(value) {
+		return validateAmount(value);
+}, 'The amount must be less than or equal to the current balance of your account.');
+
 // $.validator.addMethod("validateIABSize", function(value) {
 // 		var IAB_height = $('#IAB-height').val();
 // 		var IAB_width = $('#IAB-width').val();
@@ -756,6 +771,25 @@ $().ready(function() {
 		}
 	});
 	
+	// Payout form validation
+	var validator = $("#payout").bind("invalid-form.validate", function() {
+			$("#cdn_form_msg").html("Required fields are missing.");
+		}).validate({
+		rules: {
+           	Amount: {  
+               required: true,
+               validateamount: true
+           	}
+		},
+		errorContainer: $("#cdn_form_msg"),
+		errorClass: 'cdn_form_error',
+		highlight: function(element, errorClass, validClass) {
+			$(element).parent().addClass("error");
+		},
+		unhighlight: function(element, errorClass, validClass) {
+			$(element).parent().removeClass("error");
+		}
+	});
 
 	// Campaign form validation
 	var validator = $("#campaign").bind("invalid-form.validate", function() {
