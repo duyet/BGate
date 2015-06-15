@@ -770,8 +770,22 @@ var UserPayoutTable = {
         "columns": [
             { "data": "index", className: "text-center" },
             { "data": "created_at", "width": "20%" },
+            { "data": "Name" },
             { "data": "Amount" },
-            { "data": "Status" }
+            { "data": "Status",
+              render: function(data){
+                var dt = self.table.fnGetData();
+                var is_admin = dt[0].is_admin;
+                if (is_admin)
+                  if (data.flag=="Processing")
+                    return "<p class='text-center' id='payout-flag-" + data.id + "'>" + data.flag + "</p><hr class='mrg5T mrg5B'/><div class='row-action text-center'><a id='payout-flag-action"+ data.id +"' href='javascript:;' onclick='changePayoutFlag(1, "+ data.id +")'>TRANSFER COMPLETED</a></div>";
+                  else
+                    return "<p class='text-center'>" + data.flag + "</p>";
+                else
+                  return "<p class='text-center'>" + data.flag + "</p>";
+              }
+
+            }
         ],
         initComplete: function () {  
         },

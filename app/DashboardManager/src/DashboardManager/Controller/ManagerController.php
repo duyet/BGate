@@ -219,4 +219,9 @@ class ManagerController extends DemandAbstractActionController {
         die;
     }
 
+    public function userPayoutAction()
+    {
+        # code...
+    }
+
 }

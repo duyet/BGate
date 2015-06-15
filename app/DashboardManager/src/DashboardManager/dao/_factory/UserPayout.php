@@ -62,7 +62,15 @@ class UserPayout extends \_factory\CachedTableRead
         $obj_list = array();
 
     	$resultSet = $this->select(function (\Zend\Db\Sql\Select $select) use ($params, $orders, $search, $limit, $offset) {
-        		foreach ($params as $name => $value):
+        		
+                $select->join("PublisherInfo",
+                    "PublisherInfo.PublisherInfoID = UserPayout.UserID",
+                    array(
+                        "Name" => "Name",
+                        ),
+                    $select::JOIN_INNER);
+
+                foreach ($params as $name => $value):
         		$select->where(
         				$select->where->equalTo($name, $value)
         		);

@@ -250,7 +250,8 @@ class PublisherController extends PublisherAbstractActionController {
 					$row["UserPayoutID"] = $row_data["UserPayoutID"];
 					$row["UserID"] = $row_data["UserID"];
 					$row["Amount"] = $row_data["Amount"];
-					$row["Status"] = $status_mapper[$row_data["Status"]];
+					$row["Name"] = $row_data["Name"];
+					$row["Status"] = array('flag' => $status_mapper[$row_data["Status"]], "id" => $row_data["UserPayoutID"] );
 					$row["created_at"] = $row_data["DateCreated"];
 					$row["updated_at"] = $row_data["DateUpdated"];
 					$row["is_admin"] = $this->is_admin;
@@ -411,7 +412,6 @@ class PublisherController extends PublisherAbstractActionController {
 			 'domain_list' => $this->order_data_table($meta_data, $PublisherWebsiteList, $headers),
 			 'is_admin' => $this->is_admin,
 			 'user_id_list' => $this->user_id_list_publisher,
-			 'user_balance' => $PublisherInfo->Balance,
 			 'domain_owner' => isset($PublisherInfo->Name) ? $PublisherInfo->Name : "",
 			 'impersonate_id' => $this->ImpersonateID,
 			 'effective_id' => $this->auth->getEffectiveIdentityID(),
@@ -481,6 +481,68 @@ class PublisherController extends PublisherAbstractActionController {
 	    $update_publisher_website_id = $PublisherWebsiteFactory->save_domain($PublisherWebsite);;
 		if($update_publisher_website_id):
 			$success = true;
+		else:
+			$error_message = "Unable to update the entry. Please contact customer service.";
+		endif;			
+
+		$data = array(
+			'success' => $success,
+			'data' => array('error_msg' => $error_message)
+		 );
+		 
+		 return $this->getResponse()->setContent(json_encode($data));
+	}
+
+
+
+	/*
+	 * Change payout flag
+	*/
+	public function changepayoutflagAction()
+	{
+		// Initialize things.
+		$error_message = null;
+		$initialized = $this->initialize();
+		if ($initialized !== true) return $initialized;
+		$request = $this->getRequest();
+		$UserPayoutFactory = \_factory\UserPayout::get_instance();
+
+		$success = false;
+		
+		// Check to make sure the value is valid to begin with.
+		$UserPayoutID = intval($this->params()->fromRoute('param1', 0));
+		$flag = $request->getPost('flag');
+		// print_r($UserPayoutID);
+		// print_r($flag);
+		// die();
+
+		$params = array();
+	    $params["UserPayoutID"] = $UserPayoutID;
+	    $_UserPayout = $UserPayoutFactory->get_row($params);
+
+		$UserPayout = new \model\UserPayout();
+		$UserPayout->UserPayoutID  		   = $_UserPayout->UserPayoutID;
+		$UserPayout->UserID       	   	   = $_UserPayout->UserID;
+		$UserPayout->Amount    	   		   = $_UserPayout->Amount;
+		$UserPayout->DateCreated     	   = $_UserPayout->DateCreated;
+		$UserPayout->DateUpdated     	   = date("Y-m-d H:i:s");
+
+		//Update Deleted flag
+		$UserPayout->Status      = $flag;
+		
+	    $user_payout = $UserPayoutFactory->saveRecord($UserPayout);;
+		if($user_payout):
+			if($flag==1):
+				$TransactionDetail = new \model\TransactionDetail();
+				$TransactionDetailFactory = \_factory\TransactionDetail::get_instance();
+				$TransactionDetail->TransactionLogID = '';
+				$TransactionDetail->UserID = $UserPayout->UserID;
+				$TransactionDetail->Type = 1;
+				$TransactionDetail->Amount = $UserPayout->Amount ;
+				$TransactionDetail->Description = "";
+				$TransactionDetailFactory->saveTransactionDetail($TransactionDetail);
+				$success = true;
+			endif;
 		else:
 			$error_message = "Unable to update the entry. Please contact customer service.";
 		endif;			
