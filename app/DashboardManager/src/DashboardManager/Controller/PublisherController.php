@@ -205,6 +205,105 @@ class PublisherController extends PublisherAbstractActionController {
 		
 	}
 
+	/**
+	 * Display the publisher index page, and list all payout history associated.
+	 * 
+	 * @return \Zend\View\Model\ViewModel
+	 */
+	public function payoutlistAction() {
+		$initialized = $this->initialize();
+		if ($initialized !== true) return $initialized;
+
+		$parameters = array(); // Set the parameters to empty first.
+		$SortMap = array("1"=> "DateCreated");
+
+		$OrderArr = $this->getRequest()->getQuery("order");
+		$order = $SortMap[$OrderArr[0]["column"]] . " " . strtoupper($OrderArr[0]["dir"]);
+		
+		// // get search value
+		// $search = $this->getRequest()->getQuery("search")["value"];
+
+		// pagination value
+		$PageSize = (int) $this->getRequest()->getQuery("length");
+		$Offset =   (int) $this->getRequest()->getQuery("start");
+		//Pull list of websites.
+		$UserPayoutFactory = \_factory\UserPayout::get_instance();
+		if (!$this->is_admin):
+			$parameters['UserID'] = $this->PublisherInfoID;
+		endif;
+
+		$UserPayoutList = $UserPayoutFactory->get($parameters, $order, null, $PageSize, $Offset);
+		$TotalUserPayoutCount = count($UserPayoutFactory->get($parameters, null));
+
+		$is_admin = $this->is_admin;
+		
+		$basePath = '';
+
+		$result = array();
+
+		$status_mapper = array(0=>"Processing", 1=>"Transfer Completed", 2=> "Canceled");
+		if (count($UserPayoutList)> 0):
+				foreach ($UserPayoutList AS $row_number => $row_data): 
+					$row = array();
+
+					$row["index"] = $Offset + $row_number+1;
+					$row["UserPayoutID"] = $row_data["UserPayoutID"];
+					$row["UserID"] = $row_data["UserID"];
+					$row["Amount"] = $row_data["Amount"];
+					$row["Status"] = $status_mapper[$row_data["Status"]];
+					$row["created_at"] = $row_data["DateCreated"];
+					$row["updated_at"] = $row_data["DateUpdated"];
+					$row["is_admin"] = $this->is_admin;
+					$result[] = $row;
+
+				endforeach;
+		endif;
+
+		header('Content-type: application/json');
+		echo json_encode(array("recordsTotal" => $TotalUserPayoutCount, "recordsFiltered" => $TotalUserPayoutCount , 'data' => $result));
+
+		die;
+	}
+
+	public function PayoutProcessAction($value='')
+	{
+	    $needed_input = array(
+	        'Amount'
+	    );
+
+		$initialized = $this->initialize();
+		if ($initialized !== true) return $initialized;
+	    $this->validateInput($needed_input);
+
+	    $amount = $this->getRequest()->getPost('Amount');
+	    $userPayoutID = $this->getRequest()->getPost('UserPayoutID');
+
+	    $UserPayout = new \model\UserPayout();
+
+
+	    if ($userPayoutID != null):
+		    
+	       	$UserPayout->UserPayoutID = $userPayoutID;
+
+	       	$params = array();
+	       	$params["UserPayoutID"] = $userPayoutID;
+	       	$UserPayoutFactory = \_factory\UserPayout::get_instance();
+	       	$_UserPayout = $UserPayoutFactory->get_row($params);
+	       	$UserPayout->UserPayoutID 	= $_UserPayout->UserPayoutID;
+	    endif;
+
+	    $UserPayout->UserID             	   = $this->PublisherInfoID; //$this->auth->getEffectiveUserID();
+
+    	$UserPayout->Amount                    = $amount;
+    	$UserPayout->Status                    = 0;
+    	$UserPayout->DateCreated               = date("Y-m-d H:i:s");
+    	$UserPayout->DateUpdated               = date("Y-m-d H:i:s");
+	    $UserPayoutFactory = \_factory\UserPayout::get_instance();
+	    $new_user_payout_id = $UserPayoutFactory->saveRecord($UserPayout);
+	    
+	    return $this->redirect()->toRoute('publisher_report');
+	}
+
 	public function reportAction()
 	{    
 		$initialized = $this->initialize();
@@ -216,12 +315,19 @@ class PublisherController extends PublisherAbstractActionController {
 		$Offset =   (int) $this->getRequest()->getQuery("start");
 		// End List web
 		$headers = array("#","Ad-Domain","Ad-Zones","Click Count","Imp Count","Income","Date",);
+		
+		$PublisherInfoFactory = \_factory\PublisherInfo::get_instance();
+		$params = array();
+		$params["PublisherInfoID"] = $this->PublisherInfoID;
+		$PublisherInfo = $PublisherInfoFactory->get_row($params);
+
 		$view = new ViewModel(array(
 			'is_admin' => $this->is_admin,
 			'user_id_list' => $this->user_id_list_publisher,
 			'true_user_name' => $this->true_user_name,
 			'user_identity' => $this->identity(),
-			'table_list' => $headers
+			'table_list' => $headers,
+			'user_balance' => $PublisherInfo->Balance
 
 
 		));
@@ -305,6 +411,7 @@ class PublisherController extends PublisherAbstractActionController {
 			 'domain_list' => $this->order_data_table($meta_data, $PublisherWebsiteList, $headers),
 			 'is_admin' => $this->is_admin,
 			 'user_id_list' => $this->user_id_list_publisher,
+			 'user_balance' => $PublisherInfo->Balance,
 			 'domain_owner' => isset($PublisherInfo->Name) ? $PublisherInfo->Name : "",
 			 'impersonate_id' => $this->ImpersonateID,
 			 'effective_id' => $this->auth->getEffectiveIdentityID(),

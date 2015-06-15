@@ -7,7 +7,7 @@
 return array(
 		'delivery' => array(
 				'url' => "http://localhost/delivery/impress",
-				'adtag' => "http://localhost/bgate.js",
+				'adtag' => "http://localhost/bgate/bgate.js",
 				'in_house_ad_grep' => "localhost/delivery",
                 'cache_file_location' => "cache/delivery/"
 		),

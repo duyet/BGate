@@ -23,6 +23,7 @@ class PublisherInfo {
     public $City;
     public $Addr;
     public $DomainDescribe;
+    public $Balance;
 
 }
 

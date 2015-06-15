@@ -730,6 +730,57 @@ var ReportDemandTable = {
   }
 }
 
+var UserPayoutTable = {
+  init: function(table){
+   
+    if (table.length > 0) {
+      this.table = table;
+      this.source_path = table.data("url");
+      this.init_datatable();
+      this.fix_layout();
+    }
+  },
+  reload_table: function(){
+    this.table.DataTable().ajax.reload();
+  },
+  fix_layout: function(){
+    var dt_filter_area = $(".custom-filter");
+    $(".table-filter").appendTo(dt_filter_area);
+  },
+  init_datatable: function(){
+    var self = this;
+    this.table.dataTable({
+        "processing": true,
+        "bLengthChange": false,
+        "serverSide": true,
+        "iDisplayLength": 10,
+        "scrollX": true,
+        "dom": '<"row" <"col-sm-8 custom-filter"> <"col-sm-4" f> >r<"datatable-wrapper" t> <"row mrg20B" <"col-sm-6" il> <"col-sm-6"p> >',
+        "order": [[1,"asc"]],
+        "autoWidth": false,
+        "ajax": {
+          url: self.source_path,
+          data: function(d){
+            // d.approval = $("#campaign-status option:selected").val();
+          }
+        },
+        "aoColumnDefs": [
+         { bSortable: false, 'aTargets': [ 0,2,3 ] },    
+        ],
+        "columns": [
+            { "data": "index", className: "text-center" },
+            { "data": "created_at", "width": "20%" },
+            { "data": "Amount" },
+            { "data": "Status" }
+        ],
+        initComplete: function () {  
+        },
+        fnDrawCallback: function(data){
+          return data;
+        }
+    });
+  }
+}
 
 $(function(){
   DomainTable.init($("#domain-table"));
@@ -742,4 +793,5 @@ $(function(){
   OutcomeTable.init($("#outcome-table"));
   ReportPublisherTable.init($("#report-publisher-table"));
   ReportDemandTable.init($("#report-demand-table"));
+  UserPayoutTable.init($("#user-payout-table"));
 });

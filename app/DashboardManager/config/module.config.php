@@ -242,6 +242,16 @@ return array(
                             ),
                     ),
             ),
+            'publisher_report' => array(
+                    'type'    => 'segment',
+                    'options' => array(
+                            'route'    =>  '/report',
+                            'defaults' => array(
+                                    'controller' => 'DashboardManager\Controller\Publisher',
+                                    'action'     => 'report',
+                            ),
+                    ),
+            ),
             'publisher' => array(
             		'type'    => 'Literal',
             		'options' => array(

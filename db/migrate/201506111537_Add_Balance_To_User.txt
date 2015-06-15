@@ -1,0 +1,2 @@
+ALTER TABLE `DemandCustomerInfo` ADD `Balance` DOUBLE NULL DEFAULT '0' AFTER `Phone`;
+ALTER TABLE `PublisherInfo` ADD `Balance` DOUBLE NULL DEFAULT '0' AFTER `DomainDescribe`;

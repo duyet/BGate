@@ -141,6 +141,7 @@ class PublisherInfo extends \_factory\CachedTableRead
         $data["City"] = $PublisherInfo->City;
         $data["Addr"] = $PublisherInfo->Addr;
         $data["DomainDescribe"] = $PublisherInfo->DomainDescribe;
+        $data["Balance"] = $PublisherInfo->Balance;
         
     	$PublisherInfoID = (int)$PublisherInfo->PublisherInfoID;
     	if ($PublisherInfoID === 0): 
