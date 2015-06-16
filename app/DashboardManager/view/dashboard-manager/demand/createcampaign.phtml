@@ -56,7 +56,7 @@ margin-left: 253px;
 <div class="docs-header">
   <div class="topic">
     <div class="row">
-      <div class="col-md-5 col-md-offset-1 col-sm-5 col-sm-offset-1 col-xs-6"><h4>Create Campaign</h4></div>
+      <div class="col-md-5 col-md-offset-1 col-sm-5 col-sm-offset-1 col-xs-6"><h4><?php echo $this->layout()->_t->translate("Create Campaign");?></h4></div>
     </div>
   </div>
 </div>
@@ -72,23 +72,23 @@ margin-left: 253px;
         ?> -->
         <div id="cdn_form_msg" class="alert alert-danger" style="margin: 15px; display:none;"></div>
         <form id="campaign" class="form-horizontal form-top-magin" name="campaignform" method="POST" action="<?php echo $this->basePath() ?>/demand/newcampaign" novalidate="novalidate">
-          <h4 class="underline mrg0T">General Options</h4>
+          <h4 class="underline mrg0T"><?php echo $this->layout()->_t->translate("General Options");?></h4>
           <div class="form-group">
-            <label for="campaignname" class="control-label col-sm-3">Campaign Name</label>
+            <label for="campaignname" class="control-label col-sm-3"><?php echo $this->layout()->_t->translate("Campaign Name");?></label>
             <div class="controls col-sm-7">
               <input type="text" value="" maxlength="255" class="form-control" id="campaignname" name="campaignname">    
             </div>
           </div>
           <?php if ($is_admin === true): ?>
             <div class="form-group">
-              <label for="campaignmarkup" class="control-label col-sm-3">Campaign Markup</label>
+              <label for="campaignmarkup" class="control-label col-sm-3"><?php echo $this->layout()->_t->translate("Campaign Markup");?></label>
               <div class="controls col-sm-7">
                 <input type="text" value="" maxlength="255" class="form-control" id="campaignmarkup" name="campaignmarkup">    
               </div>
             </div>
         <?php endif;?>
           <div class="form-group">
-            <label for="startdate" class="control-label col-sm-3">Start Date</label>
+            <label for="startdate" class="control-label col-sm-3"><?php echo $this->layout()->_t->translate("Start Date");?></label>
             <div class="controls col-sm-7">
               <!-- <input type="date" value="" maxlength="255" class="form-control" id="startdate" name="startdate"> -->
               <div class="input-append date">
@@ -98,7 +98,7 @@ margin-left: 253px;
             </div>
           </div>
           <div class="form-group">
-            <label for="enddate" class="control-label col-sm-3">End Date</label>
+            <label for="enddate" class="control-label col-sm-3"><?php echo $this->layout()->_t->translate("End Date");?></label>
             <div class="controls col-sm-7">
               <!-- <input type="date" value="" maxlength="255" class="form-control" id="enddate" name="enddate"> -->
               <div class="input-append date">
@@ -109,14 +109,14 @@ margin-left: 253px;
           </div>
 
           <div class="form-group">
-            <label for="maximpressions" class="control-label col-sm-3">Maximum Impressions <br><sup>(Maximum campaign impressions before the bids stop)</sup></label>
+            <label for="maximpressions" class="control-label col-sm-3"><?php echo $this->layout()->_t->translate("Maximum Impressions");?> <br><sup>(<?php echo $this->layout()->_t->translate("Maximum campaign impressions before the bids stop");?>)</sup></label>
             <div class="controls col-sm-7">
               <input type="number" value="" maxlength="255" class="form-control" id="maximpressions" name="maximpressions">
             </div>
           </div>
 
           <div class="form-group">
-            <label for="maxtarget" class="control-label col-sm-3">Maximum target</label>
+            <label for="maxtarget" class="control-label col-sm-3"><?php echo $this->layout()->_t->translate("Maximum target");?></label>
             <div class="controls col-sm-7">
               <label for="cpmtarget"><input type="checkbox" id="cpmtarget" name="cpmtarget" class="inline"/> CPM</label>
               <label for="cpctarget"><input type="checkbox" id="cpctarget" name="cpctarget" class="inline"/> CPC</label>
@@ -124,29 +124,29 @@ margin-left: 253px;
           </div>
 
           <div class="form-group">
-            <label for="maxspend" class="control-label col-sm-3">Maximum spend<br><sup>(Maximum campaign $$$ spent before the bids stop)</sup></label>
+            <label for="maxspend" class="control-label col-sm-3"><?php echo $this->layout()->_t->translate("Maximum spend");?><br><sup>(<?php echo $this->layout()->_t->translate("Maximum campaign $$$ spent before the bids stop");?>)</sup></label>
             <div class="controls col-sm-7">
               <input type="number" value="" maxlength="255" class="form-control" id="maxspend" name="maxspend">
             </div>
           </div>
-          <h4 class="underline mrg0T">Advance Options</h4>
+          <h4 class="underline mrg0T"><?php echo $this->layout()->_t->translate("Advance Options");?></h4>
 
           <div class="form-group">
-            <label for="customername" class="control-label col-sm-3">Customer Name <br><sup>(Use this field for your own customer reference if any)</sup></label>
+            <label for="customername" class="control-label col-sm-3"><?php echo $this->layout()->_t->translate("Customer Name");?> <br><sup>(<?php echo $this->layout()->_t->translate("Use this field for your own customer reference if any");?>)</sup></label>
             <div class="controls col-sm-7">
               <input type="text" value="" maxlength="255" class="form-control" id="customername" name="customername">
             </div>
           </div>
 
           <div class="form-group">
-            <label for="customerid" class="control-label col-sm-3">Customer Id <br><sup>(Use this field for your own customer reference if any)</sup></label>
+            <label for="customerid" class="control-label col-sm-3"><?php echo $this->layout()->_t->translate("Customer Id");?> <br><sup>(<?php echo $this->layout()->_t->translate("Use this field for your own customer reference if any");?>)</sup></label>
             <div class="controls col-sm-7">
               <input type="text" value="" maxlength="255" class="form-control" id="customerid" name="customerid">
             </div>
           </div>
           <div class="form-group text-center">
             <div class="controls">
-              <button name="submit" type="submit" class="btn btn-primary btn-margin" id="submitbutton">Create New Campaign</button>
+              <button name="submit" type="submit" class="btn btn-primary btn-margin" id="submitbutton"><?php echo $this->layout()->_t->translate("Create New Campaign");?></button>
             </div>
           </div>
         </form>        

@@ -13,11 +13,11 @@ endif;
 ?>
 
   <ul class="breadcrumb">
-    <li><a href="<?php echo $this->basePath() ?>/demand/<?php echo $preview_query; ?>">Ad Campaigns</a><span class="divider">/</span></li>
+    <li><a href="<?php echo $this->basePath() ?>/demand/<?php echo $preview_query; ?>"><?php echo $this->layout()->_t->translate("Ad Campaigns");?></a><span class="divider">/</span></li>
     <li><?php echo $bread_crumb_info["BCAdCampaign"]; ?><span class="divider">/</span></li>
-    <li><a href="<?php echo $this->basePath() ?>/demand/viewbanner/<?php echo $ad_campaign_id; ?><?php echo $preview_query; ?>">Banners</a><span class="divider">/</span></li>
+    <li><a href="<?php echo $this->basePath() ?>/demand/viewbanner/<?php echo $ad_campaign_id; ?><?php echo $preview_query; ?>"><?php echo $this->layout()->_t->translate("Banners");?></a><span class="divider">/</span></li>
     <li><?php echo $bread_crumb_info["BCBanner"]; ?><span class="divider">/</span></li>
-    <li>Create Domain Exclusion</li>
+    <li><?php echo $this->layout()->_t->translate("Create Domain Exclusion");?></li>
     </ul>
 <div class="formbox">
 <div id="cdn_form_msg" class="alert alert-error" style="margin: 5px; display: none;"></div>
@@ -27,18 +27,18 @@ endif;
 	<input type="hidden" name="bannerpreviewid" value="<?php echo $bannerpreviewid; ?>">
 	<input type="hidden" name="ispreview" value="<?php echo $ispreview; ?>">
 	<div class="control-group">
-		<label for="exclusiontype">ExclusionType</label>
+		<label for="exclusiontype"><?php echo $this->layout()->_t->translate("ExclusionType");?></label>
 		<select name="exclusiontype" id="exclusiontype" class="zone-txtarea">
-            <option value="url">Filter Domain in URL</option>
-            <option value="referrer">Filter Domain in Referral</option>
+            <option value="url"><?php echo $this->layout()->_t->translate("Filter Domain in URL");?></option>
+            <option value="referrer"><?php echo $this->layout()->_t->translate("Filter Domain in Referral");?></option>
 		</select>
 	</div>
 <div class="control-group">
-		<label for="domainname">Domain Name to Exclude</label>
+		<label for="domainname"><?php echo $this->layout()->_t->translate("Domain Name to Exclude");?></label>
 		<input type="text" id="domainname" name="domainname" class="zone-txtbox">
 	</div>
 	<div class="control-group">
-	   <input type="submit" class="btn btn-primary" name="B1" value="Create Domain Exclusion" />
+	   <input type="submit" class="btn btn-primary" name="B1" value="<?php echo $this->layout()->_t->translate("Create Domain Exclusion");?>" />
 	</div>
 </fieldset>
 </form>

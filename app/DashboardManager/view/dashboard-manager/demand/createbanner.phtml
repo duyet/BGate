@@ -75,9 +75,9 @@ $(function() {
 		    </ul>
       </div> -->
       <?php if(isset($bannerpreviewid) and !empty($bannerpreviewid)) {?>
-      	<div ><h4>Edit Banner</h4></div>
+      	<div ><h4><?php echo $this->layout()->_t->translate("Edit Banner");?></h4></div>
       <?php }else{?>
-      	<div ><h4>Create Banner</h4></div>
+      	<div ><h4><?php echo $this->layout()->_t->translate("Create Banner");?></h4></div>
       <?php }?>
     </div>
   </div>
@@ -96,7 +96,7 @@ $(function() {
     <div class="panel-heading" role="tab" id="heading-general-options">
       <h4 class="panel-title pad10L">
         <a data-toggle="collapse" data-parent="#banner-form-accordion" href="#collapse-general-options" aria-expanded="true" aria-controls="collapse-general-options">
-          General Options
+          <?php echo $this->layout()->_t->translate("General Options");?>
         </a>
       </h4>
     </div>
@@ -115,14 +115,14 @@ $(function() {
 
 
 	<div class="form-group">
-		<label class="col-sm-3 control-label"  for="bannername">Ad Name</label>
+		<label class="col-sm-3 control-label"  for="bannername"><?php echo $this->layout()->_t->translate("Ad Name");?></label>
 		<div class="col-sm-9">
 			<input type="text" class="txtbox-width form-control" name="bannername" value="<?php echo $banner->Name;?>">
 		</div>
 	</div>
 
 	<div class="form-group">
-		<label class="col-sm-3 control-label"  for="adUrl">Upload Ad</label>
+		<label class="col-sm-3 control-label"  for="adUrl"><?php echo $this->layout()->_t->translate("Upload Ad");?></label>
 		<div class="col-sm-9">
 			<input type="file" id="upload-ad" size-file="1" class="txtbox-width form-control" name="adUrl" value="<?php echo $banner->AdUrl;?>">
 			<div class="pad10T" id="uploadPreview">
@@ -134,14 +134,14 @@ $(function() {
 	</div>
 
 	<div class="form-group">
-		<label class="col-sm-3 control-label"  for="label">Label</label>
+		<label class="col-sm-3 control-label"  for="label"><?php echo $this->layout()->_t->translate("Label");?></label>
 		<div class="col-sm-9">
 			<input type="text" class="txtbox-width form-control" name="label" value="<?php echo $banner->Label;?>">
 		</div>
 	</div>
 
 	<div class="form-group">
-		<label class="col-sm-3 control-label"  for="altText">Alt text</label>
+		<label class="col-sm-3 control-label"  for="altText"><?php echo $this->layout()->_t->translate("Alt text");?></label>
 		<div class="col-sm-9">
 			<input type="text" class="txtbox-width form-control" name="altText" value="<?php echo $banner->AltText;?>">
 		</div>
@@ -149,17 +149,17 @@ $(function() {
 
 
 	  <div class="form-group">
-		<label class="col-sm-3 control-label"  for="adname">Ad Delivery Type</label>
+		<label class="col-sm-3 control-label"  for="adname"><?php echo $this->layout()->_t->translate("Ad Delivery Type");?></label>
 		<div class="col-sm-9">
 		<select id="ImpressionType" name="ImpressionType" class="selbox-width form-control" onchange="switchImpressionType();">
-			<option value="banner">Banner Ad</option>
-			<option value="video" disabled>Video Ad</option>
+			<option value="banner"><?php echo $this->layout()->_t->translate("Banner Ad");?></option>
+			<option value="video" disabled><?php echo $this->layout()->_t->translate("Video Ad");?></option>
 		</select>
 		</div>
 	</div>
 
 	<div class="form-group">
-	    <label class="col-sm-3 control-label"  for="startdate">Start Date</label>
+	    <label class="col-sm-3 control-label"  for="startdate"><?php echo $this->layout()->_t->translate("Start Date");?></label>
 	    <div class="col-sm-9">
 	    <div class="row">
 			<div class="col-sm-4">
@@ -173,7 +173,7 @@ $(function() {
 			</div>
 			<div class="col-sm-8">
 				<div class="form-group">
-				    <label class="col-sm-6 control-label"  for="enddate">End Date</label>
+				    <label class="col-sm-6 control-label"  for="enddate"><?php echo $this->layout()->_t->translate("End Date");?></label>
 				    <div class="col-sm-6">
 			        <div class="">
 					  <!-- <input name="enddate" id="enddate" class="form-control" size="16" type="date" value="<?php echo $enddate;?>" /> -->
@@ -191,7 +191,7 @@ $(function() {
 	
 
 	 <div class="control-group nobanner" style="display: none">
-		<label class="col-sm-3 control-label"  for="Mimes">Mimes : <span class="hlp"><small><i>(ctrl+shift to select mutliple)</i></small></span></label>
+		<label class="col-sm-3 control-label"  for="Mimes"><?php echo $this->layout()->_t->translate("Mimes");?> : <span class="hlp"><small><i>(ctrl+shift to select mutliple)</i></small></span></label>
 		<div class="col-sm-9">
 			<select id="Mimes" name="Mimes[]" multiple class="zone-txtarea form-control" style="min-height: 170px">
 			    <?php foreach ($mimes as $name): ?>
@@ -205,7 +205,7 @@ $(function() {
 		</div>
 	</div>
 	 <div class="control-group nobanner" style="display: none">
-		<label class="col-sm-3 control-label"  for="Protocols">Protocols : <span class="hlp"><small><i>(ctrl+shift to select mutliple)</i></small></span></label>
+		<label class="col-sm-3 control-label"  for="Protocols"><?php echo $this->layout()->_t->translate("Protocols");?> : <span class="hlp"><small><i>(ctrl+shift to select mutliple)</i></small></span></label>
 		<div class="col-sm-9">
 			<select id="Protocols" name="Protocols[]" multiple class="zone-txtarea form-control" style="min-height: 120px">
 			    <?php foreach ($protocols as $code => $name): ?>
@@ -219,7 +219,7 @@ $(function() {
 		</div>
 	</div>
 	 <div class="control-group nobanner" style="display: none">
-		<label class="col-sm-3 control-label"  for="ApisSupported">Apis Supported : <span class="hlp"><small><i>(ctrl+shift to select mutliple)</i></small></span></label>
+		<label class="col-sm-3 control-label"  for="ApisSupported"><?php echo $this->layout()->_t->translate("");?><?php echo $this->layout()->_t->translate("Apis Supported");?> : <span class="hlp"><small><i>(<?php echo $this->layout()->_t->translate("ctrl+shift to select mutliple");?>)</i></small></span></label>
 		<div class="col-sm-9">
 			<select id="ApisSupported" name="ApisSupported[]" multiple class="zone-txtarea form-control" style="min-height: 120px">
 			    <?php foreach ($apis_supported as $code => $name): ?>
@@ -233,7 +233,7 @@ $(function() {
 		</div>
 	</div>
 	<div class="control-group nobanner" style="display: none">
-		<label class="col-sm-3 control-label"  for="StartDelay">Start Delay : </label>
+		<label class="col-sm-3 control-label"  for="StartDelay"><?php echo $this->layout()->_t->translate("Start Delay");?> : </label>
 		<div class="col-sm-9">
 			<select id="StartDelay" name="StartDelay" class="zone-txtarea form-control">
 			    <?php foreach ($start_delay as $code => $name): ?>
@@ -249,7 +249,7 @@ $(function() {
 	
 	<?php if ($is_admin): ?>
 	<div class="form-group novideo">
-		<label class="col-sm-3 control-label"  for="adcampaigntype">What type of ad campaign banner is this?</label>
+		<label class="col-sm-3 control-label"  for="adcampaigntype"><?php echo $this->layout()->_t->translate("What type of ad campaign banner is this?");?></label>
 		<div class="col-sm-9">
 		        <select id="adcampaigntype"  class="selbox-width form-control" name="adcampaigntype" onchange="switchAdCampaignType();">
 		            <?php foreach ($adcampaigntype_options as $code => $name): ?>
@@ -258,7 +258,7 @@ $(function() {
 		        </select>
 		</div>
 	        <div id="weight-box" class="novideo">
-			    <label class="col-sm-3 control-label"  for="weight" class="control-label">Ad Display Priority</label>
+			    <label class="col-sm-3 control-label"  for="weight" class="control-label"><?php echo $this->layout()->_t->translate("Ad Display Priority");?></label>
 			    <div class="controls">
 			    <div class="col-sm-9">
 			    <input type="text" value="5" size="5" maxlength="10" id="weight" name="weight" class="input-mini form-control">    </div> 
@@ -268,7 +268,7 @@ $(function() {
 	</div>
 	<?php endif; ?>
 	<div class="form-group novideo">
-		<label class="col-sm-3 control-label"  for="ismobile">Is this a mobile ad?</label>
+		<label class="col-sm-3 control-label"  for="ismobile"><?php echo $this->layout()->_t->translate("Is this a mobile ad?");?></label>
 		<div class="col-sm-9">
 	        <select id="ismobile"  class="selbox-width form-control" name="ismobile" onchange="switchMobile(this);">
 	            <?php foreach ($mobile_options as $code => $name): ?>
@@ -278,11 +278,11 @@ $(function() {
 		</div>
 	</div>
 	<div class="form-group novideo">
-		<label class="col-sm-3 control-label"  for="iabsize">IAB Size</label>
+		<label class="col-sm-3 control-label"  for="iabsize"><?php echo $this->layout()->_t->translate("IAB Size");?></label>
 		<div class="col-sm-9">
 			<div id="size-select">
 				<select id="iabsize"  class="selbox-width form-control"  name="iabsize" onchange="formSelectSize(this);">
-				    <option value="" selected="selected">[ SELECT A SIZE ]</option>
+				    <option value="" selected="selected">[ <?php echo $this->layout()->_t->translate("SELECT A SIZE");?> ]</option>
 				    <?php foreach ($size_list as $shortcode => $name): ?>
 				        <!-- <option value="<?php //echo $shortcode;?>"><?php //echo $name;?></option> -->
 				        <?php if ((string)$shortcode === $banner->IABSize): ?>
@@ -299,20 +299,20 @@ $(function() {
 	</div>
 	<div class="span7">
 		<div class="form-group novideo">
-		<label class="col-sm-3 control-label"  for="IAB-height">Height</label>
+		<label class="col-sm-3 control-label"  for="IAB-height"><?php echo $this->layout()->_t->translate("Height");?></label>
 		<div class="col-sm-9">
 			<input type="text" id="height" name="height" class="input-mini form-control" value="<?php echo $banner->Height;?>">
 		</div>
 	</div>
 	<div class="form-group novideo">
-		<label class="col-sm-3 control-label"  for="width">Width</label>
+		<label class="col-sm-3 control-label"  for="width"><?php echo $this->layout()->_t->translate("Width");?></label>
 		<div class="col-sm-9">
 		<input type="text" id="width" name="width" class="input-mini form-control" value="<?php echo $banner->Width;?>">
 		</div>
 	</div>
 
 	<div class="form-group">
-		<label class="col-sm-3 control-label"  for="bidtype">Bid type</label>
+		<label class="col-sm-3 control-label"  for="bidtype"><?php echo $this->layout()->_t->translate("Bid type");?></label>
 		<div class="col-sm-9">
 			<div id="size-select">
 			<?php 
@@ -330,7 +330,7 @@ $(function() {
 	</div>
 	
 	<div class="form-group">
-		<label class="col-sm-3 control-label"  for="bidamount">Bid Amount</label>
+		<label class="col-sm-3 control-label"  for="bidamount"><?php echo $this->layout()->_t->translate("Bid Amount");?></label>
 		<div class="col-sm-9">
 			<div class="input-prepend input-group">
 			<span class="add-on input-group-addon">$</span>
@@ -340,21 +340,21 @@ $(function() {
 	</div>
 
 	<div class="form-group">
-		<label class="col-sm-3 control-label"  for="targetdaily">Daily Target</label>
+		<label class="col-sm-3 control-label"  for="targetdaily"><?php echo $this->layout()->_t->translate("Daily Target");?></label>
 		<div class="col-sm-9">
 			<input type="number" class="txtbox-width form-control" name="targetdaily" value="<?php echo $banner->TargetDaily ;?>">
 		</div>
 	</div>
 
 	<div class="form-group">
-		<label class="col-sm-3 control-label"  for="targetmax">Maximum Target</label>
+		<label class="col-sm-3 control-label"  for="targetmax"><?php echo $this->layout()->_t->translate("Maximum Target");?></label>
 		<div class="col-sm-9">
 			<input type="number" class="txtbox-width form-control" name="targetmax" value="<?php echo $banner->TargetMax ;?>">
 		</div>
 	</div>
 
 	<div class="form-group">
-		<label class="col-sm-3 control-label"  for="dailybudget">Daily Budget</label>
+		<label class="col-sm-3 control-label"  for="dailybudget"><?php echo $this->layout()->_t->translate("Daily Budget");?></label>
 		<div class="col-sm-9">
 			<div class="input-prepend input-group">
 			<span class="add-on input-group-addon">$</span>
@@ -365,7 +365,7 @@ $(function() {
 	</div>
 
 	<div class="form-group">
-		<label class="col-sm-3 control-label"  for="maximumbudget">Maximum Budget</label>
+		<label class="col-sm-3 control-label"  for="maximumbudget"><?php echo $this->layout()->_t->translate("Maximum Budget");?></label>
 		<div class="col-sm-9">
 			<div class="input-prepend input-group">
 			<span class="add-on input-group-addon">$</span>
@@ -378,24 +378,24 @@ $(function() {
 
 
 	<div class="control-group nobanner" style="display: none">
-		<label class="col-sm-3 control-label"  for="adtagtype">VAST Tag Type</label>
+		<label class="col-sm-3 control-label"  for="adtagtype"><?php echo $this->layout()->_t->translate("VAST Tag Type");?></label>
 		<div class="col-sm-9">
 			<div class="btn-group" role="group" aria-label="...">
-			  <button type="button" onclick="switchImpressionType('xml');" class="btn btn-default">VAST XML</button>
-			  <button type="button" onclick="switchImpressionType('url');" class="btn btn-default">VAST URL</button>
+			  <button type="button" onclick="switchImpressionType('xml');" class="btn btn-default"><?php echo $this->layout()->_t->translate("VAST XML");?></button>
+			  <button type="button" onclick="switchImpressionType('url');" class="btn btn-default"><?php echo $this->layout()->_t->translate("VAST URL");?></button>
 			</div>
 		</div>
 	</div>
 
 	<div class="form-group">
-		<label class="col-sm-3 control-label"  for="landingPageTLD">Landing Page</label>
+		<label class="col-sm-3 control-label"  for="landingPageTLD"><?php echo $this->layout()->_t->translate("Landing Page");?></label>
 		<div class="col-sm-9">
 			<input type="text" name="landingPageTLD"  class="form-control"  value="<?php echo $banner->LandingPageTLD ;?>">
 		</div>
 	</div>
 
 	<div class="form-group novideo">
-		<label class="col-sm-3 control-label"  for="iABAudienceCategory">IAB Audience Category</label>
+		<label class="col-sm-3 control-label"  for="iABAudienceCategory"><?php echo $this->layout()->_t->translate("IAB Audience Category");?></label>
 		<div class="col-sm-9">
 			<div id="size-select">
 				<select id="iABAudienceCategory"  class="selbox-width form-control"  name="iABAudienceCategory" >
@@ -414,7 +414,7 @@ $(function() {
 	</div>
 
 	<div class="form-group novideo">
-		<label class="col-sm-3 control-label"  for="gEOCountry">GEO country</label>
+		<label class="col-sm-3 control-label"  for="gEOCountry"><?php echo $this->layout()->_t->translate("GEO country");?></label>
 		<div class="col-sm-9">
 			<div id="size-select">
 				<select id="gEOCountry"  class="selbox-width form-control"  name="gEOCountry" >				  
@@ -430,7 +430,7 @@ $(function() {
 		</div>
 	</div>
 	<div class="form-group novideo">
-		<label class="col-sm-3 control-label"  for="timeZone">Timezone</label>
+		<label class="col-sm-3 control-label"  for="timeZone"><?php echo $this->layout()->_t->translate("Timezone");?></label>
 		<div class="col-sm-9">
 			<div id="size-select">
 				<select id="timeZone"  class="selbox-width form-control"  name="timeZone" >
@@ -447,7 +447,7 @@ $(function() {
 	</div>
 
 	 <div class="control-group nobanner" style="display: none">
-		<label class="col-sm-3 control-label"  for="Delivery">Delivery : <span class="hlp"><small><i>(ctrl+shift to select mutliple)</i></small></span></label>
+		<label class="col-sm-3 control-label"  for="Delivery"><?php echo $this->layout()->_t->translate("Delivery");?> : <span class="hlp"><small><i>(<?php echo $this->layout()->_t->translate("ctrl+shift to select mutliple");?>)</i></small></span></label>
 		<div class="col-sm-9">
 			<select id="Delivery" name="Delivery[]" multiple class="zone-txtarea form-control" style="min-height: 50px">
 			    <?php foreach ($delivery_methods as $code => $name): ?>
@@ -462,7 +462,7 @@ $(function() {
 	</div>
 	
 	 <div class="control-group nobanner" style="display: none">
-		<label class="col-sm-3 control-label"  for="Playback">Playback : <span class="hlp"><small><i>(ctrl+shift to select mutliple)</i></small></span></label>
+		<label class="col-sm-3 control-label"  for="Playback"><?php echo $this->layout()->_t->translate("Playback");?> : <span class="hlp"><small><i>(ctrl+shift to select mutliple)</i></small></span></label>
 		<div class="col-sm-9">
 			<select id="Playback" name="Playback[]" multiple class="zone-txtarea form-control" style="min-height: 100px">
 			    <?php foreach ($playback_methods as $code => $name): ?>
@@ -477,7 +477,7 @@ $(function() {
 	</div>
 	
 	<div class="control-group nobanner" style="display: none">
-		<label class="col-sm-3 control-label"  for="Linearity">Linearity : </label>
+		<label class="col-sm-3 control-label"  for="Linearity"><?php echo $this->layout()->_t->translate("Linearity");?> : </label>
 		<div class="col-sm-9">
 			<select id="Linearity" name="Linearity" class="zone-txtarea form-control">
 			    <?php foreach ($linearity as $code => $name): ?>
@@ -495,7 +495,7 @@ $(function() {
 	    <div class="col-sm-9 col-md-offset-3">
 	    	<div class="checkbox">
 			  <label>
-			    <input type="checkbox" value="1" name="frequencyCap" onchange="frequency_cap_check()" <?php if (1 === intval($banner->FrequencyCap)){ echo 'checked';}?> >Frequency Cap in last 24 hours 
+			    <input type="checkbox" value="1" name="frequencyCap" onchange="frequency_cap_check()" <?php if (1 === intval($banner->FrequencyCap)){ echo 'checked';}?> ><?php echo $this->layout()->_t->translate("Frequency Cap in last 24 hours");?> 
 			  </label>
 			</div>
 			
@@ -503,20 +503,20 @@ $(function() {
 	</div>
 
 	<div class="form-group" style="display: <?php if (2 === intval($banner->FrequencyCap)){ echo 'block';}else { echo 'none'; }?>;" >
-	    <label class="col-sm-3 control-label"  for="freCapShowTime">Show times</label>
+	    <label class="col-sm-3 control-label"  for="freCapShowTime"><?php echo $this->layout()->_t->translate("Show times");?></label>
 	    <div class="col-sm-9">
 	    	<input type="number" name="freCapShowTime" id="freCapShowTime" class="form-control" value="<?php echo $banner->FreCapShowTime ;?>">
 	   </div>
 	</div>
 	<div class="form-group" style="display: none;">
-	    <label class="col-sm-3 control-label"  for="FreCapTimeHr">Time duration (hour)</label>
+	    <label class="col-sm-3 control-label"  for="FreCapTimeHr"><?php echo $this->layout()->_t->translate("Time duration (hour)");?></label>
 	    <div class="col-sm-9">
 	    	<div class="row">
-	    		<label class="col-sm-2 control-label"  for="freCapTimeFromHr">from</label>
+	    		<label class="col-sm-2 control-label"  for="freCapTimeFromHr"><?php echo $this->layout()->_t->translate("from");?></label>
 			    <div class="col-sm-4">
 			    	<input type="number" name="freCapTimeFromHr" min="0" max="24" id="freCapTimeFromHr" class="form-control" value="<?php echo isset($banner->FreCapTimeFromHr) ? $banner->FreCapTimeFromHr : 0 ;?>">
 			   </div>
-			   <label class="col-sm-2 control-label"  for="freCapTimeToHr">to</label>
+			   <label class="col-sm-2 control-label"  for="freCapTimeToHr"><?php echo $this->layout()->_t->translate("to");?></label>
 			    <div class="col-sm-4">
 			    	
 			    	<input type="number"  max="24" name="freCapTimeToHr" id="freCapTimeToHr" class="form-control" value="<?php echo  isset($banner->FreCapTimeToHr) ? $banner->FreCapTimeToHr : 24 ;?>">
@@ -526,16 +526,16 @@ $(function() {
 	</div>
 
 	<div class="form-group" style="display: none;">
-		<label class="col-sm-3 control-label"  for="freCapApply">Apply</label>
+		<label class="col-sm-3 control-label"  for="freCapApply"><?php echo $this->layout()->_t->translate("Apply");?></label>
 	    <div class="col-sm-9">
 	    	<div class="checkbox-inline">
 			  <label>
-			    <input type="checkbox" value="1" name="freCapCampaignApply" <?php if (1 === intval($banner->FreCapCampaignApply)){ echo 'checked';}?>>By campaign
+			    <input type="checkbox" value="1" name="freCapCampaignApply" <?php if (1 === intval($banner->FreCapCampaignApply)){ echo 'checked';}?>><?php echo $this->layout()->_t->translate("By campaign");?>
 			  </label>
 			</div>
 			<div class="checkbox-inline">
 			  <label>
-			    <input type="checkbox" value="1" name="freCapZoneApply" <?php if (1 === intval($banner->FreCapZoneApply)){ echo 'checked';}?>>By zone 
+			    <input type="checkbox" value="1" name="freCapZoneApply" <?php if (1 === intval($banner->FreCapZoneApply)){ echo 'checked';}?>><?php echo $this->layout()->_t->translate("By zone ");?>
 			  </label>
 			</div>
 	   </div>
@@ -559,14 +559,14 @@ $(function() {
     <div class="panel-heading" role="tab" id="heading-advance-options">
       <h4 class="panel-title pad10L">
         <a  data-toggle="collapse" class="collapsed" data-parent="#banner-form-accordion" href="#collapse-advance-options" aria-expanded="true" aria-controls="collapse-advance-options">
-          Advance Options
+          <?php echo $this->layout()->_t->translate("Advance Options");?>
         </a>
       </h4>
     </div>
     <div id="collapse-advance-options" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-advance-options">
     	<div class="panel-body">
     	<div class="form-group">
-	    <label class="col-sm-3 control-label"  for="adTagType">Ad tag-type</label>
+	    <label class="col-sm-3 control-label"  for="adTagType"><?php echo $this->layout()->_t->translate("Ad tag-type");?></label>
 	    <div class="col-sm-9">
 	    	<?php 
 	    		$AdTagType = 'iframe';
@@ -584,7 +584,7 @@ $(function() {
 		</div>
 
 	<div class="form-group">
-	    <label class="col-sm-3 control-label"  for="inAnIframe">In an Iframe</label>
+	    <label class="col-sm-3 control-label"  for="inAnIframe"><?php echo $this->layout()->_t->translate("In an Iframe");?></label>
 	    <div class="col-sm-9">
 	    	<?php 
 	    		$InAnIframe = 0;
@@ -605,7 +605,7 @@ $(function() {
 	</div>
 	
 	<div class="form-group">
-		<label class="col-sm-3 control-label"  for="adtag">Ad Tag</label>
+		<label class="col-sm-3 control-label"  for="adtag"><?php echo $this->layout()->_t->translate("Ad Tag");?></label>
 		<div class="col-sm-9">
 		<span id="adtagwrapper">
 			<textarea class="txtbox-width form-control"  id="adtag" name="adtag" rows="6"><?php echo $banner->AdTag ;?></textarea>
@@ -614,7 +614,7 @@ $(function() {
 	</div>
 
 	<div class="form-group">
-	    <label class="col-sm-3 control-label"  for="multiNestedIframe">In Multi Nested Iframe</label>
+	    <label class="col-sm-3 control-label"  for="multiNestedIframe"><?php echo $this->layout()->_t->translate("In Multi Nested Iframe");?></label>
 	    <div class="col-sm-9">
 	    	<?php 
 	    		$MultiNestedIframe = 0;
@@ -645,7 +645,7 @@ $(function() {
     <div class="panel-heading" role="tab" id="heading-position-options">
       <h4 class="panel-title pad10L">
         <a  data-toggle="collapse" class="collapsed" data-parent="#banner-form-accordion" href="#collapse-position-options" aria-expanded="true" aria-controls="collapse-position-options">
-          Position Options
+          <?php echo $this->layout()->_t->translate("Position Options");?>
         </a>
       </h4>
     </div>
@@ -655,7 +655,7 @@ $(function() {
 
 
 	<div class="form-group">
-	    <label class="col-sm-3 control-label"  for="adTagType">Ad position</label>
+	    <label class="col-sm-3 control-label"  for="adTagType"><?php echo $this->layout()->_t->translate("Ad position");?></label>
 	    <div class="col-sm-9">
 	    	<?php 
 	    		$AdPostLeft = 0;
@@ -684,7 +684,7 @@ $(function() {
 	</div>
 
 	<div class="form-group">
-	    <label class="col-sm-3 control-label"  for="foldPosition">Fold position</label>
+	    <label class="col-sm-3 control-label"  for="foldPosition"><?php echo $this->layout()->_t->translate("Fold position");?></label>
 	    <div class="col-sm-9">
 	    	<select id="foldPosition"  class="selbox-width form-control"  name="foldPosition">			
 			    <?php //foreach ($fold_position as $value => $name): ?>
@@ -708,33 +708,33 @@ $(function() {
     <div class="panel-heading" role="tab" id="heading-resolution-options">
       <h4 class="panel-title pad10L">
         <a  data-toggle="collapse" data-parent="#banner-form-accordion" href="#collapse-resolution-options" aria-expanded="true" aria-controls="collapse-resolution-options">
-          Resolution Options
+          <?php echo $this->layout()->_t->translate("Resolution Options");?>
         </a>
       </h4>
     </div>
     <div id="collapse-resolution-options" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-resolution-options">
       <div class="panel-body">
 	<div class="form-group">
-	    <label class="col-sm-3 control-label"  for="resolutionMinW">Min screen res width</label>
+	    <label class="col-sm-3 control-label"  for="resolutionMinW"><?php echo $this->layout()->_t->translate("Min screen res width");?></label>
 	    <div class="col-sm-9">
 	    	<input type="number" name="resolutionMinW"  class="form-control" value="<?php echo $banner->ResolutionMinW ;?>">
 	   </div>
 	</div>
 
 	<div class="form-group">
-	    <label class="col-sm-3 control-label"  for="resolutionMaxW">Max screen res width</label>
+	    <label class="col-sm-3 control-label"  for="resolutionMaxW"><?php echo $this->layout()->_t->translate("Max screen res width");?></label>
 	    <div class="col-sm-9">
 	    	<input type="number" name="resolutionMaxW"  class="form-control" value="<?php echo $banner->ResolutionMaxW ;?>">
 	   </div>
 	</div>
 	<div class="form-group">
-	    <label class="col-sm-3 control-label"  for="resolutionMinH">Min screen res height</label>
+	    <label class="col-sm-3 control-label"  for="resolutionMinH"><?php echo $this->layout()->_t->translate("Min screen res height");?></label>
 	    <div class="col-sm-9">
 	    	<input type="number" name="resolutionMinH"  class="form-control" value="<?php echo $banner->ResolutionMinH ;?>">
 	   </div>
 	</div>
 	<div class="form-group">
-	    <label class="col-sm-3 control-label"  for="resolutionMaxH">Max screen res height</label>
+	    <label class="col-sm-3 control-label"  for="resolutionMaxH"><?php echo $this->layout()->_t->translate("Max screen res height");?></label>
 	    <div class="col-sm-9">
 	    	<input type="number" name="resolutionMaxH"  class="form-control" value="<?php echo $banner->ResolutionMaxH ;?>">
 	   </div>
@@ -749,27 +749,27 @@ $(function() {
     <div class="panel-heading" role="tab" id="heading-other-options">
       <h4 class="panel-title pad10L">
         <a  data-toggle="collapse" class="collapsed" data-parent="#banner-form-accordion" href="#collapse-other-options" aria-expanded="true" aria-controls="collapse-other-options">
-          Other Options
+          <?php echo $this->layout()->_t->translate("Other Options");?>
         </a>
       </h4>
     </div>
     <div id="collapse-other-options" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-other-options">
       <div class="panel-body">
 	<div class="form-group">
-	    <label class="col-sm-3 control-label"  for="httpLang">HTTP Language</label>
+	    <label class="col-sm-3 control-label"  for="httpLang"><?php echo $this->layout()->_t->translate("HTTP Language");?></label>
 	    <div class="col-sm-9">
 	    	<input type="text" name="httpLang" id="httpLang"  class="form-control" value="<?php echo $banner->HttpLang ;?>">
 	   </div>
 	</div>
 
 	<div class="form-group">
-	    <label class="col-sm-3 control-label"  for="browerAgentGrep">Browser User Agent Grep</label>
+	    <label class="col-sm-3 control-label"  for="browerAgentGrep"><?php echo $this->layout()->_t->translate("Browser User Agent Grep");?></label>
 	    <div class="col-sm-9">
 	    	<input type="text" name="browerAgentGrep" id="browerAgentGrep"  class="form-control" value="<?php echo $banner->BrowerAgentGrep ;?>" >
 	   </div>
 	</div>
 	<div class="form-group">
-	    <label class="col-sm-3 control-label"  for="cookieGrep">Cookie Grep</label>
+	    <label class="col-sm-3 control-label"  for="cookieGrep"><?php echo $this->layout()->_t->translate("Cookie Grep");?></label>
 	    <div class="col-sm-9">
 	    	<input type="text" name="cookieGrep" id="cookieGrep" class="form-control" value="<?php echo $banner->CookieGrep ;?>" >
 	   </div>
@@ -785,7 +785,7 @@ $(function() {
 		}
 	?>
 	<div class="form-group">
-	    <label class="col-sm-3 control-label"  for="resolutionMaxH">Pmp Enable</label>
+	    <label class="col-sm-3 control-label"  for="resolutionMaxH"><?php echo $this->layout()->_t->translate("Pmp Enable");?></label>
 	    <div class="col-sm-9">
 	    	<label class="radio-inline">
 			  <input type="radio" name="pmpEnable" id="no-preference" value="0" <?php if (0 === intval($PmpEnable)){ echo 'checked';} ?>> No Preference
@@ -800,7 +800,7 @@ $(function() {
 	</div>
 
 	<div class="form-group">
-	    <label class="col-sm-3 control-label"  for="secure">Secure</label>
+	    <label class="col-sm-3 control-label"  for="secure"><?php echo $this->layout()->_t->translate("Secure");?></label>
 	    <div class="col-sm-9">
 	    	<label class="radio-inline">
 			  <input type="radio" name="secure" id="Secure-no-preference" value="0" <?php if (0 === intval($Secure)){ echo 'checked';} ?>> No Preference
@@ -825,11 +825,11 @@ $(function() {
 	<div class="span12">
 	<div class="form-group text-center">
 		<p>
-		<a class="btn btn-primary" href="<?php echo $this->basePath() ?>/demand/campaign/<?php echo $campaignpreviewid ?>/?ispreview=true">Back</a>
+		<a class="btn btn-primary" href="<?php echo $this->basePath() ?>/demand/campaign/<?php echo $campaignpreviewid ?>/?ispreview=true"><?php echo $this->layout()->_t->translate("Back");?></a>
 	   <?php if(isset($bannerpreviewid) and !empty($bannerpreviewid)) {?>
-      	<input type="submit" class="btn btn-primary" name="B1" value="Update Banner" />
+      	<input type="submit" class="btn btn-primary" name="B1" value="<?php echo $this->layout()->_t->translate("Update Banner");?>" />
       <?php }else{?>
-      	<input type="submit" class="btn btn-primary" name="B1" value="Create New Banner" />
+      	<input type="submit" class="btn btn-primary" name="B1" value="<?php echo $this->layout()->_t->translate("Create New Banner");?>" />
       <?php }?>
 
 	   </p>

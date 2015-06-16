@@ -21,11 +21,11 @@ $effective_user_in_dashboard = false;
 <div class="docs-header">
   <div class="topic">
     <div class="row">
-      <div class="col-md-5 col-md-offset-1 col-sm-5 col-sm-offset-1 col-xs-6"><h4>Campaigns List</h4></div>
+      <div class="col-md-5 col-md-offset-1 col-sm-5 col-sm-offset-1 col-xs-6"><h4><?php echo $this->layout()->_t->translate("Campaigns List");?></h4></div>
       <?php
         if ($is_admin === false):
       ?>
-      <div class="col-md-5 col-sm-5 text-right col-xs-6"><a href="<?php echo $this->basePath() ?>/demand/createcampaign" class="btn btn-success mrg5T">Create Campaign</a></div>
+      <div class="col-md-5 col-sm-5 text-right col-xs-6"><a href="<?php echo $this->basePath() ?>/demand/createcampaign" class="btn btn-success mrg5T"><?php echo $this->layout()->_t->translate("Create Campaign");?></a></div>
       <?php
         endif;
       ?>
@@ -43,7 +43,7 @@ $effective_user_in_dashboard = false;
             <form name="changeusermarkup" id="changeusermarkup" action="<?php echo $this->basePath() ?>/demand/changeusermarkup"class="form-inline" >
               <input type="hidden" name="markupuserid" value="<?php echo $effective_id;?>" />
           
-            <span style="font-size: 12px; font-weight: bold;">User Markup Rate:</span>
+            <span style="font-size: 12px; font-weight: bold;"><?php echo $this->layout()->_t->translate("User Markup Rate:");?></span>
             <input type="text"  style="text-align: right; width: 50px" name="user-markup" class="form-control" value="<?php echo $user_markup_rate;?>">%
               <div style="display: inline;">
                 <input type="submit" name="user-markup-submit" class="btn actv  btn-small" value="Change User Markup" style="margin-left: 8px; margin-bottom: 10px;" title="The Rate that the Impressions Will be Marked up from the Bid Price (Your Profit)" />
@@ -57,16 +57,16 @@ $effective_user_in_dashboard = false;
 
     <div class="table-filter row">
       <div class="col-sm-4">
-        Status:
+        <?php echo $this->layout()->_t->translate("Status:");?>
         <select id="campaign-status" onchange="CampaignTable.reload_table()">
-          <option value>All</option>
-          <option value="0">Pending approval</option>
+          <option value><?php echo $this->layout()->_t->translate("All");?></option>
+          <option value="0"><?php echo $this->layout()->_t->translate("Pending approval");?></option>
           <?php
             if ($is_admin === true):
           ?>
-            <option value="1">Deleted</option>
+            <option value="1"><?php echo $this->layout()->_t->translate("Deleted");?></option>
           <?php endif; ?>
-          <option value="2">Approved</option>
+          <option value="2"><?php echo $this->layout()->_t->translate("Approved");?></option>
         </select>
       </div>
     </div>
@@ -79,37 +79,37 @@ $effective_user_in_dashboard = false;
                 #
               </th>
               <th style="text-align:center;">
-                Name
+                <?php echo $this->layout()->_t->translate("Name");?>
               </th>
               <th>
-                Campaign markup
+                <?php echo $this->layout()->_t->translate(" Campaign markup");?>
               </th>
               <th>
-                User Name
+                <?php echo $this->layout()->_t->translate("User Name");?>
               </th>
               <th>
-                Status
+                <?php echo $this->layout()->_t->translate("Status");?>
               </th>
               <th>
-                Start Date
+                <?php echo $this->layout()->_t->translate("Start Date");?>
               </th>
               <th>
-                End Date
+                <?php echo $this->layout()->_t->translate("End Date");?>
               </th>
               <th>
-                Impressions Counter
+                <?php echo $this->layout()->_t->translate("Impressions Counter");?>
               </th>
               <th>
-                Max Impressions
+                <?php echo $this->layout()->_t->translate("Max Impressions");?>
               </th>
               <th>
-                Current Spend
+                <?php echo $this->layout()->_t->translate("Current Spend");?>
               </th>
               <th>
-                Max Spend
+                <?php echo $this->layout()->_t->translate("Max Spend");?>
               </th>
               <th>
-                Action
+                <?php echo $this->layout()->_t->translate("Action");?>
               </th>        
           </tr>
         </thead>
@@ -129,16 +129,16 @@ $effective_user_in_dashboard = false;
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title" id="myModalLabel">Delete Campaign</h4>
+        <h4 class="modal-title" id="myModalLabel"><?php echo $this->layout()->_t->translate("Delete Campaign");?></h4>
       </div>
       <div class="modal-body">
-      <div id="campaign_alert_msg" class="alert alert-error" style="display: none;">Error</div>
+      <div id="campaign_alert_msg" class="alert alert-error" style="display: none;"><?php echo $this->layout()->_t->translate("Error");?></div>
 		<p id="msg"></p>
-<h5 style="color: #b94a48;">This action is a preview and must be approved!</h5>
+<h5 style="color: #b94a48;"><?php echo $this->layout()->_t->translate("This action is a preview and must be approved!");?></h5>
       </div>
       <div class="modal-footer">
-      <button type="button" data-loading-text="Processing..." id="campaign_yes_btn" class="btn btn-primary" onclick="deleteCampaignConfirm();">Yes</button>
-        <button type="button" class="btn btn-default" id="campaign_no_btn" data-dismiss="modal">No</button>
+      <button type="button" data-loading-text="Processing..." id="campaign_yes_btn" class="btn btn-primary" onclick="deleteCampaignConfirm();"><?php echo $this->layout()->_t->translate("Yes");?></button>
+        <button type="button" class="btn btn-default" id="campaign_no_btn" data-dismiss="modal"><?php echo $this->layout()->_t->translate("No");?></button>
       </div>
     </div>
   </div>

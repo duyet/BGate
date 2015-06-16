@@ -13,7 +13,7 @@ endif;
 ?>
 
  <ul class="breadcrumb">
-    <li><a href="<?php echo $this->basePath() ?>/demand/<?php echo $preview_query; ?>">Ad Campaigns</a><span class="divider">/</span></li>
+    <li><a href="<?php echo $this->basePath() ?>/demand/<?php echo $preview_query; ?>"><?php echo $this->layout()->_t->translate("Ad Campaigns");?></a><span class="divider">/</span></li>
     <li><?php echo $bread_crumb_info["BCAdCampaign"]; ?><span class="divider">/</span></li>
     <li><a href="<?php echo $this->basePath() ?>/demand/viewbanner/<?php echo $ad_campaign_id; ?><?php echo $preview_query; ?>">Banners</a><span class="divider">/</span></li>
     <li><?php echo $bread_crumb_info["BCBanner"]; ?><span class="divider">/</span></li>
@@ -27,18 +27,18 @@ endif;
 	<input type="hidden" name="bannerpreviewid" value="<?php echo $bannerpreviewid; ?>">
 	<input type="hidden" name="ispreview" value="<?php echo $ispreview; ?>">
 	<div class="control-group">
-		<label for="inclusiontype">InclusionType</label>
+		<label for="inclusiontype"><?php echo $this->layout()->_t->translate("InclusionType");?></label>
 		<select name="inclusiontype" id="inclusiontype" class="zone-txtarea">
-            <option value="url">Filter Domain in URL</option>
-            <option value="referrer">Filter Domain in Referral</option>
+            <option value="url"><?php echo $this->layout()->_t->translate("Filter Domain in URL");?></option>
+            <option value="referrer"><?php echo $this->layout()->_t->translate("Filter Domain in Referral");?></option>
 		</select>
 	</div>
 	<div class="control-group">
-		<label for="domainname">Domain Name to Explicitly Include</label>
+		<label for="domainname"><?php echo $this->layout()->_t->translate("Domain Name to Explicitly Include");?></label>
 		<input type="text" id="domainname" name="domainname" class="zone-txtbox">
 	</div>
 	<div class="control-group">
-	   <input type="submit" class="btn btn-primary" name="B1" value="Create Exclusive Inclusion" />
+	   <input type="submit" class="btn btn-primary" name="B1" value="<?php echo $this->layout()->_t->translate("Create Exclusive Inclusion");?>" />
 	</div>
 </fieldset>
 </form>
