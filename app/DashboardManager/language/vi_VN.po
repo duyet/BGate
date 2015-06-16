@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ZendSkeletonApplication\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-06-16 16:37+0700\n"
-"PO-Revision-Date: 2015-06-16 16:46+0700\n"
+"POT-Creation-Date: 2015-06-16 16:55+0700\n"
+"PO-Revision-Date: 2015-06-16 16:56+0700\n"
 "Last-Translator: Tawfek Daghistani <tawfekov@gmail.com>\n"
 "Language-Team: Arabic <>\n"
 "Language: vi_VN\n"
@@ -90,11 +90,767 @@ msgstr "Tiếng Anh"
 msgid "Update account"
 msgstr "Cập Nhật Tài Khoản"
 
+#: ../view/dashboard-manager/demand/campaign.phtml:25
+msgid "Campaign Details"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/campaign.phtml:27
+msgid "Edit"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/campaign.phtml:28
+msgid "Delete"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/campaign.phtml:32
+msgid "Create Ad"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/campaign.phtml:47
+msgid "LOG IN AS USER"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/campaign.phtml:71
+msgid "Campaign Overview"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/campaign.phtml:73
+#: ../view/dashboard-manager/demand/createcampaign.phtml:77
+msgid "Campaign Name"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/campaign.phtml:74
+#: ../view/dashboard-manager/demand/index.phtml:91
+#: ../view/dashboard-manager/publisher/report.phtml:94
+msgid "Status"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/campaign.phtml:87
+#: ../view/dashboard-manager/demand/createbanner.phtml:162
+#: ../view/dashboard-manager/demand/createcampaign.phtml:91
+#: ../view/dashboard-manager/demand/editbanner.phtml:99
+#: ../view/dashboard-manager/demand/index.phtml:94
+msgid "Start Date"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/campaign.phtml:88
+#: ../view/dashboard-manager/demand/createbanner.phtml:176
+#: ../view/dashboard-manager/demand/createcampaign.phtml:101
+#: ../view/dashboard-manager/demand/editbanner.phtml:107
+#: ../view/dashboard-manager/demand/index.phtml:97
+msgid "End Date"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/campaign.phtml:91
+msgid "Impress Counter"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/campaign.phtml:92
+#: ../view/dashboard-manager/demand/index.phtml:103
+msgid "Max Impressions"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/campaign.phtml:93
+#: ../view/dashboard-manager/demand/campaign.phtml:139
+#: ../view/dashboard-manager/demand/index.phtml:106
+msgid "Current Spend"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/campaign.phtml:94
+#: ../view/dashboard-manager/demand/index.phtml:109
+msgid "Max Spend"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/campaign.phtml:97
+#: ../view/dashboard-manager/demand/createbanner.phtml:350
+msgid "Maximum Target"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/campaign.phtml:113
+msgid "User Markup Rate"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/campaign.phtml:126
+msgid "Ads list"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/campaign.phtml:133
+#: ../view/dashboard-manager/demand/index.phtml:82
+#: ../view/dashboard-manager/publisher/report.phtml:92
+msgid "Name"
+msgstr "Tên"
+
+#: ../view/dashboard-manager/demand/campaign.phtml:134
+msgid "Size"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/campaign.phtml:135
+msgid "Start/End Date"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/campaign.phtml:136
+#: ../view/dashboard-manager/demand/createbanner.phtml:333
+msgid "Bid Amount"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/campaign.phtml:137
+msgid "Bid Counter"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/campaign.phtml:138
+msgid "Impression Counter"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/campaign.phtml:158
+#: ../view/dashboard-manager/demand/index.phtml:132
+msgid "Delete Campaign"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/campaign.phtml:161
+#: ../view/dashboard-manager/demand/campaign.phtml:183
+#: ../view/dashboard-manager/demand/index.phtml:135
+#: ../view/dashboard-manager/publisher/msaagreement.phtml:18
+msgid "Error"
+msgstr "Lỗi "
+
+#: ../view/dashboard-manager/demand/campaign.phtml:163
+#: ../view/dashboard-manager/demand/campaign.phtml:185
+#: ../view/dashboard-manager/demand/index.phtml:137
+msgid "This action is a preview and must be approved!"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/campaign.phtml:180
+msgid "Delete Banner"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createbanner.phtml:78
+msgid "Edit Banner"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createbanner.phtml:80
+msgid "Create Banner"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createbanner.phtml:99
+#: ../view/dashboard-manager/demand/createcampaign.phtml:75
+msgid "General Options"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createbanner.phtml:118
+#: ../view/dashboard-manager/zone/create.phtml:43
+#: ../view/dashboard-manager/zone/edit.phtml:42
+msgid "Ad Name"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createbanner.phtml:125
+msgid "Upload Ad"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createbanner.phtml:137
+msgid "Label"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createbanner.phtml:144
+msgid "Alt text"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createbanner.phtml:152
+#: ../view/dashboard-manager/demand/editbanner.phtml:86
+#: ../view/dashboard-manager/zone/create.phtml:56
+#: ../view/dashboard-manager/zone/edit.phtml:47
+msgid "Ad Delivery Type"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createbanner.phtml:155
+#: ../view/dashboard-manager/zone/create.phtml:59
+#: ../view/dashboard-manager/zone/edit.phtml:51
+#: ../view/dashboard-manager/zone/edit.phtml:54
+msgid "Banner Ad"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createbanner.phtml:156
+#: ../view/dashboard-manager/zone/create.phtml:60
+#: ../view/dashboard-manager/zone/edit.phtml:52
+#: ../view/dashboard-manager/zone/edit.phtml:55
+msgid "Video Ad"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createbanner.phtml:194
+#: ../view/dashboard-manager/demand/editbanner.phtml:115
+#: ../view/dashboard-manager/zone/create.phtml:145
+msgid "Mimes"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createbanner.phtml:208
+#: ../view/dashboard-manager/demand/editbanner.phtml:128
+#: ../view/dashboard-manager/zone/create.phtml:156
+msgid "Protocols"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createbanner.phtml:222
+#: ../view/dashboard-manager/demand/editbanner.phtml:141
+#: ../view/dashboard-manager/zone/create.phtml:171
+msgid "Apis Supported"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createbanner.phtml:222
+#: ../view/dashboard-manager/demand/createbanner.phtml:450
+#: ../view/dashboard-manager/demand/editbanner.phtml:115
+#: ../view/dashboard-manager/demand/editbanner.phtml:250
+#: ../view/dashboard-manager/demand/editbanner.phtml:263
+msgid "ctrl+shift to select mutliple"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createbanner.phtml:236
+#: ../view/dashboard-manager/demand/editbanner.phtml:154
+#: ../view/dashboard-manager/zone/create.phtml:216
+msgid "Start Delay"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createbanner.phtml:252
+#: ../view/dashboard-manager/demand/editbanner.phtml:169
+msgid "What type of ad campaign banner is this?"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createbanner.phtml:261
+#: ../view/dashboard-manager/demand/editbanner.phtml:180
+msgid "Ad Display Priority"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createbanner.phtml:271
+#: ../view/dashboard-manager/demand/editbanner.phtml:187
+msgid "Is this a mobile ad?"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createbanner.phtml:281
+#: ../view/dashboard-manager/demand/editbanner.phtml:200
+msgid "IAB Size"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createbanner.phtml:285
+#: ../view/dashboard-manager/demand/editbanner.phtml:203
+msgid "SELECT A SIZE"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createbanner.phtml:302
+#: ../view/dashboard-manager/demand/editbanner.phtml:217
+msgid "Height"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createbanner.phtml:308
+#: ../view/dashboard-manager/demand/editbanner.phtml:221
+msgid "Width"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createbanner.phtml:315
+msgid "Bid type"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createbanner.phtml:343
+msgid "Daily Target"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createbanner.phtml:357
+msgid "Daily Budget"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createbanner.phtml:368
+msgid "Maximum Budget"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createbanner.phtml:381
+#: ../view/dashboard-manager/demand/editbanner.phtml:232
+msgid "VAST Tag Type"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createbanner.phtml:384
+msgid "VAST XML"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createbanner.phtml:385
+msgid "VAST URL"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createbanner.phtml:391
+msgid "Landing Page"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createbanner.phtml:398
+msgid "IAB Audience Category"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createbanner.phtml:417
+msgid "GEO country"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createbanner.phtml:433
+#: ../view/dashboard-manager/demand/deliveryfilter.phtml:117
+msgid "Timezone"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createbanner.phtml:450
+#: ../view/dashboard-manager/demand/editbanner.phtml:250
+msgid "Delivery"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createbanner.phtml:465
+#: ../view/dashboard-manager/demand/editbanner.phtml:263
+msgid "Playback"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createbanner.phtml:480
+#: ../view/dashboard-manager/demand/editbanner.phtml:276
+#: ../view/dashboard-manager/zone/create.phtml:231
+msgid "Linearity"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createbanner.phtml:498
+msgid "Frequency Cap in last 24 hours"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createbanner.phtml:506
+msgid "Show times"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createbanner.phtml:512
+msgid "Time duration (hour)"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createbanner.phtml:515
+msgid "from"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createbanner.phtml:519
+msgid "to"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createbanner.phtml:529
+msgid "Apply"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createbanner.phtml:533
+msgid "By campaign"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createbanner.phtml:538
+msgid "By zone "
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createbanner.phtml:562
+#: ../view/dashboard-manager/demand/createcampaign.phtml:132
+msgid "Advance Options"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createbanner.phtml:569
+msgid "Ad tag-type"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createbanner.phtml:587
+msgid "In an Iframe"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createbanner.phtml:608
+#: ../view/dashboard-manager/demand/editbanner.phtml:239
+msgid "Ad Tag"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createbanner.phtml:617
+msgid "In Multi Nested Iframe"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createbanner.phtml:648
+msgid "Position Options"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createbanner.phtml:658
+msgid "Ad position"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createbanner.phtml:687
+msgid "Fold position"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createbanner.phtml:711
+msgid "Resolution Options"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createbanner.phtml:718
+msgid "Min screen res width"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createbanner.phtml:725
+msgid "Max screen res width"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createbanner.phtml:731
+msgid "Min screen res height"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createbanner.phtml:737
+msgid "Max screen res height"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createbanner.phtml:752
+msgid "Other Options"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createbanner.phtml:759
+msgid "HTTP Language"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createbanner.phtml:766
+#: ../view/dashboard-manager/demand/deliveryfilter.phtml:176
+msgid "Browser User Agent Grep"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createbanner.phtml:772
+#: ../view/dashboard-manager/demand/deliveryfilter.phtml:181
+msgid "Cookie Grep"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createbanner.phtml:788
+#: ../view/dashboard-manager/demand/deliveryfilter.phtml:186
+msgid "Pmp Enable"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createbanner.phtml:803
+#: ../view/dashboard-manager/demand/deliveryfilter.phtml:199
+msgid "Secure"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createbanner.phtml:828
+msgid "Back"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createbanner.phtml:830
+msgid "Update Banner"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createbanner.phtml:832
+msgid "Create New Banner"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createcampaign.phtml:59
+#: ../view/dashboard-manager/demand/index.phtml:28
+msgid "Create Campaign"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createcampaign.phtml:84
+msgid "Campaign Markup"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createcampaign.phtml:112
+msgid "Maximum Impressions"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createcampaign.phtml:112
+msgid "Maximum campaign impressions before the bids stop"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createcampaign.phtml:119
+msgid "Maximum target"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createcampaign.phtml:127
+msgid "Maximum spend"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createcampaign.phtml:127
+msgid "Maximum campaign $$$ spent before the bids stop"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createcampaign.phtml:135
+msgid "Customer Name"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createcampaign.phtml:135
+#: ../view/dashboard-manager/demand/createcampaign.phtml:142
+msgid "Use this field for your own customer reference if any"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createcampaign.phtml:142
+msgid "Customer Id"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createcampaign.phtml:149
+msgid "Create New Campaign"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createdomainexclusion.phtml:16
+#: ../view/dashboard-manager/demand/createexclusiveinclusion.phtml:16
+#: ../view/dashboard-manager/demand/deliveryfilter.phtml:19
+#: ../view/dashboard-manager/demand/editbanner.phtml:63
+msgid "Ad Campaigns"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createdomainexclusion.phtml:18
+#: ../view/dashboard-manager/demand/dashboard.phtml:35
+#: ../view/dashboard-manager/demand/deliveryfilter.phtml:21
+msgid "Banners"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createdomainexclusion.phtml:20
+#: ../view/dashboard-manager/demand/createdomainexclusion.phtml:41
+msgid "Create Domain Exclusion"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createdomainexclusion.phtml:30
+msgid "ExclusionType"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createdomainexclusion.phtml:32
+#: ../view/dashboard-manager/demand/createexclusiveinclusion.phtml:32
+msgid "Filter Domain in URL"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createdomainexclusion.phtml:33
+#: ../view/dashboard-manager/demand/createexclusiveinclusion.phtml:33
+msgid "Filter Domain in Referral"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createdomainexclusion.phtml:37
+msgid "Domain Name to Exclude"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createexclusiveinclusion.phtml:30
+msgid "InclusionType"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createexclusiveinclusion.phtml:37
+msgid "Domain Name to Explicitly Include"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/createexclusiveinclusion.phtml:41
+msgid "Create Exclusive Inclusion"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/dashboard.phtml:4
+msgid "Demand Dashboard"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/dashboard.phtml:22
+msgid "Campaigns"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/dashboard.phtml:78
 #: ../view/dashboard-manager/demand/report.phtml:24
 #: ../view/dashboard-manager/publisher/dashboard.phtml:79
 #: ../view/layout/layout.phtml:110 ../view/layout/layout.phtml:131
 msgid "Report"
 msgstr "Báo Cáo "
+
+#: ../view/dashboard-manager/demand/deliveryfilter.phtml:23
+msgid "Edit Delivery Filter"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/deliveryfilter.phtml:33
+msgid "Vertical"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/deliveryfilter.phtml:33
+msgid "ctrl+shift to select mutliple verticals"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/deliveryfilter.phtml:47
+msgid "Geo Country"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/deliveryfilter.phtml:47
+msgid "ctrl+shift to select mutliple countries"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/deliveryfilter.phtml:49
+msgid "SELECT A COUNTRY"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/deliveryfilter.phtml:60
+msgid "Geo State"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/deliveryfilter.phtml:60
+msgid "ctrl+shift to select mutliple states"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/deliveryfilter.phtml:66
+msgid "Geo City"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/deliveryfilter.phtml:66
+msgid "comma separate multiple cities"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/deliveryfilter.phtml:70
+msgid "Ad Tag Type"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/deliveryfilter.phtml:82
+msgid "Ad Position Min Left"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/deliveryfilter.phtml:82
+#: ../view/dashboard-manager/demand/deliveryfilter.phtml:86
+msgid "eg. 100 [in px]"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/deliveryfilter.phtml:86
+msgid "Ad Position Max Left"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/deliveryfilter.phtml:90
+msgid "Ad Position Min Top"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/deliveryfilter.phtml:90
+#: ../view/dashboard-manager/demand/deliveryfilter.phtml:94
+msgid "eg. 100 [in px"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/deliveryfilter.phtml:94
+msgid "Ad Position Max Top"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/deliveryfilter.phtml:98
+#: ../view/dashboard-manager/zone/create.phtml:246
+msgid "Fold Position"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/deliveryfilter.phtml:111
+msgid "Frequency in last 24 hours"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/deliveryfilter.phtml:129
+msgid "In An IFrame?"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/deliveryfilter.phtml:142
+msgid "In Multiple Nested IFrames?"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/deliveryfilter.phtml:155
+msgid "Min Screen Resolution Width"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/deliveryfilter.phtml:155
+msgid "eg. 500 [in px]"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/deliveryfilter.phtml:159
+msgid "Max Screen Resolution Width "
+msgstr ""
+
+#: ../view/dashboard-manager/demand/deliveryfilter.phtml:159
+msgid "eg. 1400 [in px]"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/deliveryfilter.phtml:163
+msgid "Min Screen Resolution Height"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/deliveryfilter.phtml:163
+msgid "eg. 300 [in px]"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/deliveryfilter.phtml:167
+msgid "Max Screen Resolution Height"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/deliveryfilter.phtml:167
+msgid "eg. 1200 [in px]"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/deliveryfilter.phtml:171
+msgid "Http Language"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/deliveryfilter.phtml:171
+msgid "Example: en-us,en;q=0.5"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/deliveryfilter.phtml:176
+msgid "Non-Empty matches UserAgent String, Example: Firefox/23"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/deliveryfilter.phtml:181
+msgid "Non-Empty matches Cookie String, Example: pcv:1|uid:123"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/deliveryfilter.phtml:213
+msgid "Optout"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/deliveryfilter.phtml:228
+msgid "Edit Banner Filter Settings"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/editbanner.phtml:81
+msgid "Banner Ad Name"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/editbanner.phtml:225
+msgid "Bid Amount ( CPM )"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/editbanner.phtml:291
+msgid "LandingPage TLD [top level domain] "
+msgstr ""
+
+#: ../view/dashboard-manager/demand/editbanner.phtml:291
+msgid "eg. nginad.com - required by RTB [if not known just use the tld of the tag]"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/index.phtml:24
+msgid "Campaigns List"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/index.phtml:46
+msgid "User Markup Rate:"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/index.phtml:60
+msgid "Status:"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/index.phtml:62
+#: ../view/dashboard-manager/publisher/index.phtml:83
+#: ../view/dashboard-manager/publisher/index.phtml:92
+msgid "All"
+msgstr "Tất cả"
+
+#: ../view/dashboard-manager/demand/index.phtml:63
+msgid "Pending approval"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/index.phtml:67
+msgid "Deleted"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/index.phtml:69
+msgid "Approved"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/index.phtml:85
+msgid " Campaign markup"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/index.phtml:88
+msgid "User Name"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/index.phtml:100
+msgid "Impressions Counter"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/index.phtml:112
+msgid "Action"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/index.phtml:140
+msgid "Yes"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/index.phtml:141
+msgid "No"
+msgstr ""
 
 #: ../view/dashboard-manager/demand/report.phtml:34
 #: ../view/dashboard-manager/publisher/report.phtml:34
@@ -427,11 +1183,6 @@ msgstr ""
 msgid "Publisher Impressions Network Loss Rate"
 msgstr ""
 
-#: ../view/dashboard-manager/publisher/index.phtml:83
-#: ../view/dashboard-manager/publisher/index.phtml:92
-msgid "All"
-msgstr "Tất cả"
-
 #: ../view/dashboard-manager/publisher/index.phtml:84
 msgid "Auto-approved"
 msgstr "Tự động"
@@ -447,10 +1198,6 @@ msgstr "Đang chạy"
 #: ../view/dashboard-manager/publisher/index.phtml:90
 msgid "IAB Category"
 msgstr "Danh Mục IAB"
-
-#: ../view/dashboard-manager/publisher/msaagreement.phtml:18
-msgid "Error"
-msgstr "Lỗi "
 
 #: ../view/dashboard-manager/publisher/msaagreement.phtml:21
 msgid "YOU MUST AGREE TO THE TERMS BEFORE USING THE SERVICE!"
@@ -492,18 +1239,10 @@ msgstr "Khu vực quảng cáo"
 msgid "Income"
 msgstr "Doanh thu"
 
-#: ../view/dashboard-manager/publisher/report.phtml:92
-msgid "Name"
-msgstr "Tên"
-
 #: ../view/dashboard-manager/publisher/report.phtml:93
 #: ../view/dashboard-manager/publisher/report.phtml:119
 msgid "Amount"
 msgstr "Số Lượng"
-
-#: ../view/dashboard-manager/publisher/report.phtml:94
-msgid "Status"
-msgstr ""
 
 #: ../view/dashboard-manager/publisher/report.phtml:110
 msgid "Withdraw"
@@ -511,28 +1250,6 @@ msgstr ""
 
 #: ../view/dashboard-manager/publisher/report.phtml:127
 msgid "Submit"
-msgstr ""
-
-#: ../view/dashboard-manager/zone/create.phtml:43
-#: ../view/dashboard-manager/zone/edit.phtml:42
-msgid "Ad Name"
-msgstr ""
-
-#: ../view/dashboard-manager/zone/create.phtml:56
-#: ../view/dashboard-manager/zone/edit.phtml:47
-msgid "Ad Delivery Type"
-msgstr ""
-
-#: ../view/dashboard-manager/zone/create.phtml:59
-#: ../view/dashboard-manager/zone/edit.phtml:51
-#: ../view/dashboard-manager/zone/edit.phtml:54
-msgid "Banner Ad"
-msgstr ""
-
-#: ../view/dashboard-manager/zone/create.phtml:60
-#: ../view/dashboard-manager/zone/edit.phtml:52
-#: ../view/dashboard-manager/zone/edit.phtml:55
-msgid "Video Ad"
 msgstr ""
 
 #: ../view/dashboard-manager/zone/create.phtml:66
@@ -568,36 +1285,12 @@ msgstr ""
 msgid "Maximum Ad Duration"
 msgstr ""
 
-#: ../view/dashboard-manager/zone/create.phtml:145
-msgid "Mimes"
-msgstr ""
-
-#: ../view/dashboard-manager/zone/create.phtml:156
-msgid "Protocols"
-msgstr ""
-
-#: ../view/dashboard-manager/zone/create.phtml:171
-msgid "Apis Supported"
-msgstr ""
-
 #: ../view/dashboard-manager/zone/create.phtml:186
 msgid "Video Delivery"
 msgstr ""
 
 #: ../view/dashboard-manager/zone/create.phtml:201
 msgid "Video Playback"
-msgstr ""
-
-#: ../view/dashboard-manager/zone/create.phtml:216
-msgid "Start Delay"
-msgstr ""
-
-#: ../view/dashboard-manager/zone/create.phtml:231
-msgid "Linearity"
-msgstr ""
-
-#: ../view/dashboard-manager/zone/create.phtml:246
-msgid "Fold Position"
 msgstr ""
 
 #: ../view/dashboard-manager/zone/create.phtml:262

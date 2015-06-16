@@ -219,7 +219,7 @@ $(function() {
 		</div>
 	</div>
 	 <div class="control-group nobanner" style="display: none">
-		<label class="col-sm-3 control-label"  for="ApisSupported"><?php echo $this->layout()->_t->translate("");?><?php echo $this->layout()->_t->translate("Apis Supported");?> : <span class="hlp"><small><i>(<?php echo $this->layout()->_t->translate("ctrl+shift to select mutliple");?>)</i></small></span></label>
+		<label class="col-sm-3 control-label"  for="ApisSupported"><?php echo $this->layout()->_t->translate("Apis Supported");?> : <span class="hlp"><small><i>(<?php echo $this->layout()->_t->translate("ctrl+shift to select mutliple");?>)</i></small></span></label>
 		<div class="col-sm-9">
 			<select id="ApisSupported" name="ApisSupported[]" multiple class="zone-txtarea form-control" style="min-height: 120px">
 			    <?php foreach ($apis_supported as $code => $name): ?>
