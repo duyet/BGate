@@ -22,11 +22,16 @@ $effective_user_in_dashboard = false;
 <div class="docs-header">
   <div class="topic">
     <div class="row">
-      <div class="col-md-5 col-md-offset-1 col-sm-5 col-sm-offset-1 col-xs-6"><h4>Domain List</h4></div>
+      <div class="col-md-5 col-md-offset-1 col-sm-5 col-sm-offset-1 col-xs-6">
+            <h4><?php echo $this->layout()->_t->translate("Domain List");?></h4>
+      </div>
       <?php
         if ($is_admin === false):
       ?>
-      <div class="col-md-5 col-sm-5 text-right col-xs-6"><a href="<?php echo $this->basePath() ?>/publisher/createdomain" class="btn btn-success mrg5T">Create Domain</a></div>
+      <div class="col-md-5 col-sm-5 text-right col-xs-6"><a href="<?php echo $this->basePath() ?>/publisher/createdomain" class="btn btn-success mrg5T">
+          <?php echo $this->layout()->_t->translate("Create Domain");?>
+          </a>
+          </div>
       <?php
         endif;
       ?>
@@ -45,7 +50,7 @@ $effective_user_in_dashboard = false;
         <form name="changepublishermarkup" id="changepublishermarkup" action="<?php echo $this->basePath() ?>/publisher/changepublishermarkup"class="forms pull-right" >
           <input type="hidden" name="markuppublisherinfoid" value="<?php echo $publisher_info_id;?>" />
       
-        <span style="font-size: 12px; font-weight: bold;">Publisher Markup Rate:</span>  <input type="text"  style="text-align: right" name="publisher-markup" class="span1" value="<?php echo $publisher_markup_rate;?>">%
+        <span style="font-size: 12px; font-weight: bold;"><?php echo $this->layout()->_t->translate("Publisher Markup Rate");?>:</span>  <input type="text"  style="text-align: right" name="publisher-markup" class="span1" value="<?php echo $publisher_markup_rate;?>">%
           <div style="display: inline;">
             <input type="submit" name="publisher-markup-submit" class="btn actv  btn-small" value="Change Publisher Markup" style="width: 180px; margin-left: 8px; margin-bottom: 10px;" />
             <span style="cursor: pointer;" title="The Rate that the Impressions Will be Marked up from the Bid Price and Floor Prices (Your Profit)"><img style="border: 0; margin-bottom: 10px;" src="/images/tooltip.jpg" /></span>
@@ -57,7 +62,7 @@ $effective_user_in_dashboard = false;
         <form name="changepublisherimpressionsnetworkloss" id="changepublisherimpressionsnetworkloss" action="<?php echo $this->basePath() ?>/publisher/changepublisherimpressionsnetworkloss"class="forms pull-right" >
           <input type="hidden" name="networkimpressionslosspublisherinfoid" value="<?php echo $publisher_info_id;?>" />
       
-        <span style="font-size: 12px; font-weight: bold;">Publisher Impressions Network Loss Rate:</span>  <input type="text"  style="text-align: right" name="publisher-impressions-network-loss" class="span1" value="<?php echo $publisher_impressions_network_loss_rate;?>">%
+        <span style="font-size: 12px; font-weight: bold;"><?php echo $this->layout()->_t->translate("Publisher Impressions Network Loss Rate");?>:</span>  <input type="text"  style="text-align: right" name="publisher-impressions-network-loss" class="span1" value="<?php echo $publisher_impressions_network_loss_rate;?>">%
           
           <div style="display: inline;">
             <input type="submit" name="publisher-impressions-network-loss-submit" class="btn actv  btn-small" value="Change Network Loss Rate" style="width: 180px; margin-left: 8px; margin-bottom: 10px;" />
@@ -75,19 +80,42 @@ $effective_user_in_dashboard = false;
       <div class="col-sm-4">
         Status:
         <select id="domain-status" onchange="DomainTable.reload_table()">
-          <option value="">All</option>
-          <option value="1">Auto-approved</option>
-          <option value="2">Stop</option>
-          <option value="3">Running</option>
+          <option value=""><?php echo $this->layout()->_t->translate("All");?></option>
+          <option value="1"><?php echo $this->layout()->_t->translate("Auto-approved");?></option>
+          <option value="2"><?php echo $this->layout()->_t->translate("Stop");?></option>
+          <option value="3"><?php echo $this->layout()->_t->translate("Running");?></option>
         </select>
       </div>
       <div class="col-sm-8">
-        IAB Category:
+        <?php echo $this->layout()->_t->translate("IAB Category");?>:
         <select id="domain-IABCategory" onchange="DomainTable.reload_table()">
-          <option value="">All</option>
-            <?php  foreach($vertical_map as $key=>$value): 
-                echo '<option value="'. $key .'">'. $value .'</option>';
-             endforeach; ?>
+            <option value=""><?php echo $this->layout()->_t->translate("All");?></option>
+            <option select="" value="IAB1"><?php echo $this->layout()->_t->translate("Arts & Entertainment");?> </option>
+            <option select="" value="IAB2"><?php echo $this->layout()->_t->translate("Automotive");?> </option>
+            <option select="" value="IAB3"><?php echo $this->layout()->_t->translate("Business");?> </option>    
+            <option select="" value="IAB4"><?php echo $this->layout()->_t->translate("Careers");?> </option>     
+            <option select="" value="IAB5"><?php echo $this->layout()->_t->translate("Education");?> </option>
+            <option select="" value="IAB6"><?php echo $this->layout()->_t->translate("Family & Parenting");?></option>
+            <option select="" value="IAB7"><?php echo $this->layout()->_t->translate("Health & Fitness");?> </option>
+            <option select="" value="IAB8"><?php echo $this->layout()->_t->translate("Food & Drink");?> </option>
+            <option select="" value="IAB9"><?php echo $this->layout()->_t->translate("Hobbies & Interests");?> </option>
+            <option select="" value="IAB10"><?php echo $this->layout()->_t->translate("Home & Garden"); ?> </option>
+            <option select="" value="IAB11"><?php echo $this->layout()->_t->translate("Law, Gov't & Politics"); ?> </option>
+            <option select="" value="IAB12"><?php echo $this->layout()->_t->translate("News"); ?> </option>
+            <option select="" value="IAB13"><?php echo $this->layout()->_t->translate("Personal Finance"); ?> </option> 
+            <option select="" value="IAB14"><?php echo $this->layout()->_t->translate("Society"); ?> </option>
+            <option select="" value="IAB15"><?php echo $this->layout()->_t->translate("Science"); ?> </option>
+            <option select="" value="IAB16"><?php echo $this->layout()->_t->translate("Pets"); ?> </option>   
+            <option select="" value="IAB16"><?php echo $this->layout()->_t->translate("Sports"); ?> </option>
+            <option select="" value="IAB18"><?php echo $this->layout()->_t->translate("Style & Fashion"); ?> </option>     
+            <option select="" value="IAB19"><?php echo $this->layout()->_t->translate("Technology & Computing"); ?> </option>  
+            <option select="" value="IAB20"><?php echo $this->layout()->_t->translate("Travel"); ?> </option>      
+            <option select="" value="IAB21"><?php echo $this->layout()->_t->translate("Real Estate"); ?> </option>     
+            <option select="" value="IAB22"><?php echo $this->layout()->_t->translate("Shopping"); ?> </option>      
+            <option select="" value="IAB23"><?php echo $this->layout()->_t->translate("Religion & Spirituality");?> </option> 
+            <option select="" value="IAB24"><?php echo $this->layout()->_t->translate("Uncategorized"); ?> </option>     
+            <option select="" value="IAB25"><?php echo $this->layout()->_t->translate("Non-Standard Content"); ?> </option>
+            <option select="" value="IAB26"><?php echo $this->layout()->_t->translate("Illegal Content"); ?> </option>
         </select>  
       </div>
       

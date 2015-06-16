@@ -1,7 +1,7 @@
 <div class="docs-header">
   <div class="topic">
         <div class="container">
-          <h4>Edit Domain</h4>
+          <h4><?php echo $this->layout()->_t->translate("Edit Domain");?></h4>
         </div>
   </div>
 </div>
@@ -40,13 +40,13 @@ $this->headScript()->captureStart() ?>
           <form id="domain" class="form-horizontal form-top-magin" name="domain" method="post" action="<?php echo $this->basePath() ?>/publisher/editdomain/<?php echo $editResultObj->PublisherWebsiteID;?>/" novalidate="novalidate">
             
             <div class="form-group">
-              <label for="webdomain" class="control-label col-sm-3">Web Domain<sup>(*)</sup></label>
+              <label for="webdomain" class="control-label col-sm-3"><?php echo $this->layout()->_t->translate("Web Domain");?><sup>(*)</sup></label>
               <div class="controls col-sm-7">
                 <input type="text" value="<?php echo $editResultObj->WebDomain;?>" maxlength="255"  class="form-control"  id="WebDomain" name="WebDomain">    
               </div>
             </div>
             <div class="form-group">
-                <label for="desc" class="control-label col-sm-3">Description<sup>(*)</sup></label>
+                <label for="desc" class="control-label col-sm-3"><?php echo $this->layout()->_t->translate("Description");?><sup>(*)</sup></label>
                 <div class="controls col-sm-7">
                   <textarea maxlength="5000"  class="form-control" id="Description" name="Description"><?php echo $editResultObj->Description;?></textarea>    
                 </div>
@@ -55,7 +55,7 @@ $this->headScript()->captureStart() ?>
               if($is_admin):
             ?>
               <div class="form-group">
-                  <label for="desc" class="control-label col-sm-3">Domain Markup<sup>(*)</sup></label>
+                  <label for="desc" class="control-label col-sm-3"><?php echo $this->layout()->_t->translate("Domain Markup");?><sup>(*)</sup></label>
                   <div class="controls col-sm-7">
                     <input type="text" class="form-control" id="DomainMarkup" name="DomainMarkup"value="<?php echo $editResultObj->DomainMarkup;?>"> 
                   </div>
@@ -64,29 +64,52 @@ $this->headScript()->captureStart() ?>
               endif;
             ?>   
             <div class="form-group">
-              <label for="IABCategory" class="control-label col-sm-3">IABCategory</label>
+              <label for="IABCategory" class="control-label col-sm-3"><?php echo $this->layout()->_t->translate("IABCategory");?></label>
               <div class="controls col-sm-7">
                 <select class="form-control" id="IABCategory" name="IABCategory">
-                  <?php 
-                     foreach($vertical_map as $key=>$value):
-                      $selected = '';
-                      if($editResultObj->IABCategory == $key):
-                        $selected = 'selected';
-                      endif; 
-                    echo '<option value="'. $key .'" '.$selected.'>'. $value .'</option>';
-                   endforeach;
-                  ?>
+
+                  <option select="" value="IAB1"><?php echo $this->layout()->_t->translate("Arts & Entertainment");?> </option>
+                  <option select="" value="IAB2"><?php echo $this->layout()->_t->translate("Automotive");?> </option>
+                  <option select="" value="IAB3"><?php echo $this->layout()->_t->translate("Business");?> </option>    
+                  <option select="" value="IAB4"><?php echo $this->layout()->_t->translate("Careers");?> </option>     
+                  <option select="" value="IAB5"><?php echo $this->layout()->_t->translate("Education");?> </option>
+                  <option select="" value="IAB6"><?php echo $this->layout()->_t->translate("Family & Parenting");?></option>
+                  <option select="" value="IAB7"><?php echo $this->layout()->_t->translate("Health & Fitness");?> </option>
+                  <option select="" value="IAB8"><?php echo $this->layout()->_t->translate("Food & Drink");?> </option>
+                  <option select="" value="IAB9"><?php echo $this->layout()->_t->translate("Hobbies & Interests");?> </option>
+                  <option select="" value="IAB10"><?php echo $this->layout()->_t->translate("Home & Garden"); ?> </option>
+                  <option select="" value="IAB11"><?php echo $this->layout()->_t->translate("Law, Gov't & Politics"); ?> </option>
+                  <option select="" value="IAB12"><?php echo $this->layout()->_t->translate("News"); ?> </option>
+                  <option select="" value="IAB13"><?php echo $this->layout()->_t->translate("Personal Finance"); ?> </option> 
+                  <option select="" value="IAB14"><?php echo $this->layout()->_t->translate("Society"); ?> </option>
+                  <option select="" value="IAB15"><?php echo $this->layout()->_t->translate("Science"); ?> </option>
+                  <option select="" value="IAB16"><?php echo $this->layout()->_t->translate("Pets"); ?> </option>   
+                  <option select="" value="IAB16"><?php echo $this->layout()->_t->translate("Sports"); ?> </option>
+                  <option select="" value="IAB18"><?php echo $this->layout()->_t->translate("Style & Fashion"); ?> </option>     
+                  <option select="" value="IAB19"><?php echo $this->layout()->_t->translate("Technology & Computing"); ?> </option>  
+                  <option select="" value="IAB20"><?php echo $this->layout()->_t->translate("Travel"); ?> </option>      
+                  <option select="" value="IAB21"><?php echo $this->layout()->_t->translate("Real Estate"); ?> </option>     
+                  <option select="" value="IAB22"><?php echo $this->layout()->_t->translate("Shopping"); ?> </option>      
+                  <option select="" value="IAB23"><?php echo $this->layout()->_t->translate("Religion & Spirituality");?> </option> 
+                  <option select="" value="IAB24"><?php echo $this->layout()->_t->translate("Uncategorized"); ?> </option>     
+                  <option select="" value="IAB25"><?php echo $this->layout()->_t->translate("Non-Standard Content"); ?> </option>
+                  <option select="" value="IAB26"><?php echo $this->layout()->_t->translate("Illegal Content"); ?> </option>
+
+                  <script>
+                      $('option[value=<?php echo $editResultObj->IABCategory; ?>]').attr("selected", "selected");  
+                  </script>
+                  
                 </select>
               </div>
             </div>  
             <hr>
             <div class="form-group text-center">
               <div class="controls">
-                <button name="submit" type="submit" class="btn btn-primary btn-margin" id="submitbutton">Update Domain</button>&nbsp;
+                <button name="submit" type="submit" class="btn btn-primary btn-margin" id="submitbutton"><?php echo $this->layout()->_t->translate("Update Domain");?></button>&nbsp;
               <?php if (array_key_exists('HTTP_REFERER',$_SERVER)): ?>
-                <a href="<?php echo $_SERVER['HTTP_REFERER']  ?>" class="btn btn-margin">Cancel</a>
+                <a href="<?php echo $_SERVER['HTTP_REFERER']  ?>" class="btn btn-margin"><?php echo $this->layout()->_t->translate("Cancel");?></a>
               <?php else: ?>
-                <a href="<?php echo $this->basePath() . '/publisher' ?>" class="btn btn-margin">Cancel</a>
+                <a href="<?php echo $this->basePath() . '/publisher' ?>" class="btn btn-margin"><?php echo $this->layout()->_t->translate("Cancel");?></a>
               <?php endif; ?>
               </div>
             </div>

@@ -1,7 +1,7 @@
 <div class="docs-header">
   <div class="topic">
         <div class="container">
-          <h4>New Domain</h4>
+          <h4><?php echo $this->layout()->_t->translate("New Domain");?></h4>
         </div>
   </div>
 </div>
@@ -34,14 +34,14 @@ $this->headScript()->captureStart(); ?>
         <form id="domain" class="form-horizontal form-top-magin" name="domain" method="post" action="<?php echo $this->basePath() ?>/publisher/createdomain" novalidate="novalidate">
           <input type="hidden" value="" name="PublisherWebsiteID">
           <div class="form-group">
-            <label for="webdomain" class="control-label col-sm-3">Web Domain <sup>(*)</sup></label>
+            <label for="webdomain" class="control-label col-sm-3"><?php echo $this->layout()->_t->translate("Web Domain");?> <sup>(*)</sup></label>
             <div class="controls col-sm-7">
               <input type="text" value="" maxlength="255" class="form-control" id="WebDomain" name="WebDomain">    
             </div>
           </div>
           
           <div class="form-group">
-            <label for="desc" class="control-label col-sm-3">Description<sup>(*)</sup></label>
+            <label for="desc" class="control-label col-sm-3"><?php echo $this->layout()->_t->translate("Description");?><sup>(*)</sup></label>
             <div class="controls col-sm-7">
               <textarea maxlength="5000" class="form-control" id="Description" name="Description"></textarea>    
             </div>
@@ -50,7 +50,7 @@ $this->headScript()->captureStart(); ?>
             if($is_admin):
           ?>
             <div class="form-group">
-                <label for="desc" class="control-label col-sm-3">Domain Markup<sup>(*)</sup></label>
+                <label for="desc" class="control-label col-sm-3"><?php echo $this->layout()->_t->translate("Domain Markup");?><sup>(*)</sup></label>
                 <div class="controls col-sm-7">
                   <input type="text" class="form-control" id="DomainMarkup" name="DomainMarkup">
                 </div>
@@ -59,25 +59,51 @@ $this->headScript()->captureStart(); ?>
             endif;
           ?>  
           <div class="form-group">
-            <label for="IABCategory" class="control-label col-sm-3">IABCategory</label>
+            <label for="IABCategory" class="control-label col-sm-3"><?php echo $this->layout()->_t->translate("IABCategory");?></label>
             <div class="controls col-sm-7">
               <select class="form-control" id="IABCategory" name="IABCategory">
-                <?php 
-                   foreach($vertical_map as $key=>$value): 
-                  echo '<option value="'. $key .'">'. $value .'</option>';
-                 endforeach;
-                 ?>
+
+                  <option value="IAB1"><?php $this->layout()->_t->translate("Arts & Entertainment");?> </option>
+                  <option value="IAB2"><?php $this->layout()->_t->translate("Automotive");?> </option>
+                  <option value="IAB3"><?php $this->layout()->_t->translate("Business");?> </option>    
+                  <option value="IAB4"><?php $this->layout()->_t->translate("Careers");?> </option>     
+                  <option value="IAB5"><?php $this->layout()->_t->translate("Education");?> </option>
+                  <option value="IAB6"><?php $this->layout()->_t->translate("Family & Parenting");?></option>
+                  <option value="IAB7"><?php $this->layout()->_t->translate("Health & Fitness");?> </option>
+                  <option value="IAB8"><?php $this->layout()->_t->translate("Food & Drink");?> </option>
+                  <option value="IAB9"><?php $this->layout()->_t->translate("Hobbies & Interests");?> </option>
+                  <option value="IAB10"><?php $this->layout()->_t->translate("Home & Garden"); ?> </option>
+                  <option value="IAB11"><?php $this->layout()->_t->translate("Law, Gov't & Politics"); ?> </option>
+                  <option value="IAB12"><?php $this->layout()->_t->translate("News"); ?> </option>
+                  <option value="IAB13"><?php $this->layout()->_t->translate("Personal Finance"); ?> </option> 
+                  <option value="IAB14"><?php $this->layout()->_t->translate("Society"); ?> </option>
+                  <option value="IAB15"><?php $this->layout()->_t->translate("Science"); ?> </option>
+                  <option value="IAB16"><?php $this->layout()->_t->translate("Pets"); ?> </option>   
+                  <option value="IAB16"><?php $this->layout()->_t->translate("Sports"); ?> </option>
+                  <option value="IAB18"><?php $this->layout()->_t->translate("Style & Fashion"); ?> </option>     
+                  <option value="IAB19"><?php $this->layout()->_t->translate("Technology & Computing"); ?> </option>  
+                  <option value="IAB20"><?php $this->layout()->_t->translate("Travel"); ?> </option>      
+                  <option value="IAB21"><?php $this->layout()->_t->translate("Real Estate"); ?> </option>     
+                  <option value="IAB22"><?php $this->layout()->_t->translate("Shopping"); ?> </option>      
+                  <option value="IAB23"><?php $this->layout()->_t->translate("Religion & Spirituality");?> </option> 
+                  <option value="IAB24"><?php $this->layout()->_t->translate("Uncategorized"); ?> </option>     
+                  <option value="IAB25"><?php $this->layout()->_t->translate("Non-Standard Content"); ?> </option>
+                  <option value="IAB26"><?php $this->layout()->_t->translate("Illegal Content"); ?> </option>
+                
               </select>
             </div>
           </div>  
             <hr>
           <div class="form-group text-center">
             <div class="controls">
-              <button name="submit" type="submit" class="btn btn-primary btn-margin" id="submitbutton">Create New Domain</button> &nbsp;
+              <button name="submit" type="submit" class="btn btn-primary btn-margin" id="submitbutton">
+                <?php echo $this->layout()->_t->translate("Create New Domain");?></button> &nbsp;
               <?php if (array_key_exists('HTTP_REFERER',$_SERVER)): ?>
-                <a href="<?php echo $_SERVER['HTTP_REFERER']  ?>" class="btn btn-margin">Cancel</a>
+                <a href="<?php echo $_SERVER['HTTP_REFERER']  ?>" class="btn btn-margin">
+                <?php echo $this->layout()->_t->translate("Cancel");?></a>
               <?php else: ?>
-                <a href="<?php echo $this->basePath() . '/publisher' ?>" class="btn btn-margin">Cancel</a>
+                <a href="<?php echo $this->basePath() . '/publisher' ?>" class="btn btn-margin">
+                <?php echo $this->layout()->_t->translate("Cancel");?></a>
               <?php endif; ?>
             </div>
           </div>

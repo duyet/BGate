@@ -6,27 +6,763 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ZendSkeletonApplication\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-05 22:17-0700\n"
-"PO-Revision-Date: 2012-07-07 13:58+0300\n"
+"POT-Creation-Date: 2015-06-16 16:37+0700\n"
+"PO-Revision-Date: 2015-06-16 16:46+0700\n"
 "Last-Translator: Tawfek Daghistani <tawfekov@gmail.com>\n"
 "Language-Team: Arabic <>\n"
-"Language: \n"
+"Language: vi_VN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-KeywordsList: translate\n"
-"X-Poedit-Language: Viet\n"
-"X-Poedit-Country: VIET NAM\n"
 "X-Poedit-Basepath: .\n"
-"X-Poedit-SearchPath-0: ..\n"
 "Plural-Forms: nplurals=2; plural=(n!=1);\n"
+"X-Generator: Poedit 1.8.1\n"
+"X-Poedit-SearchPath-0: ..\n"
 
-#: ../view/layout/layout.phtml:6 ../view/layout/layout.phtml:33
+#: ../view/dashboard-manager/auth/account.phtml:4
+msgid "User Information"
+msgstr ""
+"Thông tin tài khoản\n"
+"\t"
+
+#: ../view/dashboard-manager/auth/account.phtml:18
+msgid "Account updated successfully."
+msgstr "Cập nhật tài khoản thành công"
+
+#: ../view/dashboard-manager/auth/account.phtml:32
+msgid "Account Information"
+msgstr "Thông tin tài khoản"
+
+#: ../view/dashboard-manager/auth/account.phtml:36
+msgid "Email"
+msgstr "Thư điện tử "
+
+#: ../view/dashboard-manager/auth/account.phtml:43
+msgid "Username"
+msgstr "Tên tài khoản"
+
+#: ../view/dashboard-manager/auth/account.phtml:50
+msgid "Password"
+msgstr "Mật khẩu"
+
+#: ../view/dashboard-manager/auth/account.phtml:52
+msgid "Change your password"
+msgstr "Đổi mật khẩu "
+
+#: ../view/dashboard-manager/auth/account.phtml:56
+msgid "Contact Information"
+msgstr "Thông tin liên hệ"
+
+#: ../view/dashboard-manager/auth/account.phtml:59
+msgid "First Name"
+msgstr "Tên"
+
+#: ../view/dashboard-manager/auth/account.phtml:64
+msgid "Last Name"
+msgstr "Họ"
+
+#: ../view/dashboard-manager/auth/account.phtml:69
+msgid "Country"
+msgstr "Quốc Gia"
+
+#: ../view/dashboard-manager/auth/account.phtml:75
+msgid "City"
+msgstr "Thành Phố"
+
+#: ../view/dashboard-manager/auth/account.phtml:80
+msgid "Address"
+msgstr "Địa Chỉ"
+
+#: ../view/dashboard-manager/auth/account.phtml:86
+msgid "Language"
+msgstr "Ngôn ngữ"
+
+#: ../view/dashboard-manager/auth/account.phtml:89
+msgid "Vietnamese"
+msgstr "Tiếng Việt "
+
+#: ../view/dashboard-manager/auth/account.phtml:90
+msgid "English"
+msgstr "Tiếng Anh"
+
+#: ../view/dashboard-manager/auth/account.phtml:99
+msgid "Update account"
+msgstr "Cập Nhật Tài Khoản"
+
+#: ../view/dashboard-manager/demand/report.phtml:24
+#: ../view/dashboard-manager/publisher/dashboard.phtml:79
+#: ../view/layout/layout.phtml:110 ../view/layout/layout.phtml:131
+msgid "Report"
+msgstr "Báo Cáo "
+
+#: ../view/dashboard-manager/demand/report.phtml:34
+#: ../view/dashboard-manager/publisher/report.phtml:34
+msgid "Overview"
+msgstr "Tổng Quan"
+
+#: ../view/dashboard-manager/demand/report.phtml:36
+msgid "All time"
+msgstr "Tất cả"
+
+#: ../view/dashboard-manager/demand/report.phtml:37
+#: ../view/dashboard-manager/publisher/report.phtml:37
 msgid "Today"
 msgstr "Hôm nay"
 
-#: ../view/layout/layout.phtml:6 ../view/layout/layout.phtml:33
+#: ../view/dashboard-manager/demand/report.phtml:38
+#: ../view/dashboard-manager/publisher/report.phtml:38
 msgid "Yesterday"
 msgstr "Hôm qua"
 
+#: ../view/dashboard-manager/demand/report.phtml:39
+#: ../view/dashboard-manager/publisher/report.phtml:39
+msgid "This week"
+msgstr "Tuần Này"
 
+#: ../view/dashboard-manager/demand/report.phtml:40
+#: ../view/dashboard-manager/publisher/report.phtml:40
+msgid "Last week"
+msgstr "Tuần Trước"
+
+#: ../view/dashboard-manager/demand/report.phtml:41
+#: ../view/dashboard-manager/publisher/report.phtml:41
+msgid "This month"
+msgstr "Tháng Này"
+
+#: ../view/dashboard-manager/demand/report.phtml:42
+#: ../view/dashboard-manager/publisher/report.phtml:42
+msgid "Last month"
+msgstr "Tháng Trước"
+
+#: ../view/dashboard-manager/demand/report.phtml:43
+#: ../view/dashboard-manager/publisher/report.phtml:43
+msgid "This year"
+msgstr "Năm này"
+
+#: ../view/dashboard-manager/demand/report.phtml:47
+msgid "Outcome (USD): $"
+msgstr "Tiền đã chi (USD): $"
+
+#: ../view/dashboard-manager/demand/report.phtml:48
+msgid "Click Total: "
+msgstr "Tổng Số Nhấp Chuột: "
+
+#: ../view/dashboard-manager/demand/report.phtml:49
+msgid "Impression Total: "
+msgstr "Tổng Số Hiển Thị: "
+
+#: ../view/dashboard-manager/demand/report.phtml:59
+msgid "Outcome List"
+msgstr "Danh sách tiền đã chi "
+
+#: ../view/dashboard-manager/demand/report.phtml:66
+msgid "Ad-Campaign"
+msgstr "Chiến dịch quảng cáo "
+
+#: ../view/dashboard-manager/demand/report.phtml:67
+msgid "Ad-Banner"
+msgstr "Banner "
+
+#: ../view/dashboard-manager/demand/report.phtml:68
+#: ../view/dashboard-manager/publisher/report.phtml:68
+msgid "Click Count"
+msgstr "Tổng Số Nhấp Chuột"
+
+#: ../view/dashboard-manager/demand/report.phtml:69
+#: ../view/dashboard-manager/publisher/report.phtml:69
+msgid "Imp Count"
+msgstr "Tổng Số Hiển Thị"
+
+#: ../view/dashboard-manager/demand/report.phtml:70
+msgid "Outcome"
+msgstr "Tiền đã chi "
+
+#: ../view/dashboard-manager/demand/report.phtml:71
+#: ../view/dashboard-manager/publisher/report.phtml:71
+#: ../view/dashboard-manager/publisher/report.phtml:91
+msgid "Date"
+msgstr "Thời gian "
+
+#: ../view/dashboard-manager/publisher/createdomain.phtml:4
+msgid "New Domain"
+msgstr "Tạo Tên Miền Mới"
+
+#: ../view/dashboard-manager/publisher/createdomain.phtml:37
+#: ../view/dashboard-manager/publisher/editdomain.phtml:43
+msgid "Web Domain"
+msgstr "Tên miền Web"
+
+#: ../view/dashboard-manager/publisher/createdomain.phtml:44
+#: ../view/dashboard-manager/publisher/editdomain.phtml:49
+#: ../view/dashboard-manager/zone/create.phtml:49
+#: ../view/dashboard-manager/zone/edit.phtml:61
+msgid "Description"
+msgstr "Ghi Chú"
+
+#: ../view/dashboard-manager/publisher/createdomain.phtml:53
+#: ../view/dashboard-manager/publisher/editdomain.phtml:58
+msgid "Domain Markup"
+msgstr "Tên Miền Markup"
+
+#: ../view/dashboard-manager/publisher/createdomain.phtml:62
+#: ../view/dashboard-manager/publisher/editdomain.phtml:67
+msgid "IABCategory"
+msgstr "Danh Mục IAB"
+
+#: ../view/dashboard-manager/publisher/createdomain.phtml:66
+#: ../view/dashboard-manager/publisher/editdomain.phtml:71
+#: ../view/dashboard-manager/publisher/index.phtml:93
+msgid "Arts & Entertainment"
+msgstr "Nghệ thuật và Giải Trí "
+
+#: ../view/dashboard-manager/publisher/createdomain.phtml:67
+#: ../view/dashboard-manager/publisher/editdomain.phtml:72
+#: ../view/dashboard-manager/publisher/index.phtml:94
+msgid "Automotive"
+msgstr ""
+
+#: ../view/dashboard-manager/publisher/createdomain.phtml:68
+#: ../view/dashboard-manager/publisher/editdomain.phtml:73
+#: ../view/dashboard-manager/publisher/index.phtml:95
+msgid "Business"
+msgstr ""
+
+#: ../view/dashboard-manager/publisher/createdomain.phtml:69
+#: ../view/dashboard-manager/publisher/editdomain.phtml:74
+#: ../view/dashboard-manager/publisher/index.phtml:96
+msgid "Careers"
+msgstr ""
+
+#: ../view/dashboard-manager/publisher/createdomain.phtml:70
+#: ../view/dashboard-manager/publisher/editdomain.phtml:75
+#: ../view/dashboard-manager/publisher/index.phtml:97
+msgid "Education"
+msgstr ""
+
+#: ../view/dashboard-manager/publisher/createdomain.phtml:71
+#: ../view/dashboard-manager/publisher/editdomain.phtml:76
+#: ../view/dashboard-manager/publisher/index.phtml:98
+msgid "Family & Parenting"
+msgstr ""
+
+#: ../view/dashboard-manager/publisher/createdomain.phtml:72
+#: ../view/dashboard-manager/publisher/editdomain.phtml:77
+#: ../view/dashboard-manager/publisher/index.phtml:99
+msgid "Health & Fitness"
+msgstr ""
+
+#: ../view/dashboard-manager/publisher/createdomain.phtml:73
+#: ../view/dashboard-manager/publisher/editdomain.phtml:78
+#: ../view/dashboard-manager/publisher/index.phtml:100
+msgid "Food & Drink"
+msgstr ""
+
+#: ../view/dashboard-manager/publisher/createdomain.phtml:74
+#: ../view/dashboard-manager/publisher/editdomain.phtml:79
+#: ../view/dashboard-manager/publisher/index.phtml:101
+msgid "Hobbies & Interests"
+msgstr ""
+
+#: ../view/dashboard-manager/publisher/createdomain.phtml:75
+#: ../view/dashboard-manager/publisher/editdomain.phtml:80
+#: ../view/dashboard-manager/publisher/index.phtml:102
+msgid "Home & Garden"
+msgstr ""
+
+#: ../view/dashboard-manager/publisher/createdomain.phtml:76
+#: ../view/dashboard-manager/publisher/editdomain.phtml:81
+#: ../view/dashboard-manager/publisher/index.phtml:103
+msgid "Law, Gov't & Politics"
+msgstr ""
+
+#: ../view/dashboard-manager/publisher/createdomain.phtml:77
+#: ../view/dashboard-manager/publisher/editdomain.phtml:82
+#: ../view/dashboard-manager/publisher/index.phtml:104
+msgid "News"
+msgstr ""
+
+#: ../view/dashboard-manager/publisher/createdomain.phtml:78
+#: ../view/dashboard-manager/publisher/editdomain.phtml:83
+#: ../view/dashboard-manager/publisher/index.phtml:105
+msgid "Personal Finance"
+msgstr ""
+
+#: ../view/dashboard-manager/publisher/createdomain.phtml:79
+#: ../view/dashboard-manager/publisher/editdomain.phtml:84
+#: ../view/dashboard-manager/publisher/index.phtml:106
+msgid "Society"
+msgstr ""
+
+#: ../view/dashboard-manager/publisher/createdomain.phtml:80
+#: ../view/dashboard-manager/publisher/editdomain.phtml:85
+#: ../view/dashboard-manager/publisher/index.phtml:107
+msgid "Science"
+msgstr ""
+
+#: ../view/dashboard-manager/publisher/createdomain.phtml:81
+#: ../view/dashboard-manager/publisher/editdomain.phtml:86
+#: ../view/dashboard-manager/publisher/index.phtml:108
+msgid "Pets"
+msgstr ""
+
+#: ../view/dashboard-manager/publisher/createdomain.phtml:82
+#: ../view/dashboard-manager/publisher/editdomain.phtml:87
+#: ../view/dashboard-manager/publisher/index.phtml:109
+msgid "Sports"
+msgstr ""
+
+#: ../view/dashboard-manager/publisher/createdomain.phtml:83
+#: ../view/dashboard-manager/publisher/editdomain.phtml:88
+#: ../view/dashboard-manager/publisher/index.phtml:110
+msgid "Style & Fashion"
+msgstr ""
+
+#: ../view/dashboard-manager/publisher/createdomain.phtml:84
+#: ../view/dashboard-manager/publisher/editdomain.phtml:89
+#: ../view/dashboard-manager/publisher/index.phtml:111
+msgid "Technology & Computing"
+msgstr ""
+
+#: ../view/dashboard-manager/publisher/createdomain.phtml:85
+#: ../view/dashboard-manager/publisher/editdomain.phtml:90
+#: ../view/dashboard-manager/publisher/index.phtml:112
+msgid "Travel"
+msgstr ""
+
+#: ../view/dashboard-manager/publisher/createdomain.phtml:86
+#: ../view/dashboard-manager/publisher/editdomain.phtml:91
+#: ../view/dashboard-manager/publisher/index.phtml:113
+msgid "Real Estate"
+msgstr ""
+
+#: ../view/dashboard-manager/publisher/createdomain.phtml:87
+#: ../view/dashboard-manager/publisher/editdomain.phtml:92
+#: ../view/dashboard-manager/publisher/index.phtml:114
+msgid "Shopping"
+msgstr ""
+
+#: ../view/dashboard-manager/publisher/createdomain.phtml:88
+#: ../view/dashboard-manager/publisher/editdomain.phtml:93
+#: ../view/dashboard-manager/publisher/index.phtml:115
+msgid "Religion & Spirituality"
+msgstr ""
+
+#: ../view/dashboard-manager/publisher/createdomain.phtml:89
+#: ../view/dashboard-manager/publisher/editdomain.phtml:94
+#: ../view/dashboard-manager/publisher/index.phtml:116
+msgid "Uncategorized"
+msgstr ""
+
+#: ../view/dashboard-manager/publisher/createdomain.phtml:90
+#: ../view/dashboard-manager/publisher/editdomain.phtml:95
+#: ../view/dashboard-manager/publisher/index.phtml:117
+msgid "Non-Standard Content"
+msgstr ""
+
+#: ../view/dashboard-manager/publisher/createdomain.phtml:91
+#: ../view/dashboard-manager/publisher/editdomain.phtml:96
+#: ../view/dashboard-manager/publisher/index.phtml:118
+msgid "Illegal Content"
+msgstr ""
+
+#: ../view/dashboard-manager/publisher/createdomain.phtml:100
+msgid "Create New Domain"
+msgstr "Tạo tên miền mới"
+
+#: ../view/dashboard-manager/publisher/createdomain.phtml:103
+#: ../view/dashboard-manager/publisher/createdomain.phtml:106
+#: ../view/dashboard-manager/publisher/editdomain.phtml:110
+#: ../view/dashboard-manager/publisher/editdomain.phtml:112
+#: ../view/dashboard-manager/publisher/report.phtml:128
+#: ../view/dashboard-manager/zone/create.phtml:264
+#: ../view/dashboard-manager/zone/create.phtml:266
+#: ../view/dashboard-manager/zone/edit.phtml:276
+#: ../view/dashboard-manager/zone/edit.phtml:278
+msgid "Cancel"
+msgstr "Huỷ"
+
+#: ../view/dashboard-manager/publisher/dashboard.phtml:5
+msgid "Publisher's Dashboard"
+msgstr "Trang quản lý Publisher "
+
+#: ../view/dashboard-manager/publisher/dashboard.phtml:22
+msgid "Domains"
+msgstr "Tên miền"
+
+#: ../view/dashboard-manager/publisher/dashboard.phtml:36
+msgid "Ad-zones"
+msgstr "Vị trí quảng cáo"
+
+#: ../view/dashboard-manager/publisher/deletedomain.phtml:26
+msgid "Are you sure you wish to delete the domain"
+msgstr "Bạn có chắc chắn xoá tên miền này"
+
+#: ../view/dashboard-manager/publisher/deletedomain.phtml:28
+#: ../view/dashboard-manager/zone/delete.phtml:29
+msgid "This action is IMMEDIATE and NOT REVERSABLE!"
+msgstr ""
+
+#: ../view/dashboard-manager/publisher/editdomain.phtml:4
+msgid "Edit Domain"
+msgstr "Chỉnh sửa tên miền"
+
+#: ../view/dashboard-manager/publisher/editdomain.phtml:108
+msgid "Update Domain"
+msgstr "Cập nhật tên miền"
+
+#: ../view/dashboard-manager/publisher/index.phtml:26
+msgid "Domain List"
+msgstr "Danh sách tên miền"
+
+#: ../view/dashboard-manager/publisher/index.phtml:32
+msgid "Create Domain"
+msgstr "Tạo tên miền"
+
+#: ../view/dashboard-manager/publisher/index.phtml:53
+msgid "Publisher Markup Rate"
+msgstr ""
+
+#: ../view/dashboard-manager/publisher/index.phtml:65
+msgid "Publisher Impressions Network Loss Rate"
+msgstr ""
+
+#: ../view/dashboard-manager/publisher/index.phtml:83
+#: ../view/dashboard-manager/publisher/index.phtml:92
+msgid "All"
+msgstr "Tất cả"
+
+#: ../view/dashboard-manager/publisher/index.phtml:84
+msgid "Auto-approved"
+msgstr "Tự động"
+
+#: ../view/dashboard-manager/publisher/index.phtml:85
+msgid "Stop"
+msgstr "Đã dừng"
+
+#: ../view/dashboard-manager/publisher/index.phtml:86
+msgid "Running"
+msgstr "Đang chạy"
+
+#: ../view/dashboard-manager/publisher/index.phtml:90
+msgid "IAB Category"
+msgstr "Danh Mục IAB"
+
+#: ../view/dashboard-manager/publisher/msaagreement.phtml:18
+msgid "Error"
+msgstr "Lỗi "
+
+#: ../view/dashboard-manager/publisher/msaagreement.phtml:21
+msgid "YOU MUST AGREE TO THE TERMS BEFORE USING THE SERVICE!"
+msgstr ""
+
+#: ../view/dashboard-manager/publisher/msaagreement.phtml:25
+msgid "I Accept the Terms"
+msgstr ""
+
+#: ../view/dashboard-manager/publisher/msaagreement.phtml:26
+msgid "I Do Not Accept"
+msgstr "Tối không đồng ý"
+
+#: ../view/dashboard-manager/publisher/report.phtml:47
+msgid "Income (USD)"
+msgstr "Doanh thu (USD)"
+
+#: ../view/dashboard-manager/publisher/report.phtml:48
+msgid "Click Total"
+msgstr "Tổng số nhấp chuột"
+
+#: ../view/dashboard-manager/publisher/report.phtml:49
+msgid "Impression Total"
+msgstr "Lượt hiển thị"
+
+#: ../view/dashboard-manager/publisher/report.phtml:60
+msgid "Income List"
+msgstr "Danh sách thu nhập"
+
+#: ../view/dashboard-manager/publisher/report.phtml:66
+msgid "Ad-Domain"
+msgstr "Tên miền quảng cáo"
+
+#: ../view/dashboard-manager/publisher/report.phtml:67
+msgid "Ad-Zones"
+msgstr "Khu vực quảng cáo"
+
+#: ../view/dashboard-manager/publisher/report.phtml:70
+msgid "Income"
+msgstr "Doanh thu"
+
+#: ../view/dashboard-manager/publisher/report.phtml:92
+msgid "Name"
+msgstr "Tên"
+
+#: ../view/dashboard-manager/publisher/report.phtml:93
+#: ../view/dashboard-manager/publisher/report.phtml:119
+msgid "Amount"
+msgstr "Số Lượng"
+
+#: ../view/dashboard-manager/publisher/report.phtml:94
+msgid "Status"
+msgstr ""
+
+#: ../view/dashboard-manager/publisher/report.phtml:110
+msgid "Withdraw"
+msgstr ""
+
+#: ../view/dashboard-manager/publisher/report.phtml:127
+msgid "Submit"
+msgstr ""
+
+#: ../view/dashboard-manager/zone/create.phtml:43
+#: ../view/dashboard-manager/zone/edit.phtml:42
+msgid "Ad Name"
+msgstr ""
+
+#: ../view/dashboard-manager/zone/create.phtml:56
+#: ../view/dashboard-manager/zone/edit.phtml:47
+msgid "Ad Delivery Type"
+msgstr ""
+
+#: ../view/dashboard-manager/zone/create.phtml:59
+#: ../view/dashboard-manager/zone/edit.phtml:51
+#: ../view/dashboard-manager/zone/edit.phtml:54
+msgid "Banner Ad"
+msgstr ""
+
+#: ../view/dashboard-manager/zone/create.phtml:60
+#: ../view/dashboard-manager/zone/edit.phtml:52
+#: ../view/dashboard-manager/zone/edit.phtml:55
+msgid "Video Ad"
+msgstr ""
+
+#: ../view/dashboard-manager/zone/create.phtml:66
+#: ../view/dashboard-manager/zone/edit.phtml:66
+msgid "Passback Ad Tag"
+msgstr ""
+
+#: ../view/dashboard-manager/zone/create.phtml:73
+#: ../view/dashboard-manager/zone/edit.phtml:71
+msgid "Floor Price"
+msgstr ""
+
+#: ../view/dashboard-manager/zone/create.phtml:84
+#: ../view/dashboard-manager/zone/edit.phtml:81
+msgid "Zone type?"
+msgstr ""
+
+#: ../view/dashboard-manager/zone/create.phtml:119
+#: ../view/dashboard-manager/zone/edit.phtml:122
+msgid "Ad Width"
+msgstr ""
+
+#: ../view/dashboard-manager/zone/create.phtml:125
+#: ../view/dashboard-manager/zone/edit.phtml:128
+msgid "Ad Height"
+msgstr ""
+
+#: ../view/dashboard-manager/zone/create.phtml:131
+msgid "Minimum Ad Duration"
+msgstr ""
+
+#: ../view/dashboard-manager/zone/create.phtml:138
+msgid "Maximum Ad Duration"
+msgstr ""
+
+#: ../view/dashboard-manager/zone/create.phtml:145
+msgid "Mimes"
+msgstr ""
+
+#: ../view/dashboard-manager/zone/create.phtml:156
+msgid "Protocols"
+msgstr ""
+
+#: ../view/dashboard-manager/zone/create.phtml:171
+msgid "Apis Supported"
+msgstr ""
+
+#: ../view/dashboard-manager/zone/create.phtml:186
+msgid "Video Delivery"
+msgstr ""
+
+#: ../view/dashboard-manager/zone/create.phtml:201
+msgid "Video Playback"
+msgstr ""
+
+#: ../view/dashboard-manager/zone/create.phtml:216
+msgid "Start Delay"
+msgstr ""
+
+#: ../view/dashboard-manager/zone/create.phtml:231
+msgid "Linearity"
+msgstr ""
+
+#: ../view/dashboard-manager/zone/create.phtml:246
+msgid "Fold Position"
+msgstr ""
+
+#: ../view/dashboard-manager/zone/create.phtml:262
+msgid "Create New Ad Zone"
+msgstr ""
+
+#: ../view/dashboard-manager/zone/delete.phtml:27
+msgid "Are you sure you wish to delete the ad zone"
+msgstr ""
+
+#: ../view/dashboard-manager/zone/edit.phtml:4
+msgid "Update Ad-zone<"
+msgstr ""
+
+#: ../view/dashboard-manager/zone/edit.phtml:105
+msgid "Templates"
+msgstr ""
+
+#: ../view/dashboard-manager/zone/edit.phtml:134
+msgid "Minimum Ad Duration :"
+msgstr ""
+
+#: ../view/dashboard-manager/zone/edit.phtml:141
+msgid "Maximum Ad Duration : "
+msgstr ""
+
+#: ../view/dashboard-manager/zone/edit.phtml:147
+msgid "Mimes : "
+msgstr ""
+
+#: ../view/dashboard-manager/zone/edit.phtml:168
+msgid "Protocols : "
+msgstr ""
+
+#: ../view/dashboard-manager/zone/edit.phtml:183
+msgid "Apis Supported : "
+msgstr ""
+
+#: ../view/dashboard-manager/zone/edit.phtml:198
+msgid "Video Delivery : "
+msgstr ""
+
+#: ../view/dashboard-manager/zone/edit.phtml:213
+msgid "Video Playback : "
+msgstr ""
+
+#: ../view/dashboard-manager/zone/edit.phtml:228
+msgid "Start Delay :"
+msgstr ""
+
+#: ../view/dashboard-manager/zone/edit.phtml:243
+msgid "Linearity :"
+msgstr ""
+
+#: ../view/dashboard-manager/zone/edit.phtml:258
+msgid "Fold Position :"
+msgstr ""
+
+#: ../view/dashboard-manager/zone/edit.phtml:274
+msgid "Update Ad Zone"
+msgstr ""
+
+#: ../view/error/403.phtml:10
+msgid "A 403 error occurred"
+msgstr "Lỗi dữ liệu "
+
+#: ../view/error/403.phtml:27 ../view/error/404.phtml:34
+msgid "Controller"
+msgstr "Điều khiển"
+
+#: ../view/error/403.phtml:34 ../view/error/404.phtml:41
+#, php-format
+msgid "resolves to %s"
+msgstr ""
+
+#: ../view/error/403.phtml:46 ../view/error/404.phtml:53
+#: ../view/error/index.phtml:11
+msgid "Additional information"
+msgstr ""
+
+#: ../view/error/403.phtml:49 ../view/error/403.phtml:73
+#: ../view/error/404.phtml:56 ../view/error/404.phtml:80
+#: ../view/error/index.phtml:14 ../view/error/index.phtml:38
+msgid "File"
+msgstr ""
+
+#: ../view/error/403.phtml:53 ../view/error/403.phtml:77
+#: ../view/error/404.phtml:60 ../view/error/404.phtml:84
+#: ../view/error/index.phtml:18 ../view/error/index.phtml:42
+msgid "Message"
+msgstr ""
+
+#: ../view/error/403.phtml:57 ../view/error/403.phtml:81
+#: ../view/error/404.phtml:64 ../view/error/404.phtml:88
+#: ../view/error/index.phtml:22 ../view/error/index.phtml:46
+msgid "Stack trace"
+msgstr ""
+
+#: ../view/error/403.phtml:67 ../view/error/404.phtml:74
+#: ../view/error/index.phtml:32
+msgid "Previous exceptions"
+msgstr ""
+
+#: ../view/error/403.phtml:96 ../view/error/404.phtml:103
+#: ../view/error/index.phtml:61
+msgid "No Exception available"
+msgstr ""
+
+#: ../view/error/404.phtml:1
+msgid "A 404 error occurred"
+msgstr ""
+
+#: ../view/error/404.phtml:10
+msgid "The requested controller was unable to dispatch the request."
+msgstr ""
+
+#: ../view/error/404.phtml:13
+msgid "The requested controller could not be mapped to an existing controller class."
+msgstr ""
+
+#: ../view/error/404.phtml:16
+msgid "The requested controller was not dispatchable."
+msgstr ""
+
+#: ../view/error/404.phtml:19
+msgid "The requested URL could not be matched by routing."
+msgstr ""
+
+#: ../view/error/404.phtml:22
+msgid "We cannot determine at this time why a 404 was generated."
+msgstr ""
+
+#: ../view/error/index.phtml:2
+msgid "An error occurred"
+msgstr ""
+
+#: ../view/layout/layout.phtml:91 ../view/layout/layout.phtml:99
+#: ../view/layout/layout.phtml:118
+msgid "Dashboard"
+msgstr ""
+
+#: ../view/layout/layout.phtml:105
+msgid "Campaign"
+msgstr ""
+
+#: ../view/layout/layout.phtml:126
+msgid "Domain"
+msgstr ""
+
+#: ../view/layout/layout.phtml:138
+msgid "Publisher List"
+msgstr ""
+
+#: ../view/layout/layout.phtml:146
+msgid "Customer List"
+msgstr ""
+
+#: ../view/layout/layout.phtml:160
+msgid "Account Settings"
+msgstr ""
+
+#: ../view/layout/layout.phtml:167
+msgid "Logout"
+msgstr ""
+
+#: ../view/layout/layout.phtml:214
+msgid "All rights reserved."
+msgstr ""

@@ -31,22 +31,22 @@ $effective_user_in_dashboard = false;
     <div class="row mrg20T">
       <div id="revenue-overview" class="col-md-10 col-md-offset-1 panel pad20T">
         <p class="underline mrg0T" style="padding-bottom: 3px;">
-          <span class="admin-titles">Overview </span>
+          <span class="admin-titles"><?php echo $this->layout()->_t->translate("Overview");?> </span>
             <select id="time-filter" onchange="ReportPublisherTable.reload_table()">
               <option selected value>All time</option>
-              <option value="0">Today</option>
-              <option value="1">Yesterday</option>
-              <option value="2">This week</option>
-              <option value="3">Last week</option>
-              <option value="4">This month</option>
-              <option value="5">Last month</option>
-              <option value="6">This year</option>
+              <option value="0"><?php echo $this->layout()->_t->translate("Today");?></option>
+              <option value="1"><?php echo $this->layout()->_t->translate("Yesterday");?></option>
+              <option value="2"><?php echo $this->layout()->_t->translate("This week");?></option>
+              <option value="3"><?php echo $this->layout()->_t->translate("Last week");?></option>
+              <option value="4"><?php echo $this->layout()->_t->translate("This month");?></option>
+              <option value="5"><?php echo $this->layout()->_t->translate("Last month");?></option>
+              <option value="6"><?php echo $this->layout()->_t->translate("This year");?></option>
         </select>
         </p>
         <div class="row">
-          <div class="col-sm-3">Income (USD): $<strong id="Income">0</strong></div>
-          <div class="col-sm-3">Click Total: <strong id="ClickTotal">0</strong> </div>
-          <div class="col-sm-3">Impression Total: <strong id="ImpTotal">0</strong> </div>
+          <div class="col-sm-3"><?php echo $this->layout()->_t->translate("Income (USD)");?>: $<strong id="Income">0</strong></div>
+          <div class="col-sm-3"><?php echo $this->layout()->_t->translate("Click Total");?>: <strong id="ClickTotal">0</strong> </div>
+          <div class="col-sm-3"><?php echo $this->layout()->_t->translate("Impression Total");?>: <strong id="ImpTotal">0</strong> </div>
         </div>
         <br>
       </div>
@@ -57,16 +57,18 @@ $effective_user_in_dashboard = false;
     <div class="row mrg20T">
       <div id="income-list" class="col-md-10 col-md-offset-1 panel pad20T">
         <p class="underline mrg0T" style="padding-bottom: 3px;">
-          <span class="admin-titles">Income List </span>
+          <span class="admin-titles"><?php echo $this->layout()->_t->translate("Income List");?> </span>
         <table id="report-publisher-table" class="table table-hover table-striped table-bordered table-margin" data-url="<?php echo $this->basePath() ?>/publisher/reportlist">
 
           <thead>
-            <tr >
-              <?php 
-              foreach($table_list as $order => $title):
-                  echo "\n<th style=\"text-align:center;\">" . $title . "</th>\n";
-              endforeach;
-              ?>
+            <tr>
+              <th style="text-align:center;">#</th>
+              <th style="text-align:center;"><?php echo $this->layout()->_t->translate("Ad-Domain");?></th>
+              <th style="text-align:center;"><?php echo $this->layout()->_t->translate("Ad-Zones");?></th>
+              <th style="text-align:center;"><?php echo $this->layout()->_t->translate("Click Count");?></th>
+              <th style="text-align:center;"><?php echo $this->layout()->_t->translate("Imp Count");?></th>
+              <th style="text-align:center;"><?php echo $this->layout()->_t->translate("Income");?></th>
+              <th style="text-align:center;"><?php echo $this->layout()->_t->translate("Date");?></th>
             </tr>
           </thead>
         </table>
@@ -86,10 +88,10 @@ $effective_user_in_dashboard = false;
           <thead>
             <tr >
               <th class="text-center">#</th>
-              <th class="text-center">Date</th>
-              <th class="text-center">Name</th>
-              <th class="text-center">Amount</th>
-              <th class="text-center">Status</th>
+              <th class="text-center"><?php echo $this->layout()->_t->translate("Date");?></th>
+              <th class="text-center"><?php echo $this->layout()->_t->translate("Name");?></th>
+              <th class="text-center"><?php echo $this->layout()->_t->translate("Amount");?></th>
+              <th class="text-center"><?php echo $this->layout()->_t->translate("Status");?></th>
             </tr>
           </thead>
         </table>
@@ -105,7 +107,7 @@ $effective_user_in_dashboard = false;
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title" id="myModalLabel">Withdraw</h4>
+        <h4 class="modal-title" id="myModalLabel"><?php echo $this->layout()->_t->translate("Withdraw");?></h4>
         <hr>
       </div>
       <div class="modal-body">
@@ -114,7 +116,7 @@ $effective_user_in_dashboard = false;
           <input type="hidden" value="" name="UserPayoutID">
           <input type="hidden" value="<?php echo $user_balance;?>" name="currentBalance" id="currentBalance">
           <div class="form-group">
-            <label for="Amount" class="control-label col-sm-3">Amount</label>
+            <label for="Amount" class="control-label col-sm-3"><?php echo $this->layout()->_t->translate("Amount");?></label>
             <div class="controls col-sm-7">
               <input type="text" value="" maxlength="255" class="form-control" id="Amount" name="Amount">    
             </div>
@@ -122,8 +124,8 @@ $effective_user_in_dashboard = false;
           <hr>
           <div class="form-group text-center">
             <div class="controls">
-              <button name="submit" type="submit" class="btn btn-primary btn-margin" id="submitbutton">Submit</button> &nbsp;
-              <a class="btn btn-margin" data-dismiss="modal">Cancel</a>
+              <button name="submit" type="submit" class="btn btn-primary btn-margin" id="submitbutton"><?php echo $this->layout()->_t->translate("Submit");?></button> &nbsp;
+              <a class="btn btn-margin" data-dismiss="modal"><?php echo $this->layout()->_t->translate("Cancel");?></a>
             </div>
           </div>
           </form>

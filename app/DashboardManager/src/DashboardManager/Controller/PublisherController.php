@@ -852,7 +852,7 @@ class PublisherController extends PublisherAbstractActionController {
 								'effective_id' => $this->auth->getEffectiveIdentityID(),
 								'impersonate_id' => $this->ImpersonateID,
 								'domain_owner_id' => $this->PublisherInfoID,
-								'vertical_map' => \util\DeliveryFilterOptions::$vertical_map,
+								//'vertical_map' => \util\DeliveryFilterOptions::$vertical_map,
 								'true_user_name' => $this->true_user_name,
 								'user_identity' => $this->identity(),
 								'header_title' => 'Create New Domain'

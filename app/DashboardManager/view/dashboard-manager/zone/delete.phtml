@@ -24,9 +24,9 @@ $url = $this->url('publisher/zone', array(
     endif;
 ?>
 <form action="<?php echo $url; ?>" method="post" style="text-align: center;">
-    <div>Are you sure you wish to delete the ad zone
+    <div><?php echo $this->layout()->_t->translate("Are you sure you wish to delete the ad zone");?>
     <?php echo " \"" . $deleteCheckResultObj->AdName . "\" (ID: " . $deleteCheckResultObj->PublisherAdZoneID . ")?"; ?></div>
-    <div style="font-weight: bold; color: #880000; font-size: 110%">This action is IMMEDIATE and NOT REVERSABLE!</div>
+    <div style="font-weight: bold; color: #880000; font-size: 110%"><?php echo $this->layout()->_t->translate("This action is IMMEDIATE and NOT REVERSABLE!");?></div>
     <div style="padding: 15px;">
         <input type="hidden" name="param1" value="<?php echo intval($deleteCheckResultObj->PublisherWebsiteID); ?>" />
         <input type="hidden" name="id" value="<?php echo intval($deleteCheckResultObj->PublisherAdZoneID); ?>" />
