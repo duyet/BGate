@@ -43,7 +43,7 @@ class Module implements AutoloaderProviderInterface
     public function onBootstrap(MvcEvent $e)
     {
         // Define all the shortcut variables to the various managers in the system.
-        $e->getApplication()->getServiceManager()->get('translator');
+        
 
 
         $eventManager   = $e->getApplication()->getEventManager();
@@ -72,10 +72,13 @@ class Module implements AutoloaderProviderInterface
         $dbAdapter = $serviceManager->get('Zend\Db\Adapter\Adapter');
         \Zend\Db\TableGateway\Feature\GlobalAdapterFeature::setStaticAdapter($dbAdapter);
 
-
         $auth = $sm->get('AuthService');
-        $auth->getLocale();
-        $e->getApplication()->getServiceManager()->get('translator')->setlocale($auth->getLocale());
+        if($auth->hasIdentity()){
+            $auth->getLocale();
+            $e->getApplication()->getServiceManager()->get('translator')->setlocale($auth->getLocale());
+        }
+        $e->getApplication()->getServiceManager()->get('translator');
+        
          
     }
 
