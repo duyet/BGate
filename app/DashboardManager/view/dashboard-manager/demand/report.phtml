@@ -21,7 +21,7 @@ $effective_user_in_dashboard = false;
 <div class="docs-header">
   <div class="topic">
     <div class="row">
-      <div class="col-md-5 col-md-offset-1 col-sm-5 col-sm-offset-1 col-xs-6"><h4>Report</h4></div>
+      <div class="col-md-5 col-md-offset-1 col-sm-5 col-sm-offset-1 col-xs-6"><h4><?php echo $this->layout()->_t->translate("Report");?></h4></div>
       
     </div>
   </div>
@@ -44,9 +44,9 @@ $effective_user_in_dashboard = false;
         </select> 
         </p>
         <div class="row">
-            <div class="col-sm-3">Outcome (USD): $<strong id="Outcomes">0</strong></div>
-            <div class="col-sm-3">Click Total: <strong id="ClickTotal">0</strong> </div>
-            <div class="col-sm-3">Impression Total: <strong id="ImpTotal">0</strong> </div>
+            <div class="col-sm-3"><?php echo $this->layout()->_t->translate("Outcome (USD): $");?><strong id="Outcomes">0</strong></div>
+            <div class="col-sm-3"><?php echo $this->layout()->_t->translate("Click Total: "); ?><strong id="ClickTotal">0</strong> </div>
+            <div class="col-sm-3"><?php echo $this->layout()->_t->translate("Impression Total: ");?><strong id="ImpTotal">0</strong> </div>
         </div>
         <br>
       </div>
@@ -56,16 +56,20 @@ $effective_user_in_dashboard = false;
   <div class="container-fluid">
     <div class="row mrg20T">
       <div id="income-list" class="col-md-10 col-md-offset-1 panel pad20T">
-        <h4 class="underline mrg0T">Outcome List</h4>
+        <h4 class="underline mrg0T"><?php echo $this->layout()->_t->translate("Outcome List");?></h4>
 
         <table id="report-demand-table" class="table table-hover table-striped table-bordered table-margin" data-url="<?php echo $this->basePath() ?>/demand/reportlist">
           <thead>
-            <tr >
-              <?php 
-              foreach($table_list as $order => $title):
-                  echo "\n<th style=\"text-align:center;\">" . $title . "</th>\n";
-              endforeach;
-              ?>
+            <tr>
+
+              <th style="text-align:center;">#</th>
+              <th style="text-align:center;"><?php echo $this->layout()->_t->translate("Ad-Campaign");?></th>
+              <th style="text-align:center;"><?php echo $this->layout()->_t->translate("Ad-Banner");?></th>
+              <th style="text-align:center;"><?php echo $this->layout()->_t->translate("Click Count");?></th>
+              <th style="text-align:center;"><?php echo $this->layout()->_t->translate("Imp Count");?></th>
+              <th style="text-align:center;"><?php echo $this->layout()->_t->translate("Outcome");?></th>
+              <th style="text-align:center;"><?php echo $this->layout()->_t->translate("Date");?></th>
+
             </tr>
           </thead>
         </table>

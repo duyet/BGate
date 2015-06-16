@@ -3920,13 +3920,11 @@ class DemandController extends DemandAbstractActionController {
 		$PageSize = (int) $this->getRequest()->getQuery("length");
 		$Offset =   (int) $this->getRequest()->getQuery("start");
 		// End List web
-		$headers = array("#","Ad-Campaign","Ad-Banner","Click Count","Imp Count","Outcome","Date",);
 		$view = new ViewModel(array(
 			'is_admin' => $this->is_admin,
 			'user_id_list' => $this->user_id_list_publisher,
 			'true_user_name' => $this->true_user_name,
-			'user_identity' => $this->identity(),
-			'table_list' => $headers
+			'user_identity' => $this->identity()
 		));
 		return $view;
 	}

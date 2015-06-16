@@ -1,7 +1,7 @@
 <div class="docs-header">
   <div class="topic">
         <div class="container">
-          <h4>User Information</h4>
+          <h4><?php echo $this->layout()->_t->translate("User Information");?></h4>
         </div>
   </div>
 </div>
@@ -13,9 +13,12 @@ $this->headScript()->prependFile($this->basePath() . '/js/script.js');
 <div class="bs-docs-example">
       <?php 
       if(isset($success_msg) && $success_msg != null):
-            echo '<div id="cdn_form_success" class="alert alert-success" style="margin: 5px;">Account updated successfully.</div>';
-        endif;
-        ?>
+            echo '<div id="cdn_form_success" class="alert alert-success" style="margin: 5px;">';
+      ?>
+      <?php echo $this->layout()->_t->translate("Account updated successfully.");?>
+      <?php echo '</div>';
+      endif;
+      ?>
 
 <div id="cdn_form_msg" class="alert alert-error" style="margin: 5px; display:none;"></div>
 <div class="container">
@@ -26,65 +29,65 @@ $this->headScript()->prependFile($this->basePath() . '/js/script.js');
       <form id="accountform" name="accountform" class="form-horizontal form-top-magin" method="POST" action="<?php echo $this->basePath();?>/users/account">
         <fieldset>
           <div class="form-group mrg20B mrg10T underline">
-            <h4 class="mrg0A">Account Information</h4>    
+            <h4 class="mrg0A"><?php echo $this->layout()->_t->translate("Account Information");?></h4>    
           </div>
 
           <div class="form-group">
-              <label for="Email" class="control-label col-sm-3">Email</label>
+              <label for="Email" class="control-label col-sm-3"><?php echo $this->layout()->_t->translate("Email");?></label>
               <div class="controls col-sm-7">
               <input type="text" class="form-control" name="email" value="<?php echo $user_data->user_email;?>" readonly="readonly">
               </div>
           </div>
 
           <div class="form-group">
-              <label for="name" class="control-label col-sm-3">Username</label>
+              <label for="name" class="control-label col-sm-3"><?php echo $this->layout()->_t->translate("Username");?></label>
               <div class="controls col-sm-7">
               <input id="name" type="text" class="form-control" name="name" value="<?php echo $user_data->user_fullname;?>" >
               </div>
           </div>
 
           <div class="form-group">
-              <label for="name" class="control-label col-sm-3">Password</label>
+              <label for="name" class="control-label col-sm-3"><?php echo $this->layout()->_t->translate("Password");?></label>
               <div class="controls col-sm-7 mrg5T">
-                <a class="" href="<?php echo $this->basePath() ?>/users/changepassword">Change your password</a>
+                <a class="" href="<?php echo $this->basePath() ?>/users/changepassword"><?php echo $this->layout()->_t->translate("Change your password");?></a>
               </div>
           </div>
           <div class="form-group mrg20B underline">
-              <h4 class="mrg0A">Contact Information</h4>    
+              <h4 class="mrg0A"><?php echo $this->layout()->_t->translate("Contact Information");?></h4>    
             </div>
             <div class="form-group">
-                <label for="FirstName" class="control-label col-sm-3">First Name</label>
+                <label for="FirstName" class="control-label col-sm-3"><?php echo $this->layout()->_t->translate("First Name");?></label>
                 <div class="controls col-sm-7">
                 <input type="text"  class="form-control" maxlength="100" name="FirstName" id="FirstName" value="<?php echo $publisher_info->FirstName ?>">    </div>
             </div>
             <div class="form-group">
-                <label for="LastName" class="control-label col-sm-3">Last Name</label>
+                <label for="LastName" class="control-label col-sm-3"><?php echo $this->layout()->_t->translate("Last Name");?></label>
                 <div class="controls col-sm-7">
                 <input type="text" value="<?php echo $publisher_info->LastName ?>" class="form-control" maxlength="100" name="LastName" id="LastName">    </div>
             </div>
             <div class="form-group">
-                <label for="Country" class="control-label col-sm-3">Country</label>
+                <label for="Country" class="control-label col-sm-3"><?php echo $this->layout()->_t->translate("Country");?></label>
                 <div class="controls col-sm-7">
                 <input type="text" value="<?php echo $publisher_info->Country ?>" class="form-control"name="Country" id="Country">    
                 </div>
             </div>
             <div class="form-group">
-                <label for="City" class="control-label col-sm-3">City</label>
+                <label for="City" class="control-label col-sm-3"><?php echo $this->layout()->_t->translate("City");?></label>
                 <div class="controls col-sm-7">
                 <input type="text" value="<?php echo $publisher_info->City ?>" class="form-control" maxlength="100" name="City" id="City">    </div>
             </div>
             <div class="form-group">
-                <label for="Addr" class="control-label col-sm-3">Address</label>
+                <label for="Addr" class="control-label col-sm-3"><?php echo $this->layout()->_t->translate("Address");?></label>
                 <div class="controls col-sm-7">
                 <input type="text" value="<?php echo $publisher_info->Addr ?>" class="form-control" maxlength="255" name="Addr" id="Addr">    </div>
             </div>
 
             <div class="form-group">
-                <label for="locale" class="control-label col-sm-3">Language</label>
+                <label for="locale" class="control-label col-sm-3"><?php echo $this->layout()->_t->translate("Language");?></label>
                 <div class="controls col-sm-7">
                 <select id="locale" class="form-control" name="locale" id="locale">
-                      <option <?php if($locale == "vi_VN") echo "selected" ?> value="vi_VN">Vietnamese</option>
-                      <option <?php if($locale == "en_US") echo "selected" ?> value="en_US">English</option>
+                      <option <?php if($locale == "vi_VN") echo "selected" ?> value="vi_VN"><?php echo $this->layout()->_t->translate("Vietnamese")?></option>
+                      <option <?php if($locale == "en_US") echo "selected" ?> value="en_US"><?php echo $this->layout()->_t->translate("English");?></option>
                 </select> 
 
                 </div>
@@ -93,7 +96,7 @@ $this->headScript()->prependFile($this->basePath() . '/js/script.js');
             
           <hr>
           <div class="form-group text-center">
-             <input type="submit" class="btn btn-primary" name="update" value="Update account" />
+             <input type="submit" class="btn btn-primary" name="update" value="<?php echo $this->layout()->_t->translate("Update account");?>" />
           </div>
         </fieldset>
         <input type="hidden" name="user_id" value="<?php echo $user_data->user_id;?>">
