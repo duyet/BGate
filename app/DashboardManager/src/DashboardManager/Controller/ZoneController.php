@@ -1571,6 +1571,10 @@ class ZoneController extends PublisherAbstractActionController {
         
         if ($request->isPost()):
         
+          $user_info_factory = \_factory\PublisherInfo::get_instance();
+		  $user_info = new \model\PublisherInfo;
+          $user_info = $user_info_factory->get_row_object(array("PublisherInfoID" => $this->PublisherInfoID));
+        
           $PublisherAdZoneID = $this->getRequest()->getPost('ad_id');
           $PublisherWebsiteID = intval($this->params()->fromRoute('param1', 0));
           
@@ -1608,7 +1612,44 @@ class ZoneController extends PublisherAbstractActionController {
           
           $cache_buster = time();
           	
-          $effective_tag = "<script type='text/javascript' src='" . $delivery_adtag . "?pzoneid=" . $PublisherAdZoneID . "&height=" . $height . "&width=" . $width . "&tld=" . $domain . "&cb=" . $cache_buster . "'></script>";
+          // $effective_tag = "<script type='text/javascript' src='" . $delivery_adtag . "?pzoneid=" . $PublisherAdZoneID . "&height=" . $height . "&width=" . $width . "&tld=" . $domain . "&cb=" . $cache_buster . "'></script>";
+          $effective_tag = 
+"<script type='text/javascript' src='" . $delivery_adtag ."'></script>
+<script type='text/javascript'>
+var _bgate_". $PublisherAdZoneID ."_bid_request = {
+    id: null,
+    imp: [{
+        id: '". $PublisherAdZoneID ."',
+        banner: {
+            w: ".$width.",
+            h: ".$height.",
+            pos: 0    
+        },
+        bidfloor: ".$AdObject->FloorPrice."
+    }],
+    site: {
+        id: '".$PublishObject->PublisherWebsiteID."',
+        domain: '".$PublishObject->WebDomain."',
+        cat: ['".$PublishObject->IABCategory."'],
+        page: null,
+        publisher: {
+            id: ".$this->auth->getUserID().",
+            name: '".$this->auth->getUserName()."',
+            cat: ['".$user_info->IABCategory."'],
+            domain: '".$user_info->Domain."' 
+        }
+    },
+    at: 1,
+    cur: ['USD'],
+    device: {
+        ua: null,
+        ip: null
+    }
+    
+};
+_bgate_bidder.bid_request = _bgate_".$PublisherAdZoneID."_bid_request;
+_bgate_bidder.bid();
+</script>";
           
           $data = array(
 	        'result' => true,
