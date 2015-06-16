@@ -31,16 +31,16 @@ $effective_user_in_dashboard = false;
     <div class="row mrg20T">
       <div id="revenue-overview" class="col-md-10 col-md-offset-1 panel pad20T">
         <p class="underline mrg0T" style="padding-bottom: 3px;">
-          <span class="admin-titles">Overview </span>
+          <span class="admin-titles"><?php echo $this->layout()->_t->translate("Overview")?>   </span>
             <select id="time-filter" onchange="ReportDemandTable.reload_table()">
-              <option selected value>All time</option>
-              <option value="0"><?php echo $translator->translate("Today"); ?></option>
-              <option value="1"><?php echo $translator->translate("Yesterday"); ?></option>
-              <option value="2"><?php echo $translator->translate("This week"); ?></option>
-              <option value="3"><?php echo $translator->translate("Last week"); ?></option>
-              <option value="4"><?php echo $translator->translate("This month"); ?></option>
-              <option value="5"><?php echo $translator->translate("Last month"); ?></option>
-              <option value="6"><?php echo $translator->translate("This year"); ?></option>
+              <option selected value><?php echo $this->layout()->_t->translate("All time")?></option>
+              <option value="0"><?php echo $this->layout()->_t->translate("Today"); ?></option>
+              <option value="1"><?php echo $this->layout()->_t->translate("Yesterday"); ?></option>
+              <option value="2"><?php echo $this->layout()->_t->translate("This week"); ?></option>
+              <option value="3"><?php echo $this->layout()->_t->translate("Last week"); ?></option>
+              <option value="4"><?php echo $this->layout()->_t->translate("This month"); ?></option>
+              <option value="5"><?php echo $this->layout()->_t->translate("Last month"); ?></option>
+              <option value="6"><?php echo $this->layout()->_t->translate("This year"); ?></option>
         </select> 
         </p>
         <div class="row">

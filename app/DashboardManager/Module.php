@@ -43,7 +43,7 @@ class Module implements AutoloaderProviderInterface
     public function onBootstrap(MvcEvent $e)
     {
         // Define all the shortcut variables to the various managers in the system.
-        
+        //$e->getApplication()->getServiceManager()->get('translator');
 
 
         $eventManager   = $e->getApplication()->getEventManager();
@@ -79,7 +79,8 @@ class Module implements AutoloaderProviderInterface
         }
         $e->getApplication()->getServiceManager()->get('translator');
         
-         
+        $viewModel = $e->getApplication()->getMvcEvent()->getViewModel();
+        $viewModel->_t = $e->getApplication()->getServiceManager()->get('translator');
     }
 
     /**

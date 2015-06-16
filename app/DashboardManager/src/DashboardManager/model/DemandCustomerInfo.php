@@ -26,6 +26,15 @@ class DemandCustomerInfo {
     public $Tax;
     public $Phone;
 
+    public function get_locale(){
+
+        $authUsersFactory = new \_factory\authUsers();
+        $result = $authUsersFactory->get_row(array("DemandCustomerInfoID" => $this->DemandCustomerInfoID));
+
+        return isset($result->locale) ? $result->locale : "en_US";
+
+    }
+
 }
 
 ?>

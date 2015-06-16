@@ -3926,10 +3926,7 @@ class DemandController extends DemandAbstractActionController {
 			'user_id_list' => $this->user_id_list_publisher,
 			'true_user_name' => $this->true_user_name,
 			'user_identity' => $this->identity(),
-			'table_list' => $headers,
-			'translator' => $this->getServiceLocator()->get('translator')
-
-
+			'table_list' => $headers
 		));
 		return $view;
 	}

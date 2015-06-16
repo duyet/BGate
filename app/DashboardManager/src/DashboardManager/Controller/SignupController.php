@@ -1322,6 +1322,7 @@ class SignupController extends PublisherAbstractActionController {
 				$tax = $request->getPost("tax");
 				$address = $request->getPost("address");
 				$phone = $request->getPost('phone');
+				$locale = $request->getPost('locale');
 
 				$DemandCustomerInfo->DemandCustomerInfoID = $userData->DemandCustomerInfoID;
 				$DemandCustomerInfo->Name		    = $name;
@@ -1335,6 +1336,12 @@ class SignupController extends PublisherAbstractActionController {
 				$DemandCustomerInfo->Address		= $address;
 				$DemandCustomerInfo->DateCreatedn  	= date("Y-m-d H:i:s");
 				$DemandCustomerInfoFactory->saveCustomerInfo($DemandCustomerInfo);
+
+				//$this->update($data, array('user_id' => $user_id))
+				//$data = array();
+				$data["locale"] = $locale;
+				$authUsersFactory->update($data, array('user_id' => $user_id));
+
 			endif;
 			
 			$authUsers = $authUsersFactory->get_row_object(array("user_id" => $this->auth->getUserID()));
@@ -1351,6 +1358,7 @@ class SignupController extends PublisherAbstractActionController {
 		$userRole = $this->auth->getRoles();
 		$userRole = $userRole[0];
 
+		$locale = $demandCustomerData->get_locale();
 		if($userRole == 'member'):
 			$demandCustomerData = $DemandCustomerInfoFactory->get_row(array("DemandCustomerInfoID" => $userData->DemandCustomerInfoID));
 		endif;
@@ -1369,7 +1377,8 @@ class SignupController extends PublisherAbstractActionController {
 				'effective_id' => $this->auth->getEffectiveIdentityID(),
 				'impersonate_id' => $this->ImpersonateID,
 				'vertical_map' => \util\DeliveryFilterOptions::$vertical_map,
-				'demand_customer_info' => $demandCustomerData
+				'demand_customer_info' => $demandCustomerData,
+				'locale' => $locale
 	    ));
 	  return $view->setTemplate('dashboard-manager/auth/profile_update.phtml');
 	}

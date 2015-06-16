@@ -24,6 +24,7 @@ class authUsers {
     public $user_agreement_accepted;
     public $PublisherInfoID;
     public $DemandCustomerInfoID;
+    public $locale;
     public $create_date;
     public $update_date;
     public $user_agreement_acceptance_date;
