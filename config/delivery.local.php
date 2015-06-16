@@ -9,7 +9,9 @@ function getBaseUrl() {
 
 	// output: Array ( [dirname] => /myproject [basename] => index.php [extension] => php [filename] => index )
 	$pathInfo = pathinfo($currentPath);
-
+	if ($pathInfo == "/"):
+		$pathInfo == '';
+	endif;
 	// output: localhost
 	$hostName = $_SERVER['HTTP_HOST'];
 
