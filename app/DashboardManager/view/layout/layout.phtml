@@ -88,7 +88,7 @@ echo $this->doctype(); ?>
                         <?php if ($userRole=='admin' || $userRole=='superadmin'): ?>
                             <li class="<?php if($home_dashboard_view == " demand ") echo "active ";?>">
                                 <a class="navlink" href="<?php echo $this->basePath() ?>/manager/index">
-                                    Dashboard
+                                    <?php echo $this->layout()->_t->translate("Dashboard");?>
                                 </a>
                             </li>         
                             <li class="divider-vertical"></li>
@@ -96,18 +96,18 @@ echo $this->doctype(); ?>
                         <?php if ($user_data != null && $user_data->DemandCustomerInfoID != null): ?>
                             <li class="<?php if($home_dashboard_view == " demand ") echo "active ";?>">
                                 <a class="navlink" href="<?php echo $this->basePath() ?>/demand/dashboard">
-                                    Dashboard
+                                    <?php echo $this->layout()->_t->translate("Dashboard");?>
                                 </a>
                             </li>         
                             <li class="divider-vertical"></li>
                         <?php endif;?>
                         <?php if (($user_data != null && $user_data->DemandCustomerInfoID != null) || $userRole=='admin' || $userRole=='superadmin'): ?>
-                        <li class="<?php if($home_dashboard_view == " demand ") echo "active ";?>"><a class="navlink" href="<?php echo $this->basePath() ?>/demand">Campaign</a></li>
+                        <li class="<?php if($home_dashboard_view == " demand ") echo "active ";?>"><a class="navlink" href="<?php echo $this->basePath() ?>/demand"><?php echo $this->layout()->_t->translate("Campaign");?></a></li>
                         <li class="divider-vertical"></li>
                         <?php endif;?>
 
                         <?php if ($user_data != null && $user_data->DemandCustomerInfoID != null): ?>
-                        <li class="<?php if($home_dashboard_view == " publisher ") echo "active ";?>"><a class="navlink" href="<?php echo $this->basePath() ?>/demand/report">Report</a></li>
+                        <li class="<?php if($home_dashboard_view == " publisher ") echo "active ";?>"><a class="navlink" href="<?php echo $this->basePath() ?>/demand/report"><?php echo $this->layout()->_t->translate("Report");?></a></li>
                         <li class="divider-vertical"></li>
                         <?php endif;?>
 
@@ -115,7 +115,7 @@ echo $this->doctype(); ?>
                         <?php if ($user_data != null && $user_data->PublisherInfoID != null): ?>
                             <li class="<?php if($home_dashboard_view == " publisher ") echo "active ";?>">
                                 <a class="navlink" href="<?php echo $this->basePath() ?>/publisher/dashboard">
-                                    Dashboard
+                                    <?php echo $this->layout()->_t->translate("Dashboard");?>
                                 </a>
                             </li>
                             
@@ -123,19 +123,19 @@ echo $this->doctype(); ?>
                         <?php endif;?>
 
                         <?php if (($user_data != null && $user_data->PublisherInfoID != null) || $userRole=='admin' || $userRole=='superadmin'): ?>
-                        <li class="<?php if($home_dashboard_view == " publisher ") echo "active ";?>"><a class="navlink" href="<?php echo $this->basePath() ?>/publisher">Domain</a></li>
+                        <li class="<?php if($home_dashboard_view == " publisher ") echo "active ";?>"><a class="navlink" href="<?php echo $this->basePath() ?>/publisher"><?php echo $this->layout()->_t->translate("Domain");?></a></li>
                         <li class="divider-vertical"></li>
                         <?php endif;?>
 
                         <?php if ($user_data != null && $user_data->PublisherInfoID != null): ?>
-                        <li class="<?php if($home_dashboard_view == " publisher ") echo "active ";?>"><a class="navlink" href="<?php echo $this->basePath() ?>/publisher/report">Report</a></li>
+                        <li class="<?php if($home_dashboard_view == " publisher ") echo "active ";?>"><a class="navlink" href="<?php echo $this->basePath() ?>/publisher/report"><?php echo $this->layout()->_t->translate("Report");?></a></li>
                         <li class="divider-vertical"></li>
                         <?php endif;?>
 
                         <?php if ($userRole=='admin' || $userRole=='superadmin'): ?>
                             <li class="<?php if($home_dashboard_view == " demand ") echo "active ";?>">
                                 <a class="navlink" href="<?php echo $this->basePath() ?>/users/publishers">
-                                    Publisher List
+                                    <?php echo $this->layout()->_t->translate("Publisher List");?>
                                 </a>
                             </li>         
                             <li class="divider-vertical"></li>
@@ -143,7 +143,7 @@ echo $this->doctype(); ?>
                         <?php if ($userRole=='admin' || $userRole=='superadmin'): ?>
                             <li class="<?php if($home_dashboard_view == " demand ") echo "active ";?>">
                                 <a class="navlink" href="<?php echo $this->basePath() ?>/users/customers">
-                                    Customer List
+                                    <?php echo $this->layout()->_t->translate("Customer List");?>
                                 </a>
                             </li>         
                             <li class="divider-vertical"></li>
@@ -157,14 +157,14 @@ echo $this->doctype(); ?>
                                 <?php echo $user_name;?> <span class="caret"></span></a>
                             <ul class="dropdown-menu pull-right">
                                 <?php if ($userRole!='admin' && $userRole!='superadmin'): ?>
-                                  <li><a href="<?php echo $this->basePath() ?>/users/account">Account Settings</a></li>
+                                  <li><a href="<?php echo $this->basePath() ?>/users/account"><?php echo $this->layout()->_t->translate("Account Settings");?></a></li>
                                 <?php endif; ?>
                                 <base></base>
 <!--                                 <?php if($userRole=='admin' || $userRole=='superadmin' ): ?>
                                 <li><a href="<?php echo $this->basePath() ?>/users/publishers">Publisher List</a></li>
                                 <li><a href="<?php echo $this->basePath() ?>/users/customers">Customer List</a></li>
                                 <?php endif;?> -->
-                                <li><a href="<?php echo $this->url('login/process', array('action'=>'logout')); ?>">Logout</a></li>
+                                <li><a href="<?php echo $this->url('login/process', array('action'=>'logout')); ?>"><?php echo $this->layout()->_t->translate("Logout");?></a></li>
                             </ul>
                             <?php else: ?>
                             <a class="navlink" href="<?php echo $this->url('login/process', array('action'=>'login')); ?>">Login</a>
