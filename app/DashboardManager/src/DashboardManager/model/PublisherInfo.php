@@ -25,6 +25,15 @@ class PublisherInfo {
     public $DomainDescribe;
     public $Balance;
 
+    public function get_locale(){
+
+        $authUsersFactory = new \_factory\authUsers();
+        $result = $authUsersFactory->get_row(array("PublisherInfoID" => $this->PublisherInfoID));
+
+        return isset($result->locale) ? $result->locale : "en_US";
+
+    }
+
 }
 
 ?>

@@ -23,7 +23,7 @@ $this->headScript()->prependFile($this->basePath() . '/js/script.js');
     <br />
     <div class="col-md-8 col-md-offset-2 panel panel-default">
         <div class="panel-body">
-      <form id="accountform" name="accountform" class="form-horizontal form-top-magin" method="POST" action="/users/account">
+      <form id="accountform" name="accountform" class="form-horizontal form-top-magin" method="POST" action="<?php echo $this->basePath();?>/users/account">
         <fieldset>
           <div class="form-group mrg20B mrg10T underline">
             <h4 class="mrg0A">Account Information</h4>    
@@ -77,6 +77,17 @@ $this->headScript()->prependFile($this->basePath() . '/js/script.js');
                 <label for="Addr" class="control-label col-sm-3">Address</label>
                 <div class="controls col-sm-7">
                 <input type="text" value="<?php echo $publisher_info->Addr ?>" class="form-control" maxlength="255" name="Addr" id="Addr">    </div>
+            </div>
+
+            <div class="form-group">
+                <label for="locale" class="control-label col-sm-3">Language</label>
+                <div class="controls col-sm-7">
+                <select id="locale" class="form-control" name="locale" id="locale">
+                      <option <?php if($locale == "vi_VN") echo "selected" ?> value="vi_VN">Vietnamese</option>
+                      <option <?php if($locale == "en_US") echo "selected" ?> value="en_US">English</option>
+                </select> 
+
+                </div>
             </div>
             <!--  -->
             

@@ -360,6 +360,7 @@ class SignupController extends PublisherAbstractActionController {
 		if($userRole == 'member'):
 			$PublisherInfo = $PublisherInfoFactory->get_row_object(array("PublisherInfoID" => $userData->PublisherInfoID));
 		endif;
+		$locale = isset($PublisherInfo) ? $PublisherInfo->get_locale() : "en_US";
 
 		$request = $this->getRequest();
 	    if ($request->isPost()):
@@ -375,6 +376,7 @@ class SignupController extends PublisherAbstractActionController {
 				$addr = $request->getPost("Addr");
 				// $DomainDescribe = $request->getPost("DomainDescribe");
 				// $IABCategory = $request->getPost('IABCategory');
+				$locale = $request->getPost("locale");
 
 				$PublisherInfo->PublisherInfoID = $userData->PublisherInfoID;
 				$PublisherInfo->Name		    = $name;
@@ -387,6 +389,10 @@ class SignupController extends PublisherAbstractActionController {
 				// $PublisherInfo->IABCategory		=	$IABCategory;
 				// $PublisherInfo->DomainDescribe	=	$DomainDescribe;
 				$PublisherInfoFactory->savePublisherInfo($PublisherInfo);
+
+				$data["locale"] = $locale;
+				$authUsersFactory->update($data, array('user_id' => $user_id));
+
 			endif;
 			
 			$authUsers = $authUsersFactory->get_row_object(array("user_id" => $this->auth->getUserID()));
@@ -404,6 +410,7 @@ class SignupController extends PublisherAbstractActionController {
 		$userRole = $this->auth->getRoles();
 		$userRole = $userRole[0];
 		
+
 		// check if user-role is memeber (publisher)
 		if($userRole == 'member'):
 			$publisherData = $PublisherInfoFactory->get_row(array("PublisherInfoID" => $userData->PublisherInfoID));
@@ -425,7 +432,8 @@ class SignupController extends PublisherAbstractActionController {
 				'effective_id' => $this->auth->getEffectiveIdentityID(),
 				'impersonate_id' => $this->ImpersonateID,
 				'vertical_map' => \util\DeliveryFilterOptions::$vertical_map,
-				'publisher_info' => $PublisherInfo
+				'publisher_info' => $PublisherInfo,
+				'locale' => $locale
 	    ));
 	    
 	  return $view->setTemplate('dashboard-manager/auth/account.phtml');
@@ -1337,8 +1345,6 @@ class SignupController extends PublisherAbstractActionController {
 				$DemandCustomerInfo->DateCreatedn  	= date("Y-m-d H:i:s");
 				$DemandCustomerInfoFactory->saveCustomerInfo($DemandCustomerInfo);
 
-				//$this->update($data, array('user_id' => $user_id))
-				//$data = array();
 				$data["locale"] = $locale;
 				$authUsersFactory->update($data, array('user_id' => $user_id));
 
