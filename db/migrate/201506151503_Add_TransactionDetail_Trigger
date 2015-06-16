@@ -1,3 +1,4 @@
+DELIMITER $$
 CREATE TRIGGER `updateBalance` AFTER INSERT ON `TransactionDetail`
  FOR EACH ROW BEGIN
     DECLARE current_balance DOUBLE;
@@ -7,3 +8,5 @@ CREATE TRIGGER `updateBalance` AFTER INSERT ON `TransactionDetail`
     UPDATE PublisherInfo SET Balance = current_balance - NEW.Amount where PublisherInfoID = NEW.UserID;
 
 END
+$$
+DELIMITER ;
