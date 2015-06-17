@@ -25,31 +25,31 @@ $this->headScript()->appendFile($this->basePath() . '/static/js/script.js');
         		<div class="panel-body">
     			    <form id="ad" class="form-horizontal form-top-magin" name="ad" method="post" action="">
     			    	<?php if ($campaignbanner_preview->AdUrl != ""): ?>
-	    			    	<h4 class="underline mrg0T">Banner Preview</h4>
+	    			    	<h4 class="underline mrg0T"><?php echo $this->layout()->_t->translate("Banner Preview");?></h4>
 	    			    	<img src="<?php echo $this->basePath().'/' . $campaignbanner_preview->AdUrl ?>" alt="<?php echo $campaignbanner_preview->AltText ?>" height="<?php echo $campaignbanner_preview->Height ?>" width="<?php echo $campaignbanner_preview->Width ?>" class="img-responsive center-block">
 	    			    <?php endif; ?>
 	    				<br>
-						<h4 class="underline mrg0T">General Options</h4>
+						<h4 class="underline mrg0T"><?php echo $this->layout()->_t->translate("General Options");?></h4>
 						<div class="form-group">
-						    <label for="adname" class="control-label col-sm-4">Ad Name </label>
+						    <label for="adname" class="control-label col-sm-4"><?php echo $this->layout()->_t->translate("Ad Name");?></label>
 						    <div class="controls col-sm-8">
 						      <label class="control-label"><?php echo $campaignbanner_preview->Name;?></label>
 						    </div>
 						 </div>
 						 <div class="form-group">
-						    <label for="adname" class="control-label col-sm-4">Label </label>
+						    <label for="adname" class="control-label col-sm-4"><?php echo $this->layout()->_t->translate("Label");?> </label>
 						    <div class="controls col-sm-8">
 						      <label class="control-label"><?php echo $campaignbanner_preview->Label;?></label>
 						    </div>
 						 </div>
 						<div class="form-group">
-						    <label for="adname" class="control-label col-sm-4">Alt Text </label>
+						    <label for="adname" class="control-label col-sm-4"><?php echo $this->layout()->_t->translate("Alt Text");?> </label>
 						    <div class="controls col-sm-8">
 						      <label class="control-label"><?php echo $campaignbanner_preview->AltText;?></label>
 						    </div>
 						 </div>
 						 <div class="form-group">
-						    <label for="adname" class="control-label col-sm-4">Ad delivery type </label>
+						    <label for="adname" class="control-label col-sm-4"><?php echo $this->layout()->_t->translate("Ad delivery type");?> </label>
 						    <div class="controls col-sm-8">
 						      <label class="control-label">
 						      	<?php 
@@ -63,7 +63,7 @@ $this->headScript()->appendFile($this->basePath() . '/static/js/script.js');
 						    </div>
 						 </div>
 						<div class="form-group">
-						    <label for="adname" class="control-label col-sm-4">Start Date </label>
+						    <label for="adname" class="control-label col-sm-4"><?php echo $this->layout()->_t->translate("Start Date");?> </label>
 						    <div class="controls col-sm-8">
 						      <label class="control-label">
 						      	<?php
@@ -74,7 +74,7 @@ $this->headScript()->appendFile($this->basePath() . '/static/js/script.js');
 						    </div>
 						 </div>
 						 <div class="form-group">
-						    <label for="adname" class="control-label col-sm-4">End Date </label>
+						    <label for="adname" class="control-label col-sm-4"><?php echo $this->layout()->_t->translate("End Date");?> </label>
 						    <div class="controls col-sm-8">
 						      <label class="control-label">
 						      	<?php
@@ -85,7 +85,7 @@ $this->headScript()->appendFile($this->basePath() . '/static/js/script.js');
 						    </div>
 						 </div>
 						 <div class="form-group">
-						    <label for="adname" class="control-label col-sm-4">Device Ad type </label>
+						    <label for="adname" class="control-label col-sm-4"><?php echo $this->layout()->_t->translate("Device Ad type");?> </label>
 						    <div class="controls col-sm-8">
 						      <label class="control-label">
 						      	<?php 
@@ -99,67 +99,67 @@ $this->headScript()->appendFile($this->basePath() . '/static/js/script.js');
 						    </div>
 						 </div>
 						 <div class="form-group">
-						    <label for="adname" class="control-label col-sm-4">IAB Size </label>
+						    <label for="adname" class="control-label col-sm-4"><?php echo $this->layout()->_t->translate("IAB Size");?> </label>
 						    <div class="controls col-sm-8">
 						      <label class="control-label"><?php echo $campaignbanner_preview->IABSize?></label>
 						    </div>
 						 </div>	
 						 <div class="form-group">
-						    <label for="adname" class="control-label col-sm-4">Bid amount </label>
+						    <label for="adname" class="control-label col-sm-4"><?php echo $this->layout()->_t->translate("Bid amount");?> </label>
 						    <div class="controls col-sm-8">
 						      <label class="control-label"><?php echo $campaignbanner_preview->BidAmount?></label>
 						    </div>
 						 </div>
 						 <div class="form-group">
-						    <label for="adname" class="control-label col-sm-4">Daily Target </label>
+						    <label for="adname" class="control-label col-sm-4"><?php echo $this->layout()->_t->translate("Daily Target");?> </label>
 						    <div class="controls col-sm-8">
 						      <label class="control-label"><?php echo $campaignbanner_preview->TargetDaily?></label>
 						    </div>
 						 </div>
 						 <div class="form-group">
-						    <label for="adname" class="control-label col-sm-4">Maximum Target </label>
+						    <label for="adname" class="control-label col-sm-4"><?php echo $this->layout()->_t->translate("Maximum Target");?> </label>
 						    <div class="controls col-sm-8">
 						      <label class="control-label"><?php echo $campaignbanner_preview->TargetMax?></label>
 						    </div>
 						 </div>
 						 <div class="form-group">
-						    <label for="adname" class="control-label col-sm-4">Daily Budget </label>
+						    <label for="adname" class="control-label col-sm-4"><?php echo $this->layout()->_t->translate("Daily Budget");?> </label>
 						    <div class="controls col-sm-8">
 						      <label class="control-label"><?php echo $campaignbanner_preview->DailyBudget?></label>
 						    </div>
 						 </div>
 						 <div class="form-group">
-						    <label for="adname" class="control-label col-sm-4">Maximum Budget </label>
+						    <label for="adname" class="control-label col-sm-4"><?php echo $this->layout()->_t->translate("Maximum Budget");?> </label>
 						    <div class="controls col-sm-8">
 						      <label class="control-label"><?php echo $campaignbanner_preview->MaximumBudget?></label>
 						    </div>
 						 </div>
 						 <div class="form-group">
-						    <label for="adname" class="control-label col-sm-4">Ad tag </label>
+						    <label for="adname" class="control-label col-sm-4"><?php echo $this->layout()->_t->translate("Ad tag");?> </label>
 						    <div class="controls col-sm-8">
 						      <label class="control-label"><?php echo $campaignbanner_preview->AdTag?></label>
 						    </div>
 						 </div>
 						 <div class="form-group">
-						    <label for="adname" class="control-label col-sm-4">Landing page TLD </label>
+						    <label for="adname" class="control-label col-sm-4"><?php echo $this->layout()->_t->translate("Landing page TLD");?> </label>
 						    <div class="controls col-sm-8">
 						      <label class="control-label"><?php echo $campaignbanner_preview->LandingPageTLD?></label>
 						    </div>
 						 </div>	
 						 <div class="form-group">
-						    <label for="adname" class="control-label col-sm-4">IAB Audiences Category </label>
+						    <label for="adname" class="control-label col-sm-4"><?php echo $this->layout()->_t->translate("IAB Audiences Category");?> </label>
 						    <div class="controls col-sm-8">
 						      <label class="control-label"><?php echo (isset($campaignbanner_preview->IABAudienceCategory) && $campaignbanner_preview->IABAudienceCategory != '') ? \util\DeliveryFilterOptions::$vertical_map[ $campaignbanner_preview->IABAudienceCategory ] : "" ?></label>
 						    </div>
 						 </div>
 						 <div class="form-group">
-						    <label for="adname" class="control-label col-sm-4">GEO Country </label>
+						    <label for="adname" class="control-label col-sm-4"><?php echo $this->layout()->_t->translate("GEO Country");?> </label>
 						    <div class="controls col-sm-8">
 						      <label class="control-label"><?php echo (isset($campaignbanner_preview->GEOCountry) && $campaignbanner_preview->GEOCountry != '') ? \util\DeliveryFilterOptions::$geo_country[ $campaignbanner_preview->GEOCountry ] : "" ?></label>
 						    </div>
 						 </div>
 						 <div class="form-group">
-						    <label for="adname" class="control-label col-sm-4">Timezone </label>
+						    <label for="adname" class="control-label col-sm-4"><?php echo $this->layout()->_t->translate("Timezone");?> </label>
 						    <div class="controls col-sm-8">
 						      <label class="control-label"><?php echo (isset($campaignbanner_preview->TimeZone) && $campaignbanner_preview->TimeZone != '') ? \util\DeliveryFilterOptions::$timezone_options[  $campaignbanner_preview->TimeZone ] : "" ?></label>
 						    </div>
@@ -178,7 +178,7 @@ $this->headScript()->appendFile($this->basePath() . '/static/js/script.js');
       		<div class="col-md-8 col-md-offset-2 panel panel-default">
         		<div class="panel-body">
     			    <form id="ad" class="form-horizontal form-top-magin" name="ad" method="post" action="">
-						<h4 class="underline mrg0T">Advance Options</h4>
+						<h4 class="underline mrg0T"><?php echo $this->layout()->_t->translate("Advance Options");?></h4>
 						 <div class="form-group">
 						    <label for="adname" class="control-label col-sm-4">Ad tag-type </label>
 						    <div class="controls col-sm-8">
@@ -186,7 +186,7 @@ $this->headScript()->appendFile($this->basePath() . '/static/js/script.js');
 						    </div>
 						 </div>
 						 <div class="form-group">
-						    <label for="adname" class="control-label col-sm-4">In an Iframe </label>
+						    <label for="adname" class="control-label col-sm-4"><?php echo $this->layout()->_t->translate("In an Iframe");?> </label>
 						    <div class="controls col-sm-8">
 						      <label class="control-label">
 						      	<?php 
@@ -200,7 +200,7 @@ $this->headScript()->appendFile($this->basePath() . '/static/js/script.js');
 						    </div>
 						 </div>
 						 <div class="form-group">
-						    <label for="adname" class="control-label col-sm-4">In Multiple Nested IFrames </label>
+						    <label for="adname" class="control-label col-sm-4"><?php echo $this->layout()->_t->translate("In Multiple Nested IFrames");?> </label>
 						    <div class="controls col-sm-8">
 						      <label class="control-label">
 						      	<?php 
@@ -227,7 +227,7 @@ $this->headScript()->appendFile($this->basePath() . '/static/js/script.js');
       		<div class="col-md-8 col-md-offset-2 panel panel-default">
         		<div class="panel-body">
     			    <form id="ad" class="form-horizontal form-top-magin" name="ad" method="post" action="">
-						<h4 class="underline mrg0T">Position Options</h4>
+						<h4 class="underline mrg0T"><?php echo $this->layout()->_t->translate("Position Options");?></h4>
 						 <div class="form-group">
 						    <label for="adname" class="control-label col-sm-4">Ad position </label>
 						    <div class="controls col-sm-8">
@@ -248,7 +248,7 @@ $this->headScript()->appendFile($this->basePath() . '/static/js/script.js');
 						    </div>
 						 </div>
 						 <div class="form-group">
-						    <label for="adname" class="control-label col-sm-4">Fold position </label>
+						    <label for="adname" class="control-label col-sm-4"><?php echo $this->layout()->_t->translate("Fold position");?> </label>
 						    <div class="controls col-sm-8">
 						      <label class="control-label">
 						      	<?php
@@ -277,7 +277,7 @@ $this->headScript()->appendFile($this->basePath() . '/static/js/script.js');
       		<div class="col-md-8 col-md-offset-2 panel panel-default">
         		<div class="panel-body">
     			    <form id="ad" class="form-horizontal form-top-magin" name="ad" method="post" action="">
-						<h4 class="underline mrg0T">Resolution Options</h4>
+						<h4 class="underline mrg0T"><?php echo $this->layout()->_t->translate("Resolution Options");?></h4>
 						 <div class="form-group">
 						    <label for="adname" class="control-label col-sm-4">Min screen res width </label>
 						    <div class="controls col-sm-8">
@@ -285,19 +285,19 @@ $this->headScript()->appendFile($this->basePath() . '/static/js/script.js');
 						    </div>
 						 </div>
 						 <div class="form-group">
-						    <label for="adname" class="control-label col-sm-4">Max screen res width </label>
+						    <label for="adname" class="control-label col-sm-4"><?php echo $this->layout()->_t->translate("Max screen res width");?> </label>
 						    <div class="controls col-sm-8">
 						      <label class="control-label"><?php echo $campaignbanner_preview->ResolutionMaxW?></label>
 						    </div>
 						 </div>	
 						 <div class="form-group">
-						    <label for="adname" class="control-label col-sm-4">Min screen res height </label>
+						    <label for="adname" class="control-label col-sm-4"><?php echo $this->layout()->_t->translate("Min screen res height");?> </label>
 						    <div class="controls col-sm-8">
 						      <label class="control-label"><?php echo $campaignbanner_preview->ResolutionMinH?></label>
 						    </div>
 						 </div>
 						 <div class="form-group">
-						    <label for="adname" class="control-label col-sm-4">Max screen res height </label>
+						    <label for="adname" class="control-label col-sm-4"><?php echo $this->layout()->_t->translate("Max screen res height");?> </label>
 						    <div class="controls col-sm-8">
 						      <label class="control-label"><?php echo $campaignbanner_preview->ResolutionMaxH?></label>
 						    </div>
@@ -315,33 +315,33 @@ $this->headScript()->appendFile($this->basePath() . '/static/js/script.js');
       		<div class="col-md-8 col-md-offset-2 panel panel-default">
         		<div class="panel-body">
     			    <form id="ad" class="form-horizontal form-top-magin" name="ad" method="post" action="">
-						<h4 class="underline mrg0T">Other Options</h4>
+						<h4 class="underline mrg0T"><?php echo $this->layout()->_t->translate("Other Options");?></h4>
 						 <div class="form-group">
-						    <label for="adname" class="control-label col-sm-4">HTTP language </label>
+						    <label for="adname" class="control-label col-sm-4"><?php echo $this->layout()->_t->translate("HTTP language");?> </label>
 						    <div class="controls col-sm-8">
 						      <label class="control-label"><?php echo $campaignbanner_preview->HttpLang?></label>
 						    </div>
 						 </div>
 						 <div class="form-group">
-						    <label for="adname" class="control-label col-sm-4">Browser User Agent Grep </label>
+						    <label for="adname" class="control-label col-sm-4"><?php echo $this->layout()->_t->translate("Browser User Agent Grep");?> </label>
 						    <div class="controls col-sm-8">
 						      <label class="control-label"><?php echo $campaignbanner_preview->BrowerAgentGrep?></label>
 						    </div>
 						 </div>	
 						 <div class="form-group">
-						    <label for="adname" class="control-label col-sm-4">Cookie Grep </label>
+						    <label for="adname" class="control-label col-sm-4"><?php echo $this->layout()->_t->translate("Cookie Grep");?> </label>
 						    <div class="controls col-sm-8">
 						      <label class="control-label"><?php echo $campaignbanner_preview->CookieGrep?></label>
 						    </div>
 						 </div>
 						 <div class="form-group">
-						    <label for="adname" class="control-label col-sm-4">Pmp enable </label>
+						    <label for="adname" class="control-label col-sm-4"><?php echo $this->layout()->_t->translate("Pmp enable");?> </label>
 						    <div class="controls col-sm-8">
 						      <label class="control-label"><?php echo $campaignbanner_preview->PmpEnable?></label>
 						    </div>
 						 </div>	
 						 <div class="form-group">
-						    <label for="adname" class="control-label col-sm-4">Secure </label>
+						    <label for="adname" class="control-label col-sm-4"><?php echo $this->layout()->_t->translate("Secure");?> </label>
 						    <div class="controls col-sm-8">
 						      <label class="control-label"><?php echo $campaignbanner_preview->Secure?></label>
 						    </div>

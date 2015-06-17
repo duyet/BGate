@@ -48,7 +48,7 @@ $( "#startdate" ).datepicker(
 <div class="docs-header">
   <div class="topic">
     <div class="row">
-      <div class="col-md-5 col-md-offset-1 col-sm-5 col-sm-offset-1 col-xs-6"><h4>Edit Campaign</h4></div>
+      <div class="col-md-5 col-md-offset-1 col-sm-5 col-sm-offset-1 col-xs-6"><h4><?php echo $this->layout()->_t->translate("Edit Campaign");?></h4></div>
     </div>
   </div>
 </div>
@@ -59,27 +59,27 @@ $( "#startdate" ).datepicker(
       <div class="panel-body">
         <div id="cdn_form_msg" class="alert alert-error" style="margin: 5px; display: none;"></div>
         <form id="campaignform" name="campaignform" class="form-horizontal form-top-magin" method="POST" action="<?php echo $this->basePath() ?>/demand/newcampaign">
-        <h4 class="underline mrg0T">General Options</h4>
+        <h4 class="underline mrg0T"><?php echo $this->layout()->_t->translate("General Options");?></h4>
           <input type="hidden" name="campaignid" value="<?php echo $campaignid;?>">
           <input type="hidden" name="campaignpreviewid" value="<?php echo $campaignpreviewid;?>">
           <input type="hidden" name="ispreview" value="<?php echo $ispreview;?>">
 
           <div class="form-group">
-            <label for="campaignname" class="control-label col-sm-3">Campaign Name</label>
+            <label for="campaignname" class="control-label col-sm-3"><?php echo $this->layout()->_t->translate("Campaign Name");?></label>
             <div class="controls col-sm-7">
               <input type="text" value="<?php echo $campaignname;?>" maxlength="255" class="form-control" id="campaignname" name="campaignname">    
             </div>
           </div>
           <?php if ($is_admin === true): ?>
             <div class="form-group">
-              <label for="campaignmarkup" class="control-label col-sm-3">Campaign Markup</label>
+              <label for="campaignmarkup" class="control-label col-sm-3"><?php echo $this->layout()->_t->translate("Campaign Markup");?></label>
               <div class="controls col-sm-7">
                 <input type="text" value="" maxlength="255" class="form-control" id="campaignmarkup" name="campaignmarkup" value="<?php echo $campaignmarkup;?>">    
               </div>
             </div>
         <?php endif;?>
           <div class="form-group">
-            <label for="startdate" class="control-label col-sm-3">Start Date</label>
+            <label for="startdate" class="control-label col-sm-3"><?php echo $this->layout()->_t->translate("Start Date");?></label>
             <div class="controls col-sm-7">
             <div class="input-append date">
       <input name="startdate" id="startdate" class="span2 form-control" size="16" type="text" value="<?php echo $startdate;?>" readonly="readonly" />
@@ -89,7 +89,7 @@ $( "#startdate" ).datepicker(
             </div>
           </div>
           <div class="form-group">
-            <label for="enddate" class="control-label col-sm-3">End Date</label>
+            <label for="enddate" class="control-label col-sm-3"><?php echo $this->layout()->_t->translate("End Date");?></label>
             <div class="controls col-sm-7">
               <!-- <input type="date" value="<?php $date = date_create($enddate); echo date_format($date,"Y-m-d");?>" maxlength="255" class="form-control" id="enddate" name="enddate"> -->
               <div class="input-append date">
@@ -102,14 +102,14 @@ $( "#startdate" ).datepicker(
           
 
           <div class="form-group">
-            <label for="maximpressions" class="control-label col-sm-3">Maximum Impressions <br><sup>(Maximum campaign impressions before the bids stop)</sup></label>
+            <label for="maximpressions" class="control-label col-sm-3"><?php echo $this->layout()->_t->translate("Maximum Impressions");?> <br><sup>(<?php echo $this->layout()->_t->translate("Maximum campaign impressions before the bids stop");?>)</sup></label>
             <div class="controls col-sm-7">
               <input type="number" value="<?php echo $maximpressions;?>" maxlength="255" class="form-control" id="maximpressions" name="maximpressions">
             </div>
           </div>
 
           <div class="form-group">
-            <label for="maxtarget" class="control-label col-sm-3">Maximum target</label>
+            <label for="maxtarget" class="control-label col-sm-3"><?php echo $this->layout()->_t->translate("Maximum target");?></label>
             <div class="controls col-sm-7">
               <input type="checkbox" <?php if ($cpmtarget==1) echo 'checked';?> name="cpmtarget" class="inline"/> CPM
               <input type="checkbox" <?php if ($cpctarget==1) echo 'checked';?> name="cpctarget" class="inline"/> CPC
@@ -117,29 +117,29 @@ $( "#startdate" ).datepicker(
           </div>
 
           <div class="form-group">
-            <label for="maxspend" class="control-label col-sm-3">Maximum spend<br><sup>(Maximum campaign $$$ spent before the bids stop)</sup></label>
+            <label for="maxspend" class="control-label col-sm-3"><?php echo $this->layout()->_t->translate("Maximum spend");?><br><sup>(<?php echo $this->layout()->_t->translate("Maximum campaign $$$ spent before the bids stop");?>)</sup></label>
             <div class="controls col-sm-7">
               <input type="number" value="<?php echo $maxspend;?>" maxlength="255" class="form-control" id="maxspend" name="maxspend">
             </div>
           </div>
-          <h4 class="underline mrg0T">Advance Options</h4>
+          <h4 class="underline mrg0T"><?php echo $this->layout()->_t->translate("Advance Options");?></h4>
           <div class="form-group">
-            <label for="customername" class="control-label col-sm-3">Customer Name <br><sup>(Use this field for your own customer reference if any)</sup></label>
+            <label for="customername" class="control-label col-sm-3"><?php echo $this->layout()->_t->translate("Customer Name");?> <br><sup>(<?php echo $this->layout()->_t->translate("Use this field for your own customer reference if any");?>)</sup></label>
             <div class="controls col-sm-7">
               <input type="text" value="<?php echo $customername;?>" maxlength="255" class="form-control" id="customername" name="customername">
             </div>
           </div>
 
           <div class="form-group">
-            <label for="customerid" class="control-label col-sm-3">Customer Id <br><sup>(Use this field for your own customer reference if any)</sup></label>
+            <label for="customerid" class="control-label col-sm-3"><?php echo $this->layout()->_t->translate("Customer Id");?> <br><sup>(<?php echo $this->layout()->_t->translate("Use this field for your own customer reference if any");?>)</sup></label>
             <div class="controls col-sm-7">
               <input type="text" value="<?php echo $customerid;?>" maxlength="255" class="form-control" id="customerid" name="customerid">
             </div>
           </div>
           <div class="form-group text-center">
             <div class="controls">
-              <button name="submit" type="submit" class="btn btn-primary btn-margin" id="submitbutton">Update Campaign</button>
-              <a href="<?php echo $this->basePath() ?>/demand" class="btn btn-margin">Cancel</a>
+              <button name="submit" type="submit" class="btn btn-primary btn-margin" id="submitbutton"><?php echo $this->layout()->_t->translate("Update Campaign");?></button>
+              <a href="<?php echo $this->basePath() ?>/demand" class="btn btn-margin"><?php echo $this->layout()->_t->translate("Cancel");?></a>
             </div>
           </div>
         </form>

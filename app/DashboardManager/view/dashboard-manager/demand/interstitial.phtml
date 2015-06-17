@@ -11,9 +11,9 @@ $(function(){
 		<div class="panel col-md-offset-1 col-md-10">
 		    <h3><?php echo $this->escapeHtml('Information Saved'); ?></h3>
 		    <div style="text-align=center">
-		        Your information was saved.
+		    	<?php echo $this->layout()->_t->translate("Your information was saved.");?>
 		        <br /><br />
-		        <a href="<?php echo $refresh_url;?>">Click Here to Return</a> if your browser doesn't automatically redirect you
+		        <a href="<?php echo $refresh_url;?>"><?php echo $this->layout()->_t->translate("Click Here to Return");?></a> <?php echo $this->layout()->_t->translate("if your browser doesn't automatically redirect you");?>
 		    </div>
 		</div>
 	</div>
