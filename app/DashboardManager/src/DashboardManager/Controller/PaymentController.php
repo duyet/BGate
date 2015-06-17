@@ -667,5 +667,38 @@ class PaymentController extends DemandAbstractActionController {
         }
         return $result;
     }
+    public function paymentinitAction()
+    {
+    	$initialized = $this->initialize();
+		if ($initialized !== true) return $initialized;
+		
+		$authUsers = new \model\authUsers();
+		$authUsersFactory = \_factory\authUsers::get_instance();
+		
+		$userData = $authUsersFactory->get_row(array("user_id" => $this->auth->getUserID()));
+		
+		// if (!$this->is_admin) :
+  //    		return $this->redirect()->toRoute($this->dashboard_home);
+		// endif;
+
+		$TransactionDetail = new \model\TransactionDetail();
+		$TransactionDetailFactory = \_factory\TransactionDetail::get_instance();
+		$TransactionLogFactory = \_factory\TransactionLog::get_instance();
+
+		$orders = 'DateCreated DESC'; 	    
+		$variable = $TransactionDetailFactory->get(null, $orders);
+		$detail = array();
+		foreach ($variable as $value) {
+			$log =  $TransactionLogFactory->get_row(array("ID" => $value->TransactionLogID));
+			array_push($detail, array_merge((array)$value, array('log' => $log )));
+		}
+		header('Content-type: application/json');
+		echo json_encode(array(
+			"recordsTotal" => count($detail), 
+			"recordsFiltered" => count($detail) , 
+			'data' => $detail));
+
+		die;
+    }
 }
 ?>

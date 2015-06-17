@@ -795,6 +795,104 @@ var UserPayoutTable = {
     });
   }
 }
+var PaymentTable = {
+  init: function(table){
+   
+    if (table.length > 0) {
+      this.table = table;
+      this.source_path = table.data("url");
+      this.init_datatable();
+      this.fix_layout();
+    }
+  },
+  reload_table: function(){
+    this.table.DataTable().ajax.reload();
+  },
+  fix_layout: function(){
+    var dt_filter_area = $(".custom-filter");
+    console.log(dt_filter_area);
+    $(".table-filter").appendTo(dt_filter_area);
+  },
+  init_datatable: function(){
+    var self = this;
+    this.table.dataTable({
+        "processing": true,
+        "bLengthChange": false,
+        "bFilter": false,
+        //"serverSide": true,
+        "iDisplayLength": 10,
+        // "scrollX": true,
+        "dom": '<"row" <"col-sm-8 custom-filter"> <"col-sm-4" f> >r<"datatable-wrapper" t> <"row mrg20B" <"col-sm-6" il> <"col-sm-6"p> >',
+        "order": [[5,"desc"]],
+        "autoWidth": false,
+        "ajax": {
+          url: self.source_path,
+          data: function(d){
+            d.approval = $("#publishers-status option:selected").val();
+          }
+        },
+        "aoColumnDefs": [
+         { bSortable: false, 'aTargets': [ 0,2 ] },    
+        ],
+        "columns": [
+            { "data": "id", className: "text-center" },
+            { 
+              "data": "TransactionLogID",
+              render: function ( data, type, row ) {
+                console.log('render', data,type,  row);
+                if( parseInt(row.log.Type) == 0){
+                  return '<span class="label label-success">Paypal</span>';
+                }else{
+                  return '<span class="label label-primary">Onepay</span>';
+                }
+              }
+            },
+            // { "data": "UserID" },
+            { 
+              "data": "Type", 
+              render: function ( data, type, row ) {
+                console.log('render', data,type,  row);
+                if( parseInt(row.Type) == 0){
+                  return '<span class="label label-success">Income</span>';
+                }else{
+                  return '<span class="label label-primary">Outcome</span>';
+                }
+              }
+            },
+            { "data": "Amount" },
+            { "data": "Description",
+              // render: function ( data, type, row ) {
+              //   console.log('render', data,type,  row);
+              //   if( row.approval == true || row.approval== 'true'){
+              //     return '<a target="_blank" href="'+basePath+'/websites/list/'+row.PublisherInfoID+'" style="color:#0088cc;">View</a>';
+              //   }else{
+              //     return row.Domain;
+              //   }
+              // }
+            },
+            { "data": "DateCreated" ,
+              // render : function(data, type, row){
+              //   if(row.approval==true || row.approval== 'true'                             ){
+              //     return '<span class="label label-success">Approved</span>'
+              //     +'&nbsp;|&nbsp;'
+              //    +'<a href="javascript:void(0);" onclick="userBanModal('+row.PublisherInfoID+','+"'"+row.Name+"'"+');">Ban</a>';
+              //   }else{
+              //     return '<a href="javascript:void(0);" onclick="userAcceptModal('+row.PublisherInfoID+','+"'"+row.Name+"'"+');">Approve</a>'
+              //    +'&nbsp;|&nbsp;'
+              //    +'<a href="javascript:void(0);" onclick="userRejectionModal('+row.PublisherInfoID+','+"'"+row.Name+"'"+');">Reject</a>';
+              //   }
+              // }
+            },
+        ],
+        initComplete: function () {
+        },
+        fnDrawCallback: function(data){
+          console.log(data.json);
+          return data;
+        }
+    });
+  }
+}
 
 $(function(){
   DomainTable.init($("#domain-table"));
@@ -808,4 +906,5 @@ $(function(){
   ReportPublisherTable.init($("#report-publisher-table"));
   ReportDemandTable.init($("#report-demand-table"));
   UserPayoutTable.init($("#user-payout-table"));
+  PaymentTable.init($("#payment-table"));
 });
