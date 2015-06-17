@@ -75,7 +75,7 @@ class DemandController extends DemandAbstractActionController {
 		return $view;
 	}
 
-
+	
 	/**
 	 * Display the campaign index page, and list all campaigns associated.
 	 * 
@@ -3996,6 +3996,84 @@ class DemandController extends DemandAbstractActionController {
 	/*
 	 * END NGINAD Helper Methods
 	*/
+	/**
+	 * Display the payment page
+	 * 
+	 * 
+	 */
 
+	public function paymentAction()
+	{
+		$auth = $this->getServiceLocator()->get('AuthService');
+		 if (!$auth->hasIdentity()):
+     	 	return $this->redirect()->toRoute('login');
+    	 endif;
+    	 
+		$initialized = $this->initialize();
+		if ($initialized !== true) return $initialized;
+		$success_msg = null;
+
+		$request = $this->getRequest();
+	    if ($request->isPost()):
+	    	$Amount	 = $request->getPost('Amount');
+	    	$method	 = $request->getPost('method');
+	    	if(intval($method) === 0):
+	    		return $this->redirect()->toRoute('payment',
+					array('controller'=>'payment',
+				        'action' => 'paypaltransfer',
+				        'param1' => $Amount));
+	    	elseif(intval($method) === 1):
+	    		return $this->redirect()->toRoute('payment',
+					array('controller'=>'payment',
+				        'action' => 'onepayvisa',
+				        'param1' => $Amount));
+	    		
+	    	endif;
+	   	endif;
+
+	   	
+	   	$view = new ViewModel(array(
+			 'dashboard_view' => 'payment',
+			 'is_admin' => $this->is_admin,
+			 'user_identity' => $this->identity(),
+		));
+
+		// return $view;
+		return $view->setTemplate('dashboard-manager/payment/index.phtml');
+
+	}
+
+	public function resultpaymentAction()
+	{
+		$auth = $this->getServiceLocator()->get('AuthService');
+		if (!$auth->hasIdentity()):
+     	 	return $this->redirect()->toRoute('login');
+    	endif;
+    	 
+		$initialized = $this->initialize();
+		if ($initialized !== true) return $initialized;
+		$success_msg = null;
+
+		$ID = $this->getEvent()->getRouteMatch()->getParam('param1');
+
+		$TransactionLogFactory = \_factory\TransactionLog::get_instance();
+		$TransactionLog = $TransactionLogFactory->get_row_object(array(
+			"ID" => $ID,
+		));
+
+		$view = new ViewModel(array(
+    		// 'dashboard_view' => 'signup',
+    		'transaction' => $TransactionLog,
+    		'callback' => $this->url()->fromRoute('demand',
+					array('controller'=>'demand',
+				        'action' => 'payment')),
+    		'dashboard_view' => 'payment',
+			'is_admin' => $this->is_admin,
+			'user_identity' => $this->identity(),
+
+    	));
+		return $view->setTemplate('dashboard-manager/payment/resultpayment.phtml');
+
+	}
 }
 ?>

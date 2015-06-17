@@ -221,6 +221,7 @@ return array(
             						'action'     => 'index',
             				),
             		),
+                    
             ),
             'demand_dashboard' => array(
                     'type'    => 'segment',
@@ -231,6 +232,7 @@ return array(
                                     'action'     => 'dashboard',
                             ),
                     ),
+                    
             ),     
             'publisher_dashboard' => array(
                     'type'    => 'segment',

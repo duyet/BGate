@@ -45,7 +45,19 @@ return array(
 				    'signature'     => 'AFcWxV21C7fd0v3bYYYRCpSSRl31AQ1NTw.fWvFMLd2Pl-iL0FKxsS.g',
 				    'endpoint'      => 'https://api-3t.sandbox.paypal.com/nvp', //this is sandbox endpoint,
 				    'url'			=> 'https://www.sandbox.paypal.com/webscr&cmd=_express-checkout&token='
-				)
+				),
+				'onepay_conf' => array(
+                    'url' => 'https://mtf.onepay.vn/vpcpay/vpcpay.op',
+                    'merchant' => 'TESTONEPAY',
+                    'accesscode' => '6BEB2546',
+                    'securehash' => '6D0870CDE5F24F34F3915FB0045120DB',
+                    'user' => 'op01',
+                    'certificate' => 'op123456',
+                    'version' => '2',
+                    'title' => 'BGATE Payment',
+                    'command' => 'pay',
+                    'locale' => 'en',
+                ),
 		),
 		'maintenance' => array(
 				'secret_key_crontab' => 'nginadxyz',

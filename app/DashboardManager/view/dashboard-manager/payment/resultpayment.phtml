@@ -5,6 +5,7 @@ $this->headScript()->prependFile($this->basePath() . '/static/js/script.js');
 	<div class="topic">
 	    <div class="container">
 	        <div ><h4>Payment</h4></div>
+           
 	    </div>
 	</div>
 </div>
@@ -12,11 +13,15 @@ $this->headScript()->prependFile($this->basePath() . '/static/js/script.js');
 <div class="container">
 <div class="b-thanks">
     <h1><strong><a>TRANSACTION RESULT!</a></strong></h1>
-    <h3><strong><?php echo $transaction->TransactionDetail; ?></strong></h3>
+    <h3><strong><?php echo $transaction->Result; ?></strong></h3>
+    
+    <h4><i><?php echo $transaction->ResponseDescription;?></i></h4>
+    
     <p>
-        Thank you for payment! <br>
-        <small><?php echo $transaction->ResponseDescription;?></small>
+        Thank you for payment!        
     </p>
-
+    <p class="text-center"><a href="<?php echo $callback;?>" class="btn btn-default mrg5T">
+        <span class="glyphicon glyphicon-share-alt"></span> Payment</a>
+    </p>
 </div>
 </div>

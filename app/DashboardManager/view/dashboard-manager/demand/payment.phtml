@@ -9,34 +9,9 @@ $this->headScript()->prependFile($this->basePath() . '/static/js/script.js');
 	</div>
 </div>
 
-  <div class="container-fluid">
-    <div class="row mrg20T">
-      <div id="revenue-overview" class="col-md-10 col-md-offset-1 panel pad20T">
-        <p class="underline mrg0T" style="padding-bottom: 3px;">
-          <span class="admin-titles">Overview </span>
-            <select id="time-filter" onchange="ReportDemandTable.reload_table()">
-              <option selected value>All time</option>
-              <option value="0">Today</option>
-              <option value="1">Yesterday</option>
-              <option value="2">This week</option>
-              <option value="3">Last week</option>
-              <option value="4">This month</option>
-              <option value="5">Last month</option>
-              <option value="6">This year</option>
-        </select> 
-        </p>
-        <div class="row">
-            
-        </div>
-        <br>
-      </div>
-
-    </div>
-  </div>
-
-<div class="container-fluid mrg20T ">
+<div class="container mrg20T ">
 	<div class="row">
-		<div class="panel col-md-10 col-md-offset-1">
+		<div class="panel col-md-8 col-md-offset-2">
 			<div class="panel-body">
 
 				<form id="payment-form" class="form-horizontal" method="post">
