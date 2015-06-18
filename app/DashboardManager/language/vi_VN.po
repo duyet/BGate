@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ZendSkeletonApplication\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-06-16 16:55+0700\n"
-"PO-Revision-Date: 2015-06-16 16:56+0700\n"
+"POT-Creation-Date: 2015-06-18 08:46+0700\n"
+"PO-Revision-Date: 2015-06-18 08:46+0700\n"
 "Last-Translator: Tawfek Daghistani <tawfekov@gmail.com>\n"
 "Language-Team: Arabic <>\n"
 "Language: vi_VN\n"
@@ -116,6 +116,7 @@ msgstr ""
 
 #: ../view/dashboard-manager/demand/campaign.phtml:73
 #: ../view/dashboard-manager/demand/createcampaign.phtml:77
+#: ../view/dashboard-manager/demand/editcampaign.phtml:68
 msgid "Campaign Name"
 msgstr ""
 
@@ -129,7 +130,9 @@ msgstr ""
 #: ../view/dashboard-manager/demand/createbanner.phtml:162
 #: ../view/dashboard-manager/demand/createcampaign.phtml:91
 #: ../view/dashboard-manager/demand/editbanner.phtml:99
+#: ../view/dashboard-manager/demand/editcampaign.phtml:82
 #: ../view/dashboard-manager/demand/index.phtml:94
+#: ../view/dashboard-manager/demand/showbanner.phtml:66
 msgid "Start Date"
 msgstr ""
 
@@ -137,7 +140,9 @@ msgstr ""
 #: ../view/dashboard-manager/demand/createbanner.phtml:176
 #: ../view/dashboard-manager/demand/createcampaign.phtml:101
 #: ../view/dashboard-manager/demand/editbanner.phtml:107
+#: ../view/dashboard-manager/demand/editcampaign.phtml:92
 #: ../view/dashboard-manager/demand/index.phtml:97
+#: ../view/dashboard-manager/demand/showbanner.phtml:77
 msgid "End Date"
 msgstr ""
 
@@ -163,6 +168,7 @@ msgstr ""
 
 #: ../view/dashboard-manager/demand/campaign.phtml:97
 #: ../view/dashboard-manager/demand/createbanner.phtml:350
+#: ../view/dashboard-manager/demand/showbanner.phtml:120
 msgid "Maximum Target"
 msgstr ""
 
@@ -176,6 +182,7 @@ msgstr ""
 
 #: ../view/dashboard-manager/demand/campaign.phtml:133
 #: ../view/dashboard-manager/demand/index.phtml:82
+#: ../view/dashboard-manager/demand/viewbanner.phtml:44
 #: ../view/dashboard-manager/publisher/report.phtml:92
 msgid "Name"
 msgstr "Tên"
@@ -209,6 +216,8 @@ msgstr ""
 #: ../view/dashboard-manager/demand/campaign.phtml:161
 #: ../view/dashboard-manager/demand/campaign.phtml:183
 #: ../view/dashboard-manager/demand/index.phtml:135
+#: ../view/dashboard-manager/demand/viewbanner.phtml:152
+#: ../view/dashboard-manager/demand/viewbanner.phtml:174
 #: ../view/dashboard-manager/publisher/msaagreement.phtml:18
 msgid "Error"
 msgstr "Lỗi "
@@ -216,10 +225,14 @@ msgstr "Lỗi "
 #: ../view/dashboard-manager/demand/campaign.phtml:163
 #: ../view/dashboard-manager/demand/campaign.phtml:185
 #: ../view/dashboard-manager/demand/index.phtml:137
+#: ../view/dashboard-manager/demand/viewbanner.phtml:154
+#: ../view/dashboard-manager/demand/viewbanner.phtml:176
 msgid "This action is a preview and must be approved!"
 msgstr ""
 
 #: ../view/dashboard-manager/demand/campaign.phtml:180
+#: ../view/dashboard-manager/demand/viewbanner.phtml:93
+#: ../view/dashboard-manager/demand/viewbanner.phtml:149
 msgid "Delete Banner"
 msgstr ""
 
@@ -233,10 +246,13 @@ msgstr ""
 
 #: ../view/dashboard-manager/demand/createbanner.phtml:99
 #: ../view/dashboard-manager/demand/createcampaign.phtml:75
+#: ../view/dashboard-manager/demand/editcampaign.phtml:62
+#: ../view/dashboard-manager/demand/showbanner.phtml:32
 msgid "General Options"
 msgstr ""
 
 #: ../view/dashboard-manager/demand/createbanner.phtml:118
+#: ../view/dashboard-manager/demand/showbanner.phtml:34
 #: ../view/dashboard-manager/zone/create.phtml:43
 #: ../view/dashboard-manager/zone/edit.phtml:42
 msgid "Ad Name"
@@ -247,6 +263,7 @@ msgid "Upload Ad"
 msgstr ""
 
 #: ../view/dashboard-manager/demand/createbanner.phtml:137
+#: ../view/dashboard-manager/demand/showbanner.phtml:40
 msgid "Label"
 msgstr ""
 
@@ -324,6 +341,7 @@ msgstr ""
 
 #: ../view/dashboard-manager/demand/createbanner.phtml:281
 #: ../view/dashboard-manager/demand/editbanner.phtml:200
+#: ../view/dashboard-manager/demand/showbanner.phtml:102
 msgid "IAB Size"
 msgstr ""
 
@@ -347,14 +365,17 @@ msgid "Bid type"
 msgstr ""
 
 #: ../view/dashboard-manager/demand/createbanner.phtml:343
+#: ../view/dashboard-manager/demand/showbanner.phtml:114
 msgid "Daily Target"
 msgstr ""
 
 #: ../view/dashboard-manager/demand/createbanner.phtml:357
+#: ../view/dashboard-manager/demand/showbanner.phtml:126
 msgid "Daily Budget"
 msgstr ""
 
 #: ../view/dashboard-manager/demand/createbanner.phtml:368
+#: ../view/dashboard-manager/demand/showbanner.phtml:132
 msgid "Maximum Budget"
 msgstr ""
 
@@ -385,6 +406,7 @@ msgstr ""
 
 #: ../view/dashboard-manager/demand/createbanner.phtml:433
 #: ../view/dashboard-manager/demand/deliveryfilter.phtml:117
+#: ../view/dashboard-manager/demand/showbanner.phtml:162
 msgid "Timezone"
 msgstr ""
 
@@ -438,6 +460,8 @@ msgstr ""
 
 #: ../view/dashboard-manager/demand/createbanner.phtml:562
 #: ../view/dashboard-manager/demand/createcampaign.phtml:132
+#: ../view/dashboard-manager/demand/editcampaign.phtml:125
+#: ../view/dashboard-manager/demand/showbanner.phtml:181
 msgid "Advance Options"
 msgstr ""
 
@@ -446,6 +470,7 @@ msgid "Ad tag-type"
 msgstr ""
 
 #: ../view/dashboard-manager/demand/createbanner.phtml:587
+#: ../view/dashboard-manager/demand/showbanner.phtml:189
 msgid "In an Iframe"
 msgstr ""
 
@@ -459,6 +484,7 @@ msgid "In Multi Nested Iframe"
 msgstr ""
 
 #: ../view/dashboard-manager/demand/createbanner.phtml:648
+#: ../view/dashboard-manager/demand/showbanner.phtml:230
 msgid "Position Options"
 msgstr ""
 
@@ -467,10 +493,12 @@ msgid "Ad position"
 msgstr ""
 
 #: ../view/dashboard-manager/demand/createbanner.phtml:687
+#: ../view/dashboard-manager/demand/showbanner.phtml:251
 msgid "Fold position"
 msgstr ""
 
 #: ../view/dashboard-manager/demand/createbanner.phtml:711
+#: ../view/dashboard-manager/demand/showbanner.phtml:280
 msgid "Resolution Options"
 msgstr ""
 
@@ -479,18 +507,22 @@ msgid "Min screen res width"
 msgstr ""
 
 #: ../view/dashboard-manager/demand/createbanner.phtml:725
+#: ../view/dashboard-manager/demand/showbanner.phtml:288
 msgid "Max screen res width"
 msgstr ""
 
 #: ../view/dashboard-manager/demand/createbanner.phtml:731
+#: ../view/dashboard-manager/demand/showbanner.phtml:294
 msgid "Min screen res height"
 msgstr ""
 
 #: ../view/dashboard-manager/demand/createbanner.phtml:737
+#: ../view/dashboard-manager/demand/showbanner.phtml:300
 msgid "Max screen res height"
 msgstr ""
 
 #: ../view/dashboard-manager/demand/createbanner.phtml:752
+#: ../view/dashboard-manager/demand/showbanner.phtml:318
 msgid "Other Options"
 msgstr ""
 
@@ -500,11 +532,13 @@ msgstr ""
 
 #: ../view/dashboard-manager/demand/createbanner.phtml:766
 #: ../view/dashboard-manager/demand/deliveryfilter.phtml:176
+#: ../view/dashboard-manager/demand/showbanner.phtml:326
 msgid "Browser User Agent Grep"
 msgstr ""
 
 #: ../view/dashboard-manager/demand/createbanner.phtml:772
 #: ../view/dashboard-manager/demand/deliveryfilter.phtml:181
+#: ../view/dashboard-manager/demand/showbanner.phtml:332
 msgid "Cookie Grep"
 msgstr ""
 
@@ -515,6 +549,7 @@ msgstr ""
 
 #: ../view/dashboard-manager/demand/createbanner.phtml:803
 #: ../view/dashboard-manager/demand/deliveryfilter.phtml:199
+#: ../view/dashboard-manager/demand/showbanner.phtml:344
 msgid "Secure"
 msgstr ""
 
@@ -536,39 +571,49 @@ msgid "Create Campaign"
 msgstr ""
 
 #: ../view/dashboard-manager/demand/createcampaign.phtml:84
+#: ../view/dashboard-manager/demand/editcampaign.phtml:75
 msgid "Campaign Markup"
 msgstr ""
 
 #: ../view/dashboard-manager/demand/createcampaign.phtml:112
+#: ../view/dashboard-manager/demand/editcampaign.phtml:105
 msgid "Maximum Impressions"
 msgstr ""
 
 #: ../view/dashboard-manager/demand/createcampaign.phtml:112
+#: ../view/dashboard-manager/demand/editcampaign.phtml:105
 msgid "Maximum campaign impressions before the bids stop"
 msgstr ""
 
 #: ../view/dashboard-manager/demand/createcampaign.phtml:119
+#: ../view/dashboard-manager/demand/editcampaign.phtml:112
 msgid "Maximum target"
 msgstr ""
 
 #: ../view/dashboard-manager/demand/createcampaign.phtml:127
+#: ../view/dashboard-manager/demand/editcampaign.phtml:120
 msgid "Maximum spend"
 msgstr ""
 
 #: ../view/dashboard-manager/demand/createcampaign.phtml:127
+#: ../view/dashboard-manager/demand/editcampaign.phtml:120
 msgid "Maximum campaign $$$ spent before the bids stop"
 msgstr ""
 
 #: ../view/dashboard-manager/demand/createcampaign.phtml:135
+#: ../view/dashboard-manager/demand/editcampaign.phtml:127
 msgid "Customer Name"
 msgstr ""
 
 #: ../view/dashboard-manager/demand/createcampaign.phtml:135
 #: ../view/dashboard-manager/demand/createcampaign.phtml:142
+#: ../view/dashboard-manager/demand/editcampaign.phtml:127
+#: ../view/dashboard-manager/demand/editcampaign.phtml:134
 msgid "Use this field for your own customer reference if any"
 msgstr ""
 
 #: ../view/dashboard-manager/demand/createcampaign.phtml:142
+#: ../view/dashboard-manager/demand/editcampaign.phtml:134
 msgid "Customer Id"
 msgstr ""
 
@@ -580,17 +625,20 @@ msgstr ""
 #: ../view/dashboard-manager/demand/createexclusiveinclusion.phtml:16
 #: ../view/dashboard-manager/demand/deliveryfilter.phtml:19
 #: ../view/dashboard-manager/demand/editbanner.phtml:63
+#: ../view/dashboard-manager/demand/viewbanner.phtml:15
 msgid "Ad Campaigns"
 msgstr ""
 
 #: ../view/dashboard-manager/demand/createdomainexclusion.phtml:18
 #: ../view/dashboard-manager/demand/dashboard.phtml:35
 #: ../view/dashboard-manager/demand/deliveryfilter.phtml:21
+#: ../view/dashboard-manager/demand/viewbanner.phtml:17
 msgid "Banners"
 msgstr ""
 
 #: ../view/dashboard-manager/demand/createdomainexclusion.phtml:20
 #: ../view/dashboard-manager/demand/createdomainexclusion.phtml:41
+#: ../view/dashboard-manager/demand/viewbanner.phtml:102
 msgid "Create Domain Exclusion"
 msgstr ""
 
@@ -635,11 +683,12 @@ msgstr ""
 #: ../view/dashboard-manager/demand/dashboard.phtml:78
 #: ../view/dashboard-manager/demand/report.phtml:24
 #: ../view/dashboard-manager/publisher/dashboard.phtml:79
-#: ../view/layout/layout.phtml:110 ../view/layout/layout.phtml:131
+#: ../view/layout/layout.phtml:115 ../view/layout/layout.phtml:138
 msgid "Report"
 msgstr "Báo Cáo "
 
 #: ../view/dashboard-manager/demand/deliveryfilter.phtml:23
+#: ../view/dashboard-manager/demand/viewbanner.phtml:96
 msgid "Edit Delivery Filter"
 msgstr ""
 
@@ -798,6 +847,27 @@ msgstr ""
 msgid "eg. nginad.com - required by RTB [if not known just use the tld of the tag]"
 msgstr ""
 
+#: ../view/dashboard-manager/demand/editcampaign.phtml:51
+msgid "Edit Campaign"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/editcampaign.phtml:141
+msgid "Update Campaign"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/editcampaign.phtml:142
+#: ../view/dashboard-manager/publisher/createdomain.phtml:103
+#: ../view/dashboard-manager/publisher/createdomain.phtml:106
+#: ../view/dashboard-manager/publisher/editdomain.phtml:110
+#: ../view/dashboard-manager/publisher/editdomain.phtml:112
+#: ../view/dashboard-manager/publisher/report.phtml:128
+#: ../view/dashboard-manager/zone/create.phtml:264
+#: ../view/dashboard-manager/zone/create.phtml:266
+#: ../view/dashboard-manager/zone/edit.phtml:276
+#: ../view/dashboard-manager/zone/edit.phtml:278
+msgid "Cancel"
+msgstr "Huỷ"
+
 #: ../view/dashboard-manager/demand/index.phtml:24
 msgid "Campaigns List"
 msgstr ""
@@ -851,6 +921,33 @@ msgstr ""
 #: ../view/dashboard-manager/demand/index.phtml:141
 msgid "No"
 msgstr ""
+
+#: ../view/dashboard-manager/demand/interstitial.phtml:14
+msgid "Your information was saved."
+msgstr ""
+
+#: ../view/dashboard-manager/demand/interstitial.phtml:16
+msgid "Click Here to Return"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/interstitial.phtml:16
+msgid "if your browser doesn't automatically redirect you"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/msaagreement.phtml:19
+#: ../view/dashboard-manager/publisher/msaagreement.phtml:21
+msgid "YOU MUST AGREE TO THE TERMS BEFORE USING THE SERVICE!"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/msaagreement.phtml:23
+#: ../view/dashboard-manager/publisher/msaagreement.phtml:25
+msgid "I Accept the Terms"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/msaagreement.phtml:24
+#: ../view/dashboard-manager/publisher/msaagreement.phtml:26
+msgid "I Do Not Accept"
+msgstr "Tối không đồng ý"
 
 #: ../view/dashboard-manager/demand/report.phtml:34
 #: ../view/dashboard-manager/publisher/report.phtml:34
@@ -939,6 +1036,111 @@ msgstr "Tiền đã chi "
 #: ../view/dashboard-manager/publisher/report.phtml:91
 msgid "Date"
 msgstr "Thời gian "
+
+#: ../view/dashboard-manager/demand/showbanner.phtml:28
+msgid "Banner Preview"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/showbanner.phtml:46
+msgid "Alt Text"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/showbanner.phtml:52
+msgid "Ad delivery type"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/showbanner.phtml:88
+msgid "Device Ad type"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/showbanner.phtml:108
+msgid "Bid amount"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/showbanner.phtml:138
+msgid "Ad tag"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/showbanner.phtml:144
+msgid "Landing page TLD"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/showbanner.phtml:150
+msgid "IAB Audiences Category"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/showbanner.phtml:156
+msgid "GEO Country"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/showbanner.phtml:203
+msgid "In Multiple Nested IFrames"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/showbanner.phtml:320
+msgid "HTTP language"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/showbanner.phtml:338
+msgid "Pmp enable"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/viewbanner.phtml:26
+msgid "PB_ID"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/viewbanner.phtml:28
+msgid "B_ID"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/viewbanner.phtml:32
+msgid "Modify Banner"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/viewbanner.phtml:35
+msgid "Modify Filter"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/viewbanner.phtml:38
+msgid "Modify Exclusion"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/viewbanner.phtml:41
+msgid "Modify Inclusions"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/viewbanner.phtml:47
+msgid "StartDate/EndDate"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/viewbanner.phtml:50
+msgid "Width x Height"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/viewbanner.phtml:53
+msgid "BidAmount ( CPM )"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/viewbanner.phtml:56
+msgid "BidsCounter"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/viewbanner.phtml:59
+msgid "ImpressionsCounter"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/viewbanner.phtml:62
+msgid "CurrentSpend"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/viewbanner.phtml:99
+#: ../view/dashboard-manager/demand/viewbanner.phtml:171
+msgid "Delete Delivery Filter"
+msgstr ""
+
+#: ../view/dashboard-manager/demand/viewbanner.phtml:103
+msgid "View Domain Exclusions"
+msgstr ""
 
 #: ../view/dashboard-manager/publisher/createdomain.phtml:4
 msgid "New Domain"
@@ -1126,18 +1328,6 @@ msgstr ""
 msgid "Create New Domain"
 msgstr "Tạo tên miền mới"
 
-#: ../view/dashboard-manager/publisher/createdomain.phtml:103
-#: ../view/dashboard-manager/publisher/createdomain.phtml:106
-#: ../view/dashboard-manager/publisher/editdomain.phtml:110
-#: ../view/dashboard-manager/publisher/editdomain.phtml:112
-#: ../view/dashboard-manager/publisher/report.phtml:128
-#: ../view/dashboard-manager/zone/create.phtml:264
-#: ../view/dashboard-manager/zone/create.phtml:266
-#: ../view/dashboard-manager/zone/edit.phtml:276
-#: ../view/dashboard-manager/zone/edit.phtml:278
-msgid "Cancel"
-msgstr "Huỷ"
-
 #: ../view/dashboard-manager/publisher/dashboard.phtml:5
 msgid "Publisher's Dashboard"
 msgstr "Trang quản lý Publisher "
@@ -1198,18 +1388,6 @@ msgstr "Đang chạy"
 #: ../view/dashboard-manager/publisher/index.phtml:90
 msgid "IAB Category"
 msgstr "Danh Mục IAB"
-
-#: ../view/dashboard-manager/publisher/msaagreement.phtml:21
-msgid "YOU MUST AGREE TO THE TERMS BEFORE USING THE SERVICE!"
-msgstr ""
-
-#: ../view/dashboard-manager/publisher/msaagreement.phtml:25
-msgid "I Accept the Terms"
-msgstr ""
-
-#: ../view/dashboard-manager/publisher/msaagreement.phtml:26
-msgid "I Do Not Accept"
-msgstr "Tối không đồng ý"
 
 #: ../view/dashboard-manager/publisher/report.phtml:47
 msgid "Income (USD)"
@@ -1428,7 +1606,7 @@ msgid "An error occurred"
 msgstr ""
 
 #: ../view/layout/layout.phtml:91 ../view/layout/layout.phtml:99
-#: ../view/layout/layout.phtml:118
+#: ../view/layout/layout.phtml:125
 msgid "Dashboard"
 msgstr ""
 
@@ -1436,26 +1614,26 @@ msgstr ""
 msgid "Campaign"
 msgstr ""
 
-#: ../view/layout/layout.phtml:126
+#: ../view/layout/layout.phtml:133
 msgid "Domain"
 msgstr ""
 
-#: ../view/layout/layout.phtml:138
+#: ../view/layout/layout.phtml:145
 msgid "Publisher List"
 msgstr ""
 
-#: ../view/layout/layout.phtml:146
+#: ../view/layout/layout.phtml:153
 msgid "Customer List"
 msgstr ""
 
-#: ../view/layout/layout.phtml:160
+#: ../view/layout/layout.phtml:167
 msgid "Account Settings"
 msgstr ""
 
-#: ../view/layout/layout.phtml:167
+#: ../view/layout/layout.phtml:174
 msgid "Logout"
 msgstr ""
 
-#: ../view/layout/layout.phtml:214
+#: ../view/layout/layout.phtml:221
 msgid "All rights reserved."
 msgstr ""
