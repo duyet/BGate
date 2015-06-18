@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `TransactionDetail` (
   `TransactionLogID` int(11) DEFAULT NULL,
   `UserID` int(11) DEFAULT NULL,
   `Type` int(11) NOT NULL DEFAULT '0' COMMENT '0 income, 1 outcome',
-  `Amount` int(11) DEFAULT '0',
+  `Amount` decimal(11,3) DEFAULT '0',
   `Description` text,
   `DateCreated` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `DateUpdated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP

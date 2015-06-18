@@ -1566,9 +1566,32 @@ $().ready(function() {
 			auto_complete_url($(this).attr('name'));
 		})
 	}
+	if($('input').is('input[name="Amount"]')){
+		payment_form_value();
+	}
 	if (window.location.pathname.indexOf("manager/revenue") > -1){
 		loadIncomeAdzone();
 		loadOutcomeAdzone();
 	}
 
 });
+
+function payment_form_value () {
+	function change_url () {
+		var amount = $('#Amount').val();
+		if(Number(amount) > 0){
+			$('#method-payal').removeClass('disabled');
+			$('#method-onepay').removeClass('disabled');
+		}else{
+			$('#method-payal').addClass('disabled');
+			$('#method-onepay').addClass('disabled');
+		}
+		$('#method-payal').attr({'href' : $('#method-payal').attr('data-href')+'?amount='+amount});
+		$('#method-onepay').attr({'href' : $('#method-onepay').attr('data-href')+'?amount='+amount});
+		return true;
+	}
+	$( "#Amount" ).change(change_url());
+	$( "#method-payal" ).click(change_url());
+	$( "#method-onepay" ).click(change_url());
+
+}

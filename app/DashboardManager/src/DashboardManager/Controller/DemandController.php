@@ -4036,6 +4036,16 @@ class DemandController extends DemandAbstractActionController {
 			 'dashboard_view' => 'payment',
 			 'is_admin' => $this->is_admin,
 			 'user_identity' => $this->identity(),
+			 'onepay_url' => $this->url()->fromRoute('payment',
+					array('controller'=>'payment',
+				        'action' => 'onepayvisa',
+				        //'param1' => $Amount
+				        )),
+			'paypal_url' => $this->url()->fromRoute('payment',
+					array('controller'=>'payment',
+				        'action' => 'paypaltransfer',
+				        //'param1' => $Amount
+				        )),
 		));
 
 		// return $view;

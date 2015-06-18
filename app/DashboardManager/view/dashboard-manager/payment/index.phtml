@@ -9,13 +9,44 @@ $this->headScript()->prependFile($this->basePath() . '/static/js/AppTable.js');
 	    </div>
 	</div>
 </div>
+<div class="container-fluid mrg20T ">
+  <div class="row">
+    <div class="panel col-md-10 col-md-offset-1">
+      <div class="panel-body">
+        <div id="payment-form" class="form-horizontal" >
+          <div id="cdn_form_msg" class="alert alert-danger" style="display:none;"><?php echo $this->layout()->_t->translate("Required fields are missing.");?></div>
+          <div class="form-group">
+              <label for="exampleInputEmail1" class="col-sm-2 control-label"><?php echo $this->layout()->_t->translate("Amount");?></label>
+              <div class="col-sm-10">
+              <div class="input-group">
+                <span class="input-group-addon" id="basic-addon1">$</span>
+                 <input type="number" class="form-control" name="Amount" id="Amount" placeholder="Enter Amount" onchange="payment_form_value()">
+              </div>
+               
+              </div>
+            </div>
+          <div class="form-group">
+                <p class="text-center">
+                <a data-href="<?php echo $paypal_url;?>" class="btn btn-default disabled" id="method-payal">
+                  <img src="<?php echo $this->basePath() .'/';?>static/images/payal.svg" alt="payal" style="height:32px">
+                </a>
+                <a data-href="<?php echo $onepay_url;?>" class="btn btn-default disabled" id="method-onepay">
+                  <img src="<?php echo $this->basePath() .'/';?>static/images/onepay.png" alt="onepay" style="height:32px">
+                </a>
+                </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
   <div class="container-fluid">
     <div class="row mrg20T">
       <div id="revenue-overview" class="col-md-10 col-md-offset-1 panel pad20T">
-        <p class="underline mrg0T" style="padding-bottom: 3px;">
-          <span class="admin-titles"><?php echo $this->layout()->_t->translate("Overview");?> </span>
-            <select id="time-filter" onchange="ReportDemandTable.reload_table()">
+        <p class="underline mrg0T" style="padding-bottom: 3px;">          
+        <span class="admin-titles"><?php echo $this->layout()->_t->translate("Transaction log");?> </span>
+            <select id="time-filter" onchange="PaymentTable.reload_table()">
               <option selected value><?php echo $this->layout()->_t->translate("All time");?></option>
               <option value="0"><?php echo $this->layout()->_t->translate("Today");?></option>
               <option value="1"><?php echo $this->layout()->_t->translate("Yesterday");?></option>
@@ -24,95 +55,36 @@ $this->headScript()->prependFile($this->basePath() . '/static/js/AppTable.js');
               <option value="4"><?php echo $this->layout()->_t->translate("This month");?></option>
               <option value="5"><?php echo $this->layout()->_t->translate("Last month");?></option>
               <option value="6"><?php echo $this->layout()->_t->translate("This year");?></option>
-        </select> 
+            </select> 
         </p>
         <div class="">
-            <div class="table-filter">
-      <!-- <div class="col-sm-4">
-        Status:
-        <select id="publishers-status" onchange="PublishersTable.reload_table()">
-          <option value="0"><?php echo $this->layout()->_t->translate("All");?></option>
-          <option value="false"><?php echo $this->layout()->_t->translate("Pending approval");?></option>
-          <option value="true"><?php echo $this->layout()->_t->translate("Approved");?></option>
-        </select>
-      </div> -->
-    </div>
-
-            <table id="payment-table" class="table table-striped table-bordered table-margin" data-url="<?php echo $this->basePath() ?>/payment/paymentinit">
-          <thead>
-            <tr>
-           <th>
-				<?php echo $this->layout()->_t->translate("ID");?>
-           </th>
-           <th>
-                <?php echo $this->layout()->_t->translate("TransactionLogID");?>
-           </th>
-           <!-- <th>
-                <?php echo $this->layout()->_t->translate("UserID");?>
-           </th> -->
-           <th>
-            	<?php echo $this->layout()->_t->translate("Type");?>
-           </th>
-            <th>
-            	<?php echo $this->layout()->_t->translate("Amount");?>
-           </th>
-           <th>
-           	    <?php echo $this->layout()->_t->translate("Description");?>
-           </th>
-           <th>
-           	    <?php echo $this->layout()->_t->translate("DateCreated");?>
-           </th>
-           </tr>
-           </thead>
-
-           </table>
+          <table id="payment-table" class="table table-striped table-bordered table-margin" data-url="<?php echo $this->basePath() ?>/payment/paymentinit">
+            <thead>
+              <tr>
+               <th>
+    				      <?php echo $this->layout()->_t->translate("ID");?>
+               </th>
+               <th>
+                  <?php echo $this->layout()->_t->translate("Payment Method");?>  
+               </th>
+               <th>
+                	<?php echo $this->layout()->_t->translate("Type");?>	
+               </th>
+                <th>
+                	<?php echo $this->layout()->_t->translate("Amount");?>
+               </th>
+               <th>
+               	  <?php echo $this->layout()->_t->translate("Description");?>  
+               </th>
+               <th>
+               	  <?php echo $this->layout()->_t->translate("DateCreated");?>  
+               </th>
+              </tr>
+            </thead>
+          </table>
         </div>
         <br>
       </div>
 
     </div>
   </div>
-
-<div class="container-fluid mrg20T ">
-	<div class="row">
-		<div class="panel col-md-10 col-md-offset-1">
-			<div class="panel-body">
-
-				<form id="payment-form" class="form-horizontal" method="post">
-					<div id="cdn_form_msg" class="alert alert-danger" style="display:none;"><?php echo $this->layout()->_t->translate("Required fields are missing.");?></div>
-					<div class="form-group">
-					    <label for="exampleInputEmail1" class="col-sm-2 control-label"><?php echo $this->layout()->_t->translate("Amount");?></label>
-					    <div class="col-sm-10">
-					    	<input type="number" class="form-control" name="Amount" id="Amount" placeholder="Enter Amount">
-					    </div>
-					  </div>
-					<div class="form-group">
-					    <label for="exampleInputEmail1" class="col-sm-2 control-label"><?php echo $this->layout()->_t->translate("Method");?></label>
-						<div class="col-sm-10">
-							<div class="radio">
-								<label>
-								    <input type="radio" name="method" id="method-payal" value="0" checked>
-								    <?php echo $this->layout()->_t->translate("payal");?>
-								</label>
-							</div>
-							<div class="radio">
-								<label>
-								    <input type="radio" name="method" id="method-onepay" value="1">
-								    <?php echo $this->layout()->_t->translate("onepay");?>
-								</label>
-							</div>
-						</div>
-					</div>
-					<hr>
-					<div class="form-group text-center">
-					    <div class="controls">
-					        <button name="submit" type="submit" class="btn btn-primary btn-margin" id="submitbutton"><?php echo $this->layout()->_t->translate("Payment");?></button> 
-					        <a href="http://localhost/bgate/manager/index" class="btn btn-margin"><?php echo $this->layout()->_t->translate("Cancel");?></a>
-					    </div>
-					</div>
-
-				</form>
-			</div>
-		</div>
-	</div>
-</div>

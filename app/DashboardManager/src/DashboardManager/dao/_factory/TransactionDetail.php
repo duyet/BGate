@@ -71,13 +71,27 @@ class TransactionDetail extends \_factory\CachedTableRead
      * @param string $params
      * @return multitype:Ambigous <\Zend\Db\ResultSet\ResultSet, NULL, \Zend\Db\ResultSet\ResultSetInterface>
      */
-    public function get($params = null, $orders = null) {
+    //public function get($params = null, $orders = null) {
+    public function get($params = null, $orders = null, $search = null, $limit = null, $offset = 0, $flag = NULL ) {
         	// http://files.zend.com/help/Zend-Framework/zend.db.select.html
-
         $obj_list = array();
+        $resultSet = $this->select(function (\Zend\Db\Sql\Select $select) use ($params, $orders, $search, $limit, $offset, $flag) {
+        		
+                if ($flag != null):
+                    $condition = $this->getConditionByFlag(intval($flag));
+                    $select->where($condition);
+                endif;
 
-    	$resultSet = $this->select(function (\Zend\Db\Sql\Select $select) use ($params, $orders) {
-        		if($params != null):
+                if ($search != null):
+                  $select->where
+                          ->nest
+                            ->like("AdCampaignPreview.Name", "%". $search ."%" )
+                            ->or
+                            ->equalTo("AdBannerDailyTrackerID", (int) $search) 
+                          ->unnest;
+                endif;
+
+                if($params != null):
 	        		foreach ($params as $name => $value):
 	        		$select->where(
 	        				$select->where->equalTo($name, $value)
@@ -90,6 +104,11 @@ class TransactionDetail extends \_factory\CachedTableRead
         		else:
         		  $select->order($orders);
         		endif;
+
+                if ($limit != null):
+                  $select->limit($limit);
+                  $select->offset($offset);
+                endif;
 
         	}
     	);
@@ -165,5 +184,48 @@ class TransactionDetail extends \_factory\CachedTableRead
 
     public function deleteTransactionDetail($ID) {
     	return $this->delete(array('ID' => $ID));
+    }
+
+    function getConditionByFlag($flag)
+    {
+        $condition = array();
+        switch ($flag) {
+          case 0:
+            //Today
+            $condition = 'DATEDIFF(DateCreated,NOW()) = 0';  
+            break;
+          case 1:
+            //Yesterday
+            $condition = 'DATEDIFF(DateCreated,NOW()) = -1';
+            break;
+          case 2:
+            //This week
+            $condition = 'YEARWEEK(DateCreated) - YEARWEEK(NOW()) = 0';
+            break;
+          case 3:
+            //Last week
+            $condition = 'YEARWEEK(DateCreated) - YEARWEEK(NOW()) = -1';   
+            break;
+          case 4:
+            //This month
+            $condition = 'MONTH(DateCreated) - MONTH(NOW()) = 0 AND YEAR(DateCreated) = YEAR(NOW())'; 
+            break;
+          case 5:
+            //Last month
+            $condition = 'MONTH(DateCreated) - MONTH(NOW()) = -1 AND YEAR(DateCreated) = YEAR(NOW())'; 
+            break;
+          case 6:
+            //This year
+            $condition = 'YEAR(DateCreated) = YEAR(NOW())'; 
+            break; 
+          case 7:
+            //This year
+            $condition = 'YEAR(DateCreated) = YEAR(NOW())'; 
+            break;             
+          default:
+            $condition = array();
+            break;
+        }
+        return $condition;
     }
 };

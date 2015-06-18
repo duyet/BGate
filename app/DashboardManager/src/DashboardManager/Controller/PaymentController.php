@@ -77,7 +77,7 @@ class PaymentController extends DemandAbstractActionController {
 		$user_id = $this->auth->getUserID();
 		$user_login = $userData->user_login;
 
-		$Amount = $this->getEvent()->getRouteMatch()->getParam('param1');
+		$Amount = $this->getRequest()->getQuery('amount');//$this->getEvent()->getRouteMatch()->getParam('amount');
 
 		//setup config object
 		$paypalRequest = $this->initPaypal();
@@ -94,16 +94,12 @@ class PaymentController extends DemandAbstractActionController {
 
 		$port = intval($uri->getPort());
 		$url_base = $uri->getScheme() . '://' . $uri->getHost();
-		//if($port !== 80):
-			//$url_base = $uri->getScheme() . '://' . $uri->getHost() . ':' . $port;
-		//endif;
 		$returnUrl = $url_base . $this->url()->fromRoute('payment',
 					array('controller'=>'payment',
 				        'action' => 'returnpaypal'));
 		$cancelUrl = $url_base . $this->url()->fromRoute('payment',
 					array('controller'=>'payment',
 				        'action' => 'cancelpaypal'));
-		//var_dump(expression)
 		$express->setReturnUrl($returnUrl);
 		$express->setCancelUrl($cancelUrl);
 		$response = $paypalRequest->send($express);
@@ -152,8 +148,7 @@ class PaymentController extends DemandAbstractActionController {
 	public function returnpaypalAction()
 	{
 		$request = $this->getRequest();
-		// var_dump($request->isGet());
-		// 			die('getRequest');
+
 		if ($request->isGet()):
 			$token		   = $request->getQuery('token');
 			$payerId       = $request->getQuery('PayerID');
@@ -162,8 +157,7 @@ class PaymentController extends DemandAbstractActionController {
 			$details = new \SpeckPaypal\Request\GetExpressCheckoutDetails(array('token' => $token));
 			$response = $paypalRequest->send($details);
 			$details_arr = $response->toArray();
-			//var_dump($response_arr);
-			//die('getRequest');
+
 			$doAuthorize = new \SpeckPaypal\Request\DoAuthorize(array(
 				'transactionId' => '6H9860437V720670R',
 				'amt' => $details_arr['AMT'],
@@ -204,9 +198,9 @@ class PaymentController extends DemandAbstractActionController {
 				if(empty($TransactionLog->ResponseURL)):
 					$uri = new \Zend\Uri\Uri($this->getRequest()->getUri());
 
-					$TransactionLog->RequestURL =  $uri;
-					$TransactionLog->RequestIP =  $_SERVER ['REMOTE_ADDR'];
-					$TransactionLog->RequestTime =  $response_arr["TIMESTAMP"];
+					$TransactionLog->ResponseURL =  $uri;
+					$TransactionLog->ResponseIP =  $_SERVER ['REMOTE_ADDR'];
+					$TransactionLog->ResponseTime =  $response_arr["TIMESTAMP"];
 					$TransactionLog->Status = 1;
 					
 					$TransactionLog->HashValidated =  $response_arr['ACK'];
@@ -243,9 +237,6 @@ class PaymentController extends DemandAbstractActionController {
 				        'action' => 'resultpayment',
 				        'param1' => $TransactionLog->ID));
 			endif;
-
-                // var_dump ($result);
-			// die();
 		else:
 			return $this->notFoundAction ();
 		endif;
@@ -285,11 +276,7 @@ class PaymentController extends DemandAbstractActionController {
 		if ($initialized !== true) return $initialized;
 		$success_msg = null;
 
-		$ID = $this->getEvent()->getRouteMatch()->getParam('param1');
-
-
-        //$encryptExt = new encryptExt;
-        //$record = BdaVisa::model()->findByPk($encryptExt->decrypt($id));
+		$ID = $this->getRequest()->getQuery('amount');
 
         $uri = new \Zend\Uri\Uri($this->getRequest()->getUri());
 
@@ -313,7 +300,7 @@ class PaymentController extends DemandAbstractActionController {
             $usd = $this->get_exchange_rates('USD');
             $infopayment = $this->config_handle['settings']['onepay_conf'];
 
-            $square =  $squareUrl.//$this->createUrl('onepay/transferinternational'). 
+            $square =  $squareUrl.
                 "?Title=" . $infopayment['title'].
                 '&vpc_TicketNo=' . $_SERVER ['REMOTE_ADDR'].
                 "&virtualPaymentClientURL=" . $infopayment['url'].
@@ -321,13 +308,12 @@ class PaymentController extends DemandAbstractActionController {
                 "&vpc_AccessCode=" . $infopayment['accesscode'].
                 "&vpc_MerchTxnRef=" .  md5(rand()).
                 "&vpc_OrderInfo=" . 'BGATE-'.$user_id .'-'.date("YmdHis").'-'.$ID.
-                "&vpc_Amount=" . (intval($ID)*intval($usd)*100).
-                "&vpc_ReturnURL=" . $returnUrl .//(Yii::app()->request->hostInfo).($this->createUrl('onepay/feedinternational')).//"http://localhost:800/bda/quocte_php/dr.php" .
+                "&vpc_Amount=" . (1.0*($ID)*($usd)*100).
+                "&vpc_ReturnURL=" . $returnUrl .
                 "&vpc_Version=" . $infopayment['version'] .
                 "&vpc_Command=" . $infopayment['command'] .
                 "&vpc_Locale=" . $infopayment['locale'] ;
             return $this->redirect()->toUrl($square);
-            //$this->redirect($square);
         else:
             return $this->notFoundAction ();
         endif;
@@ -356,13 +342,11 @@ class PaymentController extends DemandAbstractActionController {
 					array('controller'=>'payment',
 				        'action' => 'transferonepayvisa'));
 
-
-        //$infopayment = Yii::app()->params['onepay_conf'];
         $infopayment = $this->config_handle['settings']['onepay_conf'];
         $SECURE_SECRET = $infopayment['securehash'];
         $vpcURL = $_GET["virtualPaymentClientURL"] . "?";
         unset($_GET["virtualPaymentClientURL"]); 
-        $_GET['AgainLink']= $AgainLink;//(Yii::app()->request->hostInfo).($this->createUrl('onepay/transferinternational'));
+        $_GET['AgainLink']= $AgainLink;
         $md5HashData = "";
         ksort ($_GET);
         $appendAmp = 0;
@@ -383,31 +367,6 @@ class PaymentController extends DemandAbstractActionController {
         if (strlen($SECURE_SECRET) > 0) {
             $vpcURL .= "&vpc_SecureHash=" . strtoupper(hash_hmac('SHA256', $md5HashData, pack('H*',$SECURE_SECRET)));
         }
-        // $vpc_MerchTxnRef = $_GET['vpc_MerchTxnRef'];
-        // $ip = $_GET['vpc_TicketNo'];
-        // $vpc_DO_ip = $_SERVER ['REMOTE_ADDR'];
-        // $vpc_DO = $vpcURL;
-
-        // $invoice_id = (explode("-",$_GET['vpc_OrderInfo']));
-        // $invoice = BdaInvoice::model()->find(array('condition' => 't.number = '.$invoice_id[1]));
-        // $invoice->status = 1;
-        // $invoice->update(array('status'));
-
-        // $condition = BdaCondition::model()->find(array('condition' => 't.key = "progress"'));
-        // $visa = BdaVisa::model()->findByPk($invoice->visa_id);
-        // $visa->status = $condition->id;
-        // $visa->update(array('status'));
-
-        // $payment = new BdaPayment;
-        // $payment->visa_id = $invoice->visa_id;
-        // $payment->vpc_DO = $vpc_DO;
-        // $payment->vpc_DO_ip = $vpc_DO_ip;
-        // $payment->vpc_DO_time = date('Y-m-d H:i:s');
-        // $payment->ip = $ip;
-        // $payment->vpc_MerchTxnRef = $vpc_MerchTxnRef;
-        // $payment->status = 1;
-        // $payment->type = 1;
-        // $payment->save();
 
         // $this->redirect($vpcURL);
         $TransactionLog = new \model\TransactionLog();
@@ -417,7 +376,7 @@ class PaymentController extends DemandAbstractActionController {
 		$TransactionLog->RequestURL = $vpcURL;
 		$TransactionLog->RequestIP = $_SERVER ['REMOTE_ADDR'];
 		$TransactionLog->RequestTime = date("Y-m-d H:i:s");
-		$TransactionLog->MerchTxnRef = $_GET['vpc_MerchTxnRef'];//$token;
+		$TransactionLog->MerchTxnRef = $_GET['vpc_MerchTxnRef'];
 		$TransactionLog->IP = $_SERVER ['REMOTE_ADDR'];
 		$TransactionLog->Type = 1;
 		$TransactionLog->Status = 0;
@@ -427,8 +386,6 @@ class PaymentController extends DemandAbstractActionController {
         return $this->redirect()->toUrl($vpcURL);
     }
     public function feedonepayvisaAction(){
-    	
-        //$infopayment = Yii::app()->params['onepay_conf'];
         $initialized = $this->initialize();
 		if ($initialized !== true) return $initialized;
 
@@ -440,9 +397,6 @@ class PaymentController extends DemandAbstractActionController {
 
         $vpc_OrderInfo = $_GET["vpc_OrderInfo"];
         $info_arr  = explode("-", $vpc_OrderInfo);
-        //var_dump($vpc_OrderInfo);
-    	//var_dump($info_arr);
-    	//die('feedonepayvisa');
 
         $infopayment = $this->config_handle['settings']['onepay_conf'];
         $SECURE_SECRET = $infopayment['securehash'];
@@ -472,14 +426,9 @@ class PaymentController extends DemandAbstractActionController {
             $vpc_DR_ip = $_SERVER ['REMOTE_ADDR'];;
             $vpc_DR = (!empty($_SERVER['HTTPS'])) ? "https://".$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'] : "http://".$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'];
 
-            
-
             $response_code=$_GET["vpc_TxnResponseCode"];
-            //$payExt = new payExt;
             $response_description = $this->get_onepay_response_description($response_code);
-
-            //$invoice_id = (explode("-",$_GET['vpc_OrderInfo']));
-            //$invoice = BdaInvoice::model()->find(array('condition' => 't.number = '.$invoice_id[1]));            
+       
             $TransactionLogFactory = \_factory\TransactionLog::get_instance();
 			$TransactionLog = $TransactionLogFactory->get_row_object(array(
 				"MerchTxnRef" => $vpc_MerchTxnRef,
@@ -500,19 +449,6 @@ class PaymentController extends DemandAbstractActionController {
                 $transStatus = "Transaction is pending";
             }
 
-            // $payment = BdaPayment::model()->find(array(
-            //     'condition' => 't.vpc_MerchTxnRef = "'.$vpc_MerchTxnRef.'"'
-            // ));
-            // $payment->vpc_DR = $vpc_DR;
-            // $payment->vpc_DR_ip = $vpc_DR_ip;
-            // $payment->vpc_DR_time = date('Y-m-d H:i:s');
-            // $payment->hashValidated = $hashValidated;
-            // $payment->response_code = $response_code;
-            // $payment->response_description = $response_description;
-            // $payment->result = $transStatus;
-            // $payment->status = 2;
-            // $payment->update(array('vpc_DR','vpc_DR_ip', 'vpc_DR_time', 'hashValidated', 'status', 'response_code', 'response_description', 'result'));
-
             $TransactionLog->ResponseURL =  $vpc_DR;
 			$TransactionLog->ResponseIP =  $vpc_DR_ip;
 			$TransactionLog->ResponseTime =  date('Y-m-d H:i:s');
@@ -529,33 +465,8 @@ class PaymentController extends DemandAbstractActionController {
 				        'action' => 'resultpayment',
 				        'param1' => $TransactionLog->ID));
 
-			// $TransactionDetail = new \model\TransactionDetail();
-			// $TransactionDetailFactory = \_factory\TransactionDetail::get_instance();
-			// $TransactionDetail->TransactionLogID = $TransactionLog->ID;
-			// $TransactionDetail->UserID = $user_id;
-			// $TransactionDetail->Type = 0;
-			// $TransactionDetail->Amount = $details_arr['AMT'];
-			// $TransactionDetail->Description = $details_arr['DESC'];
-			// $TransactionDetailFactory->saveTransactionDetail($TransactionDetail);
-
-
-            //$encryptExt = new encryptExt;
-            // if($hashValidated=="CORRECT" && $response_code=="0"){
-            //     $emailExt = new emailExt;
-            //     $re = $emailExt->send_mail_by_key('payment_succesfull', $invoice->visa_id);
-            //     $this->redirect($this->createUrl('/payment-succesfull'). 
-            //         '/' . $encryptExt->encrypt($payment->id)
-            //     );
-            // }else{
-            //     $emailExt = new emailExt;
-            //     $re = $emailExt->send_mail_by_key('not_payment', $invoice->visa_id);
-            //     $this->redirect($this->createUrl('/payment-not-succesfull'). 
-            //         '/' . $encryptExt->encrypt($payment->id)
-            //     );
-            // }
         }else{
         	return $this->notFoundAction ();
-            //$this->render('error', array('message' => 'The server could not find what was requested', 'code' => 404));
         }
     }
     public function get_exchange_rates($currency_code = 'USD')
@@ -671,33 +582,48 @@ class PaymentController extends DemandAbstractActionController {
     {
     	$initialized = $this->initialize();
 		if ($initialized !== true) return $initialized;
-		
-		$authUsers = new \model\authUsers();
-		$authUsersFactory = \_factory\authUsers::get_instance();
-		
-		$userData = $authUsersFactory->get_row(array("user_id" => $this->auth->getUserID()));
-		
-		// if (!$this->is_admin) :
-  //    		return $this->redirect()->toRoute($this->dashboard_home);
-		// endif;
 
-		$TransactionDetail = new \model\TransactionDetail();
+		// Set the parameters to empty first.
+		$params = NULL; 
+
+		// sort map array
+		$SortMap = array(
+			"0"=> "id", 
+			// "2" => "TransactionLogID",  
+			"2" => "Type",
+			"3"=> "Amount", 
+			"4"=> "Description", 
+			"5" => "DateCreated", 
+		);
+		$OrderArr = $this->getRequest()->getQuery("order");
+		$order = $SortMap[$OrderArr[0]["column"]] . " " . strtoupper($OrderArr[0]["dir"]);
+
+		// get search value
+		$search = NULL ;
+		// pagination value
+		$PageSize = (int) $this->getRequest()->getQuery("length");
+		$Offset =   (int) $this->getRequest()->getQuery("start");
+
 		$TransactionDetailFactory = \_factory\TransactionDetail::get_instance();
 		$TransactionLogFactory = \_factory\TransactionLog::get_instance();
 
-		$orders = 'DateCreated DESC'; 	    
-		$variable = $TransactionDetailFactory->get(null, $orders);
+		$flag = $this->getRequest()->getQuery("timeFilter");
+
+
+		// $orders = 'DateCreated DESC'; 	    
+		$variable = $TransactionDetailFactory->get($params, $order, $search, $PageSize, $Offset, $flag);
+
 		$detail = array();
 		foreach ($variable as $value) {
 			$log =  $TransactionLogFactory->get_row(array("ID" => $value->TransactionLogID));
 			array_push($detail, array_merge((array)$value, array('log' => $log )));
 		}
+		$recordsTotal = $TransactionDetailFactory->get();
 		header('Content-type: application/json');
 		echo json_encode(array(
-			"recordsTotal" => count($detail), 
-			"recordsFiltered" => count($detail) , 
+			"recordsTotal" => count($recordsTotal), 
+			"recordsFiltered" => count($recordsTotal) , 
 			'data' => $detail));
-
 		die;
     }
 }

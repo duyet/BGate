@@ -819,7 +819,7 @@ var PaymentTable = {
         "processing": true,
         "bLengthChange": false,
         "bFilter": false,
-        //"serverSide": true,
+        "serverSide": true,
         "iDisplayLength": 10,
         // "scrollX": true,
         "dom": '<"row" <"col-sm-8 custom-filter"> <"col-sm-4" f> >r<"datatable-wrapper" t> <"row mrg20B" <"col-sm-6" il> <"col-sm-6"p> >',
@@ -828,11 +828,11 @@ var PaymentTable = {
         "ajax": {
           url: self.source_path,
           data: function(d){
-            d.approval = $("#publishers-status option:selected").val();
+            d.timeFilter = $("#time-filter option:selected").val();
           }
         },
         "aoColumnDefs": [
-         { bSortable: false, 'aTargets': [ 0,2 ] },    
+         { bSortable: false, 'aTargets': [ 1 ] },    
         ],
         "columns": [
             { "data": "id", className: "text-center" },
@@ -847,7 +847,6 @@ var PaymentTable = {
                 }
               }
             },
-            // { "data": "UserID" },
             { 
               "data": "Type", 
               render: function ( data, type, row ) {
@@ -859,35 +858,20 @@ var PaymentTable = {
                 }
               }
             },
-            { "data": "Amount" },
+            { "data": "Amount" ,
+              render: function ( data, type, row ) {
+                return '$'+data;
+              }
+            },
             { "data": "Description",
-              // render: function ( data, type, row ) {
-              //   console.log('render', data,type,  row);
-              //   if( row.approval == true || row.approval== 'true'){
-              //     return '<a target="_blank" href="'+basePath+'/websites/list/'+row.PublisherInfoID+'" style="color:#0088cc;">View</a>';
-              //   }else{
-              //     return row.Domain;
-              //   }
-              // }
             },
             { "data": "DateCreated" ,
-              // render : function(data, type, row){
-              //   if(row.approval==true || row.approval== 'true'                             ){
-              //     return '<span class="label label-success">Approved</span>'
-              //     +'&nbsp;|&nbsp;'
-              //    +'<a href="javascript:void(0);" onclick="userBanModal('+row.PublisherInfoID+','+"'"+row.Name+"'"+');">Ban</a>';
-              //   }else{
-              //     return '<a href="javascript:void(0);" onclick="userAcceptModal('+row.PublisherInfoID+','+"'"+row.Name+"'"+');">Approve</a>'
-              //    +'&nbsp;|&nbsp;'
-              //    +'<a href="javascript:void(0);" onclick="userRejectionModal('+row.PublisherInfoID+','+"'"+row.Name+"'"+');">Reject</a>';
-              //   }
-              // }
             },
         ],
         initComplete: function () {
         },
         fnDrawCallback: function(data){
-          console.log(data.json);
+          //console.log(data.json);
           return data;
         }
     });
