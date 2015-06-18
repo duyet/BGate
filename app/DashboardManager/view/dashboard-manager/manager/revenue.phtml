@@ -22,7 +22,7 @@ $effective_user_in_dashboard = false;
 <div class="docs-header">
   <div class="topic container-fluid">
     <div class="row">
-      <div class="col-md-5 col-md-offset-1 col-sm-5 col-sm-offset-1 col-xs-6"><h4>Revenue Report  </h4></div>
+      <div class="col-md-5 col-md-offset-1 col-sm-5 col-sm-offset-1 col-xs-6"><h4><?php echo $this->layout()->_t->translate("Revenue Report");?>  </h4></div>
     </div>
   </div>
 </div>
@@ -33,22 +33,22 @@ $effective_user_in_dashboard = false;
     <div class="row mrg20T">
       <div id="revenue-overview" class="col-md-10 col-md-offset-1 panel pad20T">
         <p class="underline mrg0T" style="padding-bottom: 3px;">
-          <span class="admin-titles">Revenue Overview </span>
+          <span class="admin-titles"><?php echo $this->layout()->_t->translate("Revenue Overview");?> </span>
             <select id="income-time" onchange="IncomeTable.reload_table(); OutcomeTable.reload_table(); loadIncomeAdzone(); loadOutcomeAdzone();">
-              <option value>All time</option>
-              <option value="0">Today</option>
-              <option value="1">Yesterday</option>
-              <option value="2">This week</option>
-              <option value="3">Last week</option>
-              <option value="4">This month</option>
-              <option value="5">Last month</option>
-              <option value="6">This year</option>
+              <option value><?php echo $this->layout()->_t->translate("All time");?></option>
+              <option value="0"><?php echo $this->layout()->_t->translate("Today");?></option>
+              <option value="1"><?php echo $this->layout()->_t->translate("Yesterday");?></option>
+              <option value="2"><?php echo $this->layout()->_t->translate("This week");?></option>
+              <option value="3"><?php echo $this->layout()->_t->translate("Last week");?></option>
+              <option value="4"><?php echo $this->layout()->_t->translate("This month");?></option>
+              <option value="5"><?php echo $this->layout()->_t->translate("Last month");?></option>
+              <option value="6"><?php echo $this->layout()->_t->translate("This year");?></option>
             </select>
         </p>
         <div class="row">
-          <div class="col-sm-3">Income: <strong>$<span id="outcome-value"></span></strong></div>
+          <div class="col-sm-3"><?php echo $this->layout()->_t->translate("Income");?>: <strong>$<span id="outcome-value"></span></strong></div>
           <div class="col-sm-3"><a id="income-action" onclick="viewIncomeList();" href="javascript:void(0);"></a></div>
-          <div class="col-sm-3">Outcome: <strong>$<span id="income-value"></span></strong></div>
+          <div class="col-sm-3"><?php echo $this->layout()->_t->translate("Outcome");?>: <strong>$<span id="income-value"></span></strong></div>
         </div>
         <br>
       </div>
@@ -59,17 +59,17 @@ $effective_user_in_dashboard = false;
   <div class="container-fluid">
     <div class="row mrg20T">
       <div id="outcome-list" class="col-md-10 col-md-offset-1 panel pad20T">
-        <h4 class="underline mrg0T">System Income List</h4>
+        <h4 class="underline mrg0T"><?php echo $this->layout()->_t->translate("System Income List");?></h4>
         <table class="table table-hover table-striped table-bordered table-margin" data-url="<?php echo $this->basePath() ?>/manager/outcomelist" id="outcome-table">
           <thead>
             <tr >
               <th class="text-center">#</th>
-              <th class="text-center">Time</th>
-              <th class="text-center">Campaign Name</th>
-              <th class="text-center">Banner Name</th>
-              <th class="text-center">Click Count</th>
-              <th class="text-center">Imp Count</th>
-              <th class="text-center">Income</th>
+              <th class="text-center"><?php echo $this->layout()->_t->translate("Time");?></th>
+              <th class="text-center"><?php echo $this->layout()->_t->translate("Campaign Name");?></th>
+              <th class="text-center"><?php echo $this->layout()->_t->translate("Banner Name");?></th>
+              <th class="text-center"><?php echo $this->layout()->_t->translate("Click Count");?></th>
+              <th class="text-center"><?php echo $this->layout()->_t->translate("Imp Count");?></th>
+              <th class="text-center"><?php echo $this->layout()->_t->translate("Income");?></th>
             </tr>
           </thead>
         </table>
@@ -80,17 +80,17 @@ $effective_user_in_dashboard = false;
   <div class="container-fluid">
     <div class="row mrg20T">
       <div id="income-list" class="col-md-10 col-md-offset-1 panel pad20T">
-        <h4 class="underline mrg0T">System Outcome List</h4>
+        <h4 class="underline mrg0T"><?php echo $this->layout()->_t->translate("System Outcome List");?></h4>
         <table class="table table-hover table-striped table-bordered table-margin" data-url="<?php echo $this->basePath() ?>/manager/incomelist" id="income-table">
           <thead>
             <tr >
               <th class="text-center">#</th>
-              <th class="text-center">Time</th>
-              <th class="text-center">Domain</th>
-              <th class="text-center">AdZone Name</th>
-              <th class="text-center">Click Count</th>
-              <th class="text-center">Imp Count</th>
-              <th class="text-center">Outcome</th>
+              <th class="text-center"><?php echo $this->layout()->_t->translate("Time");?></th>
+              <th class="text-center"><?php echo $this->layout()->_t->translate("Domain");?></th>
+              <th class="text-center"><?php echo $this->layout()->_t->translate("AdZone Name");?></th>
+              <th class="text-center"><?php echo $this->layout()->_t->translate("Click Count");?></th>
+              <th class="text-center"><?php echo $this->layout()->_t->translate("Imp Count");?></th>
+              <th class="text-center"><?php echo $this->layout()->_t->translate("Outcome");?></th>
             </tr>
           </thead>
         </table>
