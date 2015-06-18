@@ -1,10 +1,10 @@
 <?php echo $menu_tpl; ?>
 
 <div>
-    Select interval
+    <?php echo $this->layout()->_t->translate("Select interval");?>
     <select id="interval_type">
-        <option value="0" selected>12 Hours</option>
-        <option value="1">set the interval</option>
+        <option value="0" selected><?php echo $this->layout()->_t->translate("12 Hours");?></option>
+        <option value="1"><?php echo $this->layout()->_t->translate("set the interval");?></option>
     </select>
 
     <div id="datetimepicker1" class="input-append date datetimepicker">
@@ -30,7 +30,7 @@
 
 <div id="report_list">
     <div class="step_navigation">
-        <a href="#" data-step="2" class="step_btn">Prev 12 Hours</a>
+        <a href="#" data-step="2" class="step_btn"><?php echo $this->layout()->_t->translate("Prev 12 Hours");?></a>
     </div>
 
     <table>
@@ -58,7 +58,7 @@
     </table>
 
     <div class="step_navigation">
-        <a href="#" data-step="2" class="step_btn">Prev 12 Hours</a>
+        <a href="#" data-step="2" class="step_btn"><?php echo $this->layout()->_t->translate("Prev 12 Hours");?></a>
 
     </div>
 </div>

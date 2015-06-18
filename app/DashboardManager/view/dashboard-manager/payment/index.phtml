@@ -5,7 +5,7 @@ $this->headScript()->prependFile($this->basePath() . '/static/js/AppTable.js');
 <div class="docs-header">
 	<div class="topic">
 	    <div class="container">
-	        <div ><h4>Payment</h4></div>
+	        <div ><h4><?php echo $this->layout()->_t->translate("Payment");?></h4></div>
 	    </div>
 	</div>
 </div>
@@ -14,16 +14,16 @@ $this->headScript()->prependFile($this->basePath() . '/static/js/AppTable.js');
     <div class="row mrg20T">
       <div id="revenue-overview" class="col-md-10 col-md-offset-1 panel pad20T">
         <p class="underline mrg0T" style="padding-bottom: 3px;">
-          <span class="admin-titles">Overview </span>
+          <span class="admin-titles"><?php echo $this->layout()->_t->translate("Overview");?> </span>
             <select id="time-filter" onchange="ReportDemandTable.reload_table()">
-              <option selected value>All time</option>
-              <option value="0">Today</option>
-              <option value="1">Yesterday</option>
-              <option value="2">This week</option>
-              <option value="3">Last week</option>
-              <option value="4">This month</option>
-              <option value="5">Last month</option>
-              <option value="6">This year</option>
+              <option selected value><?php echo $this->layout()->_t->translate("All time");?></option>
+              <option value="0"><?php echo $this->layout()->_t->translate("Today");?></option>
+              <option value="1"><?php echo $this->layout()->_t->translate("Yesterday");?></option>
+              <option value="2"><?php echo $this->layout()->_t->translate("This week");?></option>
+              <option value="3"><?php echo $this->layout()->_t->translate("Last week");?></option>
+              <option value="4"><?php echo $this->layout()->_t->translate("This month");?></option>
+              <option value="5"><?php echo $this->layout()->_t->translate("Last month");?></option>
+              <option value="6"><?php echo $this->layout()->_t->translate("This year");?></option>
         </select> 
         </p>
         <div class="">
@@ -31,9 +31,9 @@ $this->headScript()->prependFile($this->basePath() . '/static/js/AppTable.js');
       <!-- <div class="col-sm-4">
         Status:
         <select id="publishers-status" onchange="PublishersTable.reload_table()">
-          <option value="0">All</option>
-          <option value="false">Pending approval</option>
-          <option value="true">Approved</option>
+          <option value="0"><?php echo $this->layout()->_t->translate("All");?></option>
+          <option value="false"><?php echo $this->layout()->_t->translate("Pending approval");?></option>
+          <option value="true"><?php echo $this->layout()->_t->translate("Approved");?></option>
         </select>
       </div> -->
     </div>
@@ -42,25 +42,25 @@ $this->headScript()->prependFile($this->basePath() . '/static/js/AppTable.js');
           <thead>
             <tr>
            <th>
-				ID
+				<?php echo $this->layout()->_t->translate("ID");?>
            </th>
            <th>
-                TransactionLogID
+                <?php echo $this->layout()->_t->translate("TransactionLogID");?>
            </th>
            <!-- <th>
-                UserID
+                <?php echo $this->layout()->_t->translate("UserID");?>
            </th> -->
            <th>
-            	Type	
+            	<?php echo $this->layout()->_t->translate("Type");?>
            </th>
             <th>
-            	Amount
+            	<?php echo $this->layout()->_t->translate("Amount");?>
            </th>
            <th>
-           	    Description
+           	    <?php echo $this->layout()->_t->translate("Description");?>
            </th>
            <th>
-           	    DateCreated
+           	    <?php echo $this->layout()->_t->translate("DateCreated");?>
            </th>
            </tr>
            </thead>
@@ -79,26 +79,26 @@ $this->headScript()->prependFile($this->basePath() . '/static/js/AppTable.js');
 			<div class="panel-body">
 
 				<form id="payment-form" class="form-horizontal" method="post">
-					<div id="cdn_form_msg" class="alert alert-danger" style="display:none;">Required fields are missing.</div>
+					<div id="cdn_form_msg" class="alert alert-danger" style="display:none;"><?php echo $this->layout()->_t->translate("Required fields are missing.");?></div>
 					<div class="form-group">
-					    <label for="exampleInputEmail1" class="col-sm-2 control-label">Amount</label>
+					    <label for="exampleInputEmail1" class="col-sm-2 control-label"><?php echo $this->layout()->_t->translate("Amount");?></label>
 					    <div class="col-sm-10">
 					    	<input type="number" class="form-control" name="Amount" id="Amount" placeholder="Enter Amount">
 					    </div>
 					  </div>
 					<div class="form-group">
-					    <label for="exampleInputEmail1" class="col-sm-2 control-label">Method</label>
+					    <label for="exampleInputEmail1" class="col-sm-2 control-label"><?php echo $this->layout()->_t->translate("Method");?></label>
 						<div class="col-sm-10">
 							<div class="radio">
 								<label>
 								    <input type="radio" name="method" id="method-payal" value="0" checked>
-								    payal
+								    <?php echo $this->layout()->_t->translate("payal");?>
 								</label>
 							</div>
 							<div class="radio">
 								<label>
 								    <input type="radio" name="method" id="method-onepay" value="1">
-								    onepay
+								    <?php echo $this->layout()->_t->translate("onepay");?>
 								</label>
 							</div>
 						</div>
@@ -106,8 +106,8 @@ $this->headScript()->prependFile($this->basePath() . '/static/js/AppTable.js');
 					<hr>
 					<div class="form-group text-center">
 					    <div class="controls">
-					        <button name="submit" type="submit" class="btn btn-primary btn-margin" id="submitbutton">Payment</button> 
-					        <a href="http://localhost/bgate/manager/index" class="btn btn-margin">Cancel</a>
+					        <button name="submit" type="submit" class="btn btn-primary btn-margin" id="submitbutton"><?php echo $this->layout()->_t->translate("Payment");?></button> 
+					        <a href="http://localhost/bgate/manager/index" class="btn btn-margin"><?php echo $this->layout()->_t->translate("Cancel");?></a>
 					    </div>
 					</div>
 

@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ZendSkeletonApplication\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-06-18 08:46+0700\n"
-"PO-Revision-Date: 2015-06-18 08:46+0700\n"
+"POT-Creation-Date: 2015-06-18 09:09+0700\n"
+"PO-Revision-Date: 2015-06-18 09:09+0700\n"
 "Last-Translator: Tawfek Daghistani <tawfekov@gmail.com>\n"
 "Language-Team: Arabic <>\n"
 "Language: vi_VN\n"
@@ -856,6 +856,7 @@ msgid "Update Campaign"
 msgstr ""
 
 #: ../view/dashboard-manager/demand/editcampaign.phtml:142
+#: ../view/dashboard-manager/payment/index.phtml:110
 #: ../view/dashboard-manager/publisher/createdomain.phtml:103
 #: ../view/dashboard-manager/publisher/createdomain.phtml:106
 #: ../view/dashboard-manager/publisher/editdomain.phtml:110
@@ -881,12 +882,14 @@ msgid "Status:"
 msgstr ""
 
 #: ../view/dashboard-manager/demand/index.phtml:62
+#: ../view/dashboard-manager/payment/index.phtml:34
 #: ../view/dashboard-manager/publisher/index.phtml:83
 #: ../view/dashboard-manager/publisher/index.phtml:92
 msgid "All"
 msgstr "Tất cả"
 
 #: ../view/dashboard-manager/demand/index.phtml:63
+#: ../view/dashboard-manager/payment/index.phtml:35
 msgid "Pending approval"
 msgstr ""
 
@@ -895,6 +898,7 @@ msgid "Deleted"
 msgstr ""
 
 #: ../view/dashboard-manager/demand/index.phtml:69
+#: ../view/dashboard-manager/payment/index.phtml:36
 msgid "Approved"
 msgstr ""
 
@@ -950,45 +954,54 @@ msgid "I Do Not Accept"
 msgstr "Tối không đồng ý"
 
 #: ../view/dashboard-manager/demand/report.phtml:34
+#: ../view/dashboard-manager/payment/index.phtml:17
 #: ../view/dashboard-manager/publisher/report.phtml:34
 msgid "Overview"
 msgstr "Tổng Quan"
 
 #: ../view/dashboard-manager/demand/report.phtml:36
+#: ../view/dashboard-manager/payment/index.phtml:19
 msgid "All time"
 msgstr "Tất cả"
 
 #: ../view/dashboard-manager/demand/report.phtml:37
+#: ../view/dashboard-manager/payment/index.phtml:20
 #: ../view/dashboard-manager/publisher/report.phtml:37
 msgid "Today"
 msgstr "Hôm nay"
 
 #: ../view/dashboard-manager/demand/report.phtml:38
+#: ../view/dashboard-manager/payment/index.phtml:21
 #: ../view/dashboard-manager/publisher/report.phtml:38
 msgid "Yesterday"
 msgstr "Hôm qua"
 
 #: ../view/dashboard-manager/demand/report.phtml:39
+#: ../view/dashboard-manager/payment/index.phtml:22
 #: ../view/dashboard-manager/publisher/report.phtml:39
 msgid "This week"
 msgstr "Tuần Này"
 
 #: ../view/dashboard-manager/demand/report.phtml:40
+#: ../view/dashboard-manager/payment/index.phtml:23
 #: ../view/dashboard-manager/publisher/report.phtml:40
 msgid "Last week"
 msgstr "Tuần Trước"
 
 #: ../view/dashboard-manager/demand/report.phtml:41
+#: ../view/dashboard-manager/payment/index.phtml:24
 #: ../view/dashboard-manager/publisher/report.phtml:41
 msgid "This month"
 msgstr "Tháng Này"
 
 #: ../view/dashboard-manager/demand/report.phtml:42
+#: ../view/dashboard-manager/payment/index.phtml:25
 #: ../view/dashboard-manager/publisher/report.phtml:42
 msgid "Last month"
 msgstr "Tháng Trước"
 
 #: ../view/dashboard-manager/demand/report.phtml:43
+#: ../view/dashboard-manager/payment/index.phtml:26
 #: ../view/dashboard-manager/publisher/report.phtml:43
 msgid "This year"
 msgstr "Năm này"
@@ -1142,6 +1155,72 @@ msgstr ""
 msgid "View Domain Exclusions"
 msgstr ""
 
+#: ../view/dashboard-manager/payment/index.phtml:8
+#: ../view/dashboard-manager/payment/index.phtml:109
+#: ../view/dashboard-manager/payment/resultpayment.phtml:7
+#: ../view/dashboard-manager/payment/resultpayment.phtml:24
+msgid "Payment"
+msgstr ""
+
+#: ../view/dashboard-manager/payment/index.phtml:45
+msgid "ID"
+msgstr ""
+
+#: ../view/dashboard-manager/payment/index.phtml:48
+msgid "TransactionLogID"
+msgstr ""
+
+#: ../view/dashboard-manager/payment/index.phtml:51
+msgid "UserID"
+msgstr ""
+
+#: ../view/dashboard-manager/payment/index.phtml:54
+msgid "Type"
+msgstr ""
+
+#: ../view/dashboard-manager/payment/index.phtml:57
+#: ../view/dashboard-manager/payment/index.phtml:84
+#: ../view/dashboard-manager/publisher/report.phtml:93
+#: ../view/dashboard-manager/publisher/report.phtml:119
+msgid "Amount"
+msgstr "Số Lượng"
+
+#: ../view/dashboard-manager/payment/index.phtml:60
+#: ../view/dashboard-manager/publisher/createdomain.phtml:44
+#: ../view/dashboard-manager/publisher/editdomain.phtml:49
+#: ../view/dashboard-manager/zone/create.phtml:49
+#: ../view/dashboard-manager/zone/edit.phtml:61
+msgid "Description"
+msgstr "Ghi Chú"
+
+#: ../view/dashboard-manager/payment/index.phtml:63
+msgid "DateCreated"
+msgstr ""
+
+#: ../view/dashboard-manager/payment/index.phtml:82
+msgid "Required fields are missing."
+msgstr ""
+
+#: ../view/dashboard-manager/payment/index.phtml:90
+msgid "Method"
+msgstr ""
+
+#: ../view/dashboard-manager/payment/index.phtml:95
+msgid "payal"
+msgstr ""
+
+#: ../view/dashboard-manager/payment/index.phtml:101
+msgid "onepay"
+msgstr ""
+
+#: ../view/dashboard-manager/payment/resultpayment.phtml:15
+msgid "TRANSACTION RESULT!"
+msgstr ""
+
+#: ../view/dashboard-manager/payment/resultpayment.phtml:21
+msgid "Thank you for payment!"
+msgstr ""
+
 #: ../view/dashboard-manager/publisher/createdomain.phtml:4
 msgid "New Domain"
 msgstr "Tạo Tên Miền Mới"
@@ -1150,13 +1229,6 @@ msgstr "Tạo Tên Miền Mới"
 #: ../view/dashboard-manager/publisher/editdomain.phtml:43
 msgid "Web Domain"
 msgstr "Tên miền Web"
-
-#: ../view/dashboard-manager/publisher/createdomain.phtml:44
-#: ../view/dashboard-manager/publisher/editdomain.phtml:49
-#: ../view/dashboard-manager/zone/create.phtml:49
-#: ../view/dashboard-manager/zone/edit.phtml:61
-msgid "Description"
-msgstr "Ghi Chú"
 
 #: ../view/dashboard-manager/publisher/createdomain.phtml:53
 #: ../view/dashboard-manager/publisher/editdomain.phtml:58
@@ -1417,17 +1489,79 @@ msgstr "Khu vực quảng cáo"
 msgid "Income"
 msgstr "Doanh thu"
 
-#: ../view/dashboard-manager/publisher/report.phtml:93
-#: ../view/dashboard-manager/publisher/report.phtml:119
-msgid "Amount"
-msgstr "Số Lượng"
-
 #: ../view/dashboard-manager/publisher/report.phtml:110
 msgid "Withdraw"
 msgstr ""
 
 #: ../view/dashboard-manager/publisher/report.phtml:127
 msgid "Submit"
+msgstr ""
+
+#: ../view/dashboard-manager/report/contract-impressions.phtml:4
+#: ../view/dashboard-manager/report/demandindex.phtml:4
+msgid "Select interval"
+msgstr ""
+
+#: ../view/dashboard-manager/report/contract-impressions.phtml:6
+#: ../view/dashboard-manager/report/demandindex.phtml:6
+#: ../view/dashboard-manager/report/incoming-bids.phtml:5
+#: ../view/dashboard-manager/report/index.phtml:6
+#: ../view/dashboard-manager/report/outgoingbids.phtml:5
+#: ../view/dashboard-manager/report/spend.phtml:5
+msgid "12 Hours"
+msgstr ""
+
+#: ../view/dashboard-manager/report/contract-impressions.phtml:7
+#: ../view/dashboard-manager/report/incoming-bids.phtml:6
+#: ../view/dashboard-manager/report/index.phtml:7
+#: ../view/dashboard-manager/report/outgoingbids.phtml:6
+#: ../view/dashboard-manager/report/spend.phtml:6
+msgid "set the interval"
+msgstr ""
+
+#: ../view/dashboard-manager/report/contract-impressions.phtml:33
+#: ../view/dashboard-manager/report/contract-impressions.phtml:61
+#: ../view/dashboard-manager/report/demandindex.phtml:33
+#: ../view/dashboard-manager/report/demandindex.phtml:60
+#: ../view/dashboard-manager/report/incoming-bids.phtml:32
+#: ../view/dashboard-manager/report/incoming-bids.phtml:60
+#: ../view/dashboard-manager/report/index.phtml:33
+#: ../view/dashboard-manager/report/index.phtml:60
+#: ../view/dashboard-manager/report/outgoingbids.phtml:32
+#: ../view/dashboard-manager/report/spend.phtml:32
+msgid "Prev 12 Hours"
+msgstr ""
+
+#: ../view/dashboard-manager/report/header.phtml:15
+msgid "Publisher Impressions"
+msgstr ""
+
+#: ../view/dashboard-manager/report/header.phtml:17
+msgid "Demand Impressions"
+msgstr ""
+
+#: ../view/dashboard-manager/report/header.phtml:19
+msgid "User Totals"
+msgstr ""
+
+#: ../view/dashboard-manager/report/header.phtml:21
+msgid "Incoming Bids"
+msgstr ""
+
+#: ../view/dashboard-manager/report/header.phtml:23
+msgid "Outgoing Bids"
+msgstr ""
+
+#: ../view/dashboard-manager/report/header.phtml:25
+msgid "Contract Impressions"
+msgstr ""
+
+#: ../view/dashboard-manager/report/mailer.phtml:6
+msgid "Subscribe for daily e-mail reporting"
+msgstr ""
+
+#: ../view/dashboard-manager/report/usertotals.phtml:5
+msgid "Total impressions by user and TLD"
 msgstr ""
 
 #: ../view/dashboard-manager/zone/create.phtml:66
