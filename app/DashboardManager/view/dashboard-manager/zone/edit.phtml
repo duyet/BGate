@@ -37,7 +37,7 @@ $(function() {
       <br />
       <div class="col-md-8 col-md-offset-2 panel panel-default">
         <div class="panel-body">
-    <form id="ad" class="form-horizontal form-top-magin" name="ad" method="post" action="/publisher/zone/<?php echo $editResultObj->PublisherWebsiteID;?>/edit/<?php echo $editResultObj->PublisherAdZoneID;?>/">
+    <form id="ad" class="form-horizontal form-top-magin" name="ad" method="post" action="<?php echo $this->basePath() ?>/publisher/zone/<?php echo $editResultObj->PublisherWebsiteID;?>/edit/<?php echo $editResultObj->PublisherAdZoneID;?>/">
     <div class="form-group">
     <label for="adname" class="control-label col-sm-3"><?php echo $this->layout()->_t->translate("Ad Name");?></label>
     <div class="controls col-sm-7">
