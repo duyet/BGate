@@ -42,6 +42,9 @@ $effective_user_in_dashboard = false;
               <option value="5"><?php echo $this->layout()->_t->translate("Last month");?></option>
               <option value="6"><?php echo $this->layout()->_t->translate("This year");?></option>
         </select>
+         <span class="admin-titles pull-right"><button class="btn btn-success" style="margin: -12px 3px 0px 5px;" onclick="$('#PayoutModal').modal('show')">Withdraw</button></span>
+          <span class="admin-titles pull-right">Balance: $<?php echo (int) $user_balance;?></span>
+
         </p>
         <div class="row">
           <div class="col-sm-3"><?php echo $this->layout()->_t->translate("Income (USD)");?>: $<strong id="Income">0</strong></div>
@@ -81,9 +84,6 @@ $effective_user_in_dashboard = false;
       <div id="income-list" class="col-md-10 col-md-offset-1 panel pad20T">
         <p class="underline mrg0T" style="padding-bottom: 3px;">
           <span class="admin-titles">Withdrawal History </span>
-          <span class="admin-titles pull-right"><button class="btn btn-success" style="margin: -12px 3px 0px 5px;" onclick="$('#PayoutModal').modal('show')">Withdraw</button></span>
-          <span class="admin-titles pull-right">Balance: $<?php echo $user_balance;?></span>
-
         <table id="user-payout-table" class="table table-hover table-striped table-bordered table-margin" data-url="<?php echo $this->basePath() ?>/publisher/payoutlist">
           <thead>
             <tr >

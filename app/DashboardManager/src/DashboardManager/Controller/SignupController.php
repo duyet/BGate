@@ -243,8 +243,8 @@ class SignupController extends PublisherAbstractActionController {
 		
 		$PublisherInfo->Name		    = 	$user_login;
 		$PublisherInfo->Email			=	$Email;
-		$PublisherInfo->Domain			=	"";
-		$PublisherInfo->IABCategory		=	"";
+		$PublisherInfo->Domain			=	$Domain;
+		$PublisherInfo->IABCategory		=	$IABCategory;
 		$PublisherInfo->DateCreated		=	date("Y-m-d H:i:s");
 		$PublisherInfo->FirstName 		=	$first_name;
 		$PublisherInfo->LastName 		=	$last_name;
@@ -375,8 +375,9 @@ class SignupController extends PublisherAbstractActionController {
 				$country = $request->getPost("Country");
 				$city = $request->getPost("City");
 				$addr = $request->getPost("Addr");
-				// $DomainDescribe = $request->getPost("DomainDescribe");
-				// $IABCategory = $request->getPost('IABCategory');
+				$Domain = $request->getPost("Domain");
+				$DomainDescribe = $request->getPost("DomainDescribe");
+				$IABCategory = $request->getPost('IABCategory');
 				$locale = $request->getPost("locale");
 
 				$PublisherInfo->PublisherInfoID = $userData->PublisherInfoID;
@@ -387,8 +388,9 @@ class SignupController extends PublisherAbstractActionController {
 				$PublisherInfo->Country 		=	$country;
 				$PublisherInfo->City 			=	$city;
 				$PublisherInfo->Addr 			=	$addr;
-				// $PublisherInfo->IABCategory		=	$IABCategory;
-				// $PublisherInfo->DomainDescribe	=	$DomainDescribe;
+				$PublisherInfo->Domain 			=	$Domain;
+				$PublisherInfo->IABCategory		=	$IABCategory;
+				$PublisherInfo->DomainDescribe	=	$DomainDescribe;
 				$PublisherInfoFactory->savePublisherInfo($PublisherInfo);
 
 				$data["locale"] = $locale;

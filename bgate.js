@@ -5,7 +5,7 @@
  * Author: ISLab
  */
 
-var adx_url = "http://ptnhttt.uit.edu.vn:12339/bids";
+var adx_url = "http://ptnhttt.uit.edu.vn:8899/bids";
 var adserverDomain = 'localhost';
 var delivery_path = '/delivery/impress';
 
@@ -30,7 +30,9 @@ var _bgate_bidder = {
         xhr.open("POST", adx_url);
         
         xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.setRequestHeader('x-openrtb-version', '2.2');
+       xhr.setRequestHeader('x-openrtb-version', '2.2');
+     //   xhr.setRequestHeader('Access-Control-Request-Method', '*');
+        
         xhr.onreadystatechange = function () {
             if (xhr.readyState == 4 && xhr.status == 200) {
                 alert(xhr.responseText);
