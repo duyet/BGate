@@ -197,7 +197,7 @@ class DemandController extends DemandAbstractActionController {
 		endif;
 
 		header('Content-type: application/json');
-		echo json_encode(array("recordsTotal" => $TotalCampaignsPreviewCount, "recordsFiltered" => $TotalCampaignsPreviewCount , 'data' => $result));
+		echo json_encode(array("recordsTotal" => $TotalCampaignsPreviewCount, "recordsFiltered" => $TotalCampaignsPreviewCount , 'data' => $result, 'is_admin' => $this->is_admin));
 
 		die;
 	}
