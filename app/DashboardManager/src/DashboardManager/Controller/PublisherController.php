@@ -75,7 +75,7 @@ class PublisherController extends PublisherAbstractActionController {
 		$parameters = array(); // Set the parameters to empty first.
 		// sort map array
 		// if ($this->is_admin):
-			$SortMap = array("1"=> "WebDomain","5" => "DateCreated");
+			$SortMap = array("1"=> "WebDomain","5" => "DateCreated", "6" => "DateUpdated");
 		// else:
 		// 	$SortMap = array("1"=> "WebDomain", "4" => "DateCreated");
 		// endif;
@@ -141,7 +141,7 @@ class PublisherController extends PublisherAbstractActionController {
 		endif;
 
 		header('Content-type: application/json');
-		echo json_encode(array("recordsTotal" => $TotalPublisherWebsiteCount, "recordsFiltered" => $TotalPublisherWebsiteCount , 'data' => $result));
+		echo json_encode(array("recordsTotal" => $TotalPublisherWebsiteCount, "recordsFiltered" => $TotalPublisherWebsiteCount , 'data' => $result, 'is_admin' => $this->is_admin));
 
 		die;
 	}
@@ -215,7 +215,7 @@ class PublisherController extends PublisherAbstractActionController {
 		if ($initialized !== true) return $initialized;
 
 		$parameters = array(); // Set the parameters to empty first.
-		$SortMap = array("1"=> "DateCreated");
+		$SortMap = array("1"=> "DateCreated", "4" => "Status");
 
 		$OrderArr = $this->getRequest()->getQuery("order");
 		$order = $SortMap[$OrderArr[0]["column"]] . " " . strtoupper($OrderArr[0]["dir"]);

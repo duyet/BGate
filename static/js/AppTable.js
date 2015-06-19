@@ -79,8 +79,9 @@ var DomainTable = {
             }
         ],
         initComplete: function () {
-          var dt = self.table.fnGetData();
-          var is_admin = dt[0].is_admin;
+          var is_admin = self.table.DataTable().context[0].json.is_admin;
+          // var dt = self.table.fnGetData();
+          // var is_admin = dt[0].is_admin;
           if (!is_admin)
             self.table.fnSetColumnVis(2, false);
         },
