@@ -82,7 +82,18 @@ $this->headScript()->prependFile($this->basePath() . '/static/js/signup.js');
             <div class="form-group">
                 <label for="Country" class="control-label col-sm-3">Country</label>
                 <div class="controls col-sm-7">
-                <input type="text" value="" class="form-control" name="Country" id="Country">    
+                <!-- <input type="text" value="" class="form-control" name="Country" id="Country">   -->
+
+                <select id="Country"  class="selbox-width form-control"  name="Country" >         
+                        <?php foreach($country as $key => $value): ?>                   
+                            <?php //if ((string)$key === $banner->GEOCountry): ?>
+                            <!-- <option value="<?php echo $key;?>" selected="selected"><?php echo $value;?></option> -->
+                            <?php //else: ?>
+                                <option value="<?php echo $key;?>"><?php echo $value;?></option>
+                            <?php //endif; ?>
+                        <?php endforeach;?>
+                </select>
+
                 </div>
             </div>
             <div class="form-group">

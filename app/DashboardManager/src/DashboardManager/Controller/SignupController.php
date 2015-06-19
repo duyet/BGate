@@ -35,6 +35,7 @@ class SignupController extends PublisherAbstractActionController {
 	    
 	    $view = new ViewModel(array(
 	    		'dashboard_view' => 'signup',
+	    		'country' => \util\DeliveryFilterOptions::$geo_country,
 	    		'vertical_map' => \util\DeliveryFilterOptions::$vertical_map
 	    ));
 	    
@@ -432,6 +433,7 @@ class SignupController extends PublisherAbstractActionController {
 				'effective_id' => $this->auth->getEffectiveIdentityID(),
 				'impersonate_id' => $this->ImpersonateID,
 				'vertical_map' => \util\DeliveryFilterOptions::$vertical_map,
+				'country' => \util\DeliveryFilterOptions::$geo_country,
 				'publisher_info' => $PublisherInfo,
 				'locale' => $locale
 	    ));
