@@ -2758,7 +2758,8 @@ class DemandController extends DemandAbstractActionController {
 		// die();
 
 		$tempPath = $_FILES[ 'adUrl' ][ 'tmp_name' ];
-		$imagesname = $campaign_preview_id.'_' .date('YmdHisB'). $_FILES[ 'adUrl' ][ 'name' ];
+		$name = explode(".", $_FILES[ 'adUrl' ][ 'name' ]);
+		$imagesname = $campaign_preview_id.'_' .date('YmdHisB').'.'. $name[1];//$_FILES[ 'adUrl' ][ 'name' ];
 		$separator = DIRECTORY_SEPARATOR;
 		$uploadPath = __DIR__ . $separator .'..'. $separator .'..'. $separator .'..'. $separator .'..'. $separator .'..'. $separator .'static'.$separator .'images'.$separator .'bannerpreview';//. $imagesname;
 		if (!file_exists($uploadPath)) {
