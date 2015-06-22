@@ -778,7 +778,8 @@ $().ready(function() {
 		rules: {
            	Amount: {  
                required: true,
-               validateamount: true
+               validateamount: true,
+               number:true,
            	}
 		},
 		errorContainer: $("#cdn_form_msg"),
