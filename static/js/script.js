@@ -1534,6 +1534,15 @@ function loadDomainDetail(){
 
 }
 
+function loadIncomeAdzoneDetail(){
+	var flag = ''; //Alltime
+	var AdzoneId = $("#PublisherAdZoneID").val();
+	$.get(basePath + "/manager/getincome/" + flag, {adzoneId: AdzoneId, param1: flag}  , function( data ) {
+		$("#adzone-revenue").text(data.data[0].Incomes);
+	},'json');		
+
+}
+
 function empty(object) {
   if((typeof(object) == 'object' && $.isEmptyObject(object)) || 
 	    object == '' || 
@@ -1591,6 +1600,10 @@ $().ready(function() {
 	if (window.location.pathname.indexOf("publisher/zone") > -1){
 		loadDomainDetail();
 	}
+	if (window.location.pathname.indexOf("show") > -1){
+		loadIncomeAdzoneDetail();
+	}
+	
 });
 
 function payment_form_value () {

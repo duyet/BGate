@@ -274,7 +274,7 @@ $(function() {
     <div class="form-group">
     <label  class="control-label col-sm-3">Revenue</label>
     <div class="controls col-sm-7">
-    <label class="control-label" >$<?php echo $editResultObj->TotalAmount;?></label>
+    <label class="control-label" >$<strong id="adzone-revenue"></strong></label>
     </div>
     </div>
 
@@ -299,7 +299,7 @@ $(function() {
     </div>
     </div>
     <input type="hidden" value="0" name="AdOwnerID">
-    <input type="hidden" value="<?php echo $editResultObj->PublisherAdZoneID;?>" name="PublisherAdZoneID">
+    <input type="hidden" value="<?php echo $editResultObj->PublisherAdZoneID;?>" name="PublisherAdZoneID" id="PublisherAdZoneID">
     <input type="hidden" value="<?php echo $domain_obj->PublisherWebsiteID;?>" name="PublisherWebsiteID">
 </form> 
 </div>

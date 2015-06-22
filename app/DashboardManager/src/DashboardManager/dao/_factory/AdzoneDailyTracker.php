@@ -138,10 +138,14 @@ class AdzoneDailyTracker extends \_factory\CachedTableRead
 
 
 
-    public function get_income($flag = null) {
+    public function get_income($params = null, $flag = null) {
         $obj_list = array();
-        $resultSet = $this->select(function (\Zend\Db\Sql\Select $select) use ($flag){
-
+        $resultSet = $this->select(function (\Zend\Db\Sql\Select $select) use ($params, $flag){
+                foreach ($params as $name => $value):
+                $select->where(
+                        $select->where->equalTo($name, $value)
+                );
+                endforeach;
                 $select->columns(
                     array(
                         "Incomes" => new \Zend\Db\Sql\Expression("SUM(Income)")

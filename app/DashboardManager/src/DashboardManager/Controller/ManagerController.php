@@ -136,9 +136,16 @@ class ManagerController extends DemandAbstractActionController {
     {
         $initialized = $this->initialize();
         if ($initialized !== true) return $initialized;
+        $adzone_id = $this->getRequest()->getQuery("adzoneId");
         $flag = ($this->getRequest()->getQuery("param1") == '') ? 7 : $this->getRequest()->getQuery("param1");
         $AdzoneDailyTrackerFactory = \_factory\AdzoneDailyTracker::get_instance();
-        $incomes = $AdzoneDailyTrackerFactory->get_income($flag);
+
+        $params = array();
+        if ($adzone_id != ''):
+            $params["PublisherAdZoneID"] = $adzone_id;
+        endif;
+
+        $incomes = $AdzoneDailyTrackerFactory->get_income($params, $flag);
         if (count($incomes)> 0):
             foreach ($incomes AS $row_number => $row_data): 
                 $row = array();
