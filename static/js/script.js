@@ -19,7 +19,7 @@ function validateEmail(email)
 
 function validateAmount (amount) {
 	var balance = $("#currentBalance").val();
-	if (parseInt(amount) > parseInt(balance)){
+	if ((parseInt(amount) > parseInt(balance)) || parseInt(amount)<=0) {
 		$("#cdn_form_msg").html("Required fields are missing.");
 		return false;
 	}

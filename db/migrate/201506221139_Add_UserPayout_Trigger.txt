@@ -1,0 +1,13 @@
+DROP TRIGGER IF EXISTS `updateBalance`;
+
+DELIMITER $$
+CREATE TRIGGER `updateBalance` AFTER INSERT ON `UserPayout`
+ FOR EACH ROW BEGIN
+    DECLARE current_balance DOUBLE;
+    DECLARE row_count INT(11);
+    SELECT Balance INTO current_balance FROM PublisherInfo where PublisherInfoID = NEW.UserID;
+
+    UPDATE PublisherInfo SET Balance = current_balance - NEW.Amount where PublisherInfoID = NEW.UserID;
+END
+$$
+DELIMITER ;
