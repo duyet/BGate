@@ -3764,6 +3764,7 @@ class DemandController extends DemandAbstractActionController {
 		$AdCampaignPreview->AdCampaignID              = $_AdCampaignPreview->AdCampaignID;
 		$AdCampaignPreview->UserID             		  = $_AdCampaignPreview->UserID;
 		$AdCampaignPreview->Name                      = $_AdCampaignPreview->Name;
+		$AdCampaignPreview->CampaignMarkup            = $_AdCampaignPreview->CampaignMarkup;
 		$AdCampaignPreview->StartDate                 = $_AdCampaignPreview->StartDate;
 		$AdCampaignPreview->EndDate                   = $_AdCampaignPreview->EndDate;
 		$AdCampaignPreview->Customer                  = $_AdCampaignPreview->Customer ;
