@@ -1001,3 +1001,8 @@ input::-webkit-inner-spin-button {
     line-height: 1.1;
     color: inherit;
 }
+
+#privacy-container p {
+    font-size: 13px;
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+}

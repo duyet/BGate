@@ -20,6 +20,18 @@ use Zend\Mime;
  */
 class SignupController extends PublisherAbstractActionController {
 
+	public function privacyAction()
+	{
+		$auth = $this->getServiceLocator()->get('AuthService');
+		if ($auth->hasIdentity()):
+			$initialized = $this->initialize();
+			// if ($initialized === true) return $this->redirect()->toRoute($this->dashboard_home);
+    	endif;
+		$view = new ViewModel(array(
+	    		'dashboard_view' => 'signup'
+	    ));
+	}
+
     /**
      * Display the signup index page.
      * 
