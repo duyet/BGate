@@ -2624,8 +2624,8 @@ class DemandController extends DemandAbstractActionController {
 				'bidamount',
 				// 'adtag',
 				// 'landingpagetld',
-				'label',
-				'altText',
+				// 'label',
+				// 'altText',
 				'iabsize',
 				'bidamount',
 				'landingPageTLD'
@@ -3609,7 +3609,7 @@ class DemandController extends DemandAbstractActionController {
 	    $enddate = $this->getRequest()->getPost('enddate');
 	    $customername = $this->getRequest()->getPost('customername');
 	    $customerid = $this->getRequest()->getPost('customerid');
-	    if (!$customerid) $customerid = "001";
+	    if (!$customerid) $customerid = 0;
 	    $maximpressions = $this->getRequest()->getPost('maximpressions');
 	    $maxspend = $this->getRequest()->getPost('maxspend');
 	    $cpmtarget = $this->getRequest()->getPost('cpmtarget');
@@ -3688,6 +3688,7 @@ class DemandController extends DemandAbstractActionController {
     	$AdCampaignPreview->DateCreated               = date("Y-m-d H:i:s");
     	$AdCampaignPreview->DateUpdated               = date("Y-m-d H:i:s");
     	$AdCampaignPreview->ChangeWentLive            = 0;
+    	$AdCampaignPreview->Deleted            		  = 0;
 
     	if($this->is_admin):
     		$AdCampaignPreview->CampaignMarkup        = $campaignmarkup;

@@ -565,7 +565,7 @@ $().ready(function() {
 				required: true
 			},
 			label: {
-				required: true
+				required: false
 			},
 			adUrl: {
 				// required: {
@@ -584,7 +584,7 @@ $().ready(function() {
 
 			},
 			altText: {
-				required: true
+				required: false
 			},
 			startdate: {
 				required: true
@@ -596,13 +596,13 @@ $().ready(function() {
 				required: true
 			},
 			gEOCountry: {
-				required: true
+				required: false
 			},
 			timeZone: {
-				required: true
+				required: false
 			},
 			adtag: {
-               required: true
+               required: false
            },
            landingPageTLD: {  
                required:  {
@@ -641,19 +641,19 @@ $().ready(function() {
 	            },
 			},
 			targetdaily: {
-				required: true,
+				required: false,
 				number: true
 			},
 			targetmax: {
-				required: true,
+				required: false,
 				number: true
 			},
 			dailybudget: {
-				required: true,
+				required: false,
 				number: true
 			},
 			maximumbudget: {
-				required: true,
+				required: false,
 				number: true
 			},
 			freCapTimeToHr:{

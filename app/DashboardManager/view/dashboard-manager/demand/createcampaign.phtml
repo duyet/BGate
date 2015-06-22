@@ -74,7 +74,7 @@ margin-left: 253px;
         <form id="campaign" class="form-horizontal form-top-magin" name="campaignform" method="POST" action="<?php echo $this->basePath() ?>/demand/newcampaign" novalidate="novalidate">
           <h4 class="underline mrg0T"><?php echo $this->layout()->_t->translate("General Options");?></h4>
           <div class="form-group">
-            <label for="campaignname" class="control-label col-sm-3"><?php echo $this->layout()->_t->translate("Campaign Name");?></label>
+            <label for="campaignname" class="control-label col-sm-3"><?php echo $this->layout()->_t->translate("Campaign Name");?>*</label>
             <div class="controls col-sm-7">
               <input type="text" value="" maxlength="255" class="form-control" id="campaignname" name="campaignname">    
             </div>
@@ -88,7 +88,7 @@ margin-left: 253px;
             </div>
         <?php endif;?>
           <div class="form-group">
-            <label for="startdate" class="control-label col-sm-3"><?php echo $this->layout()->_t->translate("Start Date");?></label>
+            <label for="startdate" class="control-label col-sm-3"><?php echo $this->layout()->_t->translate("Start Date");?>*</label>
             <div class="controls col-sm-7">
               <!-- <input type="date" value="" maxlength="255" class="form-control" id="startdate" name="startdate"> -->
               <div class="input-append date">
@@ -98,7 +98,7 @@ margin-left: 253px;
             </div>
           </div>
           <div class="form-group">
-            <label for="enddate" class="control-label col-sm-3"><?php echo $this->layout()->_t->translate("End Date");?></label>
+            <label for="enddate" class="control-label col-sm-3"><?php echo $this->layout()->_t->translate("End Date");?>*</label>
             <div class="controls col-sm-7">
               <!-- <input type="date" value="" maxlength="255" class="form-control" id="enddate" name="enddate"> -->
               <div class="input-append date">
@@ -109,22 +109,22 @@ margin-left: 253px;
           </div>
 
           <div class="form-group">
-            <label for="maximpressions" class="control-label col-sm-3"><?php echo $this->layout()->_t->translate("Maximum Impressions");?> <br><sup>(<?php echo $this->layout()->_t->translate("Maximum campaign impressions before the bids stop");?>)</sup></label>
+            <label for="maximpressions" class="control-label col-sm-3"><?php echo $this->layout()->_t->translate("Maximum Impressions");?>* <br><sup>(<?php echo $this->layout()->_t->translate("Maximum campaign impressions before the bids stop");?>)</sup></label>
             <div class="controls col-sm-7">
               <input type="number" value="" maxlength="255" class="form-control" id="maximpressions" name="maximpressions">
             </div>
           </div>
 
           <div class="form-group">
-            <label for="maxtarget" class="control-label col-sm-3"><?php echo $this->layout()->_t->translate("Maximum target");?></label>
+            <label for="maxtarget" class="control-label col-sm-3"><?php echo $this->layout()->_t->translate("Maximum target");?>*</label>
             <div class="controls col-sm-7">
-              <label for="cpmtarget"><input type="checkbox" id="cpmtarget" name="cpmtarget" class="inline"/> CPM</label>
+              <label for="cpmtarget"><input type="checkbox" id="cpmtarget" name="cpmtarget" class="inline" checked/> CPM</label>
               <label for="cpctarget"><input type="checkbox" id="cpctarget" name="cpctarget" class="inline"/> CPC</label>
             </div>
           </div>
 
           <div class="form-group">
-            <label for="maxspend" class="control-label col-sm-3"><?php echo $this->layout()->_t->translate("Maximum spend");?><br><sup>(<?php echo $this->layout()->_t->translate("Maximum campaign $$$ spent before the bids stop");?>)</sup></label>
+            <label for="maxspend" class="control-label col-sm-3"><?php echo $this->layout()->_t->translate("Maximum spend");?>*<br><sup>(<?php echo $this->layout()->_t->translate("Maximum campaign $$$ spent before the bids stop");?>)</sup></label>
             <div class="controls col-sm-7">
               <input type="number" value="" maxlength="255" class="form-control" id="maxspend" name="maxspend">
             </div>
@@ -147,6 +147,13 @@ margin-left: 253px;
           <div class="form-group text-center">
             <div class="controls">
               <button name="submit" type="submit" class="btn btn-primary btn-margin" id="submitbutton"><?php echo $this->layout()->_t->translate("Create New Campaign");?></button>
+              <?php if (array_key_exists('HTTP_REFERER',$_SERVER)): ?>
+                <a href="<?php echo $_SERVER['HTTP_REFERER']  ?>" class="btn btn-margin">
+                <?php echo $this->layout()->_t->translate("Cancel");?></a>
+              <?php else: ?>
+                <a href="<?php echo $this->basePath() . '/demand' ?>" class="btn btn-margin">
+                <?php echo $this->layout()->_t->translate("Cancel");?></a>
+              <?php endif; ?>
             </div>
           </div>
         </form>        

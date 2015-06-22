@@ -115,14 +115,14 @@ $(function() {
 
 
 	<div class="form-group">
-		<label class="col-sm-3 control-label"  for="bannername"><?php echo $this->layout()->_t->translate("Ad Name");?></label>
+		<label class="col-sm-3 control-label"  for="bannername"><?php echo $this->layout()->_t->translate("Ad Name");?>*</label>
 		<div class="col-sm-9">
 			<input type="text" class="txtbox-width form-control" name="bannername" value="<?php echo $banner->Name;?>">
 		</div>
 	</div>
 
 	<div class="form-group">
-		<label class="col-sm-3 control-label"  for="adUrl"><?php echo $this->layout()->_t->translate("Upload Ad");?></label>
+		<label class="col-sm-3 control-label"  for="adUrl"><?php echo $this->layout()->_t->translate("Upload Ad");?>*</label>
 		<div class="col-sm-9">
 			<input type="file" id="upload-ad" size-file="1" class="txtbox-width form-control" name="adUrl" value="<?php echo $banner->AdUrl;?>">
 			<div class="pad10T" id="uploadPreview">
@@ -149,7 +149,7 @@ $(function() {
 
 
 	  <div class="form-group">
-		<label class="col-sm-3 control-label"  for="adname"><?php echo $this->layout()->_t->translate("Ad Delivery Type");?></label>
+		<label class="col-sm-3 control-label"  for="adname"><?php echo $this->layout()->_t->translate("Ad Delivery Type");?>*</label>
 		<div class="col-sm-9">
 		<select id="ImpressionType" name="ImpressionType" class="selbox-width form-control" onchange="switchImpressionType();">
 			<option value="banner"><?php echo $this->layout()->_t->translate("Banner Ad");?></option>
@@ -278,7 +278,7 @@ $(function() {
 		</div>
 	</div>
 	<div class="form-group novideo">
-		<label class="col-sm-3 control-label"  for="iabsize"><?php echo $this->layout()->_t->translate("IAB Size");?></label>
+		<label class="col-sm-3 control-label"  for="iabsize"><?php echo $this->layout()->_t->translate("IAB Size");?>*</label>
 		<div class="col-sm-9">
 			<div id="size-select">
 				<select id="iabsize"  class="selbox-width form-control"  name="iabsize" onchange="formSelectSize(this);">
@@ -299,20 +299,20 @@ $(function() {
 	</div>
 	<div class="span7">
 		<div class="form-group novideo">
-		<label class="col-sm-3 control-label"  for="IAB-height"><?php echo $this->layout()->_t->translate("Height");?></label>
+		<label class="col-sm-3 control-label"  for="IAB-height"><?php echo $this->layout()->_t->translate("Height");?>*</label>
 		<div class="col-sm-9">
 			<input type="text" id="height" name="height" class="input-mini form-control" value="<?php echo $banner->Height;?>">
 		</div>
 	</div>
 	<div class="form-group novideo">
-		<label class="col-sm-3 control-label"  for="width"><?php echo $this->layout()->_t->translate("Width");?></label>
+		<label class="col-sm-3 control-label"  for="width"><?php echo $this->layout()->_t->translate("Width");?>*</label>
 		<div class="col-sm-9">
 		<input type="text" id="width" name="width" class="input-mini form-control" value="<?php echo $banner->Width;?>">
 		</div>
 	</div>
 
 	<div class="form-group">
-		<label class="col-sm-3 control-label"  for="bidtype"><?php echo $this->layout()->_t->translate("Bid type");?></label>
+		<label class="col-sm-3 control-label"  for="bidtype"><?php echo $this->layout()->_t->translate("Bid type");?>*</label>
 		<div class="col-sm-9">
 			<div id="size-select">
 			<?php 
@@ -330,7 +330,7 @@ $(function() {
 	</div>
 	
 	<div class="form-group">
-		<label class="col-sm-3 control-label"  for="bidamount"><?php echo $this->layout()->_t->translate("Bid Amount");?></label>
+		<label class="col-sm-3 control-label"  for="bidamount"><?php echo $this->layout()->_t->translate("Bid Amount");?>*</label>
 		<div class="col-sm-9">
 			<div class="input-prepend input-group">
 			<span class="add-on input-group-addon">$</span>
@@ -388,14 +388,14 @@ $(function() {
 	</div>
 
 	<div class="form-group">
-		<label class="col-sm-3 control-label"  for="landingPageTLD"><?php echo $this->layout()->_t->translate("Landing Page");?></label>
+		<label class="col-sm-3 control-label"  for="landingPageTLD"><?php echo $this->layout()->_t->translate("Landing Page");?>*</label>
 		<div class="col-sm-9">
 			<input type="text" name="landingPageTLD"  class="form-control"  value="<?php echo $banner->LandingPageTLD ;?>">
 		</div>
 	</div>
 
 	<div class="form-group novideo">
-		<label class="col-sm-3 control-label"  for="iABAudienceCategory"><?php echo $this->layout()->_t->translate("IAB Audience Category");?></label>
+		<label class="col-sm-3 control-label"  for="iABAudienceCategory"><?php echo $this->layout()->_t->translate("IAB Audience Category");?>*</label>
 		<div class="col-sm-9">
 			<div id="size-select">
 				<select id="iABAudienceCategory"  class="selbox-width form-control"  name="iABAudienceCategory" >
@@ -825,13 +825,19 @@ $(function() {
 	<div class="span12">
 	<div class="form-group text-center">
 		<p>
-		<a class="btn btn-primary" href="<?php echo $this->basePath() ?>/demand/campaign/<?php echo $campaignpreviewid ?>/?ispreview=true"><?php echo $this->layout()->_t->translate("Back");?></a>
+		
 	   <?php if(isset($bannerpreviewid) and !empty($bannerpreviewid)) {?>
       	<input type="submit" class="btn btn-primary" name="B1" value="<?php echo $this->layout()->_t->translate("Update Banner");?>" />
       <?php }else{?>
       	<input type="submit" class="btn btn-primary" name="B1" value="<?php echo $this->layout()->_t->translate("Create New Banner");?>" />
       <?php }?>
-
+          <?php if (array_key_exists('HTTP_REFERER',$_SERVER)): ?>
+            <a href="<?php echo $_SERVER['HTTP_REFERER']  ?>" class="btn btn-margin">
+            <?php echo $this->layout()->_t->translate("Cancel");?></a>
+          <?php else: ?>
+            <a href="<?php echo $this->basePath() . '/demand/campaign/' ?><?php echo $campaignpreviewid ?>/?ispreview=true">" class="btn btn-margin">
+            <?php echo $this->layout()->_t->translate("Cancel");?></a>
+          <?php endif; ?>
 	   </p>
 	   </div>
 	</div>

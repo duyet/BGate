@@ -65,7 +65,7 @@ $( "#startdate" ).datepicker(
           <input type="hidden" name="ispreview" value="<?php echo $ispreview;?>">
 
           <div class="form-group">
-            <label for="campaignname" class="control-label col-sm-3"><?php echo $this->layout()->_t->translate("Campaign Name");?></label>
+            <label for="campaignname" class="control-label col-sm-3"><?php echo $this->layout()->_t->translate("Campaign Name");?>*</label>
             <div class="controls col-sm-7">
               <input type="text" value="<?php echo $campaignname;?>" maxlength="255" class="form-control" id="campaignname" name="campaignname">    
             </div>
@@ -79,7 +79,7 @@ $( "#startdate" ).datepicker(
             </div>
         <?php endif;?>
           <div class="form-group">
-            <label for="startdate" class="control-label col-sm-3"><?php echo $this->layout()->_t->translate("Start Date");?></label>
+            <label for="startdate" class="control-label col-sm-3"><?php echo $this->layout()->_t->translate("Start Date");?>*</label>
             <div class="controls col-sm-7">
             <div class="input-append date">
       <input name="startdate" id="startdate" class="span2 form-control" size="16" type="text" value="<?php echo $startdate;?>" readonly="readonly" />
@@ -89,7 +89,7 @@ $( "#startdate" ).datepicker(
             </div>
           </div>
           <div class="form-group">
-            <label for="enddate" class="control-label col-sm-3"><?php echo $this->layout()->_t->translate("End Date");?></label>
+            <label for="enddate" class="control-label col-sm-3"><?php echo $this->layout()->_t->translate("End Date");?>*</label>
             <div class="controls col-sm-7">
               <!-- <input type="date" value="<?php $date = date_create($enddate); echo date_format($date,"Y-m-d");?>" maxlength="255" class="form-control" id="enddate" name="enddate"> -->
               <div class="input-append date">
@@ -102,14 +102,14 @@ $( "#startdate" ).datepicker(
           
 
           <div class="form-group">
-            <label for="maximpressions" class="control-label col-sm-3"><?php echo $this->layout()->_t->translate("Maximum Impressions");?> <br><sup>(<?php echo $this->layout()->_t->translate("Maximum campaign impressions before the bids stop");?>)</sup></label>
+            <label for="maximpressions" class="control-label col-sm-3"><?php echo $this->layout()->_t->translate("Maximum Impressions");?>* <br><sup>(<?php echo $this->layout()->_t->translate("Maximum campaign impressions before the bids stop");?>)</sup></label>
             <div class="controls col-sm-7">
               <input type="number" value="<?php echo $maximpressions;?>" maxlength="255" class="form-control" id="maximpressions" name="maximpressions">
             </div>
           </div>
 
           <div class="form-group">
-            <label for="maxtarget" class="control-label col-sm-3"><?php echo $this->layout()->_t->translate("Maximum target");?></label>
+            <label for="maxtarget" class="control-label col-sm-3"><?php echo $this->layout()->_t->translate("Maximum target");?>*</label>
             <div class="controls col-sm-7">
               <input type="checkbox" <?php if ($cpmtarget==1) echo 'checked';?> name="cpmtarget" class="inline"/> CPM
               <input type="checkbox" <?php if ($cpctarget==1) echo 'checked';?> name="cpctarget" class="inline"/> CPC
@@ -117,7 +117,7 @@ $( "#startdate" ).datepicker(
           </div>
 
           <div class="form-group">
-            <label for="maxspend" class="control-label col-sm-3"><?php echo $this->layout()->_t->translate("Maximum spend");?><br><sup>(<?php echo $this->layout()->_t->translate("Maximum campaign $$$ spent before the bids stop");?>)</sup></label>
+            <label for="maxspend" class="control-label col-sm-3"><?php echo $this->layout()->_t->translate("Maximum spend");?>*<br><sup>(<?php echo $this->layout()->_t->translate("Maximum campaign $$$ spent before the bids stop");?>)</sup></label>
             <div class="controls col-sm-7">
               <input type="number" value="<?php echo $maxspend;?>" maxlength="255" class="form-control" id="maxspend" name="maxspend">
             </div>
@@ -133,7 +133,7 @@ $( "#startdate" ).datepicker(
           <div class="form-group">
             <label for="customerid" class="control-label col-sm-3"><?php echo $this->layout()->_t->translate("Customer Id");?> <br><sup>(<?php echo $this->layout()->_t->translate("Use this field for your own customer reference if any");?>)</sup></label>
             <div class="controls col-sm-7">
-              <input type="text" value="<?php echo $customerid;?>" maxlength="255" class="form-control" id="customerid" name="customerid">
+              <input type="text" value="<?php if ($customerid != 0) echo $customerid;?>" maxlength="255" class="form-control" id="customerid" name="customerid">
             </div>
           </div>
           <div class="form-group text-center">

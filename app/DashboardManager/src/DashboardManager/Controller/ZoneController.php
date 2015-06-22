@@ -152,7 +152,11 @@ class ZoneController extends PublisherAbstractActionController {
         if (count($ZoneList["data"])> 0):
         	foreach ($ZoneList["data"] AS $row_number => $row_data): 
         		$row = array();
-
+                if ($row_data["AdTemplateID"] == 0):
+                    $row_data["TemplateName"] = "Custom";
+                    $row_data["TemplateX"] = $row_data["Width"];
+                    $row_data["TemplateY"] = $row_data["Height"];
+                endif;
         		$row["index"] = $Offset + $row_number+1;
         		$row["AdzoneId"] = $row_data["PublisherAdZoneID"];
         		$row["AdzoneName"] = array('name' => $row_data["AdName"], 'id' => $row_data["PublisherAdZoneID"], 'domain_id' => $row_data["PublisherWebsiteID"]);
