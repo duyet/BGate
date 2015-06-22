@@ -274,8 +274,12 @@ $domain_id;?>, <?php echo $zone_list_raw[$row_number]["PublisherAdZoneID"];?>)">
       </div>
       <div class="modal-body">
         <div>
-		<p>For most websites just copy & paste the code below into the HTML source of the page where you want to the ad to display.</p>
-		<label for="adtag">&nbsp;</label>
+    <p>
+      Copy this tag to page's header (only if you have not done this before)
+    </p>
+    <textarea rows="3" name="headtag" id="headtag" style="min-width: 516px;display: none;"></textarea>
+		<p>Copy & paste the code below into the HTML source of the page where you want to the ad to display.</p>
+		<!-- <label for="adtag">&nbsp;</label> -->
 		<div id="adtag_progress_bar" class="progress progress-striped active">
              <div class="bar" style="width: 100%;"></div>
          </div>
