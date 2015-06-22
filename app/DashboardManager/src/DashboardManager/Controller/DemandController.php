@@ -3664,6 +3664,7 @@ class DemandController extends DemandAbstractActionController {
 	       	$AdCampaignPreviewFactory = \_factory\AdCampaignPreview::get_instance();
 	       	$_AdCampaignPreview = $AdCampaignPreviewFactory->get_row($params);
 	       	$AdCampaignPreview->AdCampaignID 	= $_AdCampaignPreview->AdCampaignID;
+	       	$AdCampaignPreview->Approval 	    = $_AdCampaignPreview->Approval;
 	    endif;
 
 	    // else new campaign, ispreview is always true
