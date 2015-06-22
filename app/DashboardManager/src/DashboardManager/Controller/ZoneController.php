@@ -73,7 +73,7 @@ class ZoneController extends PublisherAbstractActionController {
         $AdTemplatesFactory = \_factory\AdTemplates::get_instance();
         $AdTemplatesObjList = array();
         $AdTemplatesParameters = array();
-        $AdTemplateList = array('' => 'CUSTOM');
+        $AdTemplateList = array('0' => 'CUSTOM');
         
         $AdTemplatesObjList = $AdTemplatesFactory->get_object($AdTemplatesParameters);
         
