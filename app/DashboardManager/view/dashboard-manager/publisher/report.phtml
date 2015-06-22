@@ -111,14 +111,18 @@ $effective_user_in_dashboard = false;
         <hr>
       </div>
       <div class="modal-body">
-        <!-- <div id="cdn_form_msg" class="alert alert-danger" style="margin: 15px; display:none;"></div> -->
+        <div id="cdn_form_msg" class="alert alert-danger" style="margin: 15px; display:none;"></div>
         <form id="payout" class="form-horizontal form-top-magin" name="payout" method="post" action="<?php echo $this->basePath() ?>/publisher/payoutprocess" novalidate="novalidate">
           <input type="hidden" value="" name="UserPayoutID">
           <input type="hidden" value="<?php echo $user_balance;?>" name="currentBalance" id="currentBalance">
           <div class="form-group">
             <label for="Amount" class="control-label col-sm-3"><?php echo $this->layout()->_t->translate("Amount");?></label>
             <div class="controls col-sm-7">
-              <input type="text" value="" maxlength="255" class="form-control" id="Amount" name="Amount">    
+              
+               <div class="input-group">
+                  <span class="input-group-addon">$</span>
+                   <input type="text" value="" maxlength="255" class="form-control" id="Amount" name="Amount">   
+                </div> 
             </div>
           </div>
           <hr>
