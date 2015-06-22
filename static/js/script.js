@@ -1521,6 +1521,19 @@ function loadOutcomeAdzone(){
 
 }
 
+function loadDomainDetail(){
+	var domain_id = $("#PublisherWebsiteID").val();
+	var flag = $("#income-time option:selected").val();
+	$.get(basePath + "/publisher/loadDomainDetail/" + flag, {domainId: domain_id, param1: flag}  , function( data ) {
+		$("#DomainRevenue").text(data.data[0].Incomes);
+		$("#DomainImpressions").text(data.data[0].Impressions);
+		$("#DomainEcpm").text(data.data[0].eCPM);
+		$("#DomainClicks").text(data.data[0].Clicks);
+		$("#DomainCTR").text(data.data[0].CTR);
+	},'json');		
+
+}
+
 function empty(object) {
   if((typeof(object) == 'object' && $.isEmptyObject(object)) || 
 	    object == '' || 
@@ -1575,6 +1588,9 @@ $().ready(function() {
 		loadOutcomeAdzone();
 	}
 
+	if (window.location.pathname.indexOf("publisher/zone") > -1){
+		loadDomainDetail();
+	}
 });
 
 function payment_form_value () {

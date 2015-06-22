@@ -159,6 +159,42 @@ class AdzoneDailyTracker extends \_factory\CachedTableRead
         return $obj_list;
     }
 
+    public function get_detail($params = null, $flag = null) {
+        $obj_list = array();
+        $resultSet = $this->select(function (\Zend\Db\Sql\Select $select) use ($params, $flag){
+                
+                $select->join("PublisherAdZone",
+                    "PublisherAdZone.PublisherAdZoneID = AdzoneDailyTracker.PublisherAdZoneID",
+                    array(
+                        "PublisherWebsiteID" => "PublisherWebsiteID",
+                        ),
+                    $select::JOIN_INNER);
+
+                foreach ($params as $name => $value):
+                $select->where(
+                        $select->where->equalTo($name, $value)
+                );
+                endforeach;
+                $select->columns(
+                    array(
+                        "Incomes" => new \Zend\Db\Sql\Expression("SUM(Income)"),
+                        "Clicks" => new \Zend\Db\Sql\Expression("SUM(ClickCount)"),
+                        "Impressions" => new \Zend\Db\Sql\Expression("SUM(ImpCount)"),
+                        "eCPM" => new \Zend\Db\Sql\Expression("ROUND((SUM(Income)/SUM(ImpCount)*1000),2)"),
+                        "CTR" => new \Zend\Db\Sql\Expression("ROUND((SUM(ClickCount)/SUM(ImpCount)*1000),2)")
+                    )
+                );
+                //Condition filter
+                $condition = $this->getConditionByFlag($flag);
+                $select->where($condition);
+            }
+        );
+        foreach ($resultSet as $obj):
+            $obj_list[] = $obj;
+        endforeach;
+
+        return $obj_list;
+    }
 
     function getConditionByFlag($flag){
         $condition = array();

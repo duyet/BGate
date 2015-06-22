@@ -47,7 +47,20 @@ function submitForm() {
 <div class="container-fluid">
   <div class="row mrg20T">
     <div id="domain-details" class="col-md-10 col-md-offset-1 panel pad20T">
-      <h4 class="underline mrg0T">Domain Overview</h4>
+      <p class="underline mrg0T" style="padding-bottom: 3px;">
+        <input type="hidden" value="<?php echo $domain_id;?>" id="PublisherWebsiteID">
+        <span class="admin-titles"><?php echo $this->layout()->_t->translate("Domain Overview");?> </span>
+          <select id="income-time" onchange="loadDomainDetail();">
+            <option value><?php echo $this->layout()->_t->translate("All time");?></option>
+            <option value="0"><?php echo $this->layout()->_t->translate("Today");?></option>
+            <option value="1"><?php echo $this->layout()->_t->translate("Yesterday");?></option>
+            <option value="2"><?php echo $this->layout()->_t->translate("This week");?></option>
+            <option value="3"><?php echo $this->layout()->_t->translate("Last week");?></option>
+            <option value="4"><?php echo $this->layout()->_t->translate("This month");?></option>
+            <option value="5"><?php echo $this->layout()->_t->translate("Last month");?></option>
+            <option value="6"><?php echo $this->layout()->_t->translate("This year");?></option>
+          </select>
+      </p>
       <div class="row">
         <div class="col-sm-3">Domain Name: <strong><?php echo $domain_obj->WebDomain ?></strong></div>
         <div class="col-sm-3">Owner: <strong><?php echo $domain_owner->Name ?></strong></div>
@@ -55,15 +68,15 @@ function submitForm() {
         <div class="col-sm-3">Date Created: <strong><?php echo $domain_obj->DateCreated ?></strong></div>
       </div>
       <div class="row">
-        <div class="col-sm-3">Revenue:</div>
-        <div class="col-sm-3">Ad requests:</div>
-        <div class="col-sm-3">Fillrate:</div>
-        <div class="col-sm-3">Impressions:</div>
+        <div class="col-sm-3">Revenue: $<strong id="DomainRevenue"></strong></div>
+        <div class="col-sm-3">Ad requests: <strong>0</strong></div>
+        <div class="col-sm-3">Fillrate: <strong>0</strong></div>
+        <div class="col-sm-3">Impressions: <strong id="DomainImpressions"></strong></div>
       </div>
       <div class="row">
-        <div class="col-sm-3">eCPM:</div>
-        <div class="col-sm-3">Clicks:</div>
-        <div class="col-sm-3">CTR:</div>
+        <div class="col-sm-3">eCPM: $<strong id="DomainEcpm"></strong></div>
+        <div class="col-sm-3">Clicks: <strong id="DomainClicks"></strong></div>
+        <div class="col-sm-3">CTR: <strong id="DomainCTR"></strong>%</div>
         <div class="col-sm-3"></div>
       </div>
       <br>

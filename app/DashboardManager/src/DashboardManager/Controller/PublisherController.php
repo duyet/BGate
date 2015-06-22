@@ -438,6 +438,34 @@ class PublisherController extends PublisherAbstractActionController {
 	}
 	
 
+	public function loadDomainDetailAction($value='')
+	{
+        $initialized = $this->initialize();
+        if ($initialized !== true) return $initialized;
+        $flag = ($this->getRequest()->getQuery("param1") == '') ? 7 : $this->getRequest()->getQuery("param1");
+        $domain_id = $this->getRequest()->getQuery("domainId");
+		$params = array();
+		$params["PublisherWebsiteID"] = $domain_id;
+
+        $AdzoneDailyTrackerFactory = \_factory\AdzoneDailyTracker::get_instance();
+        $details = $AdzoneDailyTrackerFactory->get_detail($params, $flag);
+        if (count($details)> 0):
+            foreach ($details AS $row_number => $row_data): 
+                $row = array();
+                $row["Incomes"] = ($row_data["Incomes"] == null)? 0 : $row_data["Incomes"];
+                $row["Clicks"] = ($row_data["Clicks"] == null)? 0 : $row_data["Clicks"];
+                $row["Impressions"] = ($row_data["Impressions"] == null)? 0 : $row_data["Impressions"];
+                $row["eCPM"] = ($row_data["eCPM"] == null)? 0 : $row_data["eCPM"];
+                $row["CTR"] = ($row_data["CTR"] == null)? 0 : $row_data["CTR"];
+
+                $result[] = $row;
+            endforeach;
+        endif;
+        header('Content-type: application/json');
+        echo json_encode(array('data' => $result));
+        die;
+	}
+
 	/*
 	 * Change domain flag
 	*/
@@ -1201,6 +1229,7 @@ class PublisherController extends PublisherAbstractActionController {
 		return $this->redirect()->toRoute('publisher');
 	
 	}
+
 	
 }
 
