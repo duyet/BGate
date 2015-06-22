@@ -20,7 +20,7 @@ use Zend\Mime;
  */
 class SignupController extends PublisherAbstractActionController {
 
-	public function privacyAction()
+	public function privacyPolicyAction()
 	{
 		$auth = $this->getServiceLocator()->get('AuthService');
 		if ($auth->hasIdentity()):
