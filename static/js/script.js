@@ -138,7 +138,7 @@ function deleteZoneConfirm() {
 	$("#zone_yes_btn").button('loading');
 	$("#zone_no_btn").attr("disabled",true);
 	
-	$.post("/publisher/zone/" + domain_id + "/delete/" + ad_id, { del: 'Yes', param1: domain_id, id: ad_id }, function( data ) {
+	$.post(basePath + "/publisher/zone/" + domain_id + "/delete/" + ad_id, { del: 'Yes', param1: domain_id, id: ad_id }, function( data ) {
 		$("#zone_no_btn").attr("disabled",false);
 		if(data.success == false) {
 			$("#zone_yes_btn").button('reset');
@@ -200,7 +200,7 @@ function deleteDomainConfirm() {
 		}
 		if(data.success == true) {
 			//alert(data.success+" "+data.data.error_msg);	
-			window.location.reload();
+			window.location.href = basePath + '/publisher';
 		}
 	},'json');
 
