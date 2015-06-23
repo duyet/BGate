@@ -59,7 +59,7 @@ class DemandController extends DemandAbstractActionController {
         $campaigns_list = $AdCampaignPreviewFactory->get($params);
 
         $view = new ViewModel(array(
-			 'dashboard_view' => 'demand',
+			 'dashboard_view' => 'dashboard',
 			 'true_user_name' => $this->auth->getUserName(),
 			 'is_admin' => $this->is_admin,
 			 // 'user_id_list' => $this->user_id_list_publisher,
@@ -3925,6 +3925,7 @@ class DemandController extends DemandAbstractActionController {
 		$Offset =   (int) $this->getRequest()->getQuery("start");
 		// End List web
 		$view = new ViewModel(array(
+			'dashboard_view' => 'report',
 			'is_admin' => $this->is_admin,
 			'user_id_list' => $this->user_id_list_publisher,
 			'true_user_name' => $this->true_user_name,

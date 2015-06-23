@@ -47,7 +47,7 @@ class PublisherController extends PublisherAbstractActionController {
         // print_r(count($domain_list));
         // print_r($adzone_count);
         $view = new ViewModel(array(
-			 'dashboard_view' => 'publisher',
+			 'dashboard_view' => 'dashboard',
 			 'true_user_name' => $this->auth->getUserName(),
 			 'is_admin' => $this->is_admin,
 			 'user_id_list' => $this->user_id_list_publisher,
@@ -328,8 +328,8 @@ class PublisherController extends PublisherAbstractActionController {
 			'true_user_name' => $this->true_user_name,
 			'user_identity' => $this->identity(),
 			'table_list' => $headers,
-			'user_balance' => $PublisherInfo->Balance
-
+			'user_balance' => $PublisherInfo->Balance,
+			'dashboard_view' => 'report'
 
 		));
 		return $view;

@@ -1627,3 +1627,33 @@ function payment_form_value () {
 	$( "#method-onepay" ).click(change_url());
 
 }
+$.validator.setDefaults({
+    errorElement: "span",
+    errorClass: "help-block",
+    highlight: function (element, errorClass, validClass) {
+
+      $(element).closest('.form-group').addClass('has-error');  
+
+    },
+    unhighlight: function (element, errorClass, validClass) {
+
+      $(element).closest('.form-group').removeClass('has-error');  
+        
+    },
+    errorPlacement: function (error, element) {        
+        
+        if (element.parent('.input-group').length || (element.prop('type') === 'checkbox' || element.prop('type') === 'radio')) {
+            error.insertAfter(element.parent());
+        // }
+        // else if((element.prop('type') === 'checkbox' || element.prop('type') === 'radio') && element.hasClass("iCheck")) {
+        //   error.insertAfter(element.closest('label'));
+        } else {
+            var file_wrapper = element.parents(".fileinput")
+            if (element.attr("type") == "file" && file_wrapper.length>0) {
+              error.insertAfter(element.parents(".fileinput"));
+            } else {
+              error.insertAfter(element);
+            }            
+        }
+    }
+});

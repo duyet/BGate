@@ -86,7 +86,7 @@ echo $this->doctype(); ?>
                         <li class="divider-vertical"></li>
                         <?php else:?>
                         <?php if ($userRole=='admin' || $userRole=='superadmin'): ?>
-                            <li class="<?php if($home_dashboard_view == " demand ") echo "active ";?>">
+                            <li class="<?php if($home_dashboard_view == "demand") echo "active ";?>">
                                 <a class="navlink" href="<?php echo $this->basePath() ?>/manager/index">
                                     <?php echo $this->layout()->_t->translate("Dashboard");?>
                                 </a>
@@ -94,25 +94,25 @@ echo $this->doctype(); ?>
                             <li class="divider-vertical"></li>
                         <?php endif;?>
                         <?php if ($user_data != null && $user_data->DemandCustomerInfoID != null): ?>
-                            <li>
+
+                            <li class="<?php if($home_dashboard_view == "dashboard") echo "active ";?>">
+
                                 <a class="navlink" href="<?php echo $this->basePath() ?>/demand/dashboard">
                                     <?php echo $this->layout()->_t->translate("Dashboard");?>
                                 </a>
                             </li>         
                             <li class="divider-vertical"></li>
                         <?php endif;?>
+
                         <?php if (($user_data != null && $user_data->DemandCustomerInfoID != null) || $userRole=='admin' || $userRole=='superadmin'): ?>
-                        <li><a class="navlink" href="<?php echo $this->basePath() ?>/demand"><?php echo $this->layout()->_t->translate("Campaign");?></a></li>
+
+                        <li class="<?php if($home_dashboard_view == "demand") echo "active ";?>"><a class="navlink" href="<?php echo $this->basePath() ?>/demand"><?php echo $this->layout()->_t->translate("Campaign");?></a></li>
+
                         <li class="divider-vertical"></li>
                         <?php endif;?>
-
-                        
-
-                        
-
                         <?php if ($user_data != null && $user_data->DemandCustomerInfoID != null): ?>
 
-                        <li class="<?php if($home_dashboard_view == "publisher") echo "active ";?>"><a class="navlink" href="<?php echo $this->basePath() ?>/demand/report"><?php echo $this->layout()->_t->translate("Report");?></a></li>
+                        <li class="<?php if($home_dashboard_view == "report") echo "active ";?>"><a class="navlink" href="<?php echo $this->basePath() ?>/demand/report"><?php echo $this->layout()->_t->translate("Report");?></a></li>
 
                         <li class="<?php if($home_dashboard_view == "payment") echo "active ";?>"><a class="navlink" href="<?php echo $this->basePath() ?>/demand/payment">Payment</a></li>
                         <li class="divider-vertical"></li>
@@ -120,7 +120,7 @@ echo $this->doctype(); ?>
 
 
                         <?php if ($user_data != null && $user_data->PublisherInfoID != null): ?>
-                            <li class="<?php if($home_dashboard_view == " publisher ") echo "active ";?>">
+                            <li class="<?php if($home_dashboard_view == "dashboard") echo "active ";?>">
                                 <a class="navlink" href="<?php echo $this->basePath() ?>/publisher/dashboard">
                                     <?php echo $this->layout()->_t->translate("Dashboard");?>
                                 </a>
@@ -130,12 +130,12 @@ echo $this->doctype(); ?>
                         <?php endif;?>
 
                         <?php if (($user_data != null && $user_data->PublisherInfoID != null) || $userRole=='admin' || $userRole=='superadmin'): ?>
-                        <li class="<?php if($home_dashboard_view == " publisher ") echo "active ";?>"><a class="navlink" href="<?php echo $this->basePath() ?>/publisher"><?php echo $this->layout()->_t->translate("Domain");?></a></li>
+                        <li class="<?php if($home_dashboard_view == "publisher") echo "active";?>"><a class="navlink" href="<?php echo $this->basePath() ?>/publisher"><?php echo $this->layout()->_t->translate("Domain");?></a></li>
                         <li class="divider-vertical"></li>
                         <?php endif;?>
 
                         <?php if ($user_data != null && $user_data->PublisherInfoID != null): ?>
-                        <li class="<?php if($home_dashboard_view == " publisher ") echo "active ";?>"><a class="navlink" href="<?php echo $this->basePath() ?>/publisher/report"><?php echo $this->layout()->_t->translate("Report");?></a></li>
+                        <li class="<?php if($home_dashboard_view == "report") echo "active ";?>"><a class="navlink" href="<?php echo $this->basePath() ?>/publisher/report"><?php echo $this->layout()->_t->translate("Report");?></a></li>
                         <li class="divider-vertical"></li>
                         <?php endif;?>
 

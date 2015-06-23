@@ -42,7 +42,7 @@ $effective_user_in_dashboard = false;
               <option value="5"><?php echo $this->layout()->_t->translate("Last month");?></option>
               <option value="6"><?php echo $this->layout()->_t->translate("This year");?></option>
         </select>
-         <span class="admin-titles pull-right"><button class="btn btn-success" style="margin: -12px 3px 0px 5px;" onclick="$('#PayoutModal').modal('show')">Withdraw</button></span>
+         <span class="admin-titles pull-right"><button class="btn btn-success" style="margin: -12px 3px 0px 5px;" onclick="$('#PayoutModal').modal('show')" <?php if(intval($user_balance) < 10){ echo "disabled";} ?>>Withdraw</button></span>
           <span class="admin-titles pull-right">Balance: $<?php echo (int) $user_balance;?></span>
 
         </p>
@@ -111,7 +111,7 @@ $effective_user_in_dashboard = false;
         <hr>
       </div>
       <div class="modal-body">
-        <div id="cdn_form_msg" class="alert alert-danger" style="margin: 15px; display:none;"></div>
+        <!-- <div id="cdn_form_msg" class="alert alert-danger" style="margin: 15px; display:none;"></div> -->
         <form id="payout" class="form-horizontal form-top-magin" name="payout" method="post" action="<?php echo $this->basePath() ?>/publisher/payoutprocess" novalidate="novalidate">
           <input type="hidden" value="" name="UserPayoutID">
           <input type="hidden" value="<?php echo $user_balance;?>" name="currentBalance" id="currentBalance">
@@ -121,7 +121,7 @@ $effective_user_in_dashboard = false;
               
                <div class="input-group">
                   <span class="input-group-addon">$</span>
-                   <input type="text" value="" maxlength="255" class="form-control" id="Amount" name="Amount">   
+                   <input type="text" value="<?php echo (int) $user_balance;?>" maxlength="255" class="form-control" id="Amount" name="Amount">   
                 </div> 
             </div>
           </div>
