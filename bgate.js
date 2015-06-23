@@ -18,7 +18,8 @@ var _bgate_bidder = {
 		var n = d.getTime();
 		var request_id = "bgate_"+ n; 
 		this.bid_request.id = request_id;
-
+        // collect current page
+        this.bid_request.site.page = window.location.href;
 		// Collect Device infomation
 		this.bid_request.device.ua = navigator.userAgent;
 		this.bid_request.device.ip = _bgate_user_ip;
