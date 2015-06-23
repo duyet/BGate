@@ -2924,6 +2924,8 @@ class DemandController extends DemandAbstractActionController {
 			
 		endif;
 
+		$sync_adserver = file_get_contents(AGENT_SYNC_URL);
+		
 		$refresh_url = "/demand/campaign/" . $BannerPreview->AdCampaignPreviewID . "?ispreview=true";
 		$viewModel = new ViewModel(array('refresh_url' => $refresh_url));
 

@@ -544,6 +544,8 @@ class ZoneController extends PublisherAbstractActionController {
         $current_apis_supported = array();
         $current_protocols = array();
         $current_mimes = array();
+
+        $sync_adserver = file_get_contents(PUBLISHER_SYNC_URL);
         
         return array(
         		'error_message' => $error_message,
