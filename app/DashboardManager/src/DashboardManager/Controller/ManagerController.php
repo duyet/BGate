@@ -49,6 +49,7 @@ class ManagerController extends DemandAbstractActionController {
             $params["UserID"] = $this->auth->getUserID();
         endif;     
         $campaigns_list = $AdCampaignPreviewFactory->get($params);
+
         $view = new ViewModel(array(
              'dashboard_view' => 'publisher',
              'true_user_name' => $this->auth->getUserName(),
@@ -71,7 +72,7 @@ class ManagerController extends DemandAbstractActionController {
     	$initialized = $this->initialize();
 		if ($initialized !== true) return $initialized;
     	transformation\CheckPermissions::checkEditPermissionRevenueReport($this->auth, $this->config_handle);
-    	$AdzoneDailyTrackerFactory = \_factory\AdzoneDailyTracker::get_instance();
+
         $view = new ViewModel(array(
                 'user_id_list' => $this->user_id_list_demand_customer,
                 'effective_id' => $this->auth->getEffectiveIdentityID(),
@@ -228,7 +229,20 @@ class ManagerController extends DemandAbstractActionController {
 
     public function userPayoutAction()
     {
-        # code...
+        $initialized = $this->initialize();
+        if ($initialized !== true) return $initialized;
+        transformation\CheckPermissions::checkEditPermissionRevenueReport($this->auth, $this->config_handle);
+        $view = new ViewModel(array(
+                'user_id_list' => $this->user_id_list_demand_customer,
+                'effective_id' => $this->auth->getEffectiveIdentityID(),
+                'dashboard_view' => 'demand',
+                'user_identity' => $this->identity(),
+                'true_user_name' => $this->auth->getUserName(),
+                'is_admin' => $this->is_admin,
+                'effective_id' => $this->auth->getEffectiveIdentityID(),
+                'impersonate_id' => $this->ImpersonateID
+        )); 
+        return $view;
     }
 
 }
