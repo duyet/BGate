@@ -1625,7 +1625,8 @@ class ZoneController extends PublisherAbstractActionController {
           // $effective_tag = "<script type='text/javascript' src='" . $delivery_adtag . "?pzoneid=" . $PublisherAdZoneID . "&height=" . $height . "&width=" . $width . "&tld=" . $domain . "&cb=" . $cache_buster . "'></script>";
           $header_tag = "<script type='text/javascript' src='" . $delivery_adtag ."'></script>";
           $effective_tag = 
-"<script type='text/javascript'>
+"<div class=\"bgate-ad-tag\" data-zone-id=\"_bgate_zone_". $PublisherAdZoneID ."\"></div>
+<script type='text/javascript'>
 var _bgate_". $PublisherAdZoneID ."_bid_request = {
     \"id\": null,
     \"imp\": [{
@@ -1660,10 +1661,11 @@ var _bgate_". $PublisherAdZoneID ."_bid_request = {
 _bgate_bidder.bid_request = _bgate_".$PublisherAdZoneID."_bid_request;
 _bgate_bidder.bid();
 </script>";
-          
+          $ret_tag = str_replace('  ', '', $effective_tag);
+          $ret_tag = str_replace("\n", '', $ret_tag);
           $data = array(
 	        'result' => true,
-	        'data' => array('tag' => htmlentities($effective_tag), "header_tag" => htmlentities($header_tag))
+	        'data' => array('tag' => htmlentities($ret_tag), "header_tag" => htmlentities($header_tag))
    		 );
           
           return $this->getResponse()->setContent(json_encode($data));
