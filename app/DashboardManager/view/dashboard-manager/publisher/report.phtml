@@ -35,7 +35,7 @@ $effective_user_in_dashboard = false;
             <select id="time-filter" onchange="ReportPublisherTable.reload_table()">
               <option selected value>All time</option>
               <option value="0"><?php echo $this->layout()->_t->translate("Today");?></option>
-              <option value="1"><?php echo $this->layout()->_t->translate("Yesterday");?></option>
+              <option value="1" selected><?php echo $this->layout()->_t->translate("Yesterday");?></option>
               <option value="2"><?php echo $this->layout()->_t->translate("This week");?></option>
               <option value="3"><?php echo $this->layout()->_t->translate("Last week");?></option>
               <option value="4"><?php echo $this->layout()->_t->translate("This month");?></option>
