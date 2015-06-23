@@ -7,12 +7,10 @@ $this->headScript()->prependFile($this->basePath() . '/static/js/signup.js');
 <div class="docs-header">
   <div class="topic">
         <div class="container">
-      <div class="col-md-8">
-        <h3>Create Demand Customer Account.</h3>
-      </div>
-      <div class="col-md-4">
       
-          </div>
+        <h4>Create Your Advertiser Account.</h4>
+      
+      
         </div>
         <div class="topic__infos">
           <div class="container">
@@ -31,45 +29,45 @@ $this->headScript()->prependFile($this->basePath() . '/static/js/signup.js');
           <?php 
               if(isset($error_msg) && $error_msg != null):
               
-                echo '<div id="cdn_form_error" class="alert alert-error" style="margin: 5px;">'.$error_msg.'</div>';
+                echo '<div id="cdn_form_error" class="alert alert-danger" style="margin: 5px;">'.$error_msg.'</div>';
               endif;
               if(isset($success_msg) && $success_msg != null):
               
                 echo '<div id="cdn_form_success" class="alert alert-success" style="margin: 5px;">Account created successfully. You will receive a welcome email when your account is approved by our Ad Operations Team</div>';
               endif;
           ?>
-          <div id="cdn_form_dynamic_msg" class="alert alert-error" style="margin: 5px; display:none;"></div>
-          <div id="cdn_form_msg" class="alert alert-error" style="margin: 5px; display:none;"></div>
-
+<!--           <div id="cdn_form_dynamic_msg" class="alert alert-danger" style="margin: 5px; display:none;"></div>
+          <div id="cdn_form_msg" class="alert alert-danger" style="margin: 5px; display:none;"></div>
+ -->
           <div class="form-group mrg20B mrg10T underline">
               <h4 class="mrg0A">Account Information</h4>    
             </div>
           <div class="form-group">
-              <label for="Email" class="control-label col-sm-3">Email</label>
+              <label for="Email" class="control-label col-sm-3">Email*</label>
               <div class="controls col-sm-7">
               <input type="text" value="" class="form-control" maxlength="50" name="email" id="email" placeholder="me@example.com">
               </div>
           </div>
           <div class="form-group">
-              <label for="Username" class="control-label col-sm-3">Username</label>
+              <label for="Username" class="control-label col-sm-3">Username*</label>
               <div class="controls col-sm-7">
                 <input type="text" value="" class="form-control" maxlength="50" name="user_login" id="user_login" placeholder="username">
               </div>
           </div>
           <div class="form-group">
-              <label for="Password" class="control-label col-sm-3">Password</label>
+              <label for="Password" class="control-label col-sm-3">Password*</label>
               <div class="controls col-sm-7">
               <input type="password" value="" class="form-control" name="password" id="password">    </div>
           </div> 
           
           <div class="form-group">
-              <label for="Confirm Password" class="control-label col-sm-3">Confirm Password</label>
+              <label for="Confirm Password" class="control-label col-sm-3">Confirm Password*</label>
               <div class="controls col-sm-7">
               <input type="Password" value="" class="form-control"  name="confirm_password" id="confirm_password">    </div>
           </div> 
 
           <div class="form-group">
-              <label for="Customer Name" class="control-label col-sm-3">Full Name</label>
+              <label for="Customer Name" class="control-label col-sm-3">Full Name*</label>
               <div class="controls col-sm-7">
               <input type="text" value="" class="form-control" maxlength="100" name="customer_name" id="customer_name" placeholder="Name">    </div>
           </div>
@@ -80,7 +78,7 @@ $this->headScript()->prependFile($this->basePath() . '/static/js/signup.js');
           
           
           <div class="form-group">
-              <label for="Company" class="control-label col-sm-3">Company Name</label>
+              <label for="Company" class="control-label col-sm-3">Company Name*</label>
               <div class="controls col-sm-7">
               <input type="text" value="" class="form-control" maxlength="50" name="company" id="company" placeholder="">    </div>
           </div>

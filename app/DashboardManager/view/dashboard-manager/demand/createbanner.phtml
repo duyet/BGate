@@ -127,7 +127,7 @@ $(function() {
 			<input type="file" id="upload-ad" size-file="1" class="txtbox-width form-control" name="adUrl" value="<?php echo $banner->AdUrl;?>">
 			<div class="pad10T" id="uploadPreview">
 				<?php if(isset($banner->AdUrl) AND !empty($banner->AdUrl)): ?>
-					<img src="<?php echo $this->basePath() .'/'. $banner->AdUrl;?>" style="height:64px;" alt="<?php echo $banner->Name;?>">
+					<img src="<?php echo $banner->AdUrl;?>" style="height:64px;" alt="<?php echo $banner->Name;?>">
 				<?php endif?>
 			</div>
 		</div>

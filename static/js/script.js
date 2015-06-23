@@ -913,7 +913,8 @@ $().ready(function() {
                validatedomain: true
 			},
 			Password: {
-				required: true
+				required: true,
+				minlength: 6
 			},
 			Confirm_password: {
 				required: true,
@@ -978,7 +979,8 @@ $().ready(function() {
 				required: true
 			},
 			password: {
-				required: true
+				required: true,
+				minlength: 6
 			},
 			confirm_password: {
 				required: true,

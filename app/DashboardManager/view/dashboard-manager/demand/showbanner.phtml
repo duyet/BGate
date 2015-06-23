@@ -26,7 +26,7 @@ $this->headScript()->appendFile($this->basePath() . '/static/js/script.js');
     			    <form id="ad" class="form-horizontal form-top-magin" name="ad" method="post" action="">
     			    	<?php if ($campaignbanner_preview->AdUrl != ""): ?>
 	    			    	<h4 class="underline mrg0T"><?php echo $this->layout()->_t->translate("Banner Preview");?></h4>
-	    			    	<img src="<?php echo $this->basePath().'/' . $campaignbanner_preview->AdUrl ?>" alt="<?php echo $campaignbanner_preview->AltText ?>" height="<?php echo $campaignbanner_preview->Height ?>" width="<?php echo $campaignbanner_preview->Width ?>" class="img-responsive center-block">
+	    			    	<img src="<?php echo $campaignbanner_preview->AdUrl ?>" alt="<?php echo $campaignbanner_preview->AltText ?>" height="<?php echo $campaignbanner_preview->Height ?>" width="<?php echo $campaignbanner_preview->Width ?>" class="img-responsive center-block">
 	    			    <?php endif; ?>
 	    				<br>
 						<h4 class="underline mrg0T"><?php echo $this->layout()->_t->translate("General Options");?></h4>

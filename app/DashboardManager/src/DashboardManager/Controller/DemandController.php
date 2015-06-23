@@ -2771,12 +2771,22 @@ class DemandController extends DemandAbstractActionController {
         //die();
 		$re = move_uploaded_file( $tempPath, $uploadPath );
 		$adUrl = '';
+
+		$uri = new \Zend\Uri\Uri($this->getRequest()->getUri());
+
+		$port = intval($uri->getPort());
+		$url_base = $uri->getScheme() . '://' . $uri->getHost();
+
+		if($port !== 80):
+			$url_base = $uri->getScheme() . '://' . $uri->getHost() . ':' . $port;
+		endif;
+
 		if((int)$BannerPreview->AdCampaignBannerPreviewID !== 0){
 			$banner = $AdCampaignBannerPreviewFactory->get_row(array('AdCampaignBannerPreviewID' => $BannerPreview->AdCampaignBannerPreviewID));
 			$adUrl = $banner->AdUrl;
 		}
         if($re){
-        	$adUrl = 'static/images/bannerpreview/'.$imagesname;
+        	$adUrl = $url_base . '/static/images/bannerpreview/'.$imagesname;
         }
 
 		$BannerPreview->UserID             	= $this->auth->getEffectiveUserID();

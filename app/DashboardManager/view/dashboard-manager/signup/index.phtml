@@ -10,11 +10,11 @@ $this->headScript()->prependFile($this->basePath() . '/static/js/signup.js');
         <h4>Create Your Publisher Account.</h4>
 
       </div>
-      <!-- <div class="topic__infos">
+      <div class="topic__infos">
         <div class="container">
-          <a href="<?php echo $this->basePath() ?>/signup/customer">Demand Customers Sign-up Here</a>
+          <a href="<?php echo $this->basePath() ?>/signup/advertiser">Advertiser Sign-up Here</a>
         </div>
-      </div> -->
+      </div> 
     </div>
 </div>
 
@@ -34,34 +34,34 @@ $this->headScript()->prependFile($this->basePath() . '/static/js/signup.js');
                   echo '<div id="cdn_form_success" class="alert alert-success" style="margin: 5px;">Account created successfully. You will receive a welcome email when your account is approved by our Ad Operations Team</div>';
                 endif;
             ?>
-            <div id="cdn_form_dynamic_msg" class="alert alert-danger" style="margin: 5px; display:none;"></div>
+<!--             <div id="cdn_form_dynamic_msg" class="alert alert-danger" style="margin: 5px; display:none;"></div>
             <div id="cdn_form_msg" class="alert alert-danger" style="margin: 5px; display:none;"></div>
-
+ -->
             <div class="form-group mrg20B mrg10T underline">
               <h4 class="mrg0A">Account Information</h4>    
             </div>
             
             <div class="form-group">
-                <label for="Email" class="control-label col-sm-3">Email</label>
+                <label for="Email" class="control-label col-sm-3">Email*</label>
                 <div class="controls col-sm-7">
                 <input type="text" value="" class="form-control" maxlength="50" name="Email" id="Email" placeholder="me@example.com">
                 </div>
             </div>
             <div class="form-group">
-                <label for="Username" class="control-label col-sm-3">Username</label>
+                <label for="Username" class="control-label col-sm-3">Username*</label>
                 <div class="controls col-sm-7">
                   <input type="text" value="" class="form-control" maxlength="50" name="user_login" id="user_login" placeholder="username">
                 </div>
             </div>
             <div class="form-group">
-                <label for="password" class="control-label col-sm-3">Password</label>
+                <label for="password" class="control-label col-sm-3">Password*</label>
                 <div class="controls col-sm-7">
                   <input type="password" value="" class="form-control" name="Password" id="Password">    
                 </div>
             </div> 
 
             <div class="form-group">
-                <label for="Confirm_password" class="control-label col-sm-3">Confirm Password</label>
+                <label for="Confirm_password" class="control-label col-sm-3">Confirm Password*</label>
                 <div class="controls col-sm-7">
                 <input type="Password" value=""  class="form-control" name="Confirm_password" id="Confirm_password">    </div>
             </div> 
@@ -86,11 +86,11 @@ $this->headScript()->prependFile($this->basePath() . '/static/js/signup.js');
 
                 <select id="Country"  class="selbox-width form-control"  name="Country" >         
                         <?php foreach($country as $key => $value): ?>                   
-                            <?php //if ((string)$key === $banner->GEOCountry): ?>
-                            <!-- <option value="<?php echo $key;?>" selected="selected"><?php echo $value;?></option> -->
-                            <?php //else: ?>
+                            <?php if ((string)$key === ""): ?>
+                              <option value="<?php echo $key;?>"></option>
+                            <?php else: ?>
                                 <option value="<?php echo $key;?>"><?php echo $value;?></option>
-                            <?php //endif; ?>
+                            <?php endif; ?>
                         <?php endforeach;?>
                 </select>
 
@@ -112,7 +112,7 @@ $this->headScript()->prependFile($this->basePath() . '/static/js/signup.js');
             </div>
 
             <div class="form-group">
-                <label for="Domain" class="control-label col-sm-3">Website</label>
+                <label for="Domain" class="control-label col-sm-3">Website*</label>
                 <div class="controls col-sm-7">
                 <input type="text" value="" class="form-control" maxlength="50" name="Domain" id="Domain" placeholder="example.com">    </div>
             </div>
@@ -123,7 +123,7 @@ $this->headScript()->prependFile($this->basePath() . '/static/js/signup.js');
                 </div>
             </div>
             <div class="form-group">
-                <label for="IABCategory" class="control-label col-sm-3">IABCategory</label>
+                <label for="IABCategory" class="control-label col-sm-3">IABCategory*</label>
                 <div class="controls col-sm-7">
                 <select id="IABCategory" class="form-control" name="IABCategory">
                    <?php 
