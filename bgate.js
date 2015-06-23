@@ -36,13 +36,41 @@ var _bgate_bidder = {
         
         xhr.onreadystatechange = function () {
             if (xhr.readyState == 4 && xhr.status == 200) {
-                alert(xhr.responseText);
+                responseObject = JSON.parse(xhr.responseText);
+                ifrm = responseObject['seatbid'][0]['bid'][0]['adm'];
+                initializeBanner(ifrm);
             }
         }
         xhr.send(JSON.stringify(this.bid_request));
 	}
 }
 
+function initializeBanner (ifrm) {
+    scriptTag = getScriptTag();
+    var parser = new DOMParser();
+    var ifrmEl = parser.parseFromString(ifrm, "text/html").childNodes[0];;
+    scriptTag.parentNode.insertBefore(ifrmEl, scriptTag);
+}
+
+function getScriptTag() {
+    var scripts = document.getElementsByTagName('script');
+    var last_script = scripts[scripts.length - 1];
+    var rg = new RegExp(script_name, 'i');
+    if (last_script.src.search(rg) >= 0) {
+        return last_script;
+    } else {
+        try {
+            for (var n = scripts.length - 1; n >= 0; n--) {
+                if (scripts[n].src.search(rg) >= 0) {
+                    return scripts[n];
+                }
+            }
+        } catch (e) {
+
+        }
+    }
+    return last_script;
+}
 
 var _bgate_user_ip= null;
 function _bgate_getip(json){
