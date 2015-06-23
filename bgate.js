@@ -38,18 +38,17 @@ var _bgate_bidder = {
             if (xhr.readyState == 4 && xhr.status == 200) {
                 responseObject = JSON.parse(xhr.responseText);
                 ifrm = responseObject['seatbid'][0]['bid'][0]['adm'];
-                initializeBanner(ifrm);
+                impId = responseObject['seatbid'][0]['bid'][0]['impid'];
+                initializeBanner(ifrm, impId);
             }
         }
         xhr.send(JSON.stringify(this.bid_request));
 	}
 }
 
-function initializeBanner (ifrm) {
-    scriptTag = getScriptTag();
-    var parser = new DOMParser();
-    var ifrmEl = parser.parseFromString(ifrm, "text/html").childNodes[0];;
-    scriptTag.parentNode.insertBefore(ifrmEl, scriptTag);
+function initializeBanner (ifrm, impId) {
+    var adzone = document.querySelectorAll("[data-zone-id='_bgate_zone_"+ impId +"']");
+    adzone[0].innerHTML = ifrm;
 }
 
 function getScriptTag() {
