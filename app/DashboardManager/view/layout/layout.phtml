@@ -259,22 +259,15 @@ echo $this->doctype(); ?>
       (function ($) {
           $(function(){
               if($('footer').is('.footer')){
-                setTimeout(function(){
-                  position_footer();
-                },500);
-                  
+                  position_footer();                  
               }        
           })
       })(jQuery);
 
       function position_footer () {
-          var footerHeight = 0,
-          footerTop = 0,
           $footer = $("footer.footer");
           function positionFooter() {
-              footerHeight = 100;//$footer.height();
-              footerTop = ($(window).scrollTop()+$(window).height()-footerHeight)+"px";
-              console.log('positionFooter',($(document.body).height()) , $(window).height());
+              footerHeight = 100 + $(window).scrollTop();
             if(($(document.body).height()+footerHeight) < $(window).height()){
               $footer.css({
                 position: "fixed",
@@ -288,11 +281,20 @@ echo $this->doctype(); ?>
             }
              
           }
-          $(window).load(positionFooter());
+          $(window).load(function () {
+            //console.log('window load');
+            positionFooter()
+          });
           $(window).scroll(function () {
+            //console.log('window scroll');
             positionFooter()
           });
           $(window).resize(function () {
+            //console.log('window resize');
+            positionFooter();
+          });
+          $('body').resize(function () {
+            //console.log('document resize');
             positionFooter();
           });
       }
