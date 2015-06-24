@@ -269,7 +269,7 @@ echo $this->doctype(); ?>
           footerTop = 0,
           $footer = $("footer.footer");
           function positionFooter() {
-              footerHeight = $footer.height();
+              footerHeight = 100;//$footer.height();
               footerTop = ($(window).scrollTop()+$(window).height()-footerHeight)+"px";
               console.log('positionFooter',($(document.body).height()) , $(window).height());
             if(($(document.body).height()+footerHeight) < $(window).height()){
