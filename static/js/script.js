@@ -110,10 +110,10 @@ function InvocationShow ( domain_id, ad_id ) {
 	
 	$.post(basePath + "/publisher/zone/" + domain_id + "/generatetag", { ad_id: ad_id }, function( data ) {
 		$('#adtag_progress_bar').css("display","none");
-		$("#headtag").html(data.data.header_tag);
+		// $("#headtag").html(data.data.header_tag);
 		$('#adtag').html(data.data.tag);
 		$('#adtag').css("display","block");
-		$("#headtag").css("display","block");
+		// $("#headtag").css("display","block");
 	},'json');
 
 }

@@ -22,7 +22,10 @@ use Zend\Mime;
  */
 class ManagerController extends DemandAbstractActionController {
 
-    
+    public function testAction(){
+        $sync_adserver = file_get_contents(PUBLISHER_SYNC_URL);
+        die($sync_adserver);
+    }
     public function indexAction() {
     	$initialized = $this->initialize();
 		if ($initialized !== true) return $initialized;
