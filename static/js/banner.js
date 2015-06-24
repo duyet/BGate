@@ -310,7 +310,7 @@ function readImage(file) {
         image.src    = _file.target.result;              // url.createObjectURL(file);
         image.onload = function() {
             var w = this.width;
-                h = this.height;
+            var h = this.height;
                 //t = file.type,                           // ext only: // file.type.split('/')[1],
                 //n = file.name,
                 //s = ~~(file.size/1024) +'KB';
@@ -327,7 +327,10 @@ function readImage(file) {
 			var IAB_width = $('#width').val();
 			if(!empty(IAB_height) && !empty(IAB_width)){
 				if(IAB_height != this.height || IAB_width != this.width){				
-					add_label_error('Warning - This image has size ('+this.height +'X'+this.width +') not same IABSize.');
+					add_label_error('Warning - This image has size ('+this.width+'X'+this.height  +') not same IABSize.');
+				}
+				else if(IAB_height == this.height && IAB_width == this.width){
+					$('.adUrl-error').remove();
 				}
 			}
         }; 
@@ -349,12 +352,16 @@ function add_label_error (error) {
 function validator_ad_url () {
 	var upload_ad = $("#upload-ad")[0];
     if(upload_ad.disabled){
-    	// $('.adUrl-error').remove();
     	$('input[name="adUrl"]').attr({invalid:'invalid'});
     	add_label_error('File upload not supported!');
     } 
     var F = upload_ad.files;
-    if(F && F[0]) for(var i=0; i<F.length; i++) readImage( F[i] );
+    if(F && F[0]) for(var i=0; i<F.length; i++) {
+    	readImage( F[i] );
+    }
+    else {
+    	$('.adUrl-error').remove();
+    }
 }
 $().ready(function() {
 $("#upload-ad").change(function (e) {
@@ -363,6 +370,7 @@ $("#upload-ad").change(function (e) {
 	// $('.adUrl-error').remove();
 	$('#uploadPreview img').remove();
 	validator_ad_url();
+	$("#bannerform").valid();
 });
 });
 

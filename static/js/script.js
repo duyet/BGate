@@ -20,7 +20,7 @@ function validateEmail(email)
 function validateAmount (amount) {
 	var balance = $("#currentBalance").val();
 	if ((parseInt(amount) > parseInt(balance)) || parseInt(amount)<=0) {
-		$("#cdn_form_msg").html("Required fields are missing.");
+		$("#cdn_form_msg").html("Some fields are required and need to be in correct format.");
 		return false;
 	}
 	else{
@@ -510,13 +510,8 @@ $.validator.addMethod("validatefile", function(value) {
 		}else{
 		   	return false;
 		}
-	    // if(!(invalid == 'invalid')){
-	   	// 	return true;
-	    // }else{
-	    // 	return false;
-	    // }
 		return getValidDomain(value);
-}, 'This file field is required.');
+}, 'Please upload image with supported format (jpg, jpeg, png, gif)');
 
 $.validator.addMethod("validateuser", function(value) {
 		return validateUser(value);
@@ -526,7 +521,7 @@ $().ready(function() {
 
 	  // Campaign form validation
 	  var validator = $("#campaignform").bind("invalid-form.validate", function() {
-			$("#cdn_form_msg").html("Required fields are missing.");
+			$("#cdn_form_msg").html("Some fields are required and need to be in correct format.");
 		}).validate({
 		rules: {
 			campaignname: {
@@ -560,7 +555,7 @@ $().ready(function() {
 	
 	// Banner form validation
 	var validator = $("#bannerform").bind("invalid-form.validate", function() {
-			$("#cdn_form_msg").html("Required fields are missing.");
+			$("#cdn_form_msg").html("Some fields are required and need to be in correct format.");
 		}).validate({
 		rules: {
 			bannername: {
@@ -582,7 +577,7 @@ $().ready(function() {
     //                }   
     //            },
     			required: false,
-               validatefile : true
+                validatefile : true
 
 			},
 			altText: {
@@ -696,7 +691,7 @@ $().ready(function() {
 	
 	// Domian Exclusion form validation
 	var validator = $("#domainexclusionform").bind("invalid-form.validate", function() {
-			$("#cdn_form_msg").html("Required fields are missing.");
+			$("#cdn_form_msg").html("Some fields are required and need to be in correct format.");
 		}).validate({
 		rules: {
            domainname: {  
@@ -722,7 +717,7 @@ $().ready(function() {
 	
 	// Exclusive inclusion form validation
 	var validator = $("#exclusiveinclusionform").bind("invalid-form.validate", function() {
-			$("#cdn_form_msg").html("Required fields are missing.");
+			$("#cdn_form_msg").html("Some fields are required and need to be in correct format.");
 		}).validate({
 		rules: {
            domainname: {  
@@ -747,7 +742,7 @@ $().ready(function() {
 	
 	// Domain form validation
 	var validator = $("#domain").bind("invalid-form.validate", function() {
-			$("#cdn_form_msg").html("Required fields are missing.");
+			$("#cdn_form_msg").html("Some fields are required and need to be in correct format.");
 			// if(document.getElementById("cdn_form_success")) $("#cdn_form_success").css("display","none");
 
 		}).validate({
@@ -775,7 +770,7 @@ $().ready(function() {
 	
 	// Payout form validation
 	var validator = $("#payout").bind("invalid-form.validate", function() {
-			$("#cdn_form_msg").html("Required fields are missing.");
+			$("#cdn_form_msg").html("Some fields are required and need to be in correct format.");
 		}).validate({
 		rules: {
            	Amount: {  
@@ -796,7 +791,7 @@ $().ready(function() {
 
 	// Campaign form validation
 	var validator = $("#campaign").bind("invalid-form.validate", function() {
-			$("#cdn_form_msg").html("Required fields are missing.");
+			$("#cdn_form_msg").html("Some fields are required and need to be in correct format.");
 			if(document.getElementById("cdn_form_success")) $("#cdn_form_success").css("display","none");
 
 		}).validate({
@@ -829,7 +824,7 @@ $().ready(function() {
 
 	// Zone form validation
 	var validator = $("#ad").bind("invalid-form.validate", function() {
-			$("#cdn_form_msg").html("Required fields are missing.");
+			$("#cdn_form_msg").html("Some fields are required and need to be in correct format.");
 			if(document.getElementById("cdn_form_success")) $("#cdn_form_success").css("display","none");
 
 		}).validate({
@@ -876,7 +871,7 @@ $().ready(function() {
 	
 	// Publisher Signup form validation
 	var validator = $("#signupform").bind("invalid-form.validate", function() {
-			$("#cdn_form_msg").html("Required fields are missing.");
+			$("#cdn_form_msg").html("Some fields are required and need to be in correct format.");
 			if(document.getElementById("cdn_form_error")) $("#cdn_form_error").css("display","none");
 			if(document.getElementById("cdn_form_success")) $("#cdn_form_success").css("display","none");
 
@@ -939,7 +934,7 @@ $().ready(function() {
 	
 	// Demand Customer Signup form validation
 	var validator = $("#customersignupform").bind("invalid-form.validate", function() {
-			$("#cdn_form_msg").html("Required fields are missing.");
+			$("#cdn_form_msg").html("Some fields are required and need to be in correct format.");
 			if(document.getElementById("cdn_form_error")) $("#cdn_form_error").css("display","none");
 			if(document.getElementById("cdn_form_success")) $("#cdn_form_success").css("display","none");
 
@@ -1060,7 +1055,7 @@ $().ready(function() {
 
 	// Profile form validation
 	var validator = $("#accountform").bind("invalid-form.validate", function() {
-			$("#cdn_form_msg").html("Required fields are missing.");
+			$("#cdn_form_msg").html("Some fields are required and need to be in correct format.");
 			if(document.getElementById("cdn_form_success")) $("#cdn_form_success").css("display","none");
 		}).validate({
 		rules: {
@@ -1094,7 +1089,7 @@ $().ready(function() {
 	
 	// Change password form validation
 	var validator = $("#changepassform").bind("invalid-form.validate", function() {
-			$("#cdn_change_pass").html("Required fields are missing.");
+			$("#cdn_change_pass").html("Some fields are required and need to be in correct format.");
 			if(document.getElementById("cdn_form_success1")) $("#cdn_form_success1").css("display","none");
 		}).validate({
 		rules: {
@@ -1152,7 +1147,7 @@ $().ready(function() {
 	});
 	// Payment form validation
 	var validator = $("#payment-form").bind("invalid-form.validate", function() {
-			$("#cdn_form_msg").html("Required fields are missing.");
+			$("#cdn_form_msg").html("Some fields are required and need to be in correct format.");
 			if(document.getElementById("cdn_form_success")) $("#cdn_form_success").css("display","none");
 		}).validate({
 		rules: {
