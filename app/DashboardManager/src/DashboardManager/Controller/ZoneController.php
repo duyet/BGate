@@ -1628,8 +1628,9 @@ class ZoneController extends PublisherAbstractActionController {
           // $effective_tag = "<script type='text/javascript' src='" . $delivery_adtag . "?pzoneid=" . $PublisherAdZoneID . "&height=" . $height . "&width=" . $width . "&tld=" . $domain . "&cb=" . $cache_buster . "'></script>";
           $header_tag = "<script type='text/javascript' src='" . $delivery_adtag ."'></script>";
           $effective_tag = 
-"<div class=\"bgate-ad-tag\" data-zone-id=\"_bgate_zone_". $PublisherAdZoneID ."\"></div>
-<script type='text/javascript'>
+"<div class=\"bgate-ad-tag\" data-zone-id=\"_bgate_zone_". $PublisherAdZoneID ."\">".$AdObject->PassbackAdTag."</div>
+<script type='text/javascript' src='" . $delivery_adtag ."' async></script>
+<script type='text/javascript' async>
 var _bgate_". $PublisherAdZoneID ."_bid_request = {
     \"id\": null,
     \"imp\": [{

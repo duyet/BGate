@@ -1593,6 +1593,11 @@ $().ready(function() {
 			auto_complete_url($(this).attr('name'));
 		})
 	}
+	if($('input').is('input[name="Domain"]')){
+		$('input[name="Domain"]').change(function () {
+			auto_complete_url($(this).attr('name'));
+		})
+	}
 	if($('input').is('input[name="Amount"]')){
 		payment_form_value();
 	}
