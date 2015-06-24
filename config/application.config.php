@@ -31,6 +31,13 @@ define('AD_TYPE_IN_HOUSE_REMNANT', 	2);
 define('AD_TYPE_RTB_REMNANT', 		3);
 define('AD_TYPE_CONTRACT', 			4);
 
+/* sync url
+*/
+
+define("AGENT_SYNC_URL", "http://ptnhttt.uit.edu.vn:8899/trigger/refresh/agent?s=73a90acaae2b1ccc0e969709665bc62f");
+define("PUBLISHER_SYNC_URL", "http://ptnhttt.uit.edu.vn:8899/trigger/refresh/publisher?s=73a90acaae2b1ccc0e969709665bc62f");
+define("SYNC_ALL_URL", "http://ptnhttt.uit.edu.vn:8899/trigger/refresh/all?s=73a90acaae2b1ccc0e969709665bc62f");
+
 /*
  * Configure Device Types
 */
