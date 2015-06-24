@@ -49,7 +49,7 @@ var DomainTable = {
                 var dt = self.table.fnGetData();
                 var is_admin = dt[0].is_admin;
                 // deleteDomainModal(<?php echo $domain_id;?>,'<?php echo $domain_list_raw[$row_number]["WebDomain"];?>')
-                var  detail_url= "<a href='"+ basePath  + "/publisher/zone/" + data.id + "'>"+ data.name + " (" + data.id + ")"  +"</a>"; 
+                var  detail_url= "<a href='"+ basePath  + "/publisher/zone/" + data.id + "'>"+ data.name + "</a>"; 
                 var edit_url= "<a href='"+ basePath  + "/publisher/editdomain/" + data.id + "'><span class='glyphicon glyphicon-pencil'></span></a>";
                 var delete_url= '<a href="javascript:;" onclick="deleteDomainModal('+data.id+ ', \'' + data.name +'\' )"><span class="glyphicon glyphicon-trash"></span>' + '</a>';
                 var create_ad_zone = '';
@@ -135,7 +135,7 @@ var AdzoneTable = {
             { 
               "data": "AdzoneName", 
               render: function(data) {
-                var detail_url= "<a href='"+ basePath  + "/publisher/zone/" + data.domain_id + "/show/"+data.id+"'>"+ data.name + " (" + data.id + ")"  +"</a>"; 
+                var detail_url= "<a href='"+ basePath  + "/publisher/zone/" + data.domain_id + "/show/"+data.id+"'>"+ data.name + "</a>"; 
                 // var detail_url= data.name + " (" + data.id + ")"; 
                 var edit_url= "<a href='"+ basePath  + "/publisher/zone/"+data.domain_id+"/edit/" + data.id + "'><span class='glyphicon glyphicon-pencil'></span></a>&nbsp;";
                 var delete_url= '<a href="javascript:;" onclick="deleteZoneModal('+ data.domain_id +','+data.id+ ', \'' + data.name +'\' )"><span class="glyphicon glyphicon-trash"></span>' + '</a>';
@@ -214,7 +214,7 @@ var CampaignTable = {
                 var dt = self.table.fnGetData();
                 var is_admin = dt[0].is_admin;
                 // deleteDomainModal(<?php echo $domain_id;?>,'<?php echo $domain_list_raw[$row_number]["WebDomain"];?>')
-                var  detail_url= "<a href='"+ basePath  + "/demand/campaign/" + data.id + "/"+ data.preview_query +"'>"+ data.name + " (" + data.id + ")"  +"</a>"; 
+                var  detail_url= "<a href='"+ basePath  + "/demand/campaign/" + data.id + "/"+ data.preview_query +"'>"+ data.name + "</a>"; 
                 var edit_url= "<a href='"+ basePath  + "/demand/editcampaign/" + data.id + "/"+ data.preview_query +"'><span class='glyphicon glyphicon-pencil'></span></a>";
                 var delete_url= '<a href="javascript:;" onclick="deleteCampaignModal('+data.id+ ', \'' + data.name +'\' )"><span class="glyphicon glyphicon-trash"></span>' + '</a>';
                 var create_banner = '';
@@ -300,7 +300,7 @@ var CampaignAdTable = {
               render: function(data) {
                 // deleteBannerModal('/demand/deletebanner/2?ispreview=true','abc');
                 // deleteDomainModal(<?php echo $domain_id;?>,'<?php echo $domain_list_raw[$row_number]["WebDomain"];?>')
-                var  detail_url= "<a href='"+ basePath  + "/demand/showbanner/"+data.id+"'>"+ data.name + " (" + "Details" + ")"  +"</a>"; 
+                var  detail_url= "<a href='"+ basePath  + "/demand/showbanner/"+data.id+"'>"+ data.name + "</a>"; 
                 var edit_url= "<a href='"+ basePath  + "/demand/editbanner/" + data.id + "/"+ data.preview_query +"'><span class='glyphicon glyphicon-pencil'></span></a>";
                 var delete_url= '<a href="javascript:;" onclick="deleteBannerModal(\'/demand/deletebanner/'+data.id+ data.preview_query +'\', \'' + data.name +'\' )"><span class="glyphicon glyphicon-trash"></span>' + '</a>';
                 return detail_url + "<hr class='mrg5T mrg5B'/><div class='row-action'>" + edit_url + " " + delete_url +"</div>";
