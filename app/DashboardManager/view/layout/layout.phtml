@@ -11,12 +11,7 @@ if ($child != null && isset($child->dashboard_view)):
 	$home_dashboard_view = $child->dashboard_view;
 endif;
 
-$home_link = $home_dashboard_view;
-if ($home_link == "account"):
-	$home_link = "users/" . $home_dashboard_view;
-elseif ($home_link == "login" || $home_link == "company"):
-	$home_link = "";
-endif;
+
 
 if ($child != null && isset($child->center_class)):
 	$extra_main_content_class = " " . $child->center_class;
@@ -32,7 +27,18 @@ if(isset($child->user_identity)):
 	$userRole = $child->user_identity->getRoles();
 	$userRole = $userRole[0];
 endif;
-
+$home_link = $home_dashboard_view;
+if ($userRole=='admin' || $userRole=='superadmin'):
+  $home_link = "manager/index";
+elseif ($user_data != null && $user_data->DemandCustomerInfoID != null):
+  $home_link = "demand/dashboard";
+elseif ($user_data != null && $user_data->PublisherInfoID != null):
+  $home_link = "publisher/dashboard";
+// if ($home_link == "account"):
+  // $home_link = "users/" . $home_dashboard_view;
+elseif ($home_link == "login" || $home_link == "company"):
+  $home_link = "";
+endif;
 echo $this->doctype(); ?>
 
 <html lang="en">
@@ -86,7 +92,7 @@ echo $this->doctype(); ?>
                         <li class="divider-vertical"></li>
                         <?php else:?>
                         <?php if ($userRole=='admin' || $userRole=='superadmin'): ?>
-                            <li class="<?php if($home_dashboard_view == "demand") echo "active ";?>">
+                            <li class="<?php if($home_dashboard_view == "manager_index") echo "active ";?>">
                                 <a class="navlink" href="<?php echo $this->basePath() ?>/manager/index">
                                     <?php echo $this->layout()->_t->translate("Dashboard");?>
                                 </a>
@@ -140,7 +146,7 @@ echo $this->doctype(); ?>
                         <?php endif;?>
 
                         <?php if ($userRole=='admin' || $userRole=='superadmin'): ?>
-                            <li class="<?php if($home_dashboard_view == " demand ") echo "active ";?>">
+                            <li class="<?php if($home_dashboard_view == "publishers") echo "active ";?>">
                                 <a class="navlink" href="<?php echo $this->basePath() ?>/users/publishers">
                                     <?php echo $this->layout()->_t->translate("Publisher List");?>
                                 </a>
@@ -148,7 +154,7 @@ echo $this->doctype(); ?>
                             <li class="divider-vertical"></li>
                         <?php endif;?>
                         <?php if ($userRole=='admin' || $userRole=='superadmin'): ?>
-                            <li class="<?php if($home_dashboard_view == " demand ") echo "active ";?>">
+                            <li class="<?php if($home_dashboard_view == "customers") echo "active ";?>">
                                 <a class="navlink" href="<?php echo $this->basePath() ?>/users/customers">
                                     <?php echo $this->layout()->_t->translate("Customer List");?>
                                 </a>
@@ -265,23 +271,27 @@ echo $this->doctype(); ?>
           function positionFooter() {
               footerHeight = $footer.height();
               footerTop = ($(window).scrollTop()+$(window).height()-footerHeight)+"px";
-             if ( ($(document.body).height()+footerHeight) < $(window).height()) {
-                 $footer.css({
-                      position: "fixed",
-                      bottom: 0,
-                      width: '100%'
-                 })
-             } else {
-                 $footer.css({
-                      position: "static"
-                 })
-             }
+              console.log('positionFooter',($(document.body).height()) , $(window).height());
+            if(($(document.body).height()+footerHeight) < $(window).height()){
+              $footer.css({
+                position: "fixed",
+                bottom: 0,
+                width: '100%'
+              });
+            }else{
+              $footer.css({
+                position: "static"
+              });
+            }
              
           }
-          $(window)
-              .load(positionFooter())
-              .scroll(positionFooter())
-              .resize(positionFooter())
+          $(window).load(positionFooter());
+          $(window).scroll(function () {
+            positionFooter()
+          });
+          $(window).resize(function () {
+            positionFooter();
+          });
       }
     </script>
     </body>

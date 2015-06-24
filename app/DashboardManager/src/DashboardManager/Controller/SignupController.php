@@ -547,7 +547,7 @@ class SignupController extends PublisherAbstractActionController {
 		$userDetail = $PublisherInfoFactory->get(null, $orders);
 
 		$view = new ViewModel(array(
-	    	'dashboard_view' => 'account',
+	    	'dashboard_view' => 'publishers',
 	    	'user_detail' => $userDetail,
 	    	'authUsersFactory' => $authUsersFactory,
 	    	'user_type' => 'publisher',
@@ -709,7 +709,7 @@ class SignupController extends PublisherAbstractActionController {
 		$userDetail = $DemandCustomerInfoFactory->get(null, $orders);
 
 		$view = new ViewModel(array(
-	    	'dashboard_view' => 'account',
+	    	'dashboard_view' => 'customers',
 	    	'user_detail' => $userDetail,
 	    	'authUsersFactory' => $authUsersFactory,
 	    	'user_type' => 'customer',
