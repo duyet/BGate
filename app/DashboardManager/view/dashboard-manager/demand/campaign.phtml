@@ -74,12 +74,12 @@ $effective_user_in_dashboard = false;
           <div class="col-sm-3"><?php echo $this->layout()->_t->translate("Status");?>: 
             <strong>
             <?php
-              if (!isset($campaignpreviewid)):
-                echo "APROVED";
-              elseif (isset($deleted) && $deleted == 1): 
-                echo "DELETED"; 
-              else: 
+              if (isset($deleted) && $deleted == 1):
+                echo "DELETED";
+              elseif (isset($approval) && $approval == 0): 
                 echo "PENDING APPROVAL"; 
+              else: 
+                echo "APPROVED"; 
               endif;
             ?>
             </strong>

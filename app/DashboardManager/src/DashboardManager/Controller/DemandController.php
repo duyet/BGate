@@ -3339,6 +3339,7 @@ class DemandController extends DemandAbstractActionController {
 		$deleted                   = $AdCampaign->Deleted;
 		$impressions_counter	   = $AdCampaign->ImpressionsCounter;
 		$current_spend	   		   = $AdCampaign->CurrentSpend;
+		$approval	   		   	   = $AdCampaign->Approval;
 
 		return new ViewModel(array(
 				'campaignid' => $id,
@@ -3364,7 +3365,8 @@ class DemandController extends DemandAbstractActionController {
 				'is_admin' => $this->is_admin,
 				'effective_id' => $this->auth->getEffectiveIdentityID(),
 				'impersonate_id' => $this->ImpersonateID,
-				'deleted' => $deleted
+				'deleted' => $deleted,
+				'approval' => $approval
 		));
 	}
 
