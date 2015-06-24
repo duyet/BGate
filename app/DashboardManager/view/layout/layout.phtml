@@ -244,8 +244,45 @@ echo $this->doctype(); ?>
     </div>
   </div>
 </div>
+
 <!-- Domain Delete Modal -->
         <?php echo $this->inlineScript() ?>
 		<?php echo file_get_contents("app/DashboardManager/view/support/support.js"); ?>
+
+    <script type="text/javascript">
+      (function ($) {
+          $(function(){
+              if($('footer').is('.footer')){
+                  position_footer();
+              }        
+          })
+      })(jQuery);
+
+      function position_footer () {
+          var footerHeight = 0,
+          footerTop = 0,
+          $footer = $("footer.footer");
+          function positionFooter() {
+              footerHeight = $footer.height();
+              footerTop = ($(window).scrollTop()+$(window).height()-footerHeight)+"px";
+             if ( ($(document.body).height()+footerHeight) < $(window).height()) {
+                 $footer.css({
+                      position: "fixed",
+                      bottom: 0,
+                      width: '100%'
+                 })
+             } else {
+                 $footer.css({
+                      position: "static"
+                 })
+             }
+             
+          }
+          $(window)
+              .load(positionFooter())
+              .scroll(positionFooter())
+              .resize(positionFooter())
+      }
+    </script>
     </body>
 </html>
