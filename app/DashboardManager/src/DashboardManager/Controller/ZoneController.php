@@ -512,7 +512,8 @@ class ZoneController extends PublisherAbstractActionController {
 			                $transport->send($zf_message);
 		                    
 						endif;
-	                    
+	                    $sync_adserver = file_get_contents(PUBLISHER_SYNC_URL);
+                        // die($sync_adserver);
 	                    return $this->redirect()->toRoute('publisher/zone',array('param1' => $DomainObj->PublisherWebsiteID));
                     }
                     catch(\Zend\Db\Adapter\Exception\InvalidQueryException $e) {
@@ -545,8 +546,6 @@ class ZoneController extends PublisherAbstractActionController {
         $current_protocols = array();
         $current_mimes = array();
 
-        $sync_adserver = file_get_contents(PUBLISHER_SYNC_URL);
-        // die($sync_adserver);
         return array(
         		'error_message' => $error_message,
         		'is_admin' => $this->is_admin,
