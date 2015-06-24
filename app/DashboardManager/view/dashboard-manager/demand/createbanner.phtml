@@ -502,10 +502,10 @@ $(function() {
 	   </div>
 	</div>
 
-	<div class="form-group" style="display: <?php if (2 === intval($banner->FrequencyCap)){ echo 'block';}else { echo 'none'; }?>;" >
+	<div class="form-group" style="display: none" >
 	    <label class="col-sm-3 control-label"  for="freCapShowTime"><?php echo $this->layout()->_t->translate("Show times");?></label>
 	    <div class="col-sm-9">
-	    	<input type="number" name="freCapShowTime" id="freCapShowTime" class="form-control" value="<?php echo $banner->FreCapShowTime ;?>">
+	    	<input type="number" name="freCapShowTime" id="freCapShowTime" class="form-control" value="<?php echo $banner->FreCapShowTime == null ? 300 : $banner->FreCapShowTime ;?>">
 	   </div>
 	</div>
 	<div class="form-group" style="display: none;">

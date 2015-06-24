@@ -285,7 +285,7 @@ $().ready(function() {
 
 function frequency_cap_check () {
 	var frequencyCap = $("input[name=frequencyCap]").is(':checked');
-	var FreCapShowTime = $("label[for=FreCapShowTime]").parent();
+	var FreCapShowTime = $("label[for=freCapShowTime]").parent();
 	var FreCapTimeHr = $("label[for=FreCapTimeHr]").parent();
 	var freCapApply = $("label[for=freCapApply]").parent();
 	if(frequencyCap){
