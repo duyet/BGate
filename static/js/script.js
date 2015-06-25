@@ -604,7 +604,7 @@ $().ready(function() {
            landingPageTLD: {  
                required:  {
                    depends:function(){
-                       $(this).val($.trim($(this).val()));
+                       //$(this).val($.trim($(this).val()));
                        return true;
                    }   
                },
@@ -697,7 +697,7 @@ $().ready(function() {
            domainname: {  
                required:  {
                    depends:function(){
-                       $(this).val($.trim($(this).val()));
+                       //$(this).val($.trim($(this).val()));
                        return true;
                    }   
                },
@@ -723,7 +723,7 @@ $().ready(function() {
            domainname: {  
                required:  {
                    depends:function(){
-                       $(this).val($.trim($(this).val()));
+                       //$(this).val($.trim($(this).val()));
                        return true;
                    }   
                },
@@ -883,7 +883,7 @@ $().ready(function() {
 			user_login: {
 				required:  {
                    depends:function(){
-                       $(this).val($.trim($(this).val()));
+                       //$(this).val($.trim($(this).val()));
                        return true;
                    }   
                },
@@ -892,7 +892,7 @@ $().ready(function() {
 			Email: {
                required:  {
                    depends:function(){
-                       $(this).val($.trim($(this).val()));
+                       //$(this).val($.trim($(this).val()));
                        return true;
                    }   
                },
@@ -901,7 +901,7 @@ $().ready(function() {
 			Domain: {
 				required:  {
                    depends:function(){
-                       $(this).val($.trim($(this).val()));
+                       //$(this).val($.trim($(this).val()));
                        return true;
                    }   
                },
@@ -946,7 +946,7 @@ $().ready(function() {
 			user_login: {
 				required:  {
                    depends:function(){
-                       $(this).val($.trim($(this).val()));
+                       //$(this).val($.trim($(this).val()));
                        return true;
                    }   
                },
@@ -955,7 +955,7 @@ $().ready(function() {
 			email: {
                required:  {
                    depends:function(){
-                       $(this).val($.trim($(this).val()));
+                       //$(this).val($.trim($(this).val()));
                        return true;
                    }   
                },
@@ -964,7 +964,7 @@ $().ready(function() {
 			website: {
 				required:  {
                    depends:function(){
-                       $(this).val($.trim($(this).val()));
+                       //$(this).val($.trim($(this).val()));
                        return true;
                    }   
                },
@@ -1006,7 +1006,7 @@ $().ready(function() {
            username: {  
                required:  {
                    depends:function(){
-                       $(this).val($.trim($(this).val()));
+                       //$(this).val($.trim($(this).val()));
                        return true;
                    }   
                },
@@ -1036,7 +1036,7 @@ $().ready(function() {
            username: {  
                required:  {
                    depends:function(){
-                       $(this).val($.trim($(this).val()));
+                       //$(this).val($.trim($(this).val()));
                        return true;
                    }   
                },

@@ -345,7 +345,7 @@ var PublishersTable = {
   },
   fix_layout: function(){
     var dt_filter_area = $(".custom-filter");
-    console.log(dt_filter_area);
+    //console.log(dt_filter_area);
     $(".table-filter").appendTo(dt_filter_area);
   },
   init_datatable: function(){
@@ -380,7 +380,7 @@ var PublishersTable = {
             { "data": "DateCreated" },
             { "data": "Domain",
               render: function ( data, type, row ) {
-                console.log('render', data,type,  row);
+                //console.log('render', data,type,  row);
                 if( row.approval == true || row.approval== 'true'){
                   return '<a target="_blank" href="'+basePath+'/websites/list/'+row.PublisherInfoID+'" style="color:#0088cc;">View</a>';
                 }else{
@@ -405,7 +405,7 @@ var PublishersTable = {
         initComplete: function () {
         },
         fnDrawCallback: function(data){
-          console.log(data.json);
+          //console.log(data.json);
           return data;
         }
     });
@@ -427,7 +427,7 @@ var AdvertiserTable = {
   },
   fix_layout: function(){
     var dt_filter_area = $(".custom-filter");
-    console.log(dt_filter_area);
+    //console.log(dt_filter_area);
     $(".table-filter").appendTo(dt_filter_area);
   },
   init_datatable: function(){
@@ -488,7 +488,7 @@ var AdvertiserTable = {
         initComplete: function () {
         },
         fnDrawCallback: function(data){
-          console.log(data.json);
+          //console.log(data.json);
           return data;
         }
     });
@@ -812,7 +812,7 @@ var PaymentTable = {
   },
   fix_layout: function(){
     var dt_filter_area = $(".custom-filter");
-    console.log(dt_filter_area);
+    //console.log(dt_filter_area);
     $(".table-filter").appendTo(dt_filter_area);
   },
   init_datatable: function(){
@@ -841,7 +841,7 @@ var PaymentTable = {
             { 
               "data": "TransactionLogID",
               render: function ( data, type, row ) {
-                console.log('render', data,type,  row);
+                //console.log('render', data,type,  row);
                 if( parseInt(row.log.Type) == 0){
                   return '<span class="label label-success">Paypal</span>';
                 }else{
@@ -852,7 +852,7 @@ var PaymentTable = {
             { 
               "data": "Type", 
               render: function ( data, type, row ) {
-                console.log('render', data,type,  row);
+                //console.log('render', data,type,  row);
                 if( parseInt(row.Type) == 0){
                   return '<span class="label label-success">Income</span>';
                 }else{
