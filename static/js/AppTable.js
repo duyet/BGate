@@ -38,7 +38,7 @@ var DomainTable = {
         "aoColumnDefs": 
         [
          { 
-          bSortable: false, 'aTargets': [ 0,2,3,4,7 ] 
+          bSortable: false, 'aTargets': [ 0,2,3,4,5,8 ] 
          },    
         ],
         "columns": [

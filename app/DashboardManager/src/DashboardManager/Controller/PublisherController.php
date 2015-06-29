@@ -75,7 +75,7 @@ class PublisherController extends PublisherAbstractActionController {
 		$parameters = array(); // Set the parameters to empty first.
 		// sort map array
 		// if ($this->is_admin):
-			$SortMap = array("1"=> "WebDomain","5" => "DateCreated", "6" => "DateUpdated");
+			$SortMap = array("1"=> "WebDomain","6" => "DateCreated", "7" => "DateUpdated");
 		// else:
 		// 	$SortMap = array("1"=> "WebDomain", "4" => "DateCreated");
 		// endif;
