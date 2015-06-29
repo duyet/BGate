@@ -13,17 +13,20 @@ $this->headScript()->prependFile($this->basePath() . '/static/js/AppTable.js');
   <div class="row">
     <div class="panel col-md-10 col-md-offset-1">
       <div class="panel-body">
-        <div id="payment-form" class="form-horizontal" >
+        <p class="underline mrg0T" style="padding-bottom: 3px;">
+          <span class="admin-titles"><?php echo $this->layout()->_t->translate("You balance");?>: $<?php echo $balance; ?></span>
+        </p>
+        <div id="payment-form" class="" >
           <div id="cdn_form_msg" class="alert alert-danger" style="display:none;"><?php echo $this->layout()->_t->translate("Required fields are missing.");?></div>
           <div class="form-group">
-              <label for="exampleInputEmail1" class="col-sm-2 control-label"><?php echo $this->layout()->_t->translate("Amount");?></label>
-              <div class="col-sm-10">
+              <label for="exampleInputEmail1" class=" control-label"><?php echo $this->layout()->_t->translate("Add money to your account");?></label>
+              <!-- <div class="col-sm-10"> -->
               <div class="input-group">
                 <span class="input-group-addon" id="basic-addon1">$</span>
                  <input type="number" class="form-control" name="Amount" id="Amount" placeholder="Enter Amount" onchange="payment_form_value()">
               </div>
                
-              </div>
+              <!-- </div> -->
             </div>
           <div class="form-group">
                 <p class="text-center">

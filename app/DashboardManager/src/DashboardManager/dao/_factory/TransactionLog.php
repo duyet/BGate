@@ -162,8 +162,7 @@ class TransactionLog extends \_factory\CachedTableRead
         
     	$ID = (int)$TransactionLog->ID;
     	if ($ID === 0): 
-    		// $data['DateCreated']  = $TransactionLog->DateCreated;
-
+    		$data['DateCreated']  = date("Y-m-d H:i:s");
     		$this->insert($data);
     		return $this->getLastInsertValue();
 

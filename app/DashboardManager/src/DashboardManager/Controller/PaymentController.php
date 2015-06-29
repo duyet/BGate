@@ -218,6 +218,14 @@ class PaymentController extends DemandAbstractActionController {
 					$TransactionDetail->Description = $details_arr['DESC'];
 					$TransactionDetailFactory->saveTransactionDetail($TransactionDetail);
 
+					$authUsersFactory = \_factory\authUsers::get_instance();
+	   				$authUsers = $authUsersFactory->get_row(array("user_id" => $user_id));
+
+					$DemandCustomerInfoFactory = \_factory\DemandCustomerInfo::get_instance();			
+					$DemandCustomerInfo = $DemandCustomerInfoFactory->get_row_object(array('DemandCustomerInfoID'=>$authUsers->DemandCustomerInfoID));
+					$DemandCustomerInfo->Balance = intval($DemandCustomerInfo->Balance) + intval($details_arr['AMT']);
+					$DemandCustomerInfoFactory->saveCustomerInfo($DemandCustomerInfo);
+
 					return $this->redirect()->toRoute('demand',
 					array('controller'=>'demand',
 				        'action' => 'resultpayment',
@@ -443,6 +451,12 @@ class PaymentController extends DemandAbstractActionController {
 				$TransactionDetail->Amount = $info_arr[3];
 				$TransactionDetail->Description = "Transfer money online ($".$info_arr[3].") to ".$user_login."'s account on BGATE";
 				$TransactionDetailFactory->saveTransactionDetail($TransactionDetail);
+            
+            	$DemandCustomerInfoFactory = \_factory\DemandCustomerInfo::get_instance();			
+				$DemandCustomerInfo = $DemandCustomerInfoFactory->get_row_object(array('DemandCustomerInfoID'=>$userData->DemandCustomerInfoID));
+				$DemandCustomerInfo->Balance = intval($DemandCustomerInfo->Balance) + intval($info_arr[3]);
+				$DemandCustomerInfoFactory->saveCustomerInfo($DemandCustomerInfo);
+
             }elseif ($response_code != "0"){
                 $transStatus = "Transaction was not paid successful";
             }elseif ($hashValidated=="INVALID HASH"){
@@ -583,8 +597,9 @@ class PaymentController extends DemandAbstractActionController {
     	$initialized = $this->initialize();
 		if ($initialized !== true) return $initialized;
 
-		// Set the parameters to empty first.
-		$params = NULL; 
+	   	// Set the parameters to empty first.
+		$params = array( 'UserID' => $this->auth->getUserID()); 
+		
 
 		// sort map array
 		$SortMap = array(
@@ -618,7 +633,7 @@ class PaymentController extends DemandAbstractActionController {
 			$log =  $TransactionLogFactory->get_row(array("ID" => $value->TransactionLogID));
 			array_push($detail, array_merge((array)$value, array('log' => $log )));
 		}
-		$recordsTotal = $TransactionDetailFactory->get();
+		$recordsTotal = $TransactionDetailFactory->get($params);
 		header('Content-type: application/json');
 		echo json_encode(array(
 			"recordsTotal" => count($recordsTotal), 

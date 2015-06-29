@@ -25,6 +25,7 @@ class DemandCustomerInfo {
     public $Address;
     public $Tax;
     public $Phone;
+    public $Balance;
 
     public function get_locale(){
 

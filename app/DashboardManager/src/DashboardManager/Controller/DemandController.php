@@ -4050,26 +4050,37 @@ class DemandController extends DemandAbstractActionController {
 	    	endif;
 	   	endif;
 
+	   	$authUsersFactory = \_factory\authUsers::get_instance();
+	   	$authUsers = $authUsersFactory->get_row(array("user_id" => $this->auth->getUserID()));
 	   	
-	   	$view = new ViewModel(array(
-			 'dashboard_view' => 'payment',
-			 'is_admin' => $this->is_admin,
-			 'user_identity' => $this->identity(),
-			 'onepay_url' => $this->url()->fromRoute('payment',
-					array('controller'=>'payment',
-				        'action' => 'onepayvisa',
-				        //'param1' => $Amount
-				        )),
-			'paypal_url' => $this->url()->fromRoute('payment',
-					array('controller'=>'payment',
-				        'action' => 'paypaltransfer',
-				        //'param1' => $Amount
-				        )),
-		));
+	   	if (isset($authUsers->DemandCustomerInfoID)):
+			
+			$DemandCustomerInfoFactory = \_factory\DemandCustomerInfo::get_instance();
+			
+			$DemandCustomerInfo = $DemandCustomerInfoFactory->get_row(array('DemandCustomerInfoID'=>$authUsers->DemandCustomerInfoID));
+		   	$view = new ViewModel(array(
+				 'dashboard_view' => 'payment',
+				 'is_admin' => $this->is_admin,
+				 'balance' => $DemandCustomerInfo['Balance'],
+				 'user_identity' => $this->identity(),
+				 'onepay_url' => $this->url()->fromRoute('payment',
+						array('controller'=>'payment',
+					        'action' => 'onepayvisa',
+					        //'param1' => $Amount
+					        )),
+				'paypal_url' => $this->url()->fromRoute('payment',
+						array('controller'=>'payment',
+					        'action' => 'paypaltransfer',
+					        //'param1' => $Amount
+					        )),
+			));
 
-		// return $view;
-		return $view->setTemplate('dashboard-manager/payment/index.phtml');
-
+			// return $view;
+			return $view->setTemplate('dashboard-manager/payment/index.phtml');
+		else:
+			$this->getResponse()->setStatusCode(404);
+			return;  
+		endif;
 	}
 
 	public function resultpaymentAction()
@@ -4089,6 +4100,7 @@ class DemandController extends DemandAbstractActionController {
 		$TransactionLog = $TransactionLogFactory->get_row_object(array(
 			"ID" => $ID,
 		));
+
 
 		$view = new ViewModel(array(
     		// 'dashboard_view' => 'signup',

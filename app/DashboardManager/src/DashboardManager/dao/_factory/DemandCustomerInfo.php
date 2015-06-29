@@ -140,6 +140,7 @@ class DemandCustomerInfo extends \_factory\CachedTableRead
         $data['Tax']     = $DemandCustomerInfo->Tax;
         $data['Address']     = $DemandCustomerInfo->Address;
         $data['Phone']     = $DemandCustomerInfo->Phone;
+        $data['Balance']     = $DemandCustomerInfo->Balance;
         
     	$DemandCustomerInfoID = (int)$DemandCustomerInfo->DemandCustomerInfoID;
     	if ($DemandCustomerInfoID === 0): 
