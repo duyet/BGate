@@ -172,11 +172,13 @@ class TransactionDetail extends \_factory\CachedTableRead
 
         
     	$ID = (int)$TransactionDetail->ID;
-    	if ($ID === 0): 		
+    	if ($ID === 0): 	
+        $data['DateCreated']  = date("Y-m-d H:i:s");	
     		$this->insert($data);
     		return $this->getLastInsertValue();
 
     	else: 
+        $data['DateUpdated']  = date("Y-m-d H:i:s");  
     		return $this->update($data, array('ID' => $ID));
     	endif;
  
