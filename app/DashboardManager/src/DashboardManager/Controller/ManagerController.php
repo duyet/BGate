@@ -53,6 +53,17 @@ class ManagerController extends DemandAbstractActionController {
         endif;     
         $campaigns_list = $AdCampaignPreviewFactory->get($params);
 
+        //Count members
+        //Publisher
+        $PublisherInfo = new \model\PublisherInfo();
+        $PublisherInfoFactory = \_factory\PublisherInfo::get_instance();
+        $publishers_number = count($PublisherInfoFactory->get());
+
+        //Advertisers
+        $DemandCustomerInfo = new \model\DemandCustomerInfo();
+        $DemandCustomerInfoFactory = \_factory\DemandCustomerInfo::get_instance();
+        $advertisers_number = count($DemandCustomerInfoFactory->get());
+
         $view = new ViewModel(array(
              'dashboard_view' => 'manager_index',
              'true_user_name' => $this->auth->getUserName(),
@@ -65,7 +76,9 @@ class ManagerController extends DemandAbstractActionController {
              'user_identity' => $this->identity(),
              'domain_list' => $domain_list,
              'campaigns_list' => $campaigns_list,
-             "user_info" => $user_info
+             "user_info" => $user_info,
+             "publishers_number" => $publishers_number,
+             "advertisers_number" => $advertisers_number
         ));
 
         return $view; 	
