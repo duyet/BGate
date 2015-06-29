@@ -129,6 +129,7 @@ class PublisherController extends PublisherAbstractActionController {
 					$row["created_at"] = $row_data["DateCreated"];
 					$row["updated_at"] = $row_data["DateUpdated"];
 					$row["is_admin"] = $this->is_admin;
+					$row["UserName"] = $row_data["UserName"];
 
 					//Count Ad-Zone
 					$PublisherAdZoneFactory = \_factory\PublisherAdZone::get_instance();
@@ -354,7 +355,7 @@ class PublisherController extends PublisherAbstractActionController {
 		// if ($this->is_admin):
 		
 			//"Imps Loss Rate","DomainPublisherImpressionsLossRate"	
-			$headers = array("#","Domain","Domain Markup","Ad-Zones","IAB Category","Created","Updated","Approval");
+			$headers = array("#","Domain","Domain Markup","User Name", "Ad-Zones","IAB Category","Created","Updated","Approval");
 			$meta_data = array("WebDomain","DomainMarkupRate","DomainOwnerID","DateCreated","DateUpdated","ApprovalFlag");
 		
 			// admin is logged in as a user, get the markup if any for that user

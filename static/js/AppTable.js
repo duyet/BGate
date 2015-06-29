@@ -59,6 +59,7 @@ var DomainTable = {
               } 
             },
             { "data": "DomainMarkup" },
+            { "data": "UserName" },
             { "data": "AdZones" },
             // { "data": "DomainOwnerID" },
             { "data": "IABCategory" },
