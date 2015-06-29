@@ -200,7 +200,7 @@ class PaymentController extends DemandAbstractActionController {
 
 					$TransactionLog->ResponseURL =  $uri;
 					$TransactionLog->ResponseIP =  $_SERVER ['REMOTE_ADDR'];
-					$TransactionLog->ResponseTime =  $response_arr["TIMESTAMP"];
+					$TransactionLog->ResponseTime =  date("Y-m-d H:i:s");//$response_arr["TIMESTAMP"];
 					$TransactionLog->Status = 1;
 					
 					$TransactionLog->HashValidated =  $response_arr['ACK'];
