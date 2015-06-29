@@ -31,7 +31,7 @@ var _bgate_bidder = {
         xhr.open("POST", adx_url);
         
         xhr.setRequestHeader('Content-Type', 'application/json');
-       xhr.setRequestHeader('x-openrtb-version', '2.2');
+        xhr.setRequestHeader('x-openrtb-version', '2.2');
      //   xhr.setRequestHeader('Access-Control-Request-Method', '*');
         
         xhr.onreadystatechange = function () {
@@ -39,16 +39,30 @@ var _bgate_bidder = {
                 responseObject = JSON.parse(xhr.responseText);
                 ifrm = responseObject['seatbid'][0]['bid'][0]['adm'];
                 impId = responseObject['seatbid'][0]['bid'][0]['impid'];
-                initializeBanner(ifrm, impId);
+                nurl = responseObject['seatbid'][0]['bid'][0]['nurl'];
+                initializeBanner(ifrm, impId, nurl);
             }
         }
         xhr.send(JSON.stringify(this.bid_request));
 	}
 }
 
-function initializeBanner (ifrm, impId) {
+function initializeBanner (ifrm, impId, nurl) {
     var adzone = document.querySelectorAll("[data-zone-id='_bgate_zone_"+ impId +"']");
     adzone[0].innerHTML = ifrm;
+
+    //Call to win notice url
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", nurl);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.setRequestHeader('x-openrtb-version', '2.2');
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            console.log(xhr.responseText);
+        }
+    }
+    xhr.send();
+
 }
 
 function getScriptTag() {
