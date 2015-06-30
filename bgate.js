@@ -41,6 +41,9 @@ var _bgate_bidder = {
                 impId = responseObject['seatbid'][0]['bid'][0]['impid'];
                 nurl = responseObject['seatbid'][0]['bid'][0]['nurl'];
                 initializeBanner(ifrm, impId, nurl);
+            } 
+            else {
+                console.log("no banner match");
             }
         }
         xhr.send(JSON.stringify(this.bid_request));
@@ -478,59 +481,31 @@ var InitLvDuitIFrame = (function () {
 
     var adQueryString = getISLabQueryString(id, qs, abf, false);
 
-    // adQueryString += "&dt=in";
-    // adQueryString += "&buyerid=" + escape(buyer_id);
-    // adQueryString += "&loc=" + escape(getSiteURL());
-    // adQueryString += "&ref=" + escape(getRefSiteURL());
-    // adQueryString += "&ifr=" + (isInIframe() ? '1' : '0');
-    // adQueryString += "&tld=" + escape(getOD());
-    // adQueryString += "&sndprc=" + escape(sndprc);
-    // adQueryString += "&ui=" + ui;
-    // adQueryString += "&ct=" + escape(ct_url);
-    // adQueryString += "&org_tld=" + escape(org_tld);
-    // adQueryString += "&cb=" + cb;
 
-    // var fpTag = '<scr'+'ipt type="text/javascript" src="http://' + domain + delivery_path
-    // 			  + adQueryString + '"></scr' + 'ipt>';
-    // var htmlPrefix = "<html><head><title></title></head><body style='padding:0px;margin:0px;'>";
-    // var htmlSuffix = "<![if !IE]><script type='text/javascript'>document.close();</script><![endif]></body></html>";
-
-    // if (isInIframe()) {
-    // 	document.write(fpTag);
-    // } else {
-	  
-    //   if (ISLab_AdsiFrame_Opts !== null) {
-  	
-    //   	var placement = ISLab_placement_id || "ISLab_FPI_" + getQueryStringArg(qs, 'z', 0);
-    //   	scriptTag = document.getElementById(placement) || getScriptTag();
-  
-    //   } else {
-    //   	scriptTag = getScriptTag();
-    //   }
-  
-    //   var width = getQueryStringArg(qs, 'width', 160);
-    //   var height = getQueryStringArg(qs, 'height', 600);
-    //   var ifrm = createiFrame(id, width, height);
-
-    //   scriptTag.parentNode.insertBefore(ifrm, scriptTag);
- 
-    //   fpTag = '<scr'+'ipt type="text/javascript" src="http://' + domain + delivery_path + adQueryString + '"></scr'+'ipt>';
-
-    //   if(getQueryStringArg(qs, 'ISLab_src', '0') === '1') {
-  	
-    //     var ad_server_domain = getQueryStringArg(qs, 'ISLab_ad_domain', adserverDomain);
-    //     ifrm.src = 'http://' + ad_server_domain + delivery_path + adQueryString;
-    
-    //   } else {
-  	
-    //     var ifr_content = ifrm.contentWindow.document || ifrm.contentDocument;
-    //     ifr_content.write(htmlPrefix + fpTag + htmlSuffix);
-    
-    //   }
-    // }
 
     return {};
 })();
+
+var _bgate_decodeEntities = (function() {
+  // this prevents any overhead from creating the object each time
+  var element = document.createElement('div');
+
+  function decodeHTMLEntities (str) {
+    if(str && typeof str === 'string') {
+      // strip script/html tags
+      str = str.replace(/<script[^>]*>([\S\s]*?)<\/script>/gmi, '');
+      str = str.replace(/<\/?\w(?:[^"'>]|"[^"]*"|'[^']*')*>/gmi, '');
+      element.innerHTML = str;
+      str = element.textContent;
+      element.textContent = '';
+    }
+
+    return str;
+  }
+
+  return decodeHTMLEntities;
+})();
+
 
 ISLab_placement_id = null;
 ISLab_AdsiFrame_Opts = null;
