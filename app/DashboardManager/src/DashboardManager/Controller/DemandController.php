@@ -3953,7 +3953,10 @@ class DemandController extends DemandAbstractActionController {
 		if ($initialized !== true) return $initialized;
 
 		$parameters = array();
-		$order = null;
+		// sort map array
+		$SortMap = array("3"=> "ClickCount", "4" => "ImpCount",  "5" => "Outcomes", "6" => "Date");
+		$OrderArr = $this->getRequest()->getQuery("order");
+		$order = $SortMap[$OrderArr[0]["column"]] . " " . strtoupper($OrderArr[0]["dir"]);
 		
 		// get search value
 		$search = $this->getRequest()->getQuery("search")["value"];
