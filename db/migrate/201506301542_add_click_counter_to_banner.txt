@@ -1,0 +1,2 @@
+ALTER TABLE `AdCampaignBannerPreview` 
+ADD COLUMN `ClickCounter` INT NULL DEFAULT 0 AFTER `FoldPosition`;

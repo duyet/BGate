@@ -2401,6 +2401,7 @@ class DemandController extends DemandAbstractActionController {
      	$result = array();
      	$category_mapper = \util\DeliveryFilterOptions::$vertical_map;
 		$approval_mapper = array(1=>"Auto-Approved", 2=>"Stop", 3=> "Running");
+		$bidtype_mapper = array(1=>"CPM", 2=> "CPC", 0=>"CPM");
 		if (count($rtb_banner_list)> 0):
 				foreach ($rtb_banner_list AS $row_number => $row_data): 
 					$row = array();
@@ -2412,7 +2413,7 @@ class DemandController extends DemandAbstractActionController {
 					$row["name"] = array( "name" => $row_data["Name"] , "id" => $id, "preview_query" => $preview_query );
 					$row["size"] = $row_data["IABSize"];
 					$row["date"] = array( "start" => date_format($start_date, "Y-m-d" ), "end" => date_format($end_date,"Y-m-d" ) );
-					$row["bid_amount"] = "$". $row_data["BidAmount"];
+					$row["bid_amount"] = "$". $row_data["BidAmount"] . " (" . $bidtype_mapper[ (int) $row_data["BidType"] ] . ")";
 					$row["bid_counter"] = $row_data["BidsCounter"];
 					$row["impression_counter"] = $row_data["ImpressionsCounter"];
 					$row["current_spend"] = "$" . $row_data["CurrentSpend"];

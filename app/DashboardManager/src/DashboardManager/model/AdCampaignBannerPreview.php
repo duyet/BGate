@@ -69,6 +69,7 @@ class AdCampaignBannerPreview {
     public $PmpEnable;
     public $Secure;
     public $FoldPosition;
+    public $ClickCounter;
 
 }
 
