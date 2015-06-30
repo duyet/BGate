@@ -531,7 +531,7 @@ var IncomeTable = {
           }
         },
         "aoColumnDefs": [
-         { bSortable: false, 'aTargets': [ 0,4,5 ] },    
+         { bSortable: false, 'aTargets': [ 0 ] },    
         ],
         "columns": [
             { "data": "index", className: "text-center" },
@@ -587,7 +587,7 @@ var OutcomeTable = {
           }
         },
         "aoColumnDefs": [
-         { bSortable: false, 'aTargets': [ 0,4,5 ] },    
+         { bSortable: false, 'aTargets': [ 0] },    
         ],
         "columns": [
             { "data": "index", className: "text-center" },
