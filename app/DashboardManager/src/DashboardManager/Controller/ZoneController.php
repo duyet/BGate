@@ -97,7 +97,7 @@ class ZoneController extends PublisherAbstractActionController {
 
 		$parameters = array(); // Set the parameters to empty first.
 		// sort map array
-		$SortMap = array("1"=> "PublisherAdZone.AdName", "4" => "PublisherAdZone.FloorPrice", "5" => "PublisherAdZone.TotalRequests", "6" => "PublisherAdZone.TotalImpressionsFilled", "7" => "PublisherAdZone.TotalAmount", "8" => "PublisherAdZone.DateCreated");
+		$SortMap = array("1"=> "PublisherAdZone.AdName", "3" => "PublisherAdZone.FloorPrice", "4" => "PublisherAdZone.TotalRequests", "5" => "PublisherAdZone.TotalImpressionsFilled", "6" => "PublisherAdZone.TotalAmount", "7" => "PublisherAdZone.DateCreated");
 		$OrderArr = $this->getRequest()->getQuery("order");
 		$order = $SortMap[$OrderArr[0]["column"]] . " " . strtoupper($OrderArr[0]["dir"]);
 		
@@ -160,7 +160,7 @@ class ZoneController extends PublisherAbstractActionController {
         		$row["index"] = $Offset + $row_number+1;
         		$row["AdzoneId"] = $row_data["PublisherAdZoneID"];
         		$row["AdzoneName"] = array('name' => $row_data["AdName"], 'id' => $row_data["PublisherAdZoneID"], 'domain_id' => $row_data["PublisherWebsiteID"]);
-        		$row["AdStatus"] = $approval_mapper[$row_data["AdStatus"]];
+        		$row["AdStatus"] = array( "flag" => $approval_mapper[$row_data["AdStatus"]], "id" => $row_data["PublisherAdZoneID"], "domain_id" => $row_data["PublisherWebsiteID"] );
         		$row["SpaceSize"] = array( "type" => $row_data["ImpressionType"], "name" => $row_data["TemplateName"], "width" => $row_data["TemplateX"], "height" => $row_data["TemplateY"]);
         		$row["FloorPrice"] =  '$' . sprintf("%1.2f", $row_data["FloorPrice"]);
         		$row["TotalRequests"] = $row_data["TotalRequests"];
@@ -227,12 +227,12 @@ class ZoneController extends PublisherAbstractActionController {
         endif;
         if ($this->is_admin):
         
-            $headers = array("#","Ad Zone Name","Status","Space Size","Floor Price","Total Requests","Impressions Filled","Total Revenue","Created");
+            $headers = array("#","Ad Zone Name","Space Size","Floor Price","Total Requests","Impressions Filled","Total Revenue","Created","Status");
             $meta_data = array("AdName","AdStatus","AutoApprove","AdTemplateID","FloorPrice","TotalRequests","TotalImpressionsFilled","TotalAmount","DateCreated","DateUpdated");
         
         else:
         
-            $headers = array("#","Ad Zone Name","Status","Space Size","Floor Price","Total Requests","Impressions Filled","Total Revenue","Created");
+            $headers = array("#","Ad Zone Name","Space Size","Floor Price","Total Requests","Impressions Filled","Total Revenue","Created","Status",);
             $meta_data = array("AdName","AdStatus","AutoApprove","AdTemplateID","FloorPrice","TotalRequests","TotalImpressionsFilled","TotalAmount","DateCreated","DateUpdated");
         endif;
         
@@ -1425,6 +1425,59 @@ class ZoneController extends PublisherAbstractActionController {
         
     }
     
+        /*
+     * Change domain flag
+    */
+    public function changeadzoneflagAction()
+    {
+        // Initialize things.
+        $error_message = null;
+        $initialized = $this->initialize();
+        if ($initialized !== true) return $initialized;
+        $request = $this->getRequest();
+        
+        $PublisherWebsiteFactory = \_factory\PublisherWebsite::get_instance();
+        
+        $success = false;
+        
+        // Check to make sure the value is valid to begin with.
+        $DomainID = intval($request->getPost('domain_id'));
+        $flag = $request->getPost('flag');
+        $AdzoneId = intval($request->getPost('param1'));
+        // print_r($DomainID);
+        // print_r($flag);
+        // die();
+        $DomainObj = $this->get_domain_data($DomainID, $this->PublisherInfoID);
+
+        if ($DomainObj === null):
+            
+            $error_message = "An invalid publishing web domain was specified for the specified user.";
+        
+        else: 
+            $PublisherAdZoneFactory = \_factory\PublisherAdZone::get_instance();
+                $AdObject = new \model\PublisherAdZone();
+                $parameters = array("PublisherWebsiteID" => $DomainObj->PublisherWebsiteID, "PublisherAdZoneID" => $AdzoneId);
+                $AdObject = $PublisherAdZoneFactory->get_row_object($parameters);
+                
+                if (intval($AdObject->PublisherAdZoneID) == $AdzoneId):
+                    $AdObject->AutoApprove = 0;
+                    $AdObject->AdStatus = intval($flag);
+                    if ($PublisherAdZoneFactory->save_ads($AdObject)):
+                        $success = true;
+                    endif;
+                endif;
+        endif;
+        
+        
+
+        $data = array(
+            'success' => $success,
+            'data' => array('error_msg' => $error_message)
+         );
+         
+         return $this->getResponse()->setContent(json_encode($data));
+    }
+
     /**
      * Toggle the approval given the supplied flag to toggle.
      *
@@ -1627,7 +1680,7 @@ class ZoneController extends PublisherAbstractActionController {
           // $effective_tag = "<script type='text/javascript' src='" . $delivery_adtag . "?pzoneid=" . $PublisherAdZoneID . "&height=" . $height . "&width=" . $width . "&tld=" . $domain . "&cb=" . $cache_buster . "'></script>";
           $header_tag = "<script type='text/javascript' src='" . $delivery_adtag ."'></script>";
           $effective_tag = 
-"<div class=\"bgate-ad-tag\" data-zone-id=\"_bgate_zone_". $PublisherAdZoneID ."\">".$AdObject->PassbackAdTag."</div>
+"<div class=\"bgate-ad-tag\" data-zone-id=\"_bgate_zone_". $PublisherAdZoneID ."\" data-default-tag='".htmlentities($AdObject->PassbackAdTag)."'></div>
 <script type='text/javascript' src='" . $delivery_adtag ."' async></script>
 <script type='text/javascript' async>
 var _bgate_". $PublisherAdZoneID ."_bid_request = {

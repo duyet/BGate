@@ -323,7 +323,7 @@ $(function() {
 	    	?>
 				<select id="bidtype"  class="form-control"  name="bidtype">
 					<option value="1" <?php if (1 === intval($BidType)){ echo 'selected';} ?>>CPM</option>
-				    <option value="2" <?php if (0 === intval($BidType)){ echo 'selected';} ?>>CPC</option>  
+				    <option value="2" disabled> <?php if (0 === intval($BidType)){ echo 'selected';} ?>CPC</option>  
 				</select>
 			</div>
 		</div>
@@ -505,7 +505,7 @@ $(function() {
 	<div class="form-group" style="display: none" >
 	    <label class="col-sm-3 control-label"  for="freCapShowTime"><?php echo $this->layout()->_t->translate("Show times");?></label>
 	    <div class="col-sm-9">
-	    	<input type="number" name="freCapShowTime" id="freCapShowTime" class="form-control" value="<?php echo $banner->FreCapShowTime == null ? 300 : $banner->FreCapShowTime ;?>">
+	    	<input type="number" name="freCapShowTime" id="freCapShowTime" class="form-control" value="<?php echo $banner->FreCapShowTime == null ? 99 : $banner->FreCapShowTime ;?>">
 	   </div>
 	</div>
 	<div class="form-group" style="display: none;">

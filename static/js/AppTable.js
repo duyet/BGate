@@ -68,14 +68,16 @@ var DomainTable = {
             { "data": "ApprovalFlag",
               render: function(data){
                 var dt = self.table.fnGetData();
-                var is_admin = dt[0].is_admin;
-                if (is_admin)
+                // var is_admin = dt[0].is_admin;
+                // if (is_admin) {
                   if (data.flag=="Auto-Approved" || data.flag=="Running")
-                    return "<p class='text-center' id='domain-flag-" + data.id + "'>" + data.flag + "</p><hr class='mrg5T mrg5B'/><div class='row-action text-center'><a id='domain-flag-action"+ data.id +"' href='javascript:;' onclick='changeDomainFlag(2, "+ data.id +")'>STOP</a></div>";
+                    return "<p class='text-center' id='domain-flag-" + data.id + "'>" + data.flag + "</p><hr class='mrg5T mrg5B'/><div class=' text-center'><a id='domain-flag-action"+ data.id +"' href='javascript:;' onclick='changeDomainFlag(2, "+ data.id +")'><span class='glyphicon glyphicon-stop'></span> Stop</a></div>";
                   else
-                    return "<p class='text-center' id='domain-flag-" + data.id + "'>" + data.flag + "</p><hr class='mrg5T mrg5B'/><div class='row-action text-center'><a id='domain-flag-action"+ data.id +"' href='javascript:;' onclick='changeDomainFlag(3, "+ data.id +")'>RESUME</a></div>";
-                else
-                  return "<p class='text-center'>" + data.flag + "</p>";
+                    return "<p class='text-center' id='domain-flag-" + data.id + "'>" + data.flag + "</p><hr class='mrg5T mrg5B'/><div class=' text-center'><a id='domain-flag-action"+ data.id +"' href='javascript:;' onclick='changeDomainFlag(3, "+ data.id +")'><span class='glyphicon glyphicon-play'></span> Resume</a></div>";
+                // }
+                // else {
+                //   return "<p class='text-center'>" + data.flag + "</p>";
+                // }
               }
             }
         ],
@@ -129,7 +131,7 @@ var AdzoneTable = {
           }
         },
         "aoColumnDefs": [
-         { bSortable: false, 'aTargets': [ 0,2,3 ] },    
+         { bSortable: false, 'aTargets': [ 0,2,8 ] },    
         ],
         "columns": [
             { "data": "index", className: "text-center" },
@@ -145,18 +147,28 @@ var AdzoneTable = {
                 return detail_url + "<hr class='mrg5T mrg5B'/><div class='row-action'>" + edit_url + " " + delete_url + "  " + copy_code_url + "</div>";
               } 
             },
-            { "data": "AdStatus" },
             { 
               "data": "SpaceSize" ,
               render: function(data){
                 return data.name + " (" + data.width + "x" + data.height +")"; 
               }
             },
-            { "data": "FloorPrice", class: "text-right" },
+            { "data": "FloorPrice", className: "text-right" },
             { "data": "TotalRequests" },
             { "data": "TotalImpressionsFilled" },
-            { "data": "TotalAmount", class: "text-right" },
-            { "data": "DateCreated" }
+            { "data": "TotalAmount", className: "text-right" },
+            { "data": "DateCreated" },
+            { 
+              "data": "AdStatus", 
+              className: "text-center",
+              render: function(data) {
+
+                if (data.flag=="Auto-Approved" || data.flag=="Running")
+                    return "<p class='text-center' id='domain-flag-" + data.id + "'>" + data.flag + "</p><hr class='mrg5T mrg5B'/><div class=' text-center'><a id='domain-flag-action"+ data.id +"' href='javascript:;' onclick='changeAdzoneFlag(2, "+ data.id +", " + data.domain_id + ")'><span class='glyphicon glyphicon-stop'></span> Stop</a></div>";
+                  else
+                    return "<p class='text-center' id='domain-flag-" + data.id + "'>" + data.flag + "</p><hr class='mrg5T mrg5B'/><div class=' text-center'><a id='domain-flag-action"+ data.id +"' href='javascript:;' onclick='changeAdzoneFlag(3, "+ data.id +", " + data.domain_id + ")'><span class='glyphicon glyphicon-play'></span> Resume</a></div>";
+              }
+            }
         ],
         initComplete: function () {
 

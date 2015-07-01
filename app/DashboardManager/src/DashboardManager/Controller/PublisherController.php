@@ -359,7 +359,7 @@ class PublisherController extends PublisherAbstractActionController {
 		// if ($this->is_admin):
 		
 			//"Imps Loss Rate","DomainPublisherImpressionsLossRate"	
-			$headers = array("#","Domain","Domain Markup","User Name", "Ad-Zones","IAB Category","Created","Updated","Approval");
+			$headers = array("#","Domain","Domain Markup","User Name", "Ad-Zones","IAB Category","Created","Updated","Status");
 			$meta_data = array("WebDomain","DomainMarkupRate","DomainOwnerID","DateCreated","DateUpdated","ApprovalFlag");
 		
 			// admin is logged in as a user, get the markup if any for that user

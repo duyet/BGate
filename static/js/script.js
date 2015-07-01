@@ -224,6 +224,21 @@ function changeDomainFlag(flag, id){
 	},'json');	
 }
 
+// change adzone flag
+function changeAdzoneFlag(flag, id, domain_id){
+	$.post(basePath + "/publisher/zone/"+ domain_id + "/changeadzoneflag/" + id, {param1: id, flag: flag, domain_id: domain_id }, function( data ) {
+		
+		if(data.success == false) {
+
+			return false;
+		}
+		if(data.success == true) {
+			
+			window.location.reload();
+		}
+	},'json');	
+}
+
 //Change campaign flag
 function changeCampaignFlag(flag, id){
 	$.post(basePath + "/demand/changecampaignflag/" + id, {param1: id, flag: flag }, function( data ) {
@@ -579,6 +594,11 @@ $().ready(function() {
     			required: false,
                 validatefile : true
 
+			},
+			freCapShowTime: {
+				required: false,
+				min: 0,
+				max: 99
 			},
 			altText: {
 				required: false

@@ -26,7 +26,8 @@ var _bgate_bidder = {
 
 	},
 	bid: function(){
-		this.collect_information();
+        var self = this;
+		self.collect_information();
 		var xhr = new XMLHttpRequest();
         xhr.open("POST", adx_url);
         
@@ -37,22 +38,26 @@ var _bgate_bidder = {
         xhr.onreadystatechange = function () {
             if (xhr.readyState == 4 && xhr.status == 200) {
                 responseObject = JSON.parse(xhr.responseText);
-                ifrm = responseObject['seatbid'][0]['bid'][0]['adm'];
-                impId = responseObject['seatbid'][0]['bid'][0]['impid'];
-                nurl = responseObject['seatbid'][0]['bid'][0]['nurl'];
+                var ifrm = responseObject['seatbid'][0]['bid'][0]['adm'];
+                var impId = responseObject['seatbid'][0]['bid'][0]['impid'];
+                var nurl = responseObject['seatbid'][0]['bid'][0]['nurl'];
                 initializeBanner(ifrm, impId, nurl);
             } 
             else {
                 console.log("no banner match");
+                AppendDefaultTag(self.bid_request.imp.id);
             }
         }
-        xhr.send(JSON.stringify(this.bid_request));
+        xhr.send(JSON.stringify(self.bid_request));
 	}
 }
 
 function initializeBanner (ifrm, impId, nurl) {
-    var adzone = document.querySelectorAll("[data-zone-id='_bgate_zone_"+ impId +"']");
-    adzone[0].innerHTML = ifrm;
+    // var adzone = document.querySelectorAll("[data-zone-id='_bgate_zone_"+ impId +"']");
+    // adzone[0].innerHTML = ifrm;
+    var adzone = document.querySelector("[data-zone-id='_bgate_zone_"+ impId +"']");
+    adzone.innerHTML = ifrm;
+
 
     //Call to win notice url
     var xhr = new XMLHttpRequest();
@@ -61,11 +66,19 @@ function initializeBanner (ifrm, impId, nurl) {
     xhr.setRequestHeader('x-openrtb-version', '2.2');
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4 && xhr.status == 200) {
-            console.log(xhr.responseText);
+            
+        } else {
+            console.log("Can not respone win notice to server");
         }
     }
     xhr.send();
 
+}
+
+function AppendDefaultTag() {
+    var adzone = document.querySelector("[data-zone-id='_bgate_zone_"+ impId +"']");
+    var default_tag = adzone.getAttribute("data-default-tag");
+    adzone.innerHTML = _bgate_decodeEntities(default_tag);
 }
 
 function getScriptTag() {
