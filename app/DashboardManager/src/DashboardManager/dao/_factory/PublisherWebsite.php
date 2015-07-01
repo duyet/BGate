@@ -201,7 +201,7 @@ class PublisherWebsite extends \_factory\CachedTableRead
        
    	$data['WebDomain'] = substr($rawData->WebDomain,0,255);
    	$data['DomainOwnerID'] = intval($rawData->DomainOwnerID);
-   	if (intval($rawData->ApprovalFlag) >= 0 && intval($rawData->ApprovalFlag) <= 3): 
+   	if (intval($rawData->ApprovalFlag) >= 0 && intval($rawData->ApprovalFlag) <= 4): 
    		$data['ApprovalFlag'] = intval($rawData->ApprovalFlag);
    	endif;
    	if (intval($rawData->AutoApprove) == 0 || intval($rawData->AutoApprove) == 1):

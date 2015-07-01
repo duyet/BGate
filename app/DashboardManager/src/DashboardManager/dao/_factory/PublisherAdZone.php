@@ -271,7 +271,7 @@ class PublisherAdZone extends \_factory\CachedTableRead
    	endif;
 
    	$data['PassbackAdTag'] = $rawData->PassbackAdTag;
-   	if (intval($rawData->AdStatus) >= 0 || intval($rawData->AdStatus) <= 2):
+   	if (intval($rawData->AdStatus) >= 0 || intval($rawData->AdStatus) <= 4):
    	
    		$data['AdStatus'] = intval($rawData->AdStatus);
    		$data['AutoApprove'] = intval($rawData->AutoApprove);

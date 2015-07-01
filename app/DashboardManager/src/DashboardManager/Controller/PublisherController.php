@@ -114,7 +114,7 @@ class PublisherController extends PublisherAbstractActionController {
 		$result = array();
 
 		$category_mapper = \util\DeliveryFilterOptions::$vertical_map;
-		$approval_mapper = array(1=>"Auto-Approved", 2=>"Stop", 3=> "Running");
+		$approval_mapper = array(1=>"Auto-Approved", 2=>"Stop", 3=> "Running", 4=> "Suspended");
 		if (count($PublisherWebsiteList)> 0):
 				foreach ($PublisherWebsiteList AS $row_number => $row_data): 
 					$row = array();
@@ -123,7 +123,7 @@ class PublisherController extends PublisherAbstractActionController {
 					$row["PublisherWebsiteID"] = $row_data["PublisherWebsiteID"];
 					$row["DomainName"] = array('name' => $row_data["WebDomain"], "id" => $row_data["PublisherWebsiteID"] );
 					$row["IABCategory"] = $category_mapper[$row_data["IABCategory"]];
-					$row["DomainMarkup"] = $row_data["DomainMarkup"];
+					$row["DomainMarkup"] = ($row_data["DomainMarkup"] * 100) . "%";
 					$row["DomainOwnerID"] = $row_data["DomainOwnerID"];
 					$row["ApprovalFlag"] = array('flag' => $approval_mapper[$row_data["ApprovalFlag"]], "id" => $row_data["PublisherWebsiteID"] );
 					$row["created_at"] = $row_data["DateCreated"];
@@ -509,9 +509,22 @@ class PublisherController extends PublisherAbstractActionController {
 		$PublisherWebsite->DateUpdated     	   = date("Y-m-d H:i:s");
 
 		//Update Deleted flag
-		$PublisherWebsite->ApprovalFlag      = $flag;
 		
-	    $update_publisher_website_id = $PublisherWebsiteFactory->save_domain($PublisherWebsite);;
+		if ($this->is_admin):
+			$PublisherWebsite->ApprovalFlag  = $flag;
+			$update_publisher_website_id = $PublisherWebsiteFactory->save_domain($PublisherWebsite);
+
+		else:
+			if ($PublisherWebsite->ApprovalFlag == 4):
+				$success = false;
+				$error_message = "Unable to update the entry. Please contact customer service.";
+			else:
+				$PublisherWebsite->ApprovalFlag  = $flag;
+				$update_publisher_website_id = $PublisherWebsiteFactory->save_domain($PublisherWebsite);
+			endif;
+		endif;
+			
+
 		if($update_publisher_website_id):
 			$success = true;
 		else:
@@ -829,6 +842,7 @@ class PublisherController extends PublisherAbstractActionController {
 				$domain->Description = $description;
 				$domain->IABCategory = $iab_category;
 				$domain->DomainOwnerID = $domain_owner_id;
+				$domain->DomainMarkup = $this->config_handle['system']['default_publisher_markup_rate'];
 				$auto_approve_websites = $this->config_handle['settings']['publisher']['auto_approve_websites'];
 				if ($auto_approve_websites == true):
 					$domain->AutoApprove = 1;
@@ -977,16 +991,15 @@ class PublisherController extends PublisherAbstractActionController {
 						$description = $request->getPost("Description");
 						$iab_category = $request->getPost("IABCategory");
 						if ($this->is_admin):
-							$domain_markup = $request->getPost("DomainMarkup");
-						else:
-							$domain_markup = 0;
+							$domain_markup = floatval( $request->getPost("DomainMarkup") ) / 100;
+							$editResultObj->DomainMarkup = $domain_markup;
 						endif;
 				// Check if an entry exists with the same name. A NULL means there is no duplicate.
 						//if ($PublisherWebsiteFactory->get_row(array("WebDomain" => $web_domain)) === null):
 						$editResultObj->WebDomain = $web_domain;
 						$editResultObj->Description = $description;
 						$editResultObj->IABCategory = $iab_category;
- 						$editResultObj->DomainMarkup = $domain_markup;
+
 						try {
 						$PublisherWebsiteFactory->save_domain($editResultObj);
 							return $this->redirect()->toRoute('publisher');

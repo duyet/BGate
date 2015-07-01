@@ -17,7 +17,11 @@ return array(
 		'settings' => array(
 				'publisher' => array(
 						'auto_approve_zones' 	=> true,
-						'auto_approve_websites' => true
+						'auto_approve_websites' => true,
+						'default_markup_rate' => 10
+				),
+				'advertiser' => array(
+						'default_markup_rate' => 10	
 				),
 				'rtb' => array(
 						// rtb encrytion key
@@ -79,9 +83,9 @@ return array(
 				// delay between maintenance updates in minutes
 				'maintenance_updates_minutes' 							=> 15,
 				// default demand 30% markup
-				'default_demand_markup_rate' 							=> 0.30,
+				'default_demand_markup_rate' 							=> 0.10,
 				// default publisher 30% markup
-				'default_publisher_markup_rate' 						=> 0.30,
+				'default_publisher_markup_rate' 						=> 0.10,
 				// our house user ids are exempt from being marked up
 				'markup_exempt_userid_list'								=> array(1),
 				// our house publisher ids are exempt from being marked up

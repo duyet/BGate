@@ -148,7 +148,7 @@ class ZoneController extends PublisherAbstractActionController {
         endif;
         
         $result = array();
-        $approval_mapper = array(1=>"Auto-Approved", 2=>"Stop", 3=> "Running");
+        $approval_mapper = array(1=>"Auto-Approved", 2=>"Stop", 3=> "Running", 4=> "Suspended");
         if (count($ZoneList["data"])> 0):
         	foreach ($ZoneList["data"] AS $row_number => $row_data): 
         		$row = array();
@@ -160,7 +160,7 @@ class ZoneController extends PublisherAbstractActionController {
         		$row["index"] = $Offset + $row_number+1;
         		$row["AdzoneId"] = $row_data["PublisherAdZoneID"];
         		$row["AdzoneName"] = array('name' => $row_data["AdName"], 'id' => $row_data["PublisherAdZoneID"], 'domain_id' => $row_data["PublisherWebsiteID"]);
-        		$row["AdStatus"] = array( "flag" => $approval_mapper[$row_data["AdStatus"]], "id" => $row_data["PublisherAdZoneID"], "domain_id" => $row_data["PublisherWebsiteID"] );
+        		$row["AdStatus"] = array( "is_admin" => $this->is_admin ,"flag" => $approval_mapper[$row_data["AdStatus"]], "id" => $row_data["PublisherAdZoneID"], "domain_id" => $row_data["PublisherWebsiteID"] );
         		$row["SpaceSize"] = array( "type" => $row_data["ImpressionType"], "name" => $row_data["TemplateName"], "width" => $row_data["TemplateX"], "height" => $row_data["TemplateY"]);
         		$row["FloorPrice"] =  '$' . sprintf("%1.2f", $row_data["FloorPrice"]);
         		$row["TotalRequests"] = $row_data["TotalRequests"];
@@ -1444,9 +1444,7 @@ class ZoneController extends PublisherAbstractActionController {
         $DomainID = intval($request->getPost('domain_id'));
         $flag = $request->getPost('flag');
         $AdzoneId = intval($request->getPost('param1'));
-        // print_r($DomainID);
-        // print_r($flag);
-        // die();
+
         $DomainObj = $this->get_domain_data($DomainID, $this->PublisherInfoID);
 
         if ($DomainObj === null):
@@ -1461,8 +1459,22 @@ class ZoneController extends PublisherAbstractActionController {
                 
                 if (intval($AdObject->PublisherAdZoneID) == $AdzoneId):
                     $AdObject->AutoApprove = 0;
-                    $AdObject->AdStatus = intval($flag);
-                    if ($PublisherAdZoneFactory->save_ads($AdObject)):
+                    if ($this->is_admin):
+                        $AdObject->AdStatus = intval($flag);
+                        $save_success = $PublisherAdZoneFactory->save_ads($AdObject);
+                    else:
+                        if ($AdObject->AdStatus == 4):
+                            $success = false;
+                            $error_message = "Unable to update the entry. Please contact customer service.";
+                        else:
+                            $AdObject->AdStatus = intval($flag);
+                            $save_success = $PublisherAdZoneFactory->save_ads($AdObject);
+                        endif;
+                        
+                    endif;
+                
+
+                    if ($save_success):
                         $success = true;
                     endif;
                 endif;

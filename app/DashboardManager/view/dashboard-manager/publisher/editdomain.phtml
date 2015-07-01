@@ -40,13 +40,13 @@ $this->headScript()->captureStart() ?>
           <form id="domain" class="form-horizontal form-top-magin" name="domain" method="post" action="<?php echo $this->basePath() ?>/publisher/editdomain/<?php echo $editResultObj->PublisherWebsiteID;?>/" novalidate="novalidate">
             
             <div class="form-group">
-              <label for="webdomain" class="control-label col-sm-3"><?php echo $this->layout()->_t->translate("Web Domain");?><sup>(*)</sup></label>
+              <label for="webdomain" class="control-label col-sm-3"><?php echo $this->layout()->_t->translate("Web Domain");?><sup>*</sup></label>
               <div class="controls col-sm-7">
                 <input type="text" value="<?php echo $editResultObj->WebDomain;?>" maxlength="255"  class="form-control"  id="WebDomain" name="WebDomain">    
               </div>
             </div>
             <div class="form-group">
-                <label for="desc" class="control-label col-sm-3"><?php echo $this->layout()->_t->translate("Description");?><sup>(*)</sup></label>
+                <label for="desc" class="control-label col-sm-3"><?php echo $this->layout()->_t->translate("Description");?><sup>*</sup></label>
                 <div class="controls col-sm-7">
                   <textarea maxlength="5000"  class="form-control" id="Description" name="Description"><?php echo $editResultObj->Description;?></textarea>    
                 </div>
@@ -55,9 +55,9 @@ $this->headScript()->captureStart() ?>
               if($is_admin):
             ?>
               <div class="form-group">
-                  <label for="desc" class="control-label col-sm-3"><?php echo $this->layout()->_t->translate("Domain Markup");?><sup>(*)</sup></label>
+                  <label for="desc" class="control-label col-sm-3"><?php echo $this->layout()->_t->translate("Domain Markup");?> (%)<sup>*</sup></label>
                   <div class="controls col-sm-7">
-                    <input type="text" class="form-control" id="DomainMarkup" name="DomainMarkup"value="<?php echo $editResultObj->DomainMarkup;?>"> 
+                    <input type="text" class="form-control" id="DomainMarkup" name="DomainMarkup"value="<?php echo $editResultObj->DomainMarkup * 100;?>"> 
                   </div>
               </div>     
             <?php

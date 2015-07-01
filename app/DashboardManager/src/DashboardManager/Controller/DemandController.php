@@ -3706,6 +3706,7 @@ class DemandController extends DemandAbstractActionController {
     	$AdCampaignPreview->CPCTarget                 = $cpctarget;
     	$AdCampaignPreview->CPCTargetValue            = $cpctarget_value;
     	$AdCampaignPreview->Active                    = 1;
+    	$AdCampaignPreview->CampaignMarkup            = $this->config_handle["system"]['default_demand_markup_rate'];
     	$AdCampaignPreview->DateCreated               = date("Y-m-d H:i:s");
     	$AdCampaignPreview->DateUpdated               = date("Y-m-d H:i:s");
     	$AdCampaignPreview->ChangeWentLive            = 0;

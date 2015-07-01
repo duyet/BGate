@@ -58,26 +58,35 @@ var DomainTable = {
                 return detail_url + "<hr class='mrg5T mrg5B'/><div class='row-action'>" + edit_url + "&nbsp;" + delete_url + "&nbsp;" + create_ad_zone + "</div>";
               } 
             },
-            { "data": "DomainMarkup" },
+            { "data": "DomainMarkup", className: "text-center", width: "10%" },
             { "data": "UserName" },
             { "data": "AdZones" },
             // { "data": "DomainOwnerID" },
-            { "data": "IABCategory" },
+            { "data": "IABCategory", className: "text-center" },
             { "data": "created_at" },
             { "data": "updated_at" },
             { "data": "ApprovalFlag",
               render: function(data){
                 var dt = self.table.fnGetData();
-                // var is_admin = dt[0].is_admin;
-                // if (is_admin) {
-                  if (data.flag=="Auto-Approved" || data.flag=="Running")
-                    return "<p class='text-center' id='domain-flag-" + data.id + "'>" + data.flag + "</p><hr class='mrg5T mrg5B'/><div class=' text-center'><a id='domain-flag-action"+ data.id +"' href='javascript:;' onclick='changeDomainFlag(2, "+ data.id +")'><span class='glyphicon glyphicon-stop'></span> Stop</a></div>";
-                  else
-                    return "<p class='text-center' id='domain-flag-" + data.id + "'>" + data.flag + "</p><hr class='mrg5T mrg5B'/><div class=' text-center'><a id='domain-flag-action"+ data.id +"' href='javascript:;' onclick='changeDomainFlag(3, "+ data.id +")'><span class='glyphicon glyphicon-play'></span> Resume</a></div>";
-                // }
-                // else {
-                //   return "<p class='text-center'>" + data.flag + "</p>";
-                // }
+                var is_admin = dt[0].is_admin;
+                var ret = ""
+                if (data.flag=='Suspended') {
+                  ret = "<p class='text-center' id='domain-flag-" + data.id + "'>" + data.flag + "</p>";
+                }
+                else if (data.flag=="Auto-Approved" || data.flag=="Running")
+                  ret = "<p class='text-center' id='domain-flag-" + data.id + "'>" + data.flag + "</p><hr class='mrg5T mrg5B'/><div class=' text-center'><a id='domain-flag-action"+ data.id +"' href='javascript:;' onclick='changeDomainFlag(2, "+ data.id +")'><span class='glyphicon glyphicon-stop'></span> Stop</a></div>";
+                else
+                  ret = "<p class='text-center' id='domain-flag-" + data.id + "'>" + data.flag + "</p><hr class='mrg5T mrg5B'/><div class=' text-center'><a id='domain-flag-action"+ data.id +"' href='javascript:;' onclick='changeDomainFlag(3, "+ data.id +")'><span class='glyphicon glyphicon-play'></span> Resume</a></div>";
+                
+                if (is_admin) {
+                  if (data.flag!='Suspended') {
+                    ret += "<div class=' text-center'><a id='domain-flag-action"+ data.id +"' href='javascript:;' onclick='changeDomainFlag(4, "+ data.id +")'><span class='glyphicon glyphicon-ban-circle'></span> Suspend</a></div>";
+                  } else {
+                    ret += "<div class=' text-center'><a id='domain-flag-action"+ data.id +"' href='javascript:;' onclick='changeDomainFlag(2, "+ data.id +")'><span class='glyphicon glyphicon-ok'></span> Approve</a></div>";
+                  }
+                }
+
+                return ret;
               }
             }
         ],
@@ -85,8 +94,8 @@ var DomainTable = {
           var is_admin = self.table.DataTable().context[0].json.is_admin;
           // var dt = self.table.fnGetData();
           // var is_admin = dt[0].is_admin;
-          if (!is_admin)
-            self.table.fnSetColumnVis(2, false);
+          // if (!is_admin)
+          //   self.table.fnSetColumnVis(2, false);
         },
         fnDrawCallback: function(data){
           return data;
@@ -162,11 +171,26 @@ var AdzoneTable = {
               "data": "AdStatus", 
               className: "text-center",
               render: function(data) {
+                var is_admin = data.is_admin;
+                var ret = "";
+                if (data.flag == "Suspended") {
+                  ret = "<p class='text-center' id='domain-flag-" + data.id + "'>" + data.flag + "</p>";
+                }
+                else if (data.flag=="Auto-Approved" || data.flag=="Running")
+                    ret= "<p class='text-center' id='domain-flag-" + data.id + "'>" + data.flag + "</p><hr class='mrg5T mrg5B'/><div class=' text-center'><a id='domain-flag-action"+ data.id +"' href='javascript:;' onclick='changeAdzoneFlag(2, "+ data.id +", " + data.domain_id + ")'><span class='glyphicon glyphicon-stop'></span> Stop</a></div>";
+                else
+                    ret= "<p class='text-center' id='domain-flag-" + data.id + "'>" + data.flag + "</p><hr class='mrg5T mrg5B'/><div class=' text-center'><a id='domain-flag-action"+ data.id +"' href='javascript:;' onclick='changeAdzoneFlag(3, "+ data.id +", " + data.domain_id + ")'><span class='glyphicon glyphicon-play'></span> Resume</a></div>";
 
-                if (data.flag=="Auto-Approved" || data.flag=="Running")
-                    return "<p class='text-center' id='domain-flag-" + data.id + "'>" + data.flag + "</p><hr class='mrg5T mrg5B'/><div class=' text-center'><a id='domain-flag-action"+ data.id +"' href='javascript:;' onclick='changeAdzoneFlag(2, "+ data.id +", " + data.domain_id + ")'><span class='glyphicon glyphicon-stop'></span> Stop</a></div>";
-                  else
-                    return "<p class='text-center' id='domain-flag-" + data.id + "'>" + data.flag + "</p><hr class='mrg5T mrg5B'/><div class=' text-center'><a id='domain-flag-action"+ data.id +"' href='javascript:;' onclick='changeAdzoneFlag(3, "+ data.id +", " + data.domain_id + ")'><span class='glyphicon glyphicon-play'></span> Resume</a></div>";
+                if (is_admin) {
+                  if (data.flag == "Suspended") {
+                    ret += "<div class=' text-center'><a id='domain-flag-action"+ data.id +"' href='javascript:;' onclick='changeAdzoneFlag(2, "+ data.id +", " + data.domain_id + ")'><span class='glyphicon glyphicon-ok'></span> Approve</a></div>";
+                  } else {
+                    ret += "<div class=' text-center'><a id='domain-flag-action"+ data.id +"' href='javascript:;' onclick='changeAdzoneFlag(4, "+ data.id +", " + data.domain_id + ")'><span class='glyphicon glyphicon-ban-circle'></span> Suspend</a></div>";
+                  }
+
+                }
+
+                return ret;
               }
             }
         ],
