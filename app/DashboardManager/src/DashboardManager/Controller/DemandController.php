@@ -165,22 +165,25 @@ class DemandController extends DemandAbstractActionController {
 					$row["Name"] = array('name' => $row_data["Name"], "id" => $row_data["AdCampaignPreviewID"], "preview_query" => $preview_query);
 					$row["CampaignMarkup"] = $row_data["CampaignMarkup"];
 					$row["UserName"] = $row_data["UserName"];
+
 					//Status
-					$do_action = '';
-					$do_action_id = '';
 					$row["Status"] = '';
-					if (isset($row_data["Deleted"]) && $row_data["Deleted"] == 1): 
-		            	$row["Status"] = "DELETED";
-		            	$do_action = "RESTORE";
-		            	$do_action_id = 0;
-		          	elseif (isset($row_data["Approval"]) && $row_data["Approval"] == 0): 
-		           		$row["Status"] = "PENDING APPROVAL";
-		           		$do_action = "APPROVE";
-		           		$do_action_id = 2;
-		           	else:
-		           		$row["Status"] = "APPROVED";
-		           		$do_action = "REJECT";
-		           		$do_action_id = 0;
+					$status_id = '';
+
+					// Approval: "0" => Stop, "1" => Running/Pending, 2" => Running/Approved
+					// Deleted: "0" => Exist, "1" => Deleted 
+					if (isset($row_data["Deleted"]) && $row_data["Deleted"] == 1):
+						$status_id = -1;
+		            	$row["Status"] = "<span class='label label-danger'>DELETED</span>";
+		          	elseif (isset($row_data["Approval"]) && $row_data["Approval"] == 0): //If stop
+		          		$status_id = 0;
+		           		$row["Status"] = "<span class='label label-warning'>STOP</span>";
+		           	elseif(isset($row_data["Approval"]) && $row_data["Approval"] == 1): //If Pending
+		           		$status_id = 1;
+		           		$row["Status"] = "<span class='label label-success'>Running</span> <hr class='mrg5T mrg5B'/> <span class='label label-info'>Pending Approval</span>";
+		           	elseif(isset($row_data["Approval"]) && $row_data["Approval"] == 2): //If approved
+		           		$status_id = 2;
+		           		$row["Status"] = "<span class='label label-success'>Running</span><hr class='mrg5T mrg5B'/> <span class='label label-primary'>Approved</span>";
 		          	endif;
 
 					$row["StartDate"] = $row_data["StartDate"];
@@ -189,7 +192,7 @@ class DemandController extends DemandAbstractActionController {
 					$row["MaxImpressions"] = $row_data["MaxImpressions"];
 					$row["CurrentSpend"] = $row_data["CurrentSpend"];
 					$row["MaxSpend"] = $row_data["MaxSpend"];
-					$row["Action"] = array('do_action' => $do_action, 'do_action_id' => $do_action_id, "campaign_id" => $row_data["AdCampaignPreviewID"] );
+					$row["Action"] = array('status_id' => $status_id, "campaign_id" => $row_data["AdCampaignPreviewID"] );
 					$row["is_admin"] = $this->is_admin;
 					$result[] = $row;
 
@@ -385,11 +388,14 @@ class DemandController extends DemandAbstractActionController {
     	$AdCampaignPreview->DateCreated               = $_AdCampaignPreview->DateCreated;
     	$AdCampaignPreview->DateUpdated               = date("Y-m-d H:i:s");
     	$AdCampaignPreview->ChangeWentLive            = $_AdCampaignPreview->ChangeWentLive;
-    	$AdCampaignPreview->Deleted            = 0;
 
-		//Update Deleted flag
-		$AdCampaignPreview->Approval      = $flag;
-		
+    	if($flag == -1):
+    		$AdCampaignPreview->Deleted            = 1;
+    	else:
+			$AdCampaignPreview->Approval      = $flag;
+    		$AdCampaignPreview->Deleted       = 0;
+    	endif;
+
 	    $update_campaign_preview_id = $AdCampaignPreviewFactory->saveAdCampaignPreview($AdCampaignPreview);
 		if($update_campaign_preview_id):
 			$success = true;

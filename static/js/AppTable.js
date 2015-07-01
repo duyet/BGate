@@ -226,17 +226,24 @@ var CampaignTable = {
             },
             { "data": "CampaignMarkup" },
             { "data": "UserName" },
-            { "data": "Status" },
             { "data": "StartDate" },
             { "data": "EndDate" },
             { "data": "ImpressionsCounter", width: "5%" },
             { "data": "MaxImpressions", width: "5%" },
             { "data": "CurrentSpend", width: "5%" },
             { "data": "MaxSpend", width: "5%" },
+            { "data": "Status" },
             { 
               "data": "Action",
               render: function(data){
-                return "<div class='row-action text-center'><a id='campaign-flag-action"+ data.campaign_id +"' href='javascript:;' onclick='changeCampaignFlag(" + data.do_action_id + ", "+ data.campaign_id +")'>"+ data.do_action +"</a></div>";
+                if(data.status_id == -1) //Deleted
+                  return "<div class='row-action text-center'><a id='campaign-flag-action"+ data.campaign_id +"' href='javascript:;' onclick='changeCampaignFlag(1, "+ data.campaign_id +")'><strong>Restore</strong></a></div>";
+                else if(data.status_id == 0) //Stop
+                  return "<div class='row-action text-center'><a id='campaign-flag-action"+ data.campaign_id +"' href='javascript:;' onclick='changeCampaignFlag(-1, "+ data.campaign_id +")'><strong>Delete</strong></a><hr class='mrg5T mrg5B'/><a id='campaign-flag-action"+ data.campaign_id +"' href='javascript:;' onclick='changeCampaignFlag(1, "+ data.campaign_id +")'><strong>Resume</strong></a></div>";
+                else if(data.status_id == 1) //Pending 
+                  return "<div class='row-action text-center'><a id='campaign-flag-action"+ data.campaign_id +"' href='javascript:;' onclick='changeCampaignFlag(0, "+ data.campaign_id +")'><strong>Stop</strong></a><hr class='mrg5T mrg5B'/><a id='campaign-flag-action"+ data.campaign_id +"' href='javascript:;' onclick='changeCampaignFlag(2, "+ data.campaign_id +")'><strong>Aprroval</strong></a></div>";
+                else if(data.status_id == 2) //Approved 
+                  return "<div class='row-action text-center'><a id='campaign-flag-action"+ data.campaign_id +"' href='javascript:;' onclick='changeCampaignFlag(0, "+ data.campaign_id +")'><strong>Stop</strong></a><hr class='mrg5T mrg5B'/><a id='campaign-flag-action"+ data.campaign_id +"' href='javascript:;' onclick='changeCampaignFlag(1, "+ data.campaign_id +")'><strong>Undo Aprroval</strong></a></div>";
               }
             }
         ],
