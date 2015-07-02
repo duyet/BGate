@@ -45,7 +45,7 @@ var _bgate_bidder = {
             } 
             else {
                 console.log("no banner match");
-                AppendDefaultTag(self.bid_request.imp.id);
+                AppendDefaultTag(self.bid_request.imp[0].id);
             }
         }
         xhr.send(JSON.stringify(self.bid_request));
