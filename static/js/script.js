@@ -255,6 +255,21 @@ function changeCampaignFlag(flag, id){
 }
 
 //Change campaign flag
+function changeAdCampaignFlag(flag, id){
+	$.post(basePath + "/demand/changeadcampaignflag/" + id, {param1: id, flag: flag }, function( data ) {
+		
+		if(data.success == false) {
+
+			return false;
+		}
+		if(data.success == true) {
+			
+			window.location.reload();
+		}
+	},'json');	
+}
+
+//Change campaign flag
 function changePayoutFlag(flag, id){
 	$.post(basePath + "/publisher/changepayoutflag/" + id, {param1: id, flag: flag }, function( data ) {
 		

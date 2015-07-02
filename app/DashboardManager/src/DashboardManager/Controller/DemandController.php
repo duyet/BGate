@@ -87,7 +87,7 @@ class DemandController extends DemandAbstractActionController {
 
 		$params = array(); // Set the parameters to empty first.
 		// sort map array
-		$SortMap = array("1"=> "Name", "5" => "StartDate",  "6" => "EndDate");
+		$SortMap = array("1"=> "Name", "4" => "StartDate",  "5" => "EndDate");
 		$OrderArr = $this->getRequest()->getQuery("order");
 		$order = $SortMap[$OrderArr[0]["column"]] . " " . strtoupper($OrderArr[0]["dir"]);
 		// get search value
@@ -170,20 +170,43 @@ class DemandController extends DemandAbstractActionController {
 					$row["Status"] = '';
 					$status_id = '';
 
-					// Approval: "0" => Stop, "1" => Running/Pending, 2" => Running/Approved
+					// Approval: "0" => Banned, "1" => Stop, "2" => Running, "3" => Auto Approved
 					// Deleted: "0" => Exist, "1" => Deleted 
 					if (isset($row_data["Deleted"]) && $row_data["Deleted"] == 1):
-						$status_id = -1;
-		            	$row["Status"] = "<span class='label label-danger'>DELETED</span>";
-		          	elseif (isset($row_data["Approval"]) && $row_data["Approval"] == 0): //If stop
-		          		$status_id = 0;
-		           		$row["Status"] = "<span class='label label-warning'>STOP</span>";
+		            	$row["Status"] = "<p class='text-center'><span class='label label-default'>DELETED</span></p>";
+		            	if($this->is_admin):
+		            		$row["Status"] .= "<hr class='mrg5T mrg5B'/><div class='text-center'><a id='campaign-flag-action". $row["Id"] ."' href='javascript:;' onclick='changeCampaignFlag(1, ". $row["Id"] .")'><span class='glyphicon glyphicon-repeat'></span> Restore</a></div>";
+		          		endif;
+
+		          	elseif (isset($row_data["Approval"]) && $row_data["Approval"] == 0): //If banned
+		           		$row["Status"] = "<p class='text-center'><span class='label label-danger'>Suspended</span></p>";
+		           		if($this->is_admin):
+		           			$row["Status"] .= "<hr class='mrg5T mrg5B'/><div class='text-center'><a id='campaign-flag-action".$row["Id"]."' href='javascript:;' onclick='changeCampaignFlag(1, ".$row["Id"].")'><span class='glyphicon glyphicon-ok-circle'></span> Approve</a></div>";
+		           		endif;
+
 		           	elseif(isset($row_data["Approval"]) && $row_data["Approval"] == 1): //If Pending
-		           		$status_id = 1;
-		           		$row["Status"] = "<span class='label label-success'>Running</span> <hr class='mrg5T mrg5B'/> <span class='label label-info'>Pending Approval</span>";
-		           	elseif(isset($row_data["Approval"]) && $row_data["Approval"] == 2): //If approved
-		           		$status_id = 2;
-		           		$row["Status"] = "<span class='label label-success'>Running</span><hr class='mrg5T mrg5B'/> <span class='label label-primary'>Approved</span>";
+		           		$row["Status"] = "<p class='text-center'><span class='label label-info'>Stop</span></p>";
+		           		$row["Status"] .= "<hr class='mrg5T mrg5B'/><div class='text-center'><a id='campaign-flag-action".$row["Id"]."' href='javascript:;' onclick='changeCampaignFlag(2, ".$row["Id"].")'><span class='glyphicon glyphicon-play'></span>Resume</a>";
+		           		if($this->is_admin):
+		           			$row["Status"] .= "<br><a id='campaign-flag-action".$row["Id"]."' href='javascript:;' onclick='changeCampaignFlag(0, ".$row["Id"].")'><span class='glyphicon glyphicon-ban-circle'></span> Suspend</a>";
+		           		endif;
+		           		$row["Status"] .= "</div>";
+
+		           	elseif(isset($row_data["Approval"]) && $row_data["Approval"] == 2): //If running
+		           		$row["Status"] = "<p class='text-center'><span class='label label-primary'>Running</span></p><hr class='mrg5T mrg5B'/>";
+		           		$row["Status"] .= "<div class='text-center'><a id='campaign-flag-action".$row["Id"]."' href='javascript:;' onclick='changeCampaignFlag(1, ".$row["Id"].")'><span class='glyphicon glyphicon-stop'></span> Stop</a>";
+		           		if($this->is_admin):
+		           			$row["Status"] .= "<br><a id='campaign-flag-action".$row["Id"]."' href='javascript:;' onclick='changeCampaignFlag(0, ".$row["Id"].")'><span class='glyphicon glyphicon-ban-circle'></span> Suspend</a>";
+		           		endif;
+		           		$row["Status"] .= "</div>";
+
+					elseif(isset($row_data["Approval"]) && $row_data["Approval"] == 3): //Auto approved
+						$row["Status"] = "<p class='text-center'><span class='label label-primary'>Auto Approved</span></p><hr class='mrg5T mrg5B'/>";
+		           		$row["Status"] .= "<div class='text-center'><a id='campaign-flag-action".$row["Id"]."' href='javascript:;' onclick='changeCampaignFlag(1, ".$row["Id"].")'><span class='glyphicon glyphicon-stop'></span> Stop</a>";
+		           		if($this->is_admin):
+		           			$row["Status"] .= "<br><a id='campaign-flag-action".$row["Id"]."' href='javascript:;' onclick='changeCampaignFlag(0, ".$row["Id"].")'><span class='glyphicon glyphicon-ban-circle'></span> Ban</a>";
+		           		endif;
+		           		$row["Status"] .= "</div>";
 		          	endif;
 
 					$row["StartDate"] = $row_data["StartDate"];
@@ -192,7 +215,6 @@ class DemandController extends DemandAbstractActionController {
 					$row["MaxImpressions"] = $row_data["MaxImpressions"];
 					$row["CurrentSpend"] = $row_data["CurrentSpend"];
 					$row["MaxSpend"] = $row_data["MaxSpend"];
-					$row["Action"] = array('status_id' => $status_id, "campaign_id" => $row_data["AdCampaignPreviewID"] );
 					$row["is_admin"] = $this->is_admin;
 					$result[] = $row;
 
@@ -345,7 +367,7 @@ class DemandController extends DemandAbstractActionController {
 
 
 	/*
-	 * Change domain flag
+	 * Change campaign flag
 	*/
 	public function changecampaignflagAction()
 	{
@@ -410,6 +432,52 @@ class DemandController extends DemandAbstractActionController {
 		 
 		 return $this->getResponse()->setContent(json_encode($data));
 	}
+
+	/*
+	 * Change campaign flag
+	*/
+	public function changeadcampaignflagAction()
+	{
+		// Initialize things.
+		$error_message = null;
+		$initialized = $this->initialize();
+		if ($initialized !== true) return $initialized;
+		$request = $this->getRequest();
+		$AdCampaignBannerPreviewFactory = \_factory\AdCampaignBannerPreview::get_instance();
+
+		$success = false;
+		
+		// Check to make sure the value is valid to begin with.
+		$AdCampaignBannerPreviewID = intval($this->params()->fromRoute('param1', 0));
+		$flag = $request->getPost('flag');
+
+		$params = array();
+	    $params["AdCampaignBannerPreviewID"] = $AdCampaignBannerPreviewID;
+	    $_AdCampaignBannerPreview = $AdCampaignBannerPreviewFactory->get_row($params);
+
+		$AdCampaignBannerPreview = new \model\AdCampaignBannerPreview();
+		$AdCampaignBannerPreview = $_AdCampaignBannerPreview;
+
+		//Update
+    	$AdCampaignBannerPreview->DateUpdated               = date("Y-m-d H:i:s");
+    	$AdCampaignBannerPreview->Active = $flag;
+
+	    $update_campaign_preview_id = $AdCampaignPreviewFactory->saveAdCampaignPreview($AdCampaignPreview);
+		if($update_campaign_preview_id):
+			$success = true;
+		else:
+			$error_message = "Unable to update the entry. Please contact customer service.";
+		endif;			
+
+		$data = array(
+			'success' => $success,
+			'data' => array('error_msg' => $error_message)
+		 );
+		 
+		 return $this->getResponse()->setContent(json_encode($data));
+	}
+
+
 	/**
 	 * Allows an administrator to "login as another user", to impersonate a lower user to manage another user's objects.
 	 * @return Ambigous <\Zend\Http\Response, \Zend\Stdlib\ResponseInterface>
@@ -2379,7 +2447,7 @@ class DemandController extends DemandAbstractActionController {
 			$AdCampaignBannerPreviewFactory = \_factory\AdCampaignBannerPreview::get_instance();
 			$params = array();
 			$params["AdCampaignPreviewID"] = $id;
-			$params["Active"] = 1;
+			// $params["Active"] = 1;
 
 			$rtb_banner_list = $AdCampaignBannerPreviewFactory->get($params);
 			$campaign_preview_id = $id;
@@ -2423,6 +2491,7 @@ class DemandController extends DemandAbstractActionController {
 					$row["bid_counter"] = $row_data["BidsCounter"];
 					$row["impression_counter"] = $row_data["ImpressionsCounter"];
 					$row["current_spend"] = "$" . $row_data["CurrentSpend"];
+					$row["action"] = array("id" => $id, "my_status" => $row_data["Active"]? '1' : '0');
 					$result[] = $row;
 
 				endforeach;
@@ -3711,6 +3780,10 @@ class DemandController extends DemandAbstractActionController {
     	$AdCampaignPreview->DateUpdated               = date("Y-m-d H:i:s");
     	$AdCampaignPreview->ChangeWentLive            = 0;
     	$AdCampaignPreview->Deleted            		  = 0;
+
+    	// Default: Auto approved
+    	// Approval: "0" => Banned, "1" => Stop, "2" => Running, "3" => Auto Approved
+    	$AdCampaignPreview->Approval            	  = 3;
 
     	if($this->is_admin):
     		$AdCampaignPreview->CampaignMarkup        = $campaignmarkup;

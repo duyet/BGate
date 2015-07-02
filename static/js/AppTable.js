@@ -240,7 +240,7 @@ var CampaignTable = {
           }
         },
         "aoColumnDefs": [
-         { bSortable: false, 'aTargets': [ 0,2,3,4,7,8,9,10,11 ] },    
+         { bSortable: false, 'aTargets': [ 0,2,3,6,7,8,9,10 ] },    
         ],
         "columns": [
             { "data": "index", className: "text-center" },
@@ -268,29 +268,11 @@ var CampaignTable = {
             { "data": "MaxImpressions", width: "5%" },
             { "data": "CurrentSpend", width: "5%" },
             { "data": "MaxSpend", width: "5%" },
-            { "data": "Status" },
-            { 
-              "data": "Action",
-              render: function(data){
-                if(data.status_id == -1) //Deleted
-                  return "<div class='row-action text-center'><a id='campaign-flag-action"+ data.campaign_id +"' href='javascript:;' onclick='changeCampaignFlag(1, "+ data.campaign_id +")'><strong>Restore</strong></a></div>";
-                else if(data.status_id == 0) //Stop
-                  return "<div class='row-action text-center'><a id='campaign-flag-action"+ data.campaign_id +"' href='javascript:;' onclick='changeCampaignFlag(-1, "+ data.campaign_id +")'><strong>Delete</strong></a><hr class='mrg5T mrg5B'/><a id='campaign-flag-action"+ data.campaign_id +"' href='javascript:;' onclick='changeCampaignFlag(1, "+ data.campaign_id +")'><strong>Resume</strong></a></div>";
-                else if(data.status_id == 1) //Pending 
-                  return "<div class='row-action text-center'><a id='campaign-flag-action"+ data.campaign_id +"' href='javascript:;' onclick='changeCampaignFlag(0, "+ data.campaign_id +")'><strong>Stop</strong></a><hr class='mrg5T mrg5B'/><a id='campaign-flag-action"+ data.campaign_id +"' href='javascript:;' onclick='changeCampaignFlag(2, "+ data.campaign_id +")'><strong>Aprroval</strong></a></div>";
-                else if(data.status_id == 2) //Approved 
-                  return "<div class='row-action text-center'><a id='campaign-flag-action"+ data.campaign_id +"' href='javascript:;' onclick='changeCampaignFlag(0, "+ data.campaign_id +")'><strong>Stop</strong></a><hr class='mrg5T mrg5B'/><a id='campaign-flag-action"+ data.campaign_id +"' href='javascript:;' onclick='changeCampaignFlag(1, "+ data.campaign_id +")'><strong>Undo Aprroval</strong></a></div>";
-              }
-            }
+            { "data": "Status","width": "12%" }
         ],
         initComplete: function () {
-          // var dt = self.table.fnGetData();
-          // var is_admin = dt[0].is_admin;
-          var is_admin = self.table.DataTable().context[0].json.is_admin;
-          if (!is_admin){
-            self.table.fnSetColumnVis(2, false); 
-            self.table.fnSetColumnVis(11, false);
-          }   
+          // var is_admin = self.table.DataTable().context[0].json.is_admin;
+  
         },
         fnDrawCallback: function(data){
           return data;
@@ -334,7 +316,7 @@ var CampaignAdTable = {
           }
         },
         "aoColumnDefs": [
-         { bSortable: false, 'aTargets': [ 0,2 ] },    
+         { bSortable: false, 'aTargets': [ 0,2, 8 ] },    
         ],
         "columns": [
             { "data": "id", className: "text-center" },
@@ -363,7 +345,16 @@ var CampaignAdTable = {
             { "data": "bid_counter", width: "12%", "asSorting": [ "desc" ,"asc" ] },
             { "data": "impression_counter", width: "12%", "asSorting": [ "desc" ,"asc" ] },
             { "data": "current_spend", width: "12%", className: "text-right", "asSorting": [ "desc" ,"asc" ] },
-
+            { 
+              "data": "action",
+              render: function(data){
+                console.log("abc", data);
+                if(data.my_status == "0") //If Stop
+                  return "<div class='row-action text-center'><span class='label label-danger'>Stop</span><hr class='mrg5T mrg5B'/><a href='javascript:;' onclick='changeAdCampaignFlag(1, "+ data.id +")'><strong>Resume</strong></a></div>";
+                else //If running
+                  return "<div class='row-action text-center'><span class='label label-primary'>Running</span><hr class='mrg5T mrg5B'/><a href='javascript:;' onclick='changeAdCampaignFlag(0, "+ data.id +")'><strong>Stop</strong></a></div>";
+              }
+            }
         ],
         initComplete: function () {
           
