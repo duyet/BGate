@@ -75,7 +75,7 @@ function initializeBanner (ifrm, impId, nurl) {
 
 }
 
-function AppendDefaultTag() {
+function AppendDefaultTag(impId) {
     var adzone = document.querySelector("[data-zone-id='_bgate_zone_"+ impId +"']");
     var default_tag = adzone.getAttribute("data-default-tag");
     adzone.innerHTML = _bgate_decodeEntities(default_tag);
