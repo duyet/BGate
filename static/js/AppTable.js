@@ -872,7 +872,10 @@ var PaymentTable = {
               "data": "TransactionLogID",
               render: function ( data, type, row ) {
                 //console.log('render', data,type,  row);
-                if( parseInt(row.log.Type) == 0){
+                if (row.log == null) {
+                  return "";
+                }
+                else if(  parseInt(row.log.Type) == 0){
                   return '<span class="label label-success">Paypal</span>';
                 }else{
                   return '<span class="label label-primary">Onepay</span>';
