@@ -76,7 +76,7 @@ var DomainTable = {
                 else if (data.flag=="Auto-Approved" || data.flag=="Running")
                   ret = "<p class='text-center' id='domain-flag-" + data.id + "'><span class='label label-primary'>" + data.flag + "</span></p><hr class='mrg5T mrg5B'/><div class=' text-center'><a id='domain-flag-action"+ data.id +"' href='javascript:;' onclick='changeDomainFlag(2, "+ data.id +")'><span class='glyphicon glyphicon-stop'></span> Stop</a></div>";
                 else
-                  ret = "<p class='text-center' id='domain-flag-" + data.id + "'><span class='label label-danger'>" + data.flag + "</span></p><hr class='mrg5T mrg5B'/><div class=' text-center'><a id='domain-flag-action"+ data.id +"' href='javascript:;' onclick='changeDomainFlag(3, "+ data.id +")'><span class='glyphicon glyphicon-play'></span> Resume</a></div>";
+                  ret = "<p class='text-center' id='domain-flag-" + data.id + "'><span class='label label-info'>" + data.flag + "</span></p><hr class='mrg5T mrg5B'/><div class=' text-center'><a id='domain-flag-action"+ data.id +"' href='javascript:;' onclick='changeDomainFlag(3, "+ data.id +")'><span class='glyphicon glyphicon-play'></span> Resume</a></div>";
                 
                 if (is_admin) {
                   if (data.flag!='Suspended') {
@@ -179,7 +179,7 @@ var AdzoneTable = {
                 else if (data.flag=="Auto-Approved" || data.flag=="Running")
                     ret= "<p class='text-center' id='domain-flag-" + data.id + "'><span class='label label-primary'>" + data.flag + "</span></p><hr class='mrg5T mrg5B'/><div class=' text-center'><a id='domain-flag-action"+ data.id +"' href='javascript:;' onclick='changeAdzoneFlag(2, "+ data.id +", " + data.domain_id + ")'><span class='glyphicon glyphicon-stop'></span> Stop</a></div>";
                 else
-                    ret= "<p class='text-center' id='domain-flag-" + data.id + "'><span class='label label-danger'>" + data.flag + "</span></p><hr class='mrg5T mrg5B'/><div class=' text-center'><a id='domain-flag-action"+ data.id +"' href='javascript:;' onclick='changeAdzoneFlag(3, "+ data.id +", " + data.domain_id + ")'><span class='glyphicon glyphicon-play'></span> Resume</a></div>";
+                    ret= "<p class='text-center' id='domain-flag-" + data.id + "'><span class='label label-info'>" + data.flag + "</span></p><hr class='mrg5T mrg5B'/><div class=' text-center'><a id='domain-flag-action"+ data.id +"' href='javascript:;' onclick='changeAdzoneFlag(3, "+ data.id +", " + data.domain_id + ")'><span class='glyphicon glyphicon-play'></span> Resume</a></div>";
 
                 if (is_admin) {
                   if (data.flag == "Suspended") {
