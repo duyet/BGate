@@ -546,6 +546,7 @@ var IncomeTable = {
         "processing": true,
         "bLengthChange": false,
         "serverSide": true,
+        "bFilter": false,
         "iDisplayLength": 10,
         "scrollX": true,
         "dom": '<"row" <"col-sm-8 custom-filter"> <"col-sm-4" f> >r<"datatable-wrapper" t> <"row mrg20B" <"col-sm-6" il> <"col-sm-6"p> >',
@@ -601,6 +602,7 @@ var OutcomeTable = {
     this.table.dataTable({
         "processing": true,
         "bLengthChange": false,
+        "bFilter": false,
         "serverSide": true,
         "iDisplayLength": 10,
         "scrollX": true,

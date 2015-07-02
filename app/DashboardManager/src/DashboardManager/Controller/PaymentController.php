@@ -598,8 +598,11 @@ class PaymentController extends DemandAbstractActionController {
 		if ($initialized !== true) return $initialized;
 
 	   	// Set the parameters to empty first.
-		$params = array( 'UserID' => $this->auth->getUserID()); 
-		
+	   	if ($this->is_admin && $this->getRequest()->getQuery('view_all') == true)
+			$params = array(); 
+		else:
+			$params = array( 'UserID' => $this->auth->getUserID()); 
+		endif;
 
 		// sort map array
 		$SortMap = array(
