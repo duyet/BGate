@@ -70,6 +70,7 @@ class AdCampaignBannerPreview {
     public $Secure;
     public $FoldPosition;
     public $ClickCounter;
+    public $Approval;
 
 }
 

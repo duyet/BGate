@@ -346,14 +346,7 @@ var CampaignAdTable = {
             { "data": "impression_counter", width: "12%", "asSorting": [ "desc" ,"asc" ] },
             { "data": "current_spend", width: "12%", className: "text-right", "asSorting": [ "desc" ,"asc" ] },
             { 
-              "data": "action",
-              render: function(data){
-                console.log("abc", data);
-                if(data.my_status == "0") //If Stop
-                  return "<div class='row-action text-center'><span class='label label-danger'>Stop</span><hr class='mrg5T mrg5B'/><a href='javascript:;' onclick='changeAdCampaignFlag(1, "+ data.id +")'><strong>Resume</strong></a></div>";
-                else //If running
-                  return "<div class='row-action text-center'><span class='label label-primary'>Running</span><hr class='mrg5T mrg5B'/><a href='javascript:;' onclick='changeAdCampaignFlag(0, "+ data.id +")'><strong>Stop</strong></a></div>";
-              }
+              "data": "action","width": "12%" 
             }
         ],
         initComplete: function () {

@@ -200,7 +200,7 @@ class DemandController extends DemandAbstractActionController {
 		           		endif;
 		           		$row["Status"] .= "</div>";
 
-					elseif(isset($row_data["Approval"]) && $row_data["Approval"] == 3): //Auto approved
+					elseif((isset($row_data["Approval"]) && $row_data["Approval"] == 3) || (isset($row_data["Approval"]) && $row_data["Approval"] == null) ): //Auto approved
 						$row["Status"] = "<p class='text-center'><span class='label label-primary'>Auto Approved</span></p><hr class='mrg5T mrg5B'/>";
 		           		$row["Status"] .= "<div class='text-center'><a id='campaign-flag-action".$row["Id"]."' href='javascript:;' onclick='changeCampaignFlag(1, ".$row["Id"].")'><span class='glyphicon glyphicon-stop'></span> Stop</a>";
 		           		if($this->is_admin):
@@ -446,7 +446,7 @@ class DemandController extends DemandAbstractActionController {
 		$AdCampaignBannerPreviewFactory = \_factory\AdCampaignBannerPreview::get_instance();
 
 		$success = false;
-		
+
 		// Check to make sure the value is valid to begin with.
 		$AdCampaignBannerPreviewID = intval($this->params()->fromRoute('param1', 0));
 		$flag = $request->getPost('flag');
@@ -456,14 +456,20 @@ class DemandController extends DemandAbstractActionController {
 	    $_AdCampaignBannerPreview = $AdCampaignBannerPreviewFactory->get_row($params);
 
 		$AdCampaignBannerPreview = new \model\AdCampaignBannerPreview();
-		$AdCampaignBannerPreview = $_AdCampaignBannerPreview;
+		foreach ($AdCampaignBannerPreview as $key1 => $value1) {
+			foreach ($_AdCampaignBannerPreview as $key2 => $value2) {
+				if($key1 == $key2):
+					$AdCampaignBannerPreview->$key1 = $_AdCampaignBannerPreview[$key2];
+				endif;
+			}
+		}
 
 		//Update
     	$AdCampaignBannerPreview->DateUpdated               = date("Y-m-d H:i:s");
-    	$AdCampaignBannerPreview->Active = $flag;
+    	$AdCampaignBannerPreview->Approval = $flag;
 
-	    $update_campaign_preview_id = $AdCampaignPreviewFactory->saveAdCampaignPreview($AdCampaignPreview);
-		if($update_campaign_preview_id):
+	    $update_campaign_banner_preview_id = $AdCampaignBannerPreviewFactory->saveAdCampaignBannerPreview($AdCampaignBannerPreview);
+	   	if($update_campaign_banner_preview_id):
 			$success = true;
 		else:
 			$error_message = "Unable to update the entry. Please contact customer service.";
@@ -2447,7 +2453,7 @@ class DemandController extends DemandAbstractActionController {
 			$AdCampaignBannerPreviewFactory = \_factory\AdCampaignBannerPreview::get_instance();
 			$params = array();
 			$params["AdCampaignPreviewID"] = $id;
-			// $params["Active"] = 1;
+			$params["Active"] = 1;
 
 			$rtb_banner_list = $AdCampaignBannerPreviewFactory->get($params);
 			$campaign_preview_id = $id;
@@ -2491,7 +2497,49 @@ class DemandController extends DemandAbstractActionController {
 					$row["bid_counter"] = $row_data["BidsCounter"];
 					$row["impression_counter"] = $row_data["ImpressionsCounter"];
 					$row["current_spend"] = "$" . $row_data["CurrentSpend"];
-					$row["action"] = array("id" => $id, "my_status" => $row_data["Active"]? '1' : '0');
+
+					// $row["action"] = array("id" => $id, "my_status" => $row_data["Active"]? '1' : '0');
+
+					// Approval: "0" => Banned, "1" => Stop, "2" => Running, "3" => Auto Approved
+					if (isset($row_data["Approval"]) && $row_data["Approval"] == null):
+						$row["action"] = "<p class='text-center'><span class='label label-primary'>Auto Approved</span></p><hr class='mrg5T mrg5B'/>";
+		           		$row["action"] .= "<div class='text-center'><a id='campaign-flag-action".$row["id"]."' href='javascript:;' onclick='changeAdCampaignFlag(1, ".$row["id"].")'><span class='glyphicon glyphicon-stop'></span> Stop</a>";
+		           		if($this->is_admin):
+		           			$row["action"] .= "<br><a id='campaign-flag-action".$row["id"]."' href='javascript:;' onclick='changeAdCampaignFlag(0, ".$row["id"].")'><span class='glyphicon glyphicon-ban-circle'></span> Ban</a>";
+		           		endif;
+		           		$row["action"] .= "</div>";
+
+		          	elseif (isset($row_data["Approval"]) && $row_data["Approval"] == 0): //If banned
+		           		$row["action"] = "<p class='text-center'><span class='label label-danger'>Suspended</span></p>";
+		           		if($this->is_admin):
+		           			$row["action"] .= "<hr class='mrg5T mrg5B'/><div class='text-center'><a id='campaign-flag-action".$row["id"]."' href='javascript:;' onclick='changeAdCampaignFlag(1, ".$row["id"].")'><span class='glyphicon glyphicon-ok-circle'></span> Approve</a></div>";
+		           		endif;
+
+		           	elseif(isset($row_data["Approval"]) && $row_data["Approval"] == 1): //If Pending
+		           		$row["action"] = "<p class='text-center'><span class='label label-info'>Stop</span></p>";
+		           		$row["action"] .= "<hr class='mrg5T mrg5B'/><div class='text-center'><a id='campaign-flag-action".$row["id"]."' href='javascript:;' onclick='changeAdCampaignFlag(2, ".$row["id"].")'><span class='glyphicon glyphicon-play'></span>Resume</a>";
+		           		if($this->is_admin):
+		           			$row["action"] .= "<br><a id='campaign-flag-action".$row["id"]."' href='javascript:;' onclick='changeAdCampaignFlag(0, ".$row["id"].")'><span class='glyphicon glyphicon-ban-circle'></span> Suspend</a>";
+		           		endif;
+		           		$row["action"] .= "</div>";
+
+		           	elseif(isset($row_data["Approval"]) && $row_data["Approval"] == 2): //If running
+		           		$row["action"] = "<p class='text-center'><span class='label label-primary'>Running</span></p><hr class='mrg5T mrg5B'/>";
+		           		$row["action"] .= "<div class='text-center'><a id='campaign-flag-action".$row["id"]."' href='javascript:;' onclick='changeAdCampaignFlag(1, ".$row["id"].")'><span class='glyphicon glyphicon-stop'></span> Stop</a>";
+		           		if($this->is_admin):
+		           			$row["action"] .= "<br><a id='campaign-flag-action".$row["id"]."' href='javascript:;' onclick='changeAdCampaignFlag(0, ".$row["id"].")'><span class='glyphicon glyphicon-ban-circle'></span> Suspend</a>";
+		           		endif;
+		           		$row["action"] .= "</div>";
+
+					elseif(isset($row_data["Approval"]) && $row_data["Approval"] == 3): //Auto approved
+						$row["action"] = "<p class='text-center'><span class='label label-primary'>Auto Approved</span></p><hr class='mrg5T mrg5B'/>";
+		           		$row["action"] .= "<div class='text-center'><a id='campaign-flag-action".$row["id"]."' href='javascript:;' onclick='changeAdCampaignFlag(1, ".$row["id"].")'><span class='glyphicon glyphicon-stop'></span> Stop</a>";
+		           		if($this->is_admin):
+		           			$row["action"] .= "<br><a id='campaign-flag-action".$row["id"]."' href='javascript:;' onclick='changeAdCampaignFlag(0, ".$row["id"].")'><span class='glyphicon glyphicon-ban-circle'></span> Ban</a>";
+		           		endif;
+		           		$row["action"] .= "</div>";
+		          	endif;
+
 					$result[] = $row;
 
 				endforeach;
@@ -2929,7 +2977,6 @@ class DemandController extends DemandAbstractActionController {
 		$BannerPreview->DailyBudget                   = (int) $this->getRequest()->getPost('dailybudget');
 		$BannerPreview->MaximumBudget                 = (int) $this->getRequest()->getPost('maximumbudget');
 
-		
 		$banner_preview_id_new = $AdCampaignBannerPreviewFactory->saveAdCampaignBannerPreview($BannerPreview);
 
 		if ($banner_preview_id_new != null):

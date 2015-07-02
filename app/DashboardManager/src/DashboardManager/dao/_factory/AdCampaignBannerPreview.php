@@ -135,9 +135,10 @@ class AdCampaignBannerPreview extends AbstractTableGateway
                 'PmpEnable'                     => $BannerPreview->PmpEnable,
                 'Secure'                        => $BannerPreview->Secure,
                 'FoldPosition'                  => $BannerPreview->FoldPosition,
+                'Approval'                      => $BannerPreview->Approval
     	);
 
-    	if (intval($BannerPreview->AdCampaignTypeID)):
+        if (intval($BannerPreview->AdCampaignTypeID)):
     		$data['AdCampaignTypeID'] = $BannerPreview->AdCampaignTypeID;
     	endif;
     	
@@ -156,7 +157,7 @@ class AdCampaignBannerPreview extends AbstractTableGateway
     		return $this->getLastInsertValue();
     	else: 
     		$this->update($data, array('AdCampaignBannerPreviewID' => $banner_preview_id));
-    		return null;
+    		return $banner_preview_id;
     	endif;
     }
 

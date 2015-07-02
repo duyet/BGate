@@ -1,0 +1,1 @@
+ALTER TABLE `AdCampaignBannerPreview` ADD `Approval` TINYINT(4) NULL DEFAULT '3' AFTER `FoldPosition`;

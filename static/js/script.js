@@ -254,10 +254,9 @@ function changeCampaignFlag(flag, id){
 	},'json');	
 }
 
-//Change campaign flag
+//Change ad campaign flag (stop/running)
 function changeAdCampaignFlag(flag, id){
 	$.post(basePath + "/demand/changeadcampaignflag/" + id, {param1: id, flag: flag }, function( data ) {
-		
 		if(data.success == false) {
 
 			return false;
