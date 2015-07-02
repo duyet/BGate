@@ -71,12 +71,12 @@ var DomainTable = {
                 var is_admin = dt[0].is_admin;
                 var ret = ""
                 if (data.flag=='Suspended') {
-                  ret = "<p class='text-center' id='domain-flag-" + data.id + "'>" + data.flag + "</p>";
+                  ret = "<p class='text-center' id='domain-flag-" + data.id + "'><span class='label label-danger'>" + data.flag + "</span></p>";
                 }
                 else if (data.flag=="Auto-Approved" || data.flag=="Running")
-                  ret = "<p class='text-center' id='domain-flag-" + data.id + "'>" + data.flag + "</p><hr class='mrg5T mrg5B'/><div class=' text-center'><a id='domain-flag-action"+ data.id +"' href='javascript:;' onclick='changeDomainFlag(2, "+ data.id +")'><span class='glyphicon glyphicon-stop'></span> Stop</a></div>";
+                  ret = "<p class='text-center' id='domain-flag-" + data.id + "'><span class='label label-primary'>" + data.flag + "</span></p><hr class='mrg5T mrg5B'/><div class=' text-center'><a id='domain-flag-action"+ data.id +"' href='javascript:;' onclick='changeDomainFlag(2, "+ data.id +")'><span class='glyphicon glyphicon-stop'></span> Stop</a></div>";
                 else
-                  ret = "<p class='text-center' id='domain-flag-" + data.id + "'>" + data.flag + "</p><hr class='mrg5T mrg5B'/><div class=' text-center'><a id='domain-flag-action"+ data.id +"' href='javascript:;' onclick='changeDomainFlag(3, "+ data.id +")'><span class='glyphicon glyphicon-play'></span> Resume</a></div>";
+                  ret = "<p class='text-center' id='domain-flag-" + data.id + "'><span class='label label-danger'>" + data.flag + "</span></p><hr class='mrg5T mrg5B'/><div class=' text-center'><a id='domain-flag-action"+ data.id +"' href='javascript:;' onclick='changeDomainFlag(3, "+ data.id +")'><span class='glyphicon glyphicon-play'></span> Resume</a></div>";
                 
                 if (is_admin) {
                   if (data.flag!='Suspended') {
@@ -174,12 +174,12 @@ var AdzoneTable = {
                 var is_admin = data.is_admin;
                 var ret = "";
                 if (data.flag == "Suspended") {
-                  ret = "<p class='text-center' id='domain-flag-" + data.id + "'>" + data.flag + "</p>";
+                  ret = "<p class='text-center' id='domain-flag-" + data.id + "'><span class='label label-danger'>" + data.flag + "</span></p>";
                 }
                 else if (data.flag=="Auto-Approved" || data.flag=="Running")
-                    ret= "<p class='text-center' id='domain-flag-" + data.id + "'>" + data.flag + "</p><hr class='mrg5T mrg5B'/><div class=' text-center'><a id='domain-flag-action"+ data.id +"' href='javascript:;' onclick='changeAdzoneFlag(2, "+ data.id +", " + data.domain_id + ")'><span class='glyphicon glyphicon-stop'></span> Stop</a></div>";
+                    ret= "<p class='text-center' id='domain-flag-" + data.id + "'><span class='label label-primary'>" + data.flag + "</span></p><hr class='mrg5T mrg5B'/><div class=' text-center'><a id='domain-flag-action"+ data.id +"' href='javascript:;' onclick='changeAdzoneFlag(2, "+ data.id +", " + data.domain_id + ")'><span class='glyphicon glyphicon-stop'></span> Stop</a></div>";
                 else
-                    ret= "<p class='text-center' id='domain-flag-" + data.id + "'>" + data.flag + "</p><hr class='mrg5T mrg5B'/><div class=' text-center'><a id='domain-flag-action"+ data.id +"' href='javascript:;' onclick='changeAdzoneFlag(3, "+ data.id +", " + data.domain_id + ")'><span class='glyphicon glyphicon-play'></span> Resume</a></div>";
+                    ret= "<p class='text-center' id='domain-flag-" + data.id + "'><span class='label label-danger'>" + data.flag + "</span></p><hr class='mrg5T mrg5B'/><div class=' text-center'><a id='domain-flag-action"+ data.id +"' href='javascript:;' onclick='changeAdzoneFlag(3, "+ data.id +", " + data.domain_id + ")'><span class='glyphicon glyphicon-play'></span> Resume</a></div>";
 
                 if (is_admin) {
                   if (data.flag == "Suspended") {
@@ -260,7 +260,7 @@ var CampaignTable = {
                 return detail_url + "<hr class='mrg5T mrg5B'/><div class='row-action'>" + edit_url + "&nbsp;" + delete_url + "&nbsp;" + create_banner + "</div>";
               } 
             },
-            { "data": "CampaignMarkup" },
+            { "data": "CampaignMarkup", className: "text-center" },
             { "data": "UserName" },
             { "data": "StartDate" },
             { "data": "EndDate" },

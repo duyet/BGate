@@ -163,7 +163,7 @@ class DemandController extends DemandAbstractActionController {
 					//Name
 					$preview_query = isset($row_data["AdCampaignPreviewID"]) ? "?ispreview=true" : "";
 					$row["Name"] = array('name' => $row_data["Name"], "id" => $row_data["AdCampaignPreviewID"], "preview_query" => $preview_query);
-					$row["CampaignMarkup"] = $row_data["CampaignMarkup"];
+					$row["CampaignMarkup"] = (floatval( $row_data["CampaignMarkup"] ) * 100 ) . "%";
 					$row["UserName"] = $row_data["UserName"];
 
 					//Status
@@ -3616,7 +3616,7 @@ class DemandController extends DemandAbstractActionController {
 		endif;
 
 		$campaignname              = $AdCampaign->Name;
-		$campaignmarkup            = $AdCampaign->CampaignMarkup;
+		$campaignmarkup            = $AdCampaign->CampaignMarkup * 100;
 		$startdate                 = date('m/d/Y', strtotime($AdCampaign->StartDate));
 		$enddate                   = date('m/d/Y', strtotime($AdCampaign->EndDate));
 		$customername              = $AdCampaign->Customer;
@@ -3755,12 +3755,26 @@ class DemandController extends DemandAbstractActionController {
 	       	$_AdCampaignPreview = $AdCampaignPreviewFactory->get_row($params);
 	       	$AdCampaignPreview->AdCampaignID 	= $_AdCampaignPreview->AdCampaignID;
 	       	$AdCampaignPreview->Approval 	    = $_AdCampaignPreview->Approval;
+	       	$AdCampaignPreview->CampaignMarkup  = $_AdCampaignPreview->CampaignMarkup;
+	       	$AdCampaignPreview->Deleted 		= $_AdCampaignPreview->Deleted;
+	       	$AdCampaignPreview->ChangeWentLive  = $_AdCampaignPreview->ChangeWentLive;
+	       	$AdCampaignPreview->Active 			= $_AdCampaignPreview->Active;
+	       	$AdCampaignPreview->DateCreated 	= $_AdCampaignPreview->DateCreated;
 	    endif;
 
 	    // else new campaign, ispreview is always true
+	    if ($campaign_preview_id == null):
+	    	$AdCampaignPreview->CampaignMarkup        = $this->config_handle['system']['default_demand_markup_rate'];
+    		$AdCampaignPreview->DateCreated           = date("Y-m-d H:i:s");
+    		$AdCampaignPreview->Deleted            		  = 0;
+			$AdCampaignPreview->ChangeWentLive            = 0;
+	    	$AdCampaignPreview->Active                    = 1;
+    		// Default: Auto approved
+    		// Approval: "0" => Banned, "1" => Stop, "2" => Running, "3" => Auto Approved
+    		$AdCampaignPreview->Approval            	  = 3;
+	    endif;
 
-	    $AdCampaignPreview->UserID             			= $this->auth->getEffectiveUserID();
-
+	    $AdCampaignPreview->UserID             		  = $this->auth->getEffectiveUserID();
     	$AdCampaignPreview->Name                      = $campaignname;
     	$AdCampaignPreview->StartDate                 = date("Y-m-d H:i:s", strtotime($startdate));
     	$AdCampaignPreview->EndDate                   = date("Y-m-d H:i:s", strtotime($enddate));
@@ -3774,21 +3788,10 @@ class DemandController extends DemandAbstractActionController {
     	$AdCampaignPreview->CPMTargetValue            = $cpmtarget_value;
     	$AdCampaignPreview->CPCTarget                 = $cpctarget;
     	$AdCampaignPreview->CPCTargetValue            = $cpctarget_value;
-    	$AdCampaignPreview->Active                    = 1;
-    	$AdCampaignPreview->CampaignMarkup            = $this->config_handle["system"]['default_demand_markup_rate'];
-    	$AdCampaignPreview->DateCreated               = date("Y-m-d H:i:s");
-    	$AdCampaignPreview->DateUpdated               = date("Y-m-d H:i:s");
-    	$AdCampaignPreview->ChangeWentLive            = 0;
-    	$AdCampaignPreview->Deleted            		  = 0;
-
-    	// Default: Auto approved
-    	// Approval: "0" => Banned, "1" => Stop, "2" => Running, "3" => Auto Approved
-    	$AdCampaignPreview->Approval            	  = 3;
+    	$AdCampaignPreview->DateUpdated               = date("Y-m-d H:i:s");	
 
     	if($this->is_admin):
-    		$AdCampaignPreview->CampaignMarkup        = $campaignmarkup;
-    	else:
-    		$AdCampaignPreview->CampaignMarkup        = 0;
+    		$AdCampaignPreview->CampaignMarkup        = floatval( $campaignmarkup )/ 100;
     	endif;
 
 	    $AdCampaignPreviewFactory = \_factory\AdCampaignPreview::get_instance();

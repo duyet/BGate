@@ -72,9 +72,9 @@ $( "#startdate" ).datepicker(
           </div>
           <?php if ($is_admin === true): ?>
             <div class="form-group">
-              <label for="campaignmarkup" class="control-label col-sm-3"><?php echo $this->layout()->_t->translate("Campaign Markup");?></label>
+              <label for="campaignmarkup" class="control-label col-sm-3"><?php echo $this->layout()->_t->translate("Campaign Markup");?> (%)*</label>
               <div class="controls col-sm-7">
-                <input type="text" value="" maxlength="255" class="form-control" id="campaignmarkup" name="campaignmarkup" value="<?php echo $campaignmarkup;?>">    
+                <input type="text" maxlength="255" class="form-control" id="campaignmarkup" name="campaignmarkup" value="<?php echo $campaignmarkup;?>">    
               </div>
             </div>
         <?php endif;?>
