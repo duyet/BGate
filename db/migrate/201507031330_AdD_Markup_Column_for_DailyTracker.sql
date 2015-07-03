@@ -1,6 +1,6 @@
 ALTER TABLE `AdBannerDailyTracker` 
-ADD COLUMN `MarkupOutcome` FLOAT NULL DEFAULT 0 AFTER `Outcome`;
+ADD COLUMN `NetOutcome` FLOAT NULL DEFAULT 0 AFTER `Outcome`;
 
 ALTER TABLE `AdzoneDailyTracker` 
-ADD COLUMN `MarkupIncome` FLOAT NULL DEFAULT 0 AFTER `Income`;
+ADD COLUMN `NetIncome` FLOAT NULL DEFAULT 0 AFTER `Income`;
 
