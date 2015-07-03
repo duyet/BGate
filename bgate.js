@@ -16,7 +16,7 @@ var _bgate_bidder = {
 		// Generate bid ID
 		var d = new Date();
 		var n = d.getTime();
-		var request_id = "bgate_"+ n; 
+		var request_id = "bgate_" + _this.bid_request.imp[0].id + "_" + n; 
 		this.bid_request.id = request_id;
         // collect current page
         this.bid_request.site.page = window.location.href;
