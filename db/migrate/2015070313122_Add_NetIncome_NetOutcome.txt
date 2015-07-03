@@ -1,0 +1,3 @@
+ALTER TABLE `AdBannerDailyTracker` ADD `NetOutcome` FLOAT NOT NULL AFTER `Outcome`;
+ALTER TABLE `AdBannerDailyTracker` CHANGE `NetOutcome` `NetOutcome` FLOAT NOT NULL DEFAULT '0';
+ALTER TABLE `AdzoneDailyTracker` ADD `NetIncome` FLOAT NOT NULL DEFAULT '0' AFTER `Income`;
