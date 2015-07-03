@@ -573,7 +573,7 @@ class PublisherController extends PublisherAbstractActionController {
 		$UserPayout->DateCreated     	   = $_UserPayout->DateCreated;
 		$UserPayout->DateUpdated     	   = date("Y-m-d H:i:s");
 
-		//Update Deleted flag
+		//Update Status flag
 		$UserPayout->Status      = $flag;
 		
 	    $user_payout = $UserPayoutFactory->saveRecord($UserPayout);;
@@ -585,7 +585,7 @@ class PublisherController extends PublisherAbstractActionController {
 				$TransactionDetail->UserID = $UserPayout->UserID;
 				$TransactionDetail->Type = 1;
 				$TransactionDetail->Amount = $UserPayout->Amount ;
-				$TransactionDetail->Description = "";
+				$TransactionDetail->Description = "Money has been credited to ". $_UserPayout->UserName ."'s account by bank";
 				$TransactionDetailFactory->saveTransactionDetail($TransactionDetail);
 				$success = true;
 			endif;
