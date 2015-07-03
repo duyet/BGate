@@ -11,12 +11,15 @@ namespace model;
 
 class InternalTransaction {
     public $InternalTransactionID;
-    public $CampaignID;
-    public $WebsiteID;
+    public $PolymorphicID;
+    public $PolymorphicType; //0: Campaign, 1: Website
     public $TransactionType; // 0 => "Campaign Income" , 1 => "Website Outcome"
+    public $UserID;
     public $GrossMoney;
     public $NetMoney;
     public $Markup;
+    public $DateCreated;
+    public $DateUpdated;
 }
 
 ?>

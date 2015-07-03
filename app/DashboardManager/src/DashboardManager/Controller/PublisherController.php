@@ -1247,7 +1247,6 @@ class PublisherController extends PublisherAbstractActionController {
 		return $this->redirect()->toRoute('publisher');
 	
 	}
-
 	
 }
 

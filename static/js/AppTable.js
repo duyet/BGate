@@ -919,6 +919,126 @@ var PaymentTable = {
   }
 }
 
+var InternalIncomeTable = {
+  init: function(table){
+   
+    if (table.length > 0) {
+      this.table = table;
+      this.source_path = table.data("url");
+      this.init_datatable();
+      this.fix_layout();
+    }
+  },
+  reload_table: function(){
+    this.table.DataTable().ajax.reload();
+  },
+  fix_layout: function(){
+    var dt_filter_area = $(".custom-filter");
+    $(".table-filter").appendTo(dt_filter_area);
+  },
+  init_datatable: function(){
+    var self = this;
+    this.table.dataTable({
+        "processing": true,
+        "bLengthChange": false,
+        "serverSide": true,
+        "bFilter": false,
+        "iDisplayLength": 10,
+        "scrollX": true,
+        "dom": '<"row" <"col-sm-8 custom-filter"> <"col-sm-4" f> >r<"datatable-wrapper" t> <"row mrg20B" <"col-sm-6" il> <"col-sm-6"p> >',
+        "order": [[1,"asc"]],
+        "autoWidth": false,
+        "ajax": {
+          url: self.source_path,
+          data: function(d){
+            d.flag = $("#internal-income-time option:selected").val();
+          }
+        },
+        "aoColumnDefs": [
+         { bSortable: false, 'aTargets': [ 0, 5, 6 ] },    
+        ],
+        "columns": [
+            { "data": "index", className: "text-center" },
+            { "data": "Name" },
+            { "data": "PolymorphicType" },
+            { "data": "TransactionType" },
+            { "data": "UserName" },
+            { "data": "GrossMoney" },
+            { "data": "NetMoney" },
+            { "data": "Markup" },
+            { "data": "DateCreated" }
+        ],
+        initComplete: function () {
+ 
+        },
+        fnDrawCallback: function(data){
+          $("#total-income-value").text(data.json.TotalMarkup);
+          return data;
+        }
+    });
+  }
+}
+
+var InternalOutcomeTable = {
+  init: function(table){
+   
+    if (table.length > 0) {
+      this.table = table;
+      this.source_path = table.data("url");
+      this.init_datatable();
+      this.fix_layout();
+    }
+  },
+  reload_table: function(){
+    this.table.DataTable().ajax.reload();
+  },
+  fix_layout: function(){
+    var dt_filter_area = $(".custom-filter");
+    $(".table-filter").appendTo(dt_filter_area);
+  },
+  init_datatable: function(){
+    var self = this;
+    this.table.dataTable({
+        "processing": true,
+        "bLengthChange": false,
+        "serverSide": true,
+        "bFilter": false,
+        "iDisplayLength": 10,
+        "scrollX": true,
+        "dom": '<"row" <"col-sm-8 custom-filter"> <"col-sm-4" f> >r<"datatable-wrapper" t> <"row mrg20B" <"col-sm-6" il> <"col-sm-6"p> >',
+        "order": [[1,"asc"]],
+        "autoWidth": false,
+        "ajax": {
+          url: self.source_path,
+          data: function(d){
+            d.flag = $("#internal-outcome-time option:selected").val();
+          }
+        },
+        "aoColumnDefs": [
+         { bSortable: false, 'aTargets': [ 0, 5, 6 ] },    
+        ],
+        "columns": [
+            { "data": "index", className: "text-center" },
+            { "data": "Name" },
+            { "data": "PolymorphicType" },
+            { "data": "TransactionType" },
+            { "data": "UserName" },
+            { "data": "GrossMoney" },
+            { "data": "NetMoney" },
+            { "data": "Markup" },
+            { "data": "DateCreated" }
+        ],
+        initComplete: function () {
+ 
+        },
+        fnDrawCallback: function(data){
+          $("#total-outcome-value").text(data.json.TotalMarkup);
+          return data;
+        }
+    });
+  }
+}
+
 $(function(){
   DomainTable.init($("#domain-table"));
   AdzoneTable.init($("#ssp-ad-zone-table"));
@@ -932,4 +1052,6 @@ $(function(){
   ReportDemandTable.init($("#report-demand-table"));
   UserPayoutTable.init($("#user-payout-table"));
   PaymentTable.init($("#payment-table"));
+  InternalIncomeTable.init($("#internal-income-table"));
+  InternalOutcomeTable.init($("#internal-outcome-table"));
 });

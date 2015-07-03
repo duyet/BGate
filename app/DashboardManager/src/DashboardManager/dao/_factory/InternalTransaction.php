@@ -70,29 +70,140 @@ class InternalTransaction extends \_factory\CachedTableRead
      * @param string $params
      * @return multitype:Ambigous <\Zend\Db\ResultSet\ResultSet, NULL, \Zend\Db\ResultSet\ResultSetInterface>
      */
-    public function get($params = null) {
-        // http://files.zend.com/help/Zend-Framework/zend.db.select.html
+    public function get($params = null, $orders = null, $search = null, $limit = null, $offset = 0, $flag = 0, $type = 0) {
     
         $obj_list = array();
     
-        $resultSet = $this->select(function (\Zend\Db\Sql\Select $select) use ($params) {
+        $resultSet = $this->select(function (\Zend\Db\Sql\Select $select) use ($params, $orders, $search, $limit, $offset, $flag, $type) {
+            if ($type == 0): //Campaign
+              $params["PolymorphicType"] = 0;
+              $select->join("AdCampaignPreview",
+                  "AdCampaignPreview.AdCampaignPreviewID = InternalTransaction.PolymorphicID",
+                  array(
+                      "Name" => "Name",
+                      ),
+                  $select::JOIN_INNER);
+
+              //Join with auth_Users
+              $select->join("auth_Users",
+                  "auth_Users.user_id = InternalTransaction.UserID",
+                  array(
+                      "UserName" => "user_login",
+                      ),
+                  $select::JOIN_INNER);
+
+            elseif($type == 1): //Website
+              $params["PolymorphicType"] = 1;
+              $select->join("PublisherWebsite",
+                  "PublisherWebsite.PublisherWebsiteID = InternalTransaction.PolymorphicID",
+                  array(
+                      "Name" => "WebDomain",
+                      ),
+                  $select::JOIN_INNER);
+
+              //Join with PublisherInfo
+              $select->join("PublisherInfo",
+                  "PublisherInfo.PublisherInfoID = InternalTransaction.UserID",
+                  array(
+                      "UserName" => "Name",
+                      ),
+                  $select::JOIN_INNER);
+
+            endif;
+
+
+            //Condition filter
+            $condition = $this->getConditionByFlag($flag);
+
+            $select->where($condition);
+
             foreach ($params as $name => $value):
             $select->where(
                     $select->where->equalTo($name, $value)
             );
             endforeach;
-            //$select->limit(10, 0);
-            $select->order(array('InternalTransactionID'));
-        }
-            );
+
+            if ($search != null):
+              if ($type == 0): //Campaign
+                $select->where
+                        ->nest
+                          ->like("AdCampaignPreview.Name", "%". $search ."%" )
+                          ->or
+                          ->equalTo("PolymorphicID", (int) $search) 
+                        ->unnest;
+              elseif($type == 1): //Website
+                $select->where
+                        ->nest
+                          ->like("PublisherWebsite.WebDomain", "%". $search ."%" )
+                          ->or
+                          ->equalTo("PolymorphicID", (int) $search) 
+                        ->unnest;
+              endif;
+            endif;
+
+            if($orders == null):
+                    $select->order('PolymorphicID');
+                else:
+                    $select->order($orders);
+                endif;
+
+            if ($limit != null):
+              $select->limit($limit);
+              $select->offset($offset);
+            endif;
+        });
     
-            foreach ($resultSet as $obj):
-                $obj_list[] = $obj;
-            endforeach;
-    
-            return $obj_list;
+        foreach ($resultSet as $obj):
+            $obj_list[] = $obj;
+        endforeach;
+
+        return $obj_list;
     }
-    
+
+
+    function getConditionByFlag($flag)
+    {
+        $condition = array();
+        switch ($flag) {
+          case "0":
+            //Today
+            $condition = 'DATEDIFF(InternalTransaction.DateCreated,NOW()) = 0';  
+            break;
+          case "1":
+            //Yesterday
+            $condition = 'DATEDIFF(InternalTransaction.DateCreated,NOW()) = -1';
+            break;
+          case "2":
+            //This week
+            $condition = 'YEARWEEK(InternalTransaction.DateCreated) - YEARWEEK(NOW()) = 0';
+            break;
+          case "3":
+            //Last week
+            $condition = 'YEARWEEK(InternalTransaction.DateCreated) - YEARWEEK(NOW()) = -1';   
+            break;
+          case "4":
+            //This month
+            $condition = 'MONTH(InternalTransaction.DateCreated) - MONTH(NOW()) = 0 AND YEAR(InternalTransaction.DateCreated) = YEAR(NOW())'; 
+            break;
+          case "5":
+            //Last month
+            $condition = 'MONTH(InternalTransaction.DateCreated) - MONTH(NOW()) = -1 AND YEAR(InternalTransaction.DateCreated) = YEAR(NOW())'; 
+            break;
+          case "6":
+            //This year
+            $condition = 'YEAR(InternalTransaction.DateCreated) = YEAR(NOW())'; 
+            break; 
+          case "7":
+            //This year
+            $condition = 'YEAR(InternalTransaction.DateCreated) = YEAR(NOW())'; 
+            break;             
+          default:
+            $condition = array();
+            break;
+        }
+        return $condition;
+    }
+
     /**
      * Query database and return joined table results. This query has a potential to result in high load.
      * 

@@ -261,4 +261,72 @@ class ManagerController extends DemandAbstractActionController {
         return $view;
     }
 
+    public function internallistAction()
+    {
+        $initialized = $this->initialize();
+        if ($initialized !== true) return $initialized;
+        $params = array(); // Set the parameters to empty first.
+        $flag = 7;
+        // sort map array
+        $SortMap = array("1"=> "Name", "2" => "PolymorphicType", "3" => "TransactionType",  "4" => "UserName", "7" => "Markup",  "8" => "DateCreated");
+        $OrderArr = $this->getRequest()->getQuery("order");
+        $order = $SortMap[$OrderArr[0]["column"]] . " " . strtoupper($OrderArr[0]["dir"]);
+        // get search value
+        $search = $this->getRequest()->getQuery("search")["value"];
+
+        // pagination value
+        $PageSize = (int) $this->getRequest()->getQuery("length");
+        $Offset =   (int) $this->getRequest()->getQuery("start");
+
+        if ($this->getRequest()->getQuery("flag") != ""):
+            $flag = $this->getRequest()->getQuery("flag");
+        endif;
+
+        //Type
+        $type = (int) $this->getRequest()->getQuery("type"); //0: Campaign, 1: Website
+
+        $InternalTransactionFactory = \_factory\InternalTransaction::get_instance();
+        $internalListTotal = $InternalTransactionFactory->get($params, $order, $search, null, null, $flag, $type);
+        $TotalInternalTransactionCount = count($internalListTotal);
+
+        $internalList = $InternalTransactionFactory->get($params, $order, $search, $PageSize, $Offset, $flag, $type);
+        $TotalMarkup = 0;
+        $result = array();
+        if (count($internalList)> 0):
+            foreach ($internalList AS $row_number => $row_data): 
+
+                $TotalMarkup += (float)$row_data["Markup"];
+                $row = array();
+
+                $row["index"] = $Offset + $row_number+1;
+                $row["Name"] = $row_data["Name"];
+
+                if($row_data["PolymorphicType"] == 0):
+                    $row["PolymorphicType"] = "Campaign";
+                else:
+                    $row["PolymorphicType"] = "Website";
+                endif;
+
+                if($row_data["TransactionType"] == 0):
+                    $row["TransactionType"] = "Income";
+                else:
+                    $row["TransactionType"] = "Outcome";
+                endif;
+
+                $row["UserName"] = $row_data["UserName"];
+                $row["GrossMoney"] = $row_data["GrossMoney"];
+                $row["NetMoney"] = $row_data["NetMoney"];
+                $row["Markup"] = $row_data["Markup"];
+                $row["DateCreated"] = $row_data["DateCreated"];
+                $result[] = $row;
+            endforeach;
+        endif;
+
+        header('Content-type: application/json');
+        echo json_encode(array("recordsTotal" => $TotalInternalTransactionCount, "recordsFiltered" => $TotalInternalTransactionCount , 'data' => $result, "TotalMarkup" => $TotalMarkup));
+
+        die;        
+    }
+
+
 }
