@@ -1,0 +1,1 @@
+ALTER TABLE `InternalTransaction` CHANGE `GrossMoney` `GrossMoney` FLOAT NOT NULL, CHANGE `NetMoney` `NetMoney` FLOAT NOT NULL, CHANGE `Markup` `Markup` FLOAT NOT NULL;
