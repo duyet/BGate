@@ -1,0 +1,1 @@
+ALTER TABLE `AdCampaignPreview` ADD `MonthlySpend` FLOAT NOT NULL AFTER `CurrentSpend`;
