@@ -153,6 +153,7 @@ class AdCampaignBannerPreview extends AbstractTableGateway
     		$data['BidsCounter']        = $BannerPreview->BidsCounter;
     		$data['CurrentSpend']       = $BannerPreview->CurrentSpend;
     		$data['DateCreated']        = $BannerPreview->DateCreated;
+            $data["Approval"]           = 3; // auto approved
     		$this->insert($data);
     		return $this->getLastInsertValue();
     	else: 
