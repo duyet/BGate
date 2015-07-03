@@ -1,1 +1,10 @@
-CREATE TABLE `InternalTransaction` ( `InternalTransactionID` INT(11) NOT NULL AUTO_INCREMENT , `PolymorphicID` INT(11) NOT NULL , `PolymorphicType` INT(11) NOT NULL , `TransactionType` INT(11) NOT NULL , `UserID` INT(11) NOT NULL , `GrossMoney` DECIMAL NOT NULL , `NetMoney` DECIMAL NOT NULL , `Markup` DECIMAL NOT NULL , PRIMARY KEY (`InternalTransactionID`) ENGINE = InnoDB;
+CREATE TABLE `InternalTransaction` ( 
+`InternalTransactionID` INT(11) NOT NULL AUTO_INCREMENT , 
+`PolymorphicID` INT(11) NOT NULL , 
+`PolymorphicType` INT(11) NOT NULL , 
+`TransactionType` INT(11) NOT NULL , 
+`UserID` INT(11) NOT NULL , 
+`GrossMoney` DECIMAL NOT NULL , 
+`NetMoney` DECIMAL NOT NULL , 
+`Markup` DECIMAL NOT NULL , 
+PRIMARY KEY (`InternalTransactionID`) );
