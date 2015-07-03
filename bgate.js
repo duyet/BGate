@@ -43,6 +43,9 @@ var _bgate_bidder = {
                 var nurl = responseObject['seatbid'][0]['bid'][0]['nurl'];
                 initializeBanner(ifrm, impId, nurl);
             } 
+            else id (xhr.readyState == 2 && xhr.status == 200) {
+
+            }
             else {
                 console.log("no banner match");
                 AppendDefaultTag(self.bid_request.imp[0].id);
@@ -67,7 +70,11 @@ function initializeBanner (ifrm, impId, nurl) {
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4 && xhr.status == 200) {
             
-        } else {
+        }
+        else if (xhr.readyState == 2 && xhr.status == 200) {
+                
+        } 
+        else {
             console.log("Can not respone win notice to server");
         }
     }

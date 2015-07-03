@@ -406,14 +406,20 @@ var PublishersTable = {
               "data": "Email", 
             },
             { "data": "DateCreated" },
-            { "data": "Domain",
-              render: function ( data, type, row ) {
-                //console.log('render', data,type,  row);
-                if( row.approval == true || row.approval== 'true'){
-                  return '<a target="_blank" href="'+basePath+'/websites/list/'+row.PublisherInfoID+'" style="color:#0088cc;">View</a>';
-                }else{
-                  return row.Domain;
-                }
+            { 
+              "data": "balance", 
+              render: function(data){ 
+                if (data == null) {
+                  return "$0";
+                }  
+                else
+                  return "$" + data;
+              }
+            },
+            { 
+              "data": "TotalIncome",
+              render: function(data){
+                return "$" + data;
               }
             },
             { "data": "Name" ,
