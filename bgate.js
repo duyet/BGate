@@ -43,7 +43,7 @@ var _bgate_bidder = {
                 var nurl = responseObject['seatbid'][0]['bid'][0]['nurl'];
                 initializeBanner(ifrm, impId, nurl);
             } 
-            else id (xhr.readyState == 2 && xhr.status == 200) {
+            else if (xhr.readyState == 2 && xhr.status == 200) {
 
             }
             else {
