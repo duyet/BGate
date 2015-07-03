@@ -1,0 +1,1 @@
+ALTER TABLE `InternalTransaction` ADD `DateCreated` TIMESTAMP NULL AFTER `Markup`, ADD `DateUpdated` TIMESTAMP NULL AFTER `DateCreated`;
