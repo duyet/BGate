@@ -587,6 +587,7 @@ class SignupController extends PublisherAbstractActionController {
 		$userData = $authUsersFactory->get_row(array("user_id" => $this->auth->getUserID()));
 		$publisherData = $PublisherInfoFactory->get_row(array("PublisherInfoID" => $userData->PublisherInfoID));
 		$authUsersFactory = \_factory\authUsers::get_instance();
+		$InternalTransactionFactory = \_factory\InternalTransaction::get_instance();
 		$data = array();
 		foreach ($userDetail as $value): //{
 			
@@ -600,11 +601,26 @@ class SignupController extends PublisherAbstractActionController {
     	   		if(isset($userData) && $userData->user_enabled == 1 && $userData->user_verified == 1):
     	   			$approval = 'true';
     	   		endif;
+
+		   		//Get total Net income
+		   		$params = array('InternalTransaction.UserID' => $userData->user_id);
+		   		$internalTransactions = $InternalTransactionFactory->get($params, null, null, null, null, 7, 1);
+
+		   		$totalNetIncome = 0; $totalMarkup = 0; $user_balance = 0;
+		   		$user_balance = $value["Balance"];
+		   		foreach ($internalTransactions as $key => $row_data) {
+		   			$totalNetIncome += floatval($row_data["NetMoney"]);
+		   			$totalMarkup += floatval($row_data["Markup"]);
+		   		}
     	   		array_push($data, array_merge((array)$value, array(
     	   			'user' => $userData,
-    	   			'approval' => $approval
+    	   			'approval' => $approval,
+    	   			'totalNetIncome' => $totalNetIncome,
+    	   			'totalMarkup' => $totalMarkup,
+    	   			'Balance' => $user_balance
     	   		)));
     	endforeach;
+
 		// $view = new ViewModel(array(
 	 //    	'dashboard_view' => 'account',
 	 //    	'user_detail' => $userDetail,

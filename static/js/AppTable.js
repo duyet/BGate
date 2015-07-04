@@ -409,7 +409,7 @@ var PublishersTable = {
             },
             { "data": "DateCreated" },
             { 
-              "data": "balance", 
+              "data": "Balance", 
               render: function(data){ 
                 if (data == null) {
                   return "$0";
@@ -419,7 +419,13 @@ var PublishersTable = {
               }
             },
             { 
-              "data": "TotalIncome",
+              "data": "totalNetIncome",
+              render: function(data){
+                return "$" + data;
+              }
+            },
+            { 
+              "data": "totalMarkup",
               render: function(data){
                 return "$" + data;
               }
