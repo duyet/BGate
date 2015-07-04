@@ -645,7 +645,9 @@ class SignupController extends PublisherAbstractActionController {
 		
 		$DemandCustomerInfo = new \model\DemandCustomerInfo();
 		$DemandCustomerInfoFactory = \_factory\DemandCustomerInfo::get_instance();
-		
+		$TransactionDetailFactory = \_factory\TransactionDetail::get_instance();
+		$InternalTransactionFactory = \_factory\InternalTransaction::get_instance();
+
 		$orders = 'DateCreated DESC'; 	    
 		$userDetail = $DemandCustomerInfoFactory->get(null, $orders);
 		$data = array();
@@ -659,11 +661,33 @@ class SignupController extends PublisherAbstractActionController {
 	   		if(isset($userData) && $userData->user_enabled == 1 && $userData->user_verified == 1):
 	   			$approval = true;
 	   		endif;
+
+	   		//Get total amount has charged to system (TransactionDetail table) //Type=0: Income
+	   		$transactionDetails = $TransactionDetailFactory->get(array('UserID' => $userData->user_id, 'Type' => 0));
+	   		$totalAmount = 0;
+	   		foreach ($transactionDetails as $key => $value) {
+	   			$totalAmount += intval($value["Amount"]);
+	   		}
+
+	   		//Get total Spend
+	   		$params = array('InternalTransaction.UserID' => $userData->user_id);
+	   		$internalTransactions = $InternalTransactionFactory->get($params, null, null, null, null, 7, 0);
+
+	   		$totalSpend = 0; $totalMarkup = 0;
+	   		foreach ($internalTransactions as $key => $value) {
+	   			$totalSpend += intval($value["GrossMoney"]);
+	   			$totalMarkup += intval($value["Markup"]);
+	   		}
+
 	   		array_push($data, array_merge((array)$user_data, array(
 	   			'user' => $userData,
-	   			'approval' => $approval
+	   			'approval' => $approval,
+	   			'totalAmount' => $totalAmount,
+	   			'totalSpend' => $totalSpend,
+	   			'totalMarkup' => $totalMarkup
 	   		)));
 	   	endforeach;
+
 		header('Content-type: application/json');
 		echo json_encode(array(
 			"recordsTotal" => count($data), 

@@ -494,17 +494,9 @@ var AdvertiserTable = {
               "data": "Email", 
             },
             
-            { "data": "Website",
-              // render: function ( data, type, row ) {
-              //   console.log('render', data,type,  row);
-              //   if( row.approval == true || row.approval== 'true'){
-              //     return '<a target="_blank" href="'+basePath+'/websites/list/'+row.PublisherInfoID+'" style="color:#0088cc;">View</a>';
-              //   }else{
-              //     return row.Domain;
-              //   }
-              // }
-            },
-            { "data": "DateCreated" },
+            { "data": "totalAmount"},
+            { "data": "totalSpend"},
+            { "data": "totalMarkup"},
             { "data": "Name" ,
               render : function(data, type, row){
                 if(row.approval==true || row.approval== 'true'                             ){

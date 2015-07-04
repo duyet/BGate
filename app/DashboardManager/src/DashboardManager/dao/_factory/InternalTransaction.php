@@ -84,14 +84,6 @@ class InternalTransaction extends \_factory\CachedTableRead
                       ),
                   $select::JOIN_INNER);
 
-              //Join with auth_Users
-              $select->join("auth_Users",
-                  "auth_Users.user_id = InternalTransaction.UserID",
-                  array(
-                      "UserName" => "user_login",
-                      ),
-                  $select::JOIN_INNER);
-
             elseif($type == 1): //Website
               $params["PolymorphicType"] = 1;
               $select->join("PublisherWebsite",
@@ -100,17 +92,15 @@ class InternalTransaction extends \_factory\CachedTableRead
                       "Name" => "WebDomain",
                       ),
                   $select::JOIN_INNER);
-
-              //Join with PublisherInfo
-              $select->join("PublisherInfo",
-                  "PublisherInfo.PublisherInfoID = InternalTransaction.UserID",
-                  array(
-                      "UserName" => "Name",
-                      ),
-                  $select::JOIN_INNER);
-
             endif;
-
+            
+            //Join with auth_Users
+            $select->join("auth_Users",
+                "auth_Users.user_id = InternalTransaction.UserID",
+                array(
+                    "UserName" => "user_login",
+                    ),
+                $select::JOIN_INNER);
 
             //Condition filter
             $condition = $this->getConditionByFlag($flag);
