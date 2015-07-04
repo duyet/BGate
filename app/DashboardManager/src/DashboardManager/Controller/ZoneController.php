@@ -1693,7 +1693,7 @@ class ZoneController extends PublisherAbstractActionController {
           $header_tag = "<script type='text/javascript' src='" . $delivery_adtag ."'></script>";
           $effective_tag = 
 "<div class=\"bgate-ad-tag\" data-zone-id=\"_bgate_zone_". $PublisherAdZoneID ."\" data-default-tag='".htmlentities($AdObject->PassbackAdTag)."'></div>
-<script type='text/javascript' src='" . $delivery_adtag ."' async></script>
+<script type='text/javascript' src='" . $delivery_adtag ."'></script>
 <script type='text/javascript' async>
 var _bgate_". $PublisherAdZoneID ."_bid_request = {
     \"id\": null,
@@ -1727,10 +1727,11 @@ var _bgate_". $PublisherAdZoneID ."_bid_request = {
     
 };
 _bgate_bidder.bid_request = _bgate_".$PublisherAdZoneID."_bid_request;
-_bgate_bidder.bid();
+_bgate_bidder.bid(_bgate_".$PublisherAdZoneID."_bid_request);
 </script>";
           $ret_tag = str_replace('  ', '', $effective_tag);
           $ret_tag = str_replace("\n", '', $ret_tag);
+          $ret_tag = str_replace("\r", '', $ret_tag);
           $data = array(
 	        'result' => true,
 	        'data' => array('tag' => htmlentities($ret_tag), "header_tag" => htmlentities($header_tag))

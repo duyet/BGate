@@ -6,35 +6,35 @@
  */
 
 var adx_url = "http://ptnhttt.uit.edu.vn:8899/bids";
-var adserverDomain = 'localhost';
 var delivery_path = '/delivery/impress';
 
 var _bgate_bidder = {
 	bid_request: null,
-	collect_information: function(){
-		var _this = this;
-		// Generate bid ID
-		var d = new Date();
-		var n = d.getTime();
-		var request_id = "bgate_" + _this.bid_request.imp[0].id + "_" + n; 
-		this.bid_request.id = request_id;
-        // collect current page
-        this.bid_request.site.page = window.location.href;
-		// Collect Device infomation
-		this.bid_request.device.ua = navigator.userAgent;
-		this.bid_request.device.ip = _bgate_user_ip;
-
-	},
-	bid: function(){
+	bid: function(bid_request){
         var self = this;
-		self.collect_information();
+		if (bid_request == null)
+            bid_request = self.bid_request;
+        // ==== collect infomation
+
+        // Generate bid ID
+        var d = new Date();
+        var n = d.getTime();
+        var request_id = "bgate_" + bid_request.imp[0].id + "_" + n; 
+        bid_request.id = request_id;
+        // collect current page
+        bid_request.site.page = window.location.href;
+        // Collect Device infomation
+        bid_request.device.ua = navigator.userAgent;
+        bid_request.device.ip = _bgate_user_ip;
+
+        // ===============
+
 		var xhr = new XMLHttpRequest();
         xhr.open("POST", adx_url);
         
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.setRequestHeader('x-openrtb-version', '2.2');
-     //   xhr.setRequestHeader('Access-Control-Request-Method', '*');
-        
+    
         xhr.onreadystatechange = function () {
             if (xhr.readyState == 4 && xhr.status == 200) {
                 responseObject = JSON.parse(xhr.responseText);
@@ -44,14 +44,14 @@ var _bgate_bidder = {
                 initializeBanner(ifrm, impId, nurl);
             } 
             else if ( xhr.readyState < 4 ) {
-
+                console.log("[" + bid_request.imp[0].id + "] processing...")
             }
             else {
                 console.log("no banner match");
-                AppendDefaultTag(self.bid_request.imp[0].id);
+                AppendDefaultTag(bid_request.imp[0].id);
             }
         }
-        xhr.send(JSON.stringify(self.bid_request));
+        xhr.send(JSON.stringify(bid_request));
 	}
 }
 
