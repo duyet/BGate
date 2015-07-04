@@ -47,7 +47,7 @@ var _bgate_bidder = {
                 console.log("adzone [" + bid_request.imp[0].id + "] processing...")
             }
             else {
-                console.log("adzone [" + bid_request.imp[0].id + "], bid floor ["+ bid _request.imp[0].bidfloor +"] no banner match.");
+                console.log("adzone [" + bid_request.imp[0].id + "], bid floor ["+ bid_request.imp[0].bidfloor +"] no banner match.");
                 AppendDefaultTag(bid_request.imp[0].id);
             }
         }
