@@ -134,7 +134,7 @@ class ManagerController extends DemandAbstractActionController {
 
                 $row["index"] = $Offset + $row_number+1;
                 $row["Time"] = $row_data["Date"];
-                $row["Domain"] = $row_data["WebDomain"];
+                $row["Domain"] = array ( "name" => $row_data["WebDomain"], "id" => $row_data["PublisherWebsiteID"] );
                 $row["AdName"] = $row_data["AdName"];
                 $row["ClickCount"] = $row_data["ClickCount"];
                 $row["ImpCount"] = $row_data["ImpCount"];
@@ -208,8 +208,8 @@ class ManagerController extends DemandAbstractActionController {
 
                 $row["index"] = $Offset + $row_number+1;
                 $row["Time"] = $row_data["Date"];
-                $row["CampaignName"] = $row_data["CampaignName"];
-                $row["BannerName"] = $row_data["BannerName"];
+                $row["CampaignName"] = array( "name" => $row_data["CampaignName"], "id"=> $row_data["CampaignID"]);
+                $row["BannerName"] = array("name" => $row_data["BannerName"], "active" => $row_data["Active"]);
                 $row["ClickCount"] = $row_data["ClickCount"];
                 $row["ImpCount"] = $row_data["ImpCount"];
                 $row["Outcomes"] = $row_data["Outcomes"];
@@ -312,7 +312,7 @@ class ManagerController extends DemandAbstractActionController {
                 $row["GrossMoney"] = $row_data["GrossMoney"];
                 $row["NetMoney"] = $row_data["NetMoney"];
                 $row["Markup"] = $row_data["Markup"];
-                $row["DateCreated"] = $row_data["DateCreated"];
+                $row["DateCreated"] = date_format(date_create($row_data["DateCreated"]),"d/m/Y") ;
                 $result[] = $row;
             endforeach;
         endif;

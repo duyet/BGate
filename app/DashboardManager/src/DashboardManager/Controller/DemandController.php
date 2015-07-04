@@ -2453,7 +2453,9 @@ class DemandController extends DemandAbstractActionController {
 			$AdCampaignBannerPreviewFactory = \_factory\AdCampaignBannerPreview::get_instance();
 			$params = array();
 			$params["AdCampaignPreviewID"] = $id;
-			$params["Active"] = 1;
+			if (!$this->is_admin):
+				$params["Active"] = 1;
+			endif;
 
 			$rtb_banner_list = $AdCampaignBannerPreviewFactory->get($params);
 			$campaign_preview_id = $id;
@@ -2490,18 +2492,20 @@ class DemandController extends DemandAbstractActionController {
 					$preview_query = isset($row_data["AdCampaignBannerPreviewID"]) ? "?ispreview=true" : "";
 					$id = isset($row_data["AdCampaignBannerPreviewID"]) ? $row_data["AdCampaignBannerPreviewID"] : $row_data["AdCampaignBannerID"];
 					$row["id"] = $id;
-					$row["name"] = array( "name" => $row_data["Name"] , "id" => $id, "preview_query" => $preview_query );
+					$row["name"] = array( "is_active" => $row_data["Active"] ,"name" => $row_data["Name"] , "id" => $id, "preview_query" => $preview_query );
 					$row["size"] = $row_data["IABSize"];
 					$row["date"] = array( "start" => date_format($start_date, "Y-m-d" ), "end" => date_format($end_date,"Y-m-d" ) );
 					$row["bid_amount"] = "$". $row_data["BidAmount"] . " (" . $bidtype_mapper[ (int) $row_data["BidType"] ] . ")";
 					$row["bid_counter"] = $row_data["BidsCounter"];
 					$row["impression_counter"] = $row_data["ImpressionsCounter"];
 					$row["current_spend"] = "$" . $row_data["CurrentSpend"];
-
+					$row["active"] = $row_data["Active"];
 					// $row["action"] = array("id" => $id, "my_status" => $row_data["Active"]? '1' : '0');
 
 					// Approval: "0" => Banned, "1" => Stop, "2" => Running, "3" => Auto Approved
-					if (isset($row_data["Approval"]) && $row_data["Approval"] == null):
+					if ($row_data["Active"] == 0):
+						$row["action"] = "<p class='text-center'>Deleted</p>";
+					elseif (isset($row_data["Approval"]) && $row_data["Approval"] == null):
 						$row["action"] = "<p class='text-center'><span class='label label-primary'>Auto Approved</span></p><hr class='mrg5T mrg5B'/>";
 		           		$row["action"] .= "<div class='text-center'><a id='campaign-flag-action".$row["id"]."' href='javascript:;' onclick='changeAdCampaignFlag(1, ".$row["id"].")'><span class='glyphicon glyphicon-stop'></span> Stop</a>";
 		           		if($this->is_admin):

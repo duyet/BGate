@@ -86,6 +86,7 @@ class AdzoneDailyTracker extends \_factory\CachedTableRead
                     "PublisherWebsite.PublisherWebsiteID = PublisherAdZone.PublisherWebsiteID",
                     array(
                         "WebDomain" => "WebDomain",
+                        "PublisherWebsiteID" => "PublisherWebsiteID"
                         ),
                     $select::JOIN_INNER);
 

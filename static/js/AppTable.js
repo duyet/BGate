@@ -326,6 +326,8 @@ var CampaignAdTable = {
               render: function(data) {
                 // deleteBannerModal('/demand/deletebanner/2?ispreview=true','abc');
                 // deleteDomainModal(<?php echo $domain_id;?>,'<?php echo $domain_list_raw[$row_number]["WebDomain"];?>')
+                if (data.is_active == "0")
+                  return "<a href='"+ basePath  + "/demand/showbanner/"+data.id+"'>"+ data.name + "</a>";
                 var  detail_url= "<a href='"+ basePath  + "/demand/showbanner/"+data.id+"'>"+ data.name + "</a>"; 
                 var edit_url= "<a href='"+ basePath  + "/demand/editbanner/" + data.id + "/"+ data.preview_query +"'><span class='glyphicon glyphicon-pencil'></span></a>";
                 var delete_url= '<a href="javascript:;" onclick="deleteBannerModal(\'/demand/deletebanner/'+data.id+ data.preview_query +'\', \'' + data.name +'\' )"><span class="glyphicon glyphicon-trash"></span>' + '</a>';
@@ -562,7 +564,12 @@ var IncomeTable = {
         "columns": [
             { "data": "index", className: "text-center" },
             { "data": "Time" },
-            { "data": "Domain" },
+            { 
+              "data": "Domain" ,
+              render: function(data) {
+                return "<a href='" + basePath + "/publisher/zone/"+ data.id +"'>" + data.name + "</a>";
+              }
+            },
             { "data": "AdName" },
             { "data": "ClickCount" },
             { "data": "ImpCount" },
@@ -619,8 +626,23 @@ var OutcomeTable = {
         "columns": [
             { "data": "index", className: "text-center" },
             { "data": "Time" },
-            { "data": "CampaignName" },
-            { "data": "BannerName" },
+            { 
+              "data": "CampaignName", 
+              render: function(data) {
+                return "<a href='" + basePath + "/demand/campaign/"+ data.id +"/?ispreview=true'>" + data.name + "</a>";
+              }
+            },
+            { 
+              "data": "BannerName", 
+              render: function(data){
+                var ret = data.name;
+                if (data.active == 0) {
+                  ret += " <small>(deleted)</small>";
+                }
+                return ret;
+
+              }
+            },
             { "data": "ClickCount" },
             { "data": "ImpCount" },
             { "data": "Outcomes" },

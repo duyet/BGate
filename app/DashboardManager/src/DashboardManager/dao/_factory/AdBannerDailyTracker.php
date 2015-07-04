@@ -80,6 +80,7 @@ class AdBannerDailyTracker extends \_factory\CachedTableRead
                     "AdCampaignBannerPreview.AdCampaignBannerPreviewID = AdBannerDailyTracker.AdCampaignBannerID",
                     array(
                         "BannerName" => "Name",
+                        "Active" => "Active"
                         ),
                     $select::JOIN_INNER);
 
@@ -87,6 +88,7 @@ class AdBannerDailyTracker extends \_factory\CachedTableRead
                     "AdCampaignPreview.AdCampaignPreviewID = AdCampaignBannerPreview.AdCampaignPreviewID",
                     array(
                         "CampaignName" => "Name",
+                        "CampaignID" => "AdCampaignPreviewID"
                         ),
                     $select::JOIN_INNER);
 
