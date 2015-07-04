@@ -168,8 +168,14 @@ class PublisherController extends PublisherAbstractActionController {
 
 		$PublisherWebsiteFactory = \_factory\PublisherWebsite::get_instance();
 
-		if (!$this->is_admin):
+		if ($this->is_admin):
+			$parameters['PublisherWebsite.DomainOwnerID'] =  $this->getRequest()->getQuery("publisher_info");
+		else:
 			$parameters['PublisherWebsite.DomainOwnerID'] = $this->PublisherInfoID;
+		endif;
+
+		if ($parameters['PublisherWebsite.DomainOwnerID'] == null):
+			die("ERROR! you can not pass");
 		endif;
 
 		//Pull list of websites.		
@@ -233,9 +239,17 @@ class PublisherController extends PublisherAbstractActionController {
 		$Offset =   (int) $this->getRequest()->getQuery("start");
 		//Pull list of websites.
 		$UserPayoutFactory = \_factory\UserPayout::get_instance();
-		if (!$this->is_admin):
+
+		if ($this->is_admin):
+			$parameters['UserID'] = $this->getRequest()->getQuery("publisher_info");
+		else:
 			$parameters['UserID'] = $this->PublisherInfoID;
 		endif;
+
+		if ($parameters['UserID'] == null):
+			die("ERROR! you can not pass");
+		endif;
+		
 
 		$UserPayoutList = $UserPayoutFactory->get($parameters, $order, null, $PageSize, $Offset);
 		$TotalUserPayoutCount = count($UserPayoutFactory->get($parameters, null));
@@ -324,7 +338,14 @@ class PublisherController extends PublisherAbstractActionController {
 		
 		$PublisherInfoFactory = \_factory\PublisherInfo::get_instance();
 		$params = array();
-		$params["PublisherInfoID"] = $this->PublisherInfoID;
+		if ($this->is_admin && $this->getRequest()->getQuery("publisherInfo") != ""):
+			$params["PublisherInfoID"] = $this->getRequest()->getQuery("publisherInfo");
+		else:
+			$params["PublisherInfoID"] = $this->PublisherInfoID;
+		endif;
+		if ($params["PublisherInfoID"] == null):
+			die("ERROR! You can not pass!");
+		endif;
 		$PublisherInfo = $PublisherInfoFactory->get_row($params);
 
 		$view = new ViewModel(array(
@@ -334,7 +355,8 @@ class PublisherController extends PublisherAbstractActionController {
 			'user_identity' => $this->identity(),
 			'table_list' => $headers,
 			'user_balance' => $PublisherInfo->Balance,
-			'dashboard_view' => 'report'
+			'dashboard_view' => 'report',
+			"publisher_info" => $params["PublisherInfoID"]
 
 		));
 		return $view;

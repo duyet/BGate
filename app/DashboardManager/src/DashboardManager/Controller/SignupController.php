@@ -747,7 +747,7 @@ class SignupController extends PublisherAbstractActionController {
 		
 		$orders = 'DateCreated DESC'; 	    
 		$userDetail = $DemandCustomerInfoFactory->get(null, $orders);
-
+		
 		$view = new ViewModel(array(
 	    	'dashboard_view' => 'customers',
 	    	'user_detail' => $userDetail,

@@ -4073,12 +4073,17 @@ class DemandController extends DemandAbstractActionController {
 		$PageSize = (int) $this->getRequest()->getQuery("length");
 		$Offset =   (int) $this->getRequest()->getQuery("start");
 		// End List web
+		if ($this->is_admin):
+			$UserID = $this->getRequest()->getQuery("UserID");
+		else:
+		endif;
 		$view = new ViewModel(array(
 			'dashboard_view' => 'report',
 			'is_admin' => $this->is_admin,
 			'user_id_list' => $this->user_id_list_publisher,
 			'true_user_name' => $this->true_user_name,
-			'user_identity' => $this->identity()
+			'user_identity' => $this->identity(),
+			"user_id" => $UserID
 		));
 		return $view;
 	}
@@ -4106,8 +4111,14 @@ class DemandController extends DemandAbstractActionController {
 
 		$PublisherWebsiteFactory = \_factory\PublisherWebsite::get_instance();
 
-		if (!$this->is_admin):
+		if ($this->is_admin):
+			$parameters['AdCampaignPreview.UserID'] = $this->getRequest()->getQuery("UserID");
+		else:
 			$parameters['AdCampaignPreview.UserID'] = $this->auth->getUserID();
+		endif;
+
+		if ($parameters['AdCampaignPreview.UserID'] == null):
+			die("ERROR! you can not pass!");
 		endif;
 
 		//Pull list of websites.		

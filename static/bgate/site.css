@@ -986,6 +986,8 @@ div.tooltip-inner {
     overflow-x: auto;
 }
 
+.datatable-wrapper table th { text-align: center !important; }
+
 input[type='number'] {
     -moz-appearance:textfield;
 }

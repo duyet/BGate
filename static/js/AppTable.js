@@ -91,7 +91,7 @@ var DomainTable = {
             }
         ],
         initComplete: function () {
-          positionFooter();
+          
           var is_admin = self.table.DataTable().context[0].json.is_admin;
           // var dt = self.table.fnGetData();
           // var is_admin = dt[0].is_admin;
@@ -99,6 +99,7 @@ var DomainTable = {
           //   self.table.fnSetColumnVis(2, false);
         },
         fnDrawCallback: function(data){
+          positionFooter();
           return data;
         }
     });
@@ -196,9 +197,10 @@ var AdzoneTable = {
             }
         ],
         initComplete: function () {
-          positionFooter();
+          
         },
         fnDrawCallback: function(data){
+          positionFooter();
           return data;
         }
     });
@@ -273,9 +275,10 @@ var CampaignTable = {
         ],
         initComplete: function () {
           // var is_admin = self.table.DataTable().context[0].json.is_admin;
-          positionFooter();
+          
         },
         fnDrawCallback: function(data){
+          positionFooter();
           return data;
         }
     });
@@ -353,9 +356,10 @@ var CampaignAdTable = {
             }
         ],
         initComplete: function () {
-          positionFooter();
+          
         },
         fnDrawCallback: function(data){
+          positionFooter();
           return data;
         }
     });
@@ -397,12 +401,19 @@ var PublishersTable = {
           }
         },
         "aoColumnDefs": [
-         { bSortable: false, 'aTargets': [ 0,2 ] },    
+         { bSortable: false, 'aTargets': [ ] },    
         ],
         "columns": [
             { "data": "PublisherInfoID", className: "text-center" },
             { 
               "data": "Name", 
+              className: "text-center",
+              render: function(data, type, row) {
+                var ret = "<p>" + data + "</p>";
+                ret += "<hr class='mrg5T mrg5B'>";
+                ret += "<a href='"+basePath+"/publisher/report?publisherInfo="+ row.PublisherInfoID + "'>View Report</a>";
+                return ret;
+              }
             },
             { "data": "user.user_login" },
             { 
@@ -432,24 +443,26 @@ var PublishersTable = {
               }
             },
             { "data": "Name" ,
+              className: "text-center",
               render : function(data, type, row){
                 if(row.approval==true || row.approval== 'true'                             ){
                   return '<span class="label label-success">Approved</span>'
-                  +'&nbsp;|&nbsp;'
-                 +'<a href="javascript:void(0);" onclick="userBanModal('+row.PublisherInfoID+','+"'"+row.Name+"'"+');">Ban</a>';
+                  +"<hr class='mrg5T mrg5B'>"
+                 +'<a href="javascript:void(0);" onclick="userBanModal('+row.PublisherInfoID+','+"'"+row.Name+"'"+');"> <span class="glyphicon glyphicon-ban-circle"></span> Suspend</a>';
                 }else{
                   return '<a href="javascript:void(0);" onclick="userAcceptModal('+row.PublisherInfoID+','+"'"+row.Name+"'"+');">Approve</a>'
-                 +'&nbsp;|&nbsp;'
+                 +"<hr class='mrg5T mrg5B'>"
                  +'<a href="javascript:void(0);" onclick="userRejectionModal('+row.PublisherInfoID+','+"'"+row.Name+"'"+');">Reject</a>';
                 }
               }
             },
         ],
         initComplete: function () {
-          positionFooter();
+          
         },
         fnDrawCallback: function(data){
           //console.log(data.json);
+          positionFooter();
           return data;
         }
     });
@@ -497,7 +510,14 @@ var AdvertiserTable = {
         "columns": [
             { "data": "DemandCustomerInfoID", className: "text-center" },
             { 
-              "data": "Name", 
+              "data": "Name",
+              className: "text-center",
+              render: function(data, type, row) {
+                var ret = "<p>" + data + "</p>";
+                ret += "<hr class='mrg5T mrg5B'>";
+                ret += "<a href='"+basePath+"/demand/report?UserID="+ row.user.user_id + "'>View Report</a>";
+                return ret;
+              }
             },
             { "data": "user.user_login" },
             { 
@@ -532,24 +552,26 @@ var AdvertiserTable = {
               }
             },
             { "data": "Name" ,
+              className: "text-center",
               render : function(data, type, row){
                 if(row.approval==true || row.approval== 'true'                             ){
                   return '<span class="label label-success">Approved</span>'
-                  +'&nbsp;|&nbsp;'
-                  +'<a href="javascript:void(0);" onclick="userBanModal('+row.DemandCustomerInfoID+','+"'"+row.Name+"'"+');">Ban</a>';
+                  +"<hr class='mrg5T mrg5B'>"
+                  +'<a href="javascript:void(0);" onclick="userBanModal('+row.DemandCustomerInfoID+','+"'"+row.Name+"'"+');"><span class="glyphicon glyphicon-ban-circle"></span> Suspend</a>';
                 }else{
                   return '<a href="javascript:void(0);" onclick="userAcceptModal('+row.DemandCustomerInfoID+','+"'"+row.Name+"'"+');">Approve</a>'
-                 +'&nbsp;|&nbsp;'
+                  +"<hr class='mrg5T mrg5B'>"
                  +'<a href="javascript:void(0);" onclick="userRejectionModal('+row.DemandCustomerInfoID+','+"'"+row.Name+"'"+');">Reject</a>'
                 }
               }
             },
         ],
         initComplete: function () {
-          positionFooter();
+          
         },
         fnDrawCallback: function(data){
           //console.log(data.json);
+          positionFooter();
           return data;
         }
     });
@@ -609,9 +631,10 @@ var IncomeTable = {
             { "data": "Incomes" },
         ],
         initComplete: function () {
-          positionFooter();
+          
         },
         fnDrawCallback: function(data){
+          positionFooter();
           return data;
         }
     });
@@ -681,9 +704,10 @@ var OutcomeTable = {
             { "data": "Outcomes" },
         ],
         initComplete: function () {
-          positionFooter();
+          
         },
         fnDrawCallback: function(data){
+          positionFooter();
           return data;
         }
     });
@@ -740,12 +764,13 @@ var ReportPublisherTable = {
             { "data": "created_at" }
         ],
         initComplete: function () {
-          positionFooter();
+          
         },
         fnDrawCallback: function(data){
           $("#Income").text(data.json.Incomes);
           $("#ClickTotal").text(data.json.ClickTotal);
           $("#ImpTotal").text(data.json.ImpTotal);
+          positionFooter();
           return data;
         }
     });
@@ -803,12 +828,13 @@ var ReportDemandTable = {
             { "data": "created_at" }
         ],
         initComplete: function () {
-          positionFooter();
+          
         },
         fnDrawCallback: function(data){
           $("#Outcomes").text(data.json.Outcomes);
           $("#ClickTotal").text(data.json.ClickTotal);
           $("#ImpTotal").text(data.json.ImpTotal);
+          positionFooter();
           return data;
         }
     });
@@ -873,9 +899,10 @@ var UserPayoutTable = {
             }
         ],
         initComplete: function () {  
-          positionFooter();
+          
         },
         fnDrawCallback: function(data){
+          positionFooter();
           return data;
         }
     });
@@ -963,11 +990,12 @@ var PaymentTable = {
             },
         ],
         initComplete: function () {
-          positionFooter();
+          
         },
         fnDrawCallback: function(data){
           $("#total-charge-value").text(data.json.incomeTotal);
           $("#total-expenditure-value").text(data.json.outcomeTotal);
+          positionFooter();
           return data;
         }
     });
@@ -1024,10 +1052,11 @@ var InternalIncomeTable = {
             { "data": "DateCreated" }
         ],
         initComplete: function () {
-          positionFooter();
+          
         },
         fnDrawCallback: function(data){
           $("#total-income-value").text(data.json.TotalMarkup);
+          positionFooter();
           return data;
         }
     });
@@ -1084,10 +1113,11 @@ var InternalOutcomeTable = {
             { "data": "DateCreated" }
         ],
         initComplete: function () {
-          positionFooter();
+          
         },
         fnDrawCallback: function(data){
           $("#total-outcome-value").text(data.json.TotalMarkup);
+          positionFooter();
           return data;
         }
     });
