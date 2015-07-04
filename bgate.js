@@ -471,7 +471,7 @@ var InitLvDuitIFrame = (function () {
         + "';ISLab_Loc.ifr='" + (isInIframe() ? '1' : '0')
         + "';ISLab_Loc.od='" + getOD() + "';</script>";
 
-    var domain = getQueryStringArg(qs, 'ISLab_domain', adserverDomain);
+    // var domain = getQueryStringArg(qs, 'ISLab_domain', adserverDomain);
 
     var abf = 0;
     var id = getQueryStringArg(qs, 'pzoneid');
