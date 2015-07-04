@@ -664,9 +664,9 @@ class SignupController extends PublisherAbstractActionController {
 
 	   		//Get total amount has charged to system (TransactionDetail table) //Type=0: Income
 	   		$transactionDetails = $TransactionDetailFactory->get(array('UserID' => $userData->user_id, 'Type' => 0));
-	   		$totalAmount = 0;
+	   		$totalCharge = 0;
 	   		foreach ($transactionDetails as $key => $value) {
-	   			$totalAmount += intval($value["Amount"]);
+	   			$totalCharge += floatval($value["Amount"]);
 	   		}
 
 	   		//Get total Spend
@@ -675,14 +675,14 @@ class SignupController extends PublisherAbstractActionController {
 
 	   		$totalSpend = 0; $totalMarkup = 0;
 	   		foreach ($internalTransactions as $key => $value) {
-	   			$totalSpend += intval($value["GrossMoney"]);
-	   			$totalMarkup += intval($value["Markup"]);
+	   			$totalSpend += floatval($value["GrossMoney"]);
+	   			$totalMarkup += floatval($value["Markup"]);
 	   		}
 
 	   		array_push($data, array_merge((array)$user_data, array(
 	   			'user' => $userData,
 	   			'approval' => $approval,
-	   			'totalAmount' => $totalAmount,
+	   			'totalCharge' => $totalCharge,
 	   			'totalSpend' => $totalSpend,
 	   			'totalMarkup' => $totalMarkup
 	   		)));

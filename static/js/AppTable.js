@@ -496,7 +496,7 @@ var AdvertiserTable = {
               "data": "Email", 
             },
             
-            { "data": "totalAmount"},
+            { "data": "totalCharge"},
             { "data": "totalSpend"},
             { "data": "totalMarkup"},
             { "data": "Name" ,
