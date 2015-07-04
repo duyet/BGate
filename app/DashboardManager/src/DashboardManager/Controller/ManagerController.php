@@ -309,9 +309,9 @@ class ManagerController extends DemandAbstractActionController {
                 
                     
                 $row["UserName"] = $row_data["UserName"];
-                $row["GrossMoney"] = $row_data["GrossMoney"];
-                $row["NetMoney"] = $row_data["NetMoney"];
-                $row["Markup"] = $row_data["Markup"];
+                $row["GrossMoney"] = "$" . $row_data["GrossMoney"];
+                $row["NetMoney"] = "$" . $row_data["NetMoney"];
+                $row["Markup"] = "$" . $row_data["Markup"];
                 $row["DateCreated"] = date_format(date_create($row_data["DateCreated"]),"d/m/Y") ;
                 $result[] = $row;
             endforeach;

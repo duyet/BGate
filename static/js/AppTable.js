@@ -890,10 +890,12 @@ var PaymentTable = {
             { "data": "id", className: "text-center" },
             { 
               "data": "TransactionLogID",
+              width: "12%",
+              className: "text-center",
               render: function ( data, type, row ) {
                 //console.log('render', data,type,  row);
                 if (row.log == null) {
-                  return "";
+                  return "<span class='label label-default'>Bank Transfer</span>";
                 }
                 else if(  parseInt(row.log.Type) == 0){
                   return '<span class="label label-success">Paypal</span>';
@@ -904,18 +906,21 @@ var PaymentTable = {
             },
             { 
               "data": "Type", 
+              width: "10%",
+              className: "text-center",
               render: function ( data, type, row ) {
                 //console.log('render', data,type,  row);
                 if( parseInt(row.Type) == 0){
                   return '<span class="label label-success">Income</span>';
                 }else{
-                  return '<span class="label label-primary">Outcome</span>';
+                  return '<span class="label label-warning">Outcome</span>';
                 }
               }
             },
             { "data": "Amount" ,
+              className: "text-right",
               render: function ( data, type, row ) {
-                return '$'+data;
+                return '$'+ Math.round(data).toFixed(2);
               }
             },
             { "data": "Description",
