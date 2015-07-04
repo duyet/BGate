@@ -190,8 +190,10 @@ class AdzoneDailyTracker extends \_factory\CachedTableRead
                     )
                 );
                 //Condition filter
-                $condition = $this->getConditionByFlag($flag);
-                $select->where($condition);
+                if ($flag != null):
+                    $condition = $this->getConditionByFlag($flag);
+                    $select->where($condition);
+                endif;
             }
         );
         foreach ($resultSet as $obj):

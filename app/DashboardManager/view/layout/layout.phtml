@@ -256,51 +256,32 @@ echo $this->doctype(); ?>
 		<?php echo file_get_contents("app/DashboardManager/view/support/support.js"); ?>
 
     <script type="text/javascript">
-      (function ($) {
-          $(function(){
-              if($('footer').is('.footer')){
-                setTimeout(function(){
-                  position_footer();                  
-                }, 300);
-                  
-              }        
-          })
-      })(jQuery);
+      $(document).ready(function(){
+         positionFooter();      
+      });
 
-      function position_footer () {
-          $footer = $("footer.footer");
-          function positionFooter() {
-              footerHeight = 100 + $(window).scrollTop();
-            if(($(document.body).height()+footerHeight) < $(window).height()){
-              $footer.css({
-                position: "fixed",
-                bottom: 0,
-                width: '100%'
-              });
-            }else{
-              $footer.css({
-                position: "static"
-              });
-            }
-             
-          }
-          $(window).load(function () {
-            //console.log('window load');
-            positionFooter()
+      $(window).resize(function () {
+        //console.log('window resize');
+        positionFooter();
+      });
+      
+      function positionFooter() {
+        $footer = $("footer.footer");
+        footerHeight = 100 + $(window).scrollTop();
+        if(($(document.body).height()+footerHeight) < $(window).height()){
+          $footer.css({
+            position: "fixed",
+            bottom: 0,
+            width: '100%'
           });
-          $(window).scroll(function () {
-            //console.log('window scroll');
-            positionFooter()
+        }else{
+          $footer.css({
+            position: "static"
           });
-          $(window).resize(function () {
-            //console.log('window resize');
-            positionFooter();
-          });
-          $('body').resize(function () {
-            //console.log('document resize');
-            positionFooter();
-          });
+        }
+         
       }
+
     </script>
     </body>
 </html>

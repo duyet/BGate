@@ -152,6 +152,7 @@ class ZoneController extends PublisherAbstractActionController {
         if (count($ZoneList["data"])> 0):
         	foreach ($ZoneList["data"] AS $row_number => $row_data): 
         		$row = array();
+                $impFilled = intval($row_data["TotalRequests"]) == 0 ? 0 : $row_data["TotalImpressions"] / $row_data["TotalRequests"];
                 if ($row_data["AdTemplateID"] == 0):
                     $row_data["TemplateName"] = "Custom";
                     $row_data["TemplateX"] = $row_data["Width"];
@@ -164,7 +165,7 @@ class ZoneController extends PublisherAbstractActionController {
         		$row["SpaceSize"] = array( "type" => $row_data["ImpressionType"], "name" => $row_data["TemplateName"], "width" => $row_data["TemplateX"], "height" => $row_data["TemplateY"]);
         		$row["FloorPrice"] =  '$' . sprintf("%1.2f", $row_data["FloorPrice"]);
         		$row["TotalRequests"] = $row_data["TotalRequests"];
-        		$row["TotalImpressionsFilled"] = $row_data["TotalImpressionsFilled"];
+        		$row["TotalImpressionsFilled"] =round($impFilled, 2) * 100 . "%";
         		$row["DateCreated"] = $row_data["DateCreated"];
 
                 #Get Income

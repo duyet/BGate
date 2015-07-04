@@ -447,13 +447,14 @@ class PublisherController extends PublisherAbstractActionController {
 	{
         $initialized = $this->initialize();
         if ($initialized !== true) return $initialized;
-        $flag = ($this->getRequest()->getQuery("param1") == '') ? 7 : $this->getRequest()->getQuery("param1");
+        $flag = ($this->getRequest()->getQuery("param1") == '') ? null : $this->getRequest()->getQuery("param1");
         $domain_id = $this->getRequest()->getQuery("domainId");
 		$params = array();
 		$params["PublisherWebsiteID"] = $domain_id;
 
         $AdzoneDailyTrackerFactory = \_factory\AdzoneDailyTracker::get_instance();
         $details = $AdzoneDailyTrackerFactory->get_detail($params, $flag);
+
         if (count($details)> 0):
             foreach ($details AS $row_number => $row_data): 
                 $row = array();

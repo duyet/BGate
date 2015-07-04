@@ -44,10 +44,10 @@ var _bgate_bidder = {
                 initializeBanner(ifrm, impId, nurl);
             } 
             else if ( xhr.readyState < 4 ) {
-                console.log("[" + bid_request.imp[0].id + "] processing...")
+                console.log("adzone [" + bid_request.imp[0].id + "] processing...")
             }
             else {
-                console.log("no banner match");
+                console.log("adzone [" + bid_request.imp[0].id + "], bid floor ["+ bid _request.imp[0].bidfloor +"] no banner match.");
                 AppendDefaultTag(bid_request.imp[0].id);
             }
         }

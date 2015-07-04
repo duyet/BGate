@@ -62,22 +62,19 @@ function submitForm() {
           </select>
       </p>
       <div class="row">
-        <div class="col-sm-3">Domain Name: <strong><?php echo $domain_obj->WebDomain ?></strong></div>
-        <div class="col-sm-3">Owner: <strong><?php echo $domain_owner->Name ?></strong></div>
-        <div class="col-sm-3">Status: <strong><?php echo $domain_obj->ApprovalStatus() ?></strong></div> 
-        <div class="col-sm-3">Date Created: <strong><?php echo $domain_obj->DateCreated ?></strong></div>
+        <div class="col-sm-4">Domain Name: <strong><?php echo $domain_obj->WebDomain ?></strong></div>
+        <div class="col-sm-4">Owner: <strong><?php echo $domain_owner->Name ?></strong></div>
+        <div class="col-sm-4">Date Created: <strong><?php echo $domain_obj->DateCreated ?></strong></div>
       </div>
       <div class="row">
-        <div class="col-sm-3">Revenue: $<strong id="DomainRevenue"></strong></div>
-        <div class="col-sm-3">Ad requests: <strong>0</strong></div>
-        <div class="col-sm-3">Fillrate: <strong>0</strong></div>
-        <div class="col-sm-3">Impressions: <strong id="DomainImpressions"></strong></div>
+        <div class="col-sm-4">Status: <strong><?php echo $domain_obj->ApprovalStatus() ?></strong></div> 
+        <div class="col-sm-4">Revenue: $<strong id="DomainRevenue"></strong></div>
+        <div class="col-sm-4">eCPM: <strong id="DomainEcpm"></strong></div>
       </div>
       <div class="row">
-        <div class="col-sm-3">eCPM: $<strong id="DomainEcpm"></strong></div>
-        <div class="col-sm-3">Clicks: <strong id="DomainClicks"></strong></div>
-        <div class="col-sm-3">CTR: <strong id="DomainCTR"></strong>%</div>
-        <div class="col-sm-3"></div>
+        <div class="col-sm-4">Impressions: <strong id="DomainImpressions"></strong></div>
+        <div class="col-sm-4">Clicks: <strong id="DomainClicks"></strong></div>
+        <div class="col-sm-4">CTR: <strong id="DomainCTR"></strong>%</div>        
       </div>
       <br>
     </div>
