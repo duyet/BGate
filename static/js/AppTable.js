@@ -409,7 +409,7 @@ var PublishersTable = {
             },
             { "data": "DateCreated" },
             { 
-              "data": "Balance", 
+              "data": "Balance", className: "text-right", 
               render: function(data){ 
                 if (data == null) {
                   return "$0";
@@ -419,13 +419,13 @@ var PublishersTable = {
               }
             },
             { 
-              "data": "totalNetIncome",
+              "data": "totalNetIncome", className: "text-right", 
               render: function(data){
                 return "$" + data;
               }
             },
             { 
-              "data": "totalMarkup",
+              "data": "totalMarkup", className: "text-right", 
               render: function(data){
                 return "$" + data;
               }
@@ -502,9 +502,33 @@ var AdvertiserTable = {
               "data": "Email", 
             },
             
-            { "data": "totalCharge"},
-            { "data": "totalSpend"},
-            { "data": "totalMarkup"},
+            { "data": "totalCharge", className: "text-right", 
+              render: function(data){ 
+                if (data == null) {
+                  return "$0";
+                }  
+                else
+                  return "$" + data;
+              }
+            },
+            { "data": "totalSpend", className: "text-right", 
+              render: function(data){ 
+                if (data == null) {
+                  return "$0";
+                }  
+                else
+                  return "$" + data;
+              }
+            },
+            { "data": "totalMarkup", className: "text-right", 
+              render: function(data){ 
+                if (data == null) {
+                  return "$0";
+                }  
+                else
+                  return "$" + data;
+              }
+            },
             { "data": "Name" ,
               render : function(data, type, row){
                 if(row.approval==true || row.approval== 'true'                             ){
