@@ -985,7 +985,10 @@ div.tooltip-inner {
 .datatable-wrapper {
     overflow-x: auto;
 }
-
+.datatable-wrapper table {
+    min-width: 992px;
+    width: 100% !important;
+}
 .datatable-wrapper table th { text-align: center !important; }
 
 input[type='number'] {

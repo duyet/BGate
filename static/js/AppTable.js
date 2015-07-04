@@ -26,7 +26,7 @@ var DomainTable = {
         "scrollX": true,
         "dom": '<"row" <"col-sm-8 custom-filter"> <"col-sm-4" f> >r<"datatable-wrapper" t> <"row mrg20B" <"col-sm-6" il> <"col-sm-6"p> >',
         "order": [[1,"asc"]],
-        "autoWidth": false,
+        "autoWidth": true,
         "ajax": {
           url: self.source_path,
           data: function(d){
@@ -133,7 +133,7 @@ var AdzoneTable = {
         "iDisplayLength": 10,
         "dom": '<"row" <"col-sm-8 custom-filter"> <"col-sm-4" f> >r<"datatable-wrapper" t> <"row mrg20B" <"col-sm-6" li> <"col-sm-6"p> >',
         "order": [[1,"asc"]],
-        "autoWidth": false,
+        "autoWidth": true,
         "ajax": {
           url: self.source_path,
           data: function(d){
@@ -235,7 +235,7 @@ var CampaignTable = {
         "scrollX": true,
         "dom": '<"row" <"col-sm-8 custom-filter"> <"col-sm-4" f> >r<"datatable-wrapper" t> <"row mrg20B" <"col-sm-6" il> <"col-sm-6"p> >',
         "order": [[1,"asc"]],
-        "autoWidth": false,
+        "autoWidth": true,
         "ajax": {
           url: self.source_path,
           data: function(d){
@@ -312,7 +312,7 @@ var CampaignAdTable = {
         // "scrollX": true,
         "dom": '<"row" <"col-sm-8 custom-filter"> <"col-sm-4" f> >r<"datatable-wrapper" t> <"row mrg20B" <"col-sm-6" il> <"col-sm-6"p> >',
         "order": [[1,"asc"]],
-        "autoWidth": false,
+        "autoWidth": true,
         "ajax": {
           url: self.source_path,
           data: function(d){
@@ -393,7 +393,7 @@ var PublishersTable = {
         // "scrollX": true,
         "dom": '<"row" <"col-sm-8 custom-filter"> <"col-sm-4" f> >r<"datatable-wrapper" t> <"row mrg20B" <"col-sm-6" il> <"col-sm-6"p> >',
         "order": [[1,"asc"]],
-        "autoWidth": false,
+        "autoWidth": true,
         "ajax": {
           url: self.source_path,
           data: function(d){
@@ -497,7 +497,7 @@ var AdvertiserTable = {
         // "scrollX": true,
         "dom": '<"row" <"col-sm-8 custom-filter"> <"col-sm-4" f> >r<"datatable-wrapper" t> <"row mrg20B" <"col-sm-6" il> <"col-sm-6"p> >',
         "order": [[1,"asc"]],
-        "autoWidth": false,
+        "autoWidth": true,
         "ajax": {
           url: self.source_path,
           data: function(d){
@@ -606,7 +606,7 @@ var IncomeTable = {
         "scrollX": true,
         "dom": '<"row" <"col-sm-8 custom-filter"> <"col-sm-4" f> >r<"datatable-wrapper" t> <"row mrg20B" <"col-sm-6" il> <"col-sm-6"p> >',
         "order": [[1,"desc"]],
-        "autoWidth": false,
+        "autoWidth": true,
         "ajax": {
           url: self.source_path,
           data: function(d){
@@ -669,7 +669,7 @@ var OutcomeTable = {
         "scrollX": true,
         "dom": '<"row" <"col-sm-8 custom-filter"> <"col-sm-4" f> >r<"datatable-wrapper" t> <"row mrg20B" <"col-sm-6" il> <"col-sm-6"p> >',
         "order": [[1,"desc"]],
-        "autoWidth": false,
+        "autoWidth": true,
         "ajax": {
           url: self.source_path,
           data: function(d){
@@ -741,7 +741,7 @@ var ReportPublisherTable = {
         "scrollX": true,
         "dom": '<"row" <"col-sm-8 custom-filter"> <"col-sm-4" f> >r<"datatable-wrapper" t> <"row mrg20B" <"col-sm-6" il> <"col-sm-6"p> >',
         "order": [[6,"asc"]],
-        "autoWidth": false,
+        "autoWidth": true,
         "ajax": {
           url: self.source_path,
           data: function(d){
@@ -805,7 +805,7 @@ var ReportDemandTable = {
         "scrollX": true,
         "dom": '<"row" <"col-sm-8 custom-filter"> <"col-sm-4" f> >r<"datatable-wrapper" t> <"row mrg20B" <"col-sm-6" il> <"col-sm-6"p> >',
         "order": [[6,"asc"]],
-        "autoWidth": false,
+        "autoWidth": true,
         "ajax": {
           url: self.source_path,
           data: function(d){
@@ -868,7 +868,7 @@ var UserPayoutTable = {
         "scrollX": true,
         "dom": '<"row" <"col-sm-8 custom-filter"> <"col-sm-4" f> >r<"datatable-wrapper" t> <"row mrg20B" <"col-sm-6" il> <"col-sm-6"p> >',
         "order": [[1,"asc"]],
-        "autoWidth": false,
+        "autoWidth": true,
         "ajax": {
           url: self.source_path,
           data: function(d){
@@ -937,7 +937,7 @@ var PaymentTable = {
         // "scrollX": true,
         "dom": '<"row" <"col-sm-8 custom-filter"> <"col-sm-4" f> >r<"datatable-wrapper" t> <"row mrg20B" <"col-sm-6" il> <"col-sm-6"p> >',
         "order": [[5,"desc"]],
-        "autoWidth": false,
+        "autoWidth": true,
         "ajax": {
           url: self.source_path,
           data: function(d){
@@ -1030,7 +1030,7 @@ var InternalIncomeTable = {
         "scrollX": true,
         "dom": '<"row" <"col-sm-8 custom-filter"> <"col-sm-4" f> >r<"datatable-wrapper" t> <"row mrg20B" <"col-sm-6" il> <"col-sm-6"p> >',
         "order": [[8,"desc"]],
-        "autoWidth": false,
+        "autoWidth": true,
         "ajax": {
           url: self.source_path,
           data: function(d){
@@ -1091,7 +1091,7 @@ var InternalOutcomeTable = {
         "scrollX": true,
         "dom": '<"row" <"col-sm-8 custom-filter"> <"col-sm-4" f> >r<"datatable-wrapper" t> <"row mrg20B" <"col-sm-6" il> <"col-sm-6"p> >',
         "order": [[8,"desc"]],
-        "autoWidth": false,
+        "autoWidth": true,
         "ajax": {
           url: self.source_path,
           data: function(d){
