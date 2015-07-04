@@ -91,6 +91,7 @@ var DomainTable = {
             }
         ],
         initComplete: function () {
+          positionFooter();
           var is_admin = self.table.DataTable().context[0].json.is_admin;
           // var dt = self.table.fnGetData();
           // var is_admin = dt[0].is_admin;
@@ -195,7 +196,7 @@ var AdzoneTable = {
             }
         ],
         initComplete: function () {
-
+          positionFooter();
         },
         fnDrawCallback: function(data){
           return data;
@@ -272,7 +273,7 @@ var CampaignTable = {
         ],
         initComplete: function () {
           // var is_admin = self.table.DataTable().context[0].json.is_admin;
-  
+          positionFooter();
         },
         fnDrawCallback: function(data){
           return data;
@@ -352,7 +353,7 @@ var CampaignAdTable = {
             }
         ],
         initComplete: function () {
-          
+          positionFooter();
         },
         fnDrawCallback: function(data){
           return data;
@@ -445,6 +446,7 @@ var PublishersTable = {
             },
         ],
         initComplete: function () {
+          positionFooter();
         },
         fnDrawCallback: function(data){
           //console.log(data.json);
@@ -544,6 +546,7 @@ var AdvertiserTable = {
             },
         ],
         initComplete: function () {
+          positionFooter();
         },
         fnDrawCallback: function(data){
           //console.log(data.json);
@@ -580,7 +583,7 @@ var IncomeTable = {
         "iDisplayLength": 10,
         "scrollX": true,
         "dom": '<"row" <"col-sm-8 custom-filter"> <"col-sm-4" f> >r<"datatable-wrapper" t> <"row mrg20B" <"col-sm-6" il> <"col-sm-6"p> >',
-        "order": [[1,"asc"]],
+        "order": [[1,"desc"]],
         "autoWidth": false,
         "ajax": {
           url: self.source_path,
@@ -606,7 +609,7 @@ var IncomeTable = {
             { "data": "Incomes" },
         ],
         initComplete: function () {
- 
+          positionFooter();
         },
         fnDrawCallback: function(data){
           return data;
@@ -642,7 +645,7 @@ var OutcomeTable = {
         "iDisplayLength": 10,
         "scrollX": true,
         "dom": '<"row" <"col-sm-8 custom-filter"> <"col-sm-4" f> >r<"datatable-wrapper" t> <"row mrg20B" <"col-sm-6" il> <"col-sm-6"p> >',
-        "order": [[1,"asc"]],
+        "order": [[1,"desc"]],
         "autoWidth": false,
         "ajax": {
           url: self.source_path,
@@ -678,7 +681,7 @@ var OutcomeTable = {
             { "data": "Outcomes" },
         ],
         initComplete: function () {
- 
+          positionFooter();
         },
         fnDrawCallback: function(data){
           return data;
@@ -737,7 +740,7 @@ var ReportPublisherTable = {
             { "data": "created_at" }
         ],
         initComplete: function () {
- 
+          positionFooter();
         },
         fnDrawCallback: function(data){
           $("#Income").text(data.json.Incomes);
@@ -800,7 +803,7 @@ var ReportDemandTable = {
             { "data": "created_at" }
         ],
         initComplete: function () {
- 
+          positionFooter();
         },
         fnDrawCallback: function(data){
           $("#Outcomes").text(data.json.Outcomes);
@@ -870,6 +873,7 @@ var UserPayoutTable = {
             }
         ],
         initComplete: function () {  
+          positionFooter();
         },
         fnDrawCallback: function(data){
           return data;
@@ -959,6 +963,7 @@ var PaymentTable = {
             },
         ],
         initComplete: function () {
+          positionFooter();
         },
         fnDrawCallback: function(data){
           $("#total-charge-value").text(data.json.incomeTotal);
@@ -996,7 +1001,7 @@ var InternalIncomeTable = {
         "iDisplayLength": 10,
         "scrollX": true,
         "dom": '<"row" <"col-sm-8 custom-filter"> <"col-sm-4" f> >r<"datatable-wrapper" t> <"row mrg20B" <"col-sm-6" il> <"col-sm-6"p> >',
-        "order": [[1,"asc"]],
+        "order": [[8,"desc"]],
         "autoWidth": false,
         "ajax": {
           url: self.source_path,
@@ -1019,7 +1024,7 @@ var InternalIncomeTable = {
             { "data": "DateCreated" }
         ],
         initComplete: function () {
- 
+          positionFooter();
         },
         fnDrawCallback: function(data){
           $("#total-income-value").text(data.json.TotalMarkup);
@@ -1056,7 +1061,7 @@ var InternalOutcomeTable = {
         "iDisplayLength": 10,
         "scrollX": true,
         "dom": '<"row" <"col-sm-8 custom-filter"> <"col-sm-4" f> >r<"datatable-wrapper" t> <"row mrg20B" <"col-sm-6" il> <"col-sm-6"p> >',
-        "order": [[1,"asc"]],
+        "order": [[8,"desc"]],
         "autoWidth": false,
         "ajax": {
           url: self.source_path,
@@ -1079,7 +1084,7 @@ var InternalOutcomeTable = {
             { "data": "DateCreated" }
         ],
         initComplete: function () {
- 
+          positionFooter();
         },
         fnDrawCallback: function(data){
           $("#total-outcome-value").text(data.json.TotalMarkup);
