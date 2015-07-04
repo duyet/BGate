@@ -301,18 +301,13 @@ class ManagerController extends DemandAbstractActionController {
                 $row["index"] = $Offset + $row_number+1;
                 $row["Name"] = $row_data["Name"];
 
-                if($row_data["PolymorphicType"] == 0):
-                    $row["PolymorphicType"] = "Campaign";
-                else:
-                    $row["PolymorphicType"] = "Website";
-                endif;
+               
+                $row["PolymorphicType"] = $row_data["PolymorphicType"];
 
-                if($row_data["TransactionType"] == 0):
-                    $row["TransactionType"] = "Income";
-                else:
-                    $row["TransactionType"] = "Outcome";
-                endif;
-
+                
+                $row["TransactionType"] = $row_data["TransactionType"];
+                
+                    
                 $row["UserName"] = $row_data["UserName"];
                 $row["GrossMoney"] = $row_data["GrossMoney"];
                 $row["NetMoney"] = $row_data["NetMoney"];
