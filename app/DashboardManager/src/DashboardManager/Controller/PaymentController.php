@@ -633,7 +633,14 @@ class PaymentController extends DemandAbstractActionController {
 		$variable = $TransactionDetailFactory->get($params, $order, $search, $PageSize, $Offset, $flag);
 
 		$detail = array();
+		$incomeTotal = 0;
+		$outcomeTotal =0;
 		foreach ($variable as $value) {
+			if($value->Type == 1):
+				$outcomeTotal += $value->Amount;
+			elseif($value->Type == 0):
+				$incomeTotal += $value->Amount;
+			endif;
 			$log =  $TransactionLogFactory->get_row(array("ID" => $value->TransactionLogID));
 			array_push($detail, array_merge((array)$value, array('log' => $log )));
 		}
@@ -642,7 +649,9 @@ class PaymentController extends DemandAbstractActionController {
 		echo json_encode(array(
 			"recordsTotal" => count($recordsTotal), 
 			"recordsFiltered" => count($recordsTotal) , 
-			'data' => $detail));
+			'data' => $detail,
+			'incomeTotal' => $incomeTotal,
+			'outcomeTotal' => $outcomeTotal));
 		die;
     }
 }

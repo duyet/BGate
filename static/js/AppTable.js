@@ -912,7 +912,8 @@ var PaymentTable = {
         initComplete: function () {
         },
         fnDrawCallback: function(data){
-          //console.log(data.json);
+          $("#total-charge-value").text(data.json.incomeTotal);
+          $("#total-expenditure-value").text(data.json.outcomeTotal);
           return data;
         }
     });
@@ -951,7 +952,7 @@ var InternalIncomeTable = {
         "ajax": {
           url: self.source_path,
           data: function(d){
-            d.flag = $("#internal-income-time option:selected").val();
+            d.flag = $("#internal-time option:selected").val();
           }
         },
         "aoColumnDefs": [
@@ -1011,7 +1012,7 @@ var InternalOutcomeTable = {
         "ajax": {
           url: self.source_path,
           data: function(d){
-            d.flag = $("#internal-outcome-time option:selected").val();
+            d.flag = $("#internal-time option:selected").val();
           }
         },
         "aoColumnDefs": [

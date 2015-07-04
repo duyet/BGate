@@ -110,6 +110,10 @@ $effective_user_in_dashboard = false;
               <option value="6"><?php echo $this->layout()->_t->translate("This year");?></option>
             </select> 
         </p>
+        <div class="row">
+          <div class="col-sm-6"><?php echo $this->layout()->_t->translate("Total Charge");?>: <strong>$<span id="total-charge-value"></span></strong></div>
+          <div class="col-sm-6"><?php echo $this->layout()->_t->translate("Total Expenditure");?>: <strong>$<span id="total-expenditure-value"></span></strong></div>
+        </div>
         <div class="">
           <table id="payment-table" class="table table-striped table-bordered table-margin" data-url="<?php echo $this->basePath() ?>/payment/paymentinit?view_all=true">
             <thead>
@@ -147,8 +151,8 @@ $effective_user_in_dashboard = false;
     <div class="row mrg20T">
       <div id="revenue-overview" class="col-md-10 col-md-offset-1 panel pad20T">
         <p class="underline mrg0T" style="padding-bottom: 3px;">          
-        <span class="admin-titles"><?php echo $this->layout()->_t->translate("Income Statistics");?> </span>
-            <select id="internal-income-time" onchange="InternalIncomeTable.reload_table()">
+        <span class="admin-titles"><?php echo $this->layout()->_t->translate("Revenue Statistics");?> </span>
+            <select id="internal-time" onchange="InternalIncomeTable.reload_table(); InternalOutcomeTable.reload_table()">
               <option selected value><?php echo $this->layout()->_t->translate("All time");?></option>
               <option value="0"><?php echo $this->layout()->_t->translate("Today");?></option>
               <option value="1"><?php echo $this->layout()->_t->translate("Yesterday");?></option>
@@ -160,10 +164,12 @@ $effective_user_in_dashboard = false;
             </select> 
         </p>
         <div class="row">
-          <div class="col-sm-3"><?php echo $this->layout()->_t->translate("Total Income");?>: <strong>$<span id="total-income-value"></span></strong></div>
+          <div class="col-sm-6"><?php echo $this->layout()->_t->translate("Total Income");?>: <strong>$<span id="total-income-value"></span></strong></div>
+          <div class="col-sm-6"><?php echo $this->layout()->_t->translate("Total Outcome");?>: <strong>$<span id="total-outcome-value"></span></strong></div>
         </div>
         <hr>
         <div class="">
+          <strong class=" mrg5B  mrg0T"><?php echo $this->layout()->_t->translate("Income Statistics List");?></strong>
           <table id="internal-income-table" class="table table-striped table-bordered table-margin" data-url="<?php echo $this->basePath() ?>/manager/internallist?type=0">
             <thead>
               <tr>
@@ -197,34 +203,8 @@ $effective_user_in_dashboard = false;
               </tr>
             </thead>
           </table>
-        </div>
-        <br>
-      </div>
-
-    </div>
-  </div>
-
-  <div class="container-fluid">
-    <div class="row mrg20T">
-      <div id="revenue-overview" class="col-md-10 col-md-offset-1 panel pad20T">
-        <p class="underline mrg0T" style="padding-bottom: 3px;">          
-        <span class="admin-titles"><?php echo $this->layout()->_t->translate("Outcome Statistics");?> </span>
-            <select id="internal-outcome-time" onchange="InternalOutcomeTable.reload_table()">
-              <option selected value><?php echo $this->layout()->_t->translate("All time");?></option>
-              <option value="0"><?php echo $this->layout()->_t->translate("Today");?></option>
-              <option value="1"><?php echo $this->layout()->_t->translate("Yesterday");?></option>
-              <option value="2"><?php echo $this->layout()->_t->translate("This week");?></option>
-              <option value="3"><?php echo $this->layout()->_t->translate("Last week");?></option>
-              <option value="4"><?php echo $this->layout()->_t->translate("This month");?></option>
-              <option value="5"><?php echo $this->layout()->_t->translate("Last month");?></option>
-              <option value="6"><?php echo $this->layout()->_t->translate("This year");?></option>
-            </select> 
-        </p>
-        <div class="row">
-          <div class="col-sm-3"><?php echo $this->layout()->_t->translate("Total Outcome");?>: <strong>$<span id="total-outcome-value"></span></strong></div>
-        </div>
-        <hr>
-        <div class="">
+          <hr>
+          <strong class=" mrg5B  mrg0T"><?php echo $this->layout()->_t->translate("Outcome Statistics List");?></strong>
           <table id="internal-outcome-table" class="table table-striped table-bordered table-margin" data-url="<?php echo $this->basePath() ?>/manager/internallist?type=1">
             <thead>
               <tr>
@@ -264,6 +244,7 @@ $effective_user_in_dashboard = false;
 
     </div>
   </div>
+
  <!--  <div class="container-fluid">
     <div class="row mrg20T">
       <div  class="col-md-10 col-md-offset-1 panel pad20T">
