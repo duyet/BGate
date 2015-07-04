@@ -76,7 +76,7 @@ class InternalTransaction extends \_factory\CachedTableRead
     
         $resultSet = $this->select(function (\Zend\Db\Sql\Select $select) use ($params, $orders, $search, $limit, $offset, $flag, $type) {
             if ($type == 0): //Campaign
-              $params["PolymorphicType"] = 0;
+              $params["PolymorphicType"] = "campaign";
               $select->join("AdCampaignPreview",
                   "AdCampaignPreview.AdCampaignPreviewID = InternalTransaction.PolymorphicID",
                   array(
@@ -85,7 +85,7 @@ class InternalTransaction extends \_factory\CachedTableRead
                   $select::JOIN_INNER);
 
             elseif($type == 1): //Website
-              $params["PolymorphicType"] = 1;
+              $params["PolymorphicType"] = "website";
               $select->join("PublisherWebsite",
                   "PublisherWebsite.PublisherWebsiteID = InternalTransaction.PolymorphicID",
                   array(
