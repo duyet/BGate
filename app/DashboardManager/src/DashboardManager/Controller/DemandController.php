@@ -4076,6 +4076,7 @@ class DemandController extends DemandAbstractActionController {
 		// End List web
 		if ($this->is_admin):
 			$UserID = $this->getRequest()->getQuery("UserID");
+			$Campaign = $this->getRequest()->getQuery("CampaignID");
 		else:
 		endif;
 

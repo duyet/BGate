@@ -427,7 +427,7 @@ var PublishersTable = {
                   return "$0";
                 }  
                 else
-                  return "$" + data;
+                  return "$" + parseFloat(data).toFixed(2);
               }
             },
             { 
@@ -1109,7 +1109,7 @@ var InternalOutcomeTable = {
             { "data": "index", className: "text-center" },
             { "data": "Name",
               render: function(data){
-                return "<a href='" + basePath + "/demand/report?UserID="+ data.user_id +"&WebsiteID=" + data.id + "'>" + data.name + "</a>";
+                return "<a href='" + basePath + "/publisher/report?userID="+ data.user_id +"&website_id=" + data.id + "'>" + data.name + "</a>";
               }
             },
             { "data": "PolymorphicType" },

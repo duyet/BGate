@@ -170,6 +170,8 @@ class PublisherController extends PublisherAbstractActionController {
 
 		if ($this->is_admin):
 			$parameters['PublisherWebsite.DomainOwnerID'] =  $this->getRequest()->getQuery("publisher_info");
+
+			
 		else:
 			$parameters['PublisherWebsite.DomainOwnerID'] = $this->PublisherInfoID;
 		endif;
@@ -177,6 +179,10 @@ class PublisherController extends PublisherAbstractActionController {
 		if ($parameters['PublisherWebsite.DomainOwnerID'] == null):
 			die("ERROR! you can not pass");
 		endif;
+
+		if ($this->getRequest()->getQuery("website_id") != '') {
+			$parameters["PublisherWebsite.PublisherWebsiteID"] = $this->getRequest()->getQuery("website_id");	
+		}
 
 		//Pull list of websites.		
 		$AdzoneDailyTrackerFactory = \_factory\AdzoneDailyTracker::get_instance();
@@ -328,18 +334,18 @@ class PublisherController extends PublisherAbstractActionController {
 	{    
 		$initialized = $this->initialize();
 		if ($initialized !== true) return $initialized;
-		// get search value
-		$search = $this->getRequest()->getQuery("search")["value"];
-		// pagination value
-		$PageSize = (int) $this->getRequest()->getQuery("length");
-		$Offset =   (int) $this->getRequest()->getQuery("start");
-		// End List web
+		
 		$headers = array("#","Ad-Domain","Ad-Zones","Click Count","Imp Count","Income","Date",);
 		
 		$PublisherInfoFactory = \_factory\PublisherInfo::get_instance();
 		$params = array();
+		$website_id = $this->getRequest()->getQuery("website_id");
 		if ($this->is_admin && $this->getRequest()->getQuery("publisherInfo") != ""):
 			$params["PublisherInfoID"] = $this->getRequest()->getQuery("publisherInfo");
+		elseif ($this->is_admin && $this->getRequest()->getQuery("userID") != ""):
+			$authUsersFactory = \_factory\authUsers::get_instance();
+			$userData = $authUsersFactory->get_row(array("user_id" => $this->getRequest()->getQuery("userID")));
+			$params["PublisherInfoID"] = $userData["PublisherInfoID"];
 		else:
 			$params["PublisherInfoID"] = $this->PublisherInfoID;
 		endif;
@@ -356,7 +362,8 @@ class PublisherController extends PublisherAbstractActionController {
 			'table_list' => $headers,
 			'user_balance' => $PublisherInfo->Balance,
 			'dashboard_view' => 'report',
-			"publisher_info" => $params["PublisherInfoID"]
+			"publisher_info" => $params["PublisherInfoID"],
+			"website_id" => $website_id
 
 		));
 		return $view;

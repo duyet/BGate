@@ -42,11 +42,12 @@ $effective_user_in_dashboard = false;
               <option value="5"><?php echo $this->layout()->_t->translate("Last month");?></option>
               <option value="6"><?php echo $this->layout()->_t->translate("This year");?></option>
         </select>
+        <?php if (!$is_admin || $website_id == null): ?>
           <span class="admin-titles pull-right">
             <button class="btn btn-success" style="margin: -12px 3px 0px 5px;" onclick="$('#PayoutModal').modal('show')" <?php if(intval($user_balance) < 10){ echo "disabled";} ?>>Withdraw</button>
           </span>
           <span class="admin-titles pull-right">Balance: $<?php echo (int) $user_balance;?></span>
-
+        <?php endif; ?>
         </p>
         <div class="row">
           <div class="col-sm-3"><?php echo $this->layout()->_t->translate("Income (USD)");?>: $<strong id="Income">0</strong></div>
@@ -63,7 +64,7 @@ $effective_user_in_dashboard = false;
       <div id="income-list" class="col-md-10 col-md-offset-1 panel pad20T">
         <p class="underline mrg0T" style="padding-bottom: 3px;">
           <span class="admin-titles"><?php echo $this->layout()->_t->translate("Income List");?> </span>
-        <table id="report-publisher-table" class="table table-hover table-striped table-bordered table-margin" data-url="<?php echo $this->basePath() ?>/publisher/reportlist?publisher_info=<?php echo $publisher_info ?>">
+        <table id="report-publisher-table" class="table table-hover table-striped table-bordered table-margin" data-url="<?php echo $this->basePath() ?>/publisher/reportlist?publisher_info=<?php echo $publisher_info ?>&website_id=<?php echo $website_id; ?>">
 
           <thead>
             <tr>
@@ -80,27 +81,27 @@ $effective_user_in_dashboard = false;
       </div>
     </div>
   </div>
-
-  <div class="container-fluid">
-    <div class="row mrg20T">
-      <div id="income-list" class="col-md-10 col-md-offset-1 panel pad20T">
-        <p class="underline mrg0T" style="padding-bottom: 3px;">
-          <span class="admin-titles">Withdrawal History </span>
-        <table id="user-payout-table" class="table table-hover table-striped table-bordered table-margin" data-url="<?php echo $this->basePath() ?>/publisher/payoutlist?publisher_info=<?php echo $publisher_info ?>">
-          <thead>
-            <tr >
-              <th class="text-center">#</th>
-              <th class="text-center"><?php echo $this->layout()->_t->translate("Date");?></th>
-              <th class="text-center"><?php echo $this->layout()->_t->translate("Name");?></th>
-              <th class="text-center"><?php echo $this->layout()->_t->translate("Amount");?></th>
-              <th class="text-center"><?php echo $this->layout()->_t->translate("Status");?></th>
-            </tr>
-          </thead>
-        </table>
+  <?php if (!$is_admin || $website_id == null): ?>
+    <div class="container-fluid">
+      <div class="row mrg20T">
+        <div id="income-list" class="col-md-10 col-md-offset-1 panel pad20T">
+          <p class="underline mrg0T" style="padding-bottom: 3px;">
+            <span class="admin-titles">Withdrawal History </span>
+          <table id="user-payout-table" class="table table-hover table-striped table-bordered table-margin" data-url="<?php echo $this->basePath() ?>/publisher/payoutlist?publisher_info=<?php echo $publisher_info ?>">
+            <thead>
+              <tr >
+                <th class="text-center">#</th>
+                <th class="text-center"><?php echo $this->layout()->_t->translate("Date");?></th>
+                <th class="text-center"><?php echo $this->layout()->_t->translate("Name");?></th>
+                <th class="text-center"><?php echo $this->layout()->_t->translate("Amount");?></th>
+                <th class="text-center"><?php echo $this->layout()->_t->translate("Status");?></th>
+              </tr>
+            </thead>
+          </table>
+        </div>
       </div>
     </div>
-  </div>
-
+  <?php endif; ?>
 </div>
 
 
