@@ -4078,13 +4078,16 @@ class DemandController extends DemandAbstractActionController {
 			$UserID = $this->getRequest()->getQuery("UserID");
 		else:
 		endif;
+
+		$CampainID = $this->getRequest()->getQuery("CampaignID");
 		$view = new ViewModel(array(
 			'dashboard_view' => 'report',
 			'is_admin' => $this->is_admin,
 			'user_id_list' => $this->user_id_list_publisher,
 			'true_user_name' => $this->true_user_name,
 			'user_identity' => $this->identity(),
-			"user_id" => $UserID
+			"user_id" => $UserID,
+			"campaign_id" => $CampainID
 		));
 		return $view;
 	}
@@ -4112,10 +4115,15 @@ class DemandController extends DemandAbstractActionController {
 
 		$PublisherWebsiteFactory = \_factory\PublisherWebsite::get_instance();
 
+
 		if ($this->is_admin):
 			$parameters['AdCampaignPreview.UserID'] = $this->getRequest()->getQuery("UserID");
 		else:
 			$parameters['AdCampaignPreview.UserID'] = $this->auth->getUserID();
+		endif;
+
+		if($this->getRequest()->getQuery("CampaignID") != null):
+			$parameters['AdCampaignPreview.AdCampaignPreviewID'] = $this->getRequest()->getQuery("CampaignID");
 		endif;
 
 		if ($parameters['AdCampaignPreview.UserID'] == null):

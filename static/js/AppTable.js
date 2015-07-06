@@ -1042,7 +1042,11 @@ var InternalIncomeTable = {
         ],
         "columns": [
             { "data": "index", className: "text-center" },
-            { "data": "Name" },
+            { "data": "Name",
+              render: function(data){
+                return "<a href='" + basePath + "/demand/report?UserID="+ data.user_id +"&CampaignID=" + data.id + "'>" + data.name + "</a>";
+              }
+            },
             { "data": "PolymorphicType" },
             { "data": "TransactionType" },
             { "data": "UserName" },
@@ -1103,7 +1107,11 @@ var InternalOutcomeTable = {
         ],
         "columns": [
             { "data": "index", className: "text-center" },
-            { "data": "Name" },
+            { "data": "Name",
+              render: function(data){
+                return "<a href='" + basePath + "/demand/report?UserID="+ data.user_id +"&WebsiteID=" + data.id + "'>" + data.name + "</a>";
+              }
+            },
             { "data": "PolymorphicType" },
             { "data": "TransactionType" },
             { "data": "UserName" },

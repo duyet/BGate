@@ -299,7 +299,7 @@ class ManagerController extends DemandAbstractActionController {
                 $row = array();
 
                 $row["index"] = $Offset + $row_number+1;
-                $row["Name"] = $row_data["Name"];
+                $row["Name"] = array('name' => $row_data["Name"], 'id' => $row_data["PolymorphicID"], 'user_id' => $row_data["UserID"]); 
 
                
                 $row["PolymorphicType"] = $row_data["PolymorphicType"];
