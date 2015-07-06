@@ -1727,9 +1727,11 @@ var _bgate_". $PublisherAdZoneID ."_bid_request = {
     }
     
 };
-_bgate_bidder.bid_request = _bgate_".$PublisherAdZoneID."_bid_request;
-_bgate_bidder.bid(_bgate_".$PublisherAdZoneID."_bid_request);
+if (typeof _bgate_bidder_queue === 'undefined') { var _bgate_bidder_queue = [];  }
+_bgate_bidder_queue.push(_bgate_".$PublisherAdZoneID."_bid_request);  
 </script>";
+// _bgate_bidder.bid_request = _bgate_".$PublisherAdZoneID."_bid_request;
+// _bgate_bidder.bid(_bgate_".$PublisherAdZoneID."_bid_request);
           $ret_tag = str_replace('  ', '', $effective_tag);
           $ret_tag = str_replace("\n", '', $ret_tag);
           $ret_tag = str_replace("\r", '', $ret_tag);

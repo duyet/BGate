@@ -7,54 +7,75 @@
 
 var adx_url = "http://ptnhttt.uit.edu.vn:8899/bids";
 var delivery_path = '/delivery/impress';
+if (typeof _bgate_bidder == 'undefined' ) {
+    var _bgate_bidder = {
+    	bid_request: null,
+        bid_progress: null,
+        bid_status: null,
+        bid_interval: 20,
+    	bid: function(bid_request){
+            var self = this;
+    		if (bid_request == null)
+                bid_request = self.bid_request;
+            // ==== collect infomation
 
-var _bgate_bidder = {
-	bid_request: null,
-	bid: function(bid_request){
-        var self = this;
-		if (bid_request == null)
-            bid_request = self.bid_request;
-        // ==== collect infomation
+            // Generate bid ID
+            var d = new Date();
+            var n = d.getTime();
+            var request_id = "bgate_" + bid_request.imp[0].id + "_" + n; 
+            bid_request.id = request_id;
+            // collect current page
+            bid_request.site.page = window.location.href;
+            // Collect Device infomation
+            bid_request.device.ua = navigator.userAgent;
+            bid_request.device.ip = _bgate_user_ip;
 
-        // Generate bid ID
-        var d = new Date();
-        var n = d.getTime();
-        var request_id = "bgate_" + bid_request.imp[0].id + "_" + n; 
-        bid_request.id = request_id;
-        // collect current page
-        bid_request.site.page = window.location.href;
-        // Collect Device infomation
-        bid_request.device.ua = navigator.userAgent;
-        bid_request.device.ip = _bgate_user_ip;
+            // ===============
 
-        // ===============
-
-		var xhr = new XMLHttpRequest();
-        xhr.open("POST", adx_url);
+    		var xhr = new XMLHttpRequest();
+            xhr.open("POST", adx_url);
+            
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.setRequestHeader('x-openrtb-version', '2.2');
         
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.setRequestHeader('x-openrtb-version', '2.2');
-    
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState == 4 && xhr.status == 200) {
-                responseObject = JSON.parse(xhr.responseText);
-                var ifrm = responseObject['seatbid'][0]['bid'][0]['adm'];
-                var impId = responseObject['seatbid'][0]['bid'][0]['impid'];
-                var nurl = responseObject['seatbid'][0]['bid'][0]['nurl'];
-                initializeBanner(ifrm, impId, nurl);
-            } 
-            else if ( xhr.readyState < 4 ) {
-                console.log("adzone [" + bid_request.imp[0].id + "] processing...")
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    responseObject = JSON.parse(xhr.responseText);
+                    var ifrm = responseObject['seatbid'][0]['bid'][0]['adm'];
+                    var impId = responseObject['seatbid'][0]['bid'][0]['impid'];
+                    var nurl = responseObject['seatbid'][0]['bid'][0]['nurl'];
+                    initializeBanner(ifrm, impId, nurl);
+                } 
+                else if ( xhr.readyState < 4 ) {
+                    console.log("adzone [" + bid_request.imp[0].id + "] processing...")
+                }
+                else {
+                    console.log("adzone [" + bid_request.imp[0].id + "], bid floor ["+ bid_request.imp[0].bidfloor +"] no banner match.");
+                    AppendDefaultTag(bid_request.imp[0].id);
+                }
             }
-            else {
-                console.log("adzone [" + bid_request.imp[0].id + "], bid floor ["+ bid_request.imp[0].bidfloor +"] no banner match.");
-                AppendDefaultTag(bid_request.imp[0].id);
-            }
+            xhr.send(JSON.stringify(bid_request));
+    	},
+        dobid: function(){
+            var _this = this;
+            _this.bid_progress = setInterval(function(){
+                console.log(_bgate_bidder_queue[0]);
+                
+                if (_bgate_bidder_queue.length == 0) {
+                    console.log("bid done");
+                    clearInterval(_this.bid_progress);
+                }
+                else {
+                    _this.bid(_bgate_bidder_queue[0]);
+                    _bgate_bidder_queue.splice( 0, 1 );
+                } 
+                
+            },_this.bid_interval);
         }
-        xhr.send(JSON.stringify(bid_request));
-	}
-}
+    }
 
+    if (_bgate_bidder.bid_status == null) { _bgate_bidder.bid_status = 1; _bgate_bidder.dobid();}
+}
 function initializeBanner (ifrm, impId, nurl) {
     // var adzone = document.querySelectorAll("[data-zone-id='_bgate_zone_"+ impId +"']");
     // adzone[0].innerHTML = ifrm;

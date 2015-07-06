@@ -268,7 +268,7 @@ class PublisherController extends PublisherAbstractActionController {
 					$row["index"] = $Offset + $row_number+1;
 					$row["UserPayoutID"] = $row_data["UserPayoutID"];
 					$row["UserID"] = $row_data["UserID"];
-					$row["Amount"] = $row_data["Amount"];
+					$row["Amount"] = '$' . $row_data["Amount"];
 					$row["Name"] = $row_data["Name"];
 					$row["Status"] = array('flag' => $status_mapper[$row_data["Status"]], "id" => $row_data["UserPayoutID"] );
 					$row["created_at"] = $row_data["DateCreated"];

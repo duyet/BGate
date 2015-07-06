@@ -882,7 +882,7 @@ var UserPayoutTable = {
             { "data": "index", className: "text-center" },
             { "data": "created_at", "width": "20%" },
             { "data": "Name" },
-            { "data": "Amount" },
+            { "data": "Amount", className: "text-right" },
             { "data": "Status",
               render: function(data){
                 var dt = self.table.fnGetData();
