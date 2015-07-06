@@ -12,7 +12,7 @@ if (typeof _bgate_bidder == 'undefined' ) {
     	bid_request: null,
         bid_progress: null,
         bid_status: null,
-        bid_interval: 500,
+        bid_interval: 200,
     	bid: function(bid_request){
             var self = this;
     		if (bid_request == null)
