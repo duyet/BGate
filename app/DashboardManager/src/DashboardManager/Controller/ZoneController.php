@@ -173,8 +173,8 @@ class ZoneController extends PublisherAbstractActionController {
                 $params = array();
                 $params["PublisherAdZoneID"] = $row["AdzoneId"];
 
-                $incomes = $AdzoneDailyTrackerFactory->get_income($params, 7);
-                $row["TotalAmount"] = '$' . sprintf("%1.2f", $incomes[0]['Incomes']);
+                //$incomes = $AdzoneDailyTrackerFactory->get_income($params, 7);
+                $row["TotalAmount"] = '$'  . $row_data["TotalAmount"];//. sprintf("%1.2f", $incomes[0]['Incomes']);
         		$result[] = $row;
         	endforeach;
         endif;
