@@ -2980,6 +2980,7 @@ class DemandController extends DemandAbstractActionController {
 		$BannerPreview->TargetMax                     = (int) $this->getRequest()->getPost('targetmax');
 		$BannerPreview->DailyBudget                   = (int) $this->getRequest()->getPost('dailybudget');
 		$BannerPreview->MaximumBudget                 = (int) $this->getRequest()->getPost('maximumbudget');
+		$BannerPreview->Approval                      = $banner->Approval;
 
 		$banner_preview_id_new = $AdCampaignBannerPreviewFactory->saveAdCampaignBannerPreview($BannerPreview);
 
