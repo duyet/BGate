@@ -1481,6 +1481,7 @@ class ZoneController extends PublisherAbstractActionController {
                 endif;
         endif;
         
+        $sync_adserver = file_get_contents(PUBLISHER_SYNC_URL);
         
 
         $data = array(
@@ -1579,6 +1580,7 @@ class ZoneController extends PublisherAbstractActionController {
 		if ($initialized !== true) return $initialized;
         $DomainID = intval($this->params()->fromRoute('param1', 0));
         $this->adApprovalToggle(1);
+        $sync_adserver = file_get_contents(PUBLISHER_SYNC_URL);
         return $this->redirect()->toRoute('publisher/zone',array("param1" => $DomainID));
     }
     
@@ -1592,6 +1594,7 @@ class ZoneController extends PublisherAbstractActionController {
 		if ($initialized !== true) return $initialized;
         $DomainID = intval($this->params()->fromRoute('param1', 0));
         $this->adApprovalToggle(2);
+        $sync_adserver = file_get_contents(PUBLISHER_SYNC_URL);
         return $this->redirect()->toRoute('publisher/zone',array("param1" => $DomainID));
         
     }

@@ -429,7 +429,7 @@ class DemandController extends DemandAbstractActionController {
 			'success' => $success,
 			'data' => array('error_msg' => $error_message)
 		 );
-		 
+		 $sync_adserver = file_get_contents(AGENT_SYNC_URL);
 		 return $this->getResponse()->setContent(json_encode($data));
 	}
 
@@ -479,7 +479,7 @@ class DemandController extends DemandAbstractActionController {
 			'success' => $success,
 			'data' => array('error_msg' => $error_message)
 		 );
-		 
+		 $sync_adserver = file_get_contents(AGENT_SYNC_URL);
 		 return $this->getResponse()->setContent(json_encode($data));
 	}
 
@@ -741,7 +741,7 @@ class DemandController extends DemandAbstractActionController {
 			->setBody($mimeMessage);
 			$transport->send($zf_message);
 		endif;
-		
+		$sync_adserver = file_get_contents(AGENT_SYNC_URL);
 		return $this->redirect()->toRoute('demand');
 
 	}
@@ -3884,7 +3884,7 @@ class DemandController extends DemandAbstractActionController {
 		    $transport->send($zf_message);
 		    
 	    endif;
-	    
+	    $sync_adserver = file_get_contents(AGENT_SYNC_URL);
 	    return $this->redirect()->toRoute('demand');
 
 	}
@@ -3947,7 +3947,7 @@ class DemandController extends DemandAbstractActionController {
 			'success' => $success,
 			'data' => array('error_msg' => $error_message)
 		 );
-		 
+		 $sync_adserver = file_get_contents(AGENT_SYNC_URL);
 		 return $this->getResponse()->setContent(json_encode($data));
 	}
 	/*
