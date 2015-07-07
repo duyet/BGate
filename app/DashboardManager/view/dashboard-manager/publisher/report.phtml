@@ -33,15 +33,31 @@ $effective_user_in_dashboard = false;
         <p class="underline mrg0T" style="padding-bottom: 3px;">
           <span class="admin-titles"><?php echo $this->layout()->_t->translate("Overview");?> </span>
             <select id="time-filter" onchange="ReportPublisherTable.reload_table()">
+              <?php
+                if ($date != ''):
+              ?>
+              <option value>All time</option>
+              <option selected value='<?php echo $date?>'>Custom</option>
+              <?php
+                else:
+              ?>
               <option selected value>All time</option>
+              <?php
+                endif;
+              ?>
               <option value="0"><?php echo $this->layout()->_t->translate("Today");?></option>
-              <option value="1" selected><?php echo $this->layout()->_t->translate("Yesterday");?></option>
+              <option value="1"><?php echo $this->layout()->_t->translate("Yesterday");?></option>
               <option value="2"><?php echo $this->layout()->_t->translate("This week");?></option>
               <option value="3"><?php echo $this->layout()->_t->translate("Last week");?></option>
               <option value="4"><?php echo $this->layout()->_t->translate("This month");?></option>
               <option value="5"><?php echo $this->layout()->_t->translate("Last month");?></option>
               <option value="6"><?php echo $this->layout()->_t->translate("This year");?></option>
         </select>
+        <?php
+          if ($date != ''):
+            echo date_format(date_create($date),"d/m/Y") ;
+          endif;
+        ?>
         <?php if (!$is_admin || $website_id == null): ?>
           <span class="admin-titles pull-right">
             <button class="btn btn-success" style="margin: -12px 3px 0px 5px;" onclick="$('#PayoutModal').modal('show')" <?php if(intval($user_balance) < 10){ echo "disabled";} ?>>Withdraw</button>

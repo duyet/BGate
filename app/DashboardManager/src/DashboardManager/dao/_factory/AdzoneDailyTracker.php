@@ -93,7 +93,14 @@ class AdzoneDailyTracker extends \_factory\CachedTableRead
                 $select->group(array('Date', 'AdName'));
 
                 //Condition filter
-                $condition = $this->getConditionByFlag($flag);
+                $flag_list = array(0,1,2,3,4,5,6,7);
+                if(!in_array($flag, $flag_list)):
+                    $flag_val = $flag;
+                    $flag = 8; //Custom
+                    $condition = $this->getConditionByFlag($flag, $flag_val);
+                else:
+                    $condition = $this->getConditionByFlag($flag);
+                endif;
 
                 $select->where($condition);
 
@@ -203,7 +210,7 @@ class AdzoneDailyTracker extends \_factory\CachedTableRead
         return $obj_list;
     }
 
-    function getConditionByFlag($flag){
+    function getConditionByFlag($flag, $flag_val=null){
         $condition = array();
         switch ($flag) {
           case "0":
@@ -237,7 +244,11 @@ class AdzoneDailyTracker extends \_factory\CachedTableRead
           case "7":
             //This year
             $condition = 'YEAR(AdzoneDailyTracker.DateCreated) = YEAR(NOW())'; 
-            break;             
+            break;
+          case "8":
+            //Custom
+            $condition = 'AdzoneDailyTracker.DateCreated LIKE "%'.$flag_val.'%"'; 
+            break;               
           default:
             $condition = array();
             break;

@@ -352,6 +352,7 @@ class PublisherController extends PublisherAbstractActionController {
 		if ($params["PublisherInfoID"] == null):
 			die("ERROR! You can not pass!");
 		endif;
+		$Date = $this->getRequest()->getQuery("Date");
 		$PublisherInfo = $PublisherInfoFactory->get_row($params);
 
 		$view = new ViewModel(array(
@@ -363,7 +364,8 @@ class PublisherController extends PublisherAbstractActionController {
 			'user_balance' => $PublisherInfo->Balance,
 			'dashboard_view' => 'report',
 			"publisher_info" => $params["PublisherInfoID"],
-			"website_id" => $website_id
+			"website_id" => $website_id,
+			"date" => $Date
 
 		));
 		return $view;

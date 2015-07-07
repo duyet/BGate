@@ -1109,7 +1109,7 @@ var InternalOutcomeTable = {
             { "data": "index", className: "text-center" },
             { "data": "Name",
               render: function(data){
-                return "<a href='" + basePath + "/publisher/report?userID="+ data.user_id +"&website_id=" + data.id + "'>" + data.name + "</a>";
+                return "<a href='" + basePath + "/publisher/report?userID="+ data.user_id +"&website_id=" + data.id + "&Date="+ data.date + "'>" + data.name + "</a>";
               }
             },
             { "data": "PolymorphicType" },
