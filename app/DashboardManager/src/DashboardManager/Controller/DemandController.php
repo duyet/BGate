@@ -2505,7 +2505,7 @@ class DemandController extends DemandAbstractActionController {
 					// Approval: "0" => Banned, "1" => Stop, "2" => Running, "3" => Auto Approved
 					if ($row_data["Active"] == 0):
 						$row["action"] = "<p class='text-center'>Deleted</p>";
-					elseif (isset($row_data["Approval"]) && $row_data["Approval"] == null):
+					elseif (isset($row_data["Approval"]) && $row_data["Approval"] == null || $row_data["Approval"] == ''):
 						$row["action"] = "<p class='text-center'><span class='label label-primary'>Auto Approved</span></p><hr class='mrg5T mrg5B'/>";
 		           		$row["action"] .= "<div class='text-center'><a id='campaign-flag-action".$row["id"]."' href='javascript:;' onclick='changeAdCampaignFlag(1, ".$row["id"].")'><span class='glyphicon glyphicon-stop'></span> Stop</a>";
 		           		if($this->is_admin):
