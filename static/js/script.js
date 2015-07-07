@@ -1630,10 +1630,6 @@ $().ready(function() {
 	if($('input').is('input[name="Amount"]')){
 		payment_form_value();
 	}
-	if (window.location.pathname.indexOf("manager/revenue") > -1){
-		loadIncomeAdzone();
-		loadOutcomeAdzone();
-	}
 
 	if (window.location.pathname.indexOf("publisher/zone") > -1){
 		loadDomainDetail();

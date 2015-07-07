@@ -105,7 +105,7 @@ class InternalTransaction extends \_factory\CachedTableRead
             //Condition filter
             $condition = $this->getConditionByFlag($flag);
 
-            // $select->where($condition);
+            $select->where($condition);
 
             foreach ($params as $name => $value):
             $select->where(
