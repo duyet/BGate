@@ -4076,11 +4076,11 @@ class DemandController extends DemandAbstractActionController {
 		// End List web
 		if ($this->is_admin):
 			$UserID = $this->getRequest()->getQuery("UserID");
-			$Campaign = $this->getRequest()->getQuery("CampaignID");
 		else:
 		endif;
 
 		$CampainID = $this->getRequest()->getQuery("CampaignID");
+		$Date = $this->getRequest()->getQuery("Date");
 		$view = new ViewModel(array(
 			'dashboard_view' => 'report',
 			'is_admin' => $this->is_admin,
@@ -4088,7 +4088,8 @@ class DemandController extends DemandAbstractActionController {
 			'true_user_name' => $this->true_user_name,
 			'user_identity' => $this->identity(),
 			"user_id" => $UserID,
-			"campaign_id" => $CampainID
+			"campaign_id" => $CampainID,
+			"date" => $Date
 		));
 		return $view;
 	}

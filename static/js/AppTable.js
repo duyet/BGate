@@ -1044,7 +1044,7 @@ var InternalIncomeTable = {
             { "data": "index", className: "text-center" },
             { "data": "Name",
               render: function(data){
-                return "<a href='" + basePath + "/demand/report?UserID="+ data.user_id +"&CampaignID=" + data.id + "'>" + data.name + "</a>";
+                return "<a href='" + basePath + "/demand/report?UserID="+ data.user_id +"&CampaignID=" + data.id + "&Date="+ data.date +"'>" + data.name + "</a>";
               }
             },
             { "data": "PolymorphicType" },

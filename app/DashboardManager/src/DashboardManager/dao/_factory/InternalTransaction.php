@@ -184,8 +184,8 @@ class InternalTransaction extends \_factory\CachedTableRead
             $condition = 'YEAR(InternalTransaction.DateCreated) = YEAR(NOW())'; 
             break; 
           case "7":
-            //This year
-            $condition = 'YEAR(InternalTransaction.DateCreated) = YEAR(NOW())'; 
+            //All time
+            $condition = '1'; 
             break;             
           default:
             $condition = array();

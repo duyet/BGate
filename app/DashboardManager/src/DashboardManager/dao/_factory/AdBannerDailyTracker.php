@@ -95,7 +95,14 @@ class AdBannerDailyTracker extends \_factory\CachedTableRead
                 $select->group(array('Date', 'BannerName'));
 
                 //Condition filter
-                $condition = $this->getConditionByFlag($flag);
+                $flag_list = array(0,1,2,3,4,5,6,7);
+                if(!in_array($flag, $flag_list)):
+                    $flag_val = $flag;
+                    $flag = 8; //Custom
+                    $condition = $this->getConditionByFlag($flag, $flag_val);
+                else:
+                    $condition = $this->getConditionByFlag($flag);
+                endif;
 
                 $select->where($condition);
 
@@ -165,7 +172,7 @@ class AdBannerDailyTracker extends \_factory\CachedTableRead
         return $obj_list;
     }
 
-    function getConditionByFlag($flag)
+    function getConditionByFlag($flag, $flag_val=null)
     {
         $condition = array();
         switch ($flag) {
@@ -198,8 +205,12 @@ class AdBannerDailyTracker extends \_factory\CachedTableRead
             $condition = 'YEAR(AdBannerDailyTracker.DateCreated) = YEAR(NOW())'; 
             break; 
           case "7":
-            //This year
-            $condition = 'YEAR(AdBannerDailyTracker.DateCreated) = YEAR(NOW())'; 
+            //All time
+            $condition = '1'; 
+            break;
+          case "8":
+            //Custom
+            $condition = 'AdBannerDailyTracker.DateCreated LIKE "%'.$flag_val.'%"'; 
             break;             
           default:
             $condition = array();
