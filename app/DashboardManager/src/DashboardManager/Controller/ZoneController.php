@@ -1697,7 +1697,7 @@ class ZoneController extends PublisherAbstractActionController {
           $header_tag = "<script type='text/javascript' src='" . $delivery_adtag ."'></script>";
           $effective_tag = 
 "<div class=\"bgate-ad-tag\" data-zone-id=\"_bgate_zone_". $PublisherAdZoneID ."\" data-default-tag='".htmlentities($AdObject->PassbackAdTag)."'></div>
-<script type='text/javascript' src='" . $delivery_adtag ." async'></script>
+<script type='text/javascript' src='" . $delivery_adtag ."' async></script>
 <script type='text/javascript' async>
 var _bgate_". $PublisherAdZoneID ."_bid_request = {
     \"id\": null,
