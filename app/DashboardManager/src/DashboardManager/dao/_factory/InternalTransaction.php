@@ -150,6 +150,76 @@ class InternalTransaction extends \_factory\CachedTableRead
         return $obj_list;
     }
 
+    public function get_profit($params, $flag) {
+
+        $obj_list = array();
+
+        $campaignResultSet = $this->select(function (\Zend\Db\Sql\Select $select) use ($params, $flag){
+              $select->join("AdCampaignPreview",
+                  "AdCampaignPreview.AdCampaignPreviewID = InternalTransaction.PolymorphicID",
+                  array(),
+                  $select::JOIN_INNER);
+            
+              $select->columns(
+                  array(
+                      "CampaignProfit" => new \Zend\Db\Sql\Expression("SUM(Markup)")
+                  )
+              );
+              //Condition filter
+              $condition = $this->getConditionByFlag($flag);
+              $select->where($condition);
+
+              //Campaign
+              $params["InternalTransaction.PolymorphicType"] = "campaign";
+              foreach ($params as $name => $value):
+              $select->where(
+                      $select->where->equalTo($name, $value)
+              );
+              endforeach;
+            }
+        );
+
+        $websiteResultSet = $this->select(function (\Zend\Db\Sql\Select $select) use ($params, $flag){
+              $select->join("PublisherWebsite",
+                  "PublisherWebsite.PublisherWebsiteID = InternalTransaction.PolymorphicID",
+                  array(),
+                  $select::JOIN_INNER);
+              $select->columns(
+                  array(
+                      "WebsiteProfit" => new \Zend\Db\Sql\Expression("SUM(Markup)")
+                  )
+              );
+
+              //Join with auth_Users
+              $select->join("auth_Users",
+                  "auth_Users.user_id = InternalTransaction.UserID",
+                  array(),
+                  $select::JOIN_INNER);
+              
+              //Condition filter
+              $condition = $this->getConditionByFlag($flag);
+              $select->where($condition);
+
+              //Campaign
+              $params["InternalTransaction.PolymorphicType"] = "website";
+              foreach ($params as $name => $value):
+              $select->where(
+                      $select->where->equalTo($name, $value)
+              );
+              endforeach;
+            }
+        );
+
+        foreach ($campaignResultSet as $obj):
+            $obj_list[] = $obj;
+        endforeach;
+
+        foreach ($websiteResultSet as $obj):
+            $obj_list[] = $obj;
+        endforeach;
+
+        return $obj_list;
+    }
 
     function getConditionByFlag($flag)
     {

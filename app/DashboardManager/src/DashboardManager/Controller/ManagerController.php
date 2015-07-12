@@ -295,7 +295,6 @@ class ManagerController extends DemandAbstractActionController {
         if (count($internalList)> 0):
             foreach ($internalList AS $row_number => $row_data): 
 
-                $TotalMarkup += (float)$row_data["Markup"];
                 $row = array();
 
                 $row["index"] = $Offset + $row_number+1;
@@ -321,6 +320,31 @@ class ManagerController extends DemandAbstractActionController {
         echo json_encode(array("recordsTotal" => $TotalInternalTransactionCount, "recordsFiltered" => $TotalInternalTransactionCount , 'data' => $result, "TotalMarkup" => $TotalMarkup));
 
         die;        
+    }
+
+    public function getProfitAction()
+    {
+        $initialized = $this->initialize();
+        if ($initialized !== true) return $initialized;
+        //Time filter
+        $flag = ($this->getRequest()->getQuery("param1") == '') ? 7 : $this->getRequest()->getQuery("param1");
+
+        $InternalTransactionFactory = \_factory\InternalTransaction::get_instance();
+        $params = array();
+
+        $Profits = $InternalTransactionFactory->get_profit($params, $flag);
+        if (count($Profits)> 0):
+            foreach ($Profits AS $row_number => $row_data): 
+                $row = array();
+                $row["CampaignProfit"] = ($row_data["CampaignProfit"] == null)? 0 : number_format((float)$row_data["CampaignProfit"],3);
+                $row["WebsiteProfit"] = ($row_data["WebsiteProfit"] == null)? 0 : number_format((float)$row_data["WebsiteProfit"],3);
+                $result[] = $row;
+            endforeach;
+        endif;
+        header('Content-type: application/json');
+        echo json_encode(array('data' => $result));
+
+        die;
     }
 
 

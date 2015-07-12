@@ -1576,6 +1576,14 @@ function loadIncomeAdzoneDetail(){
 
 }
 
+function loadProfit(){
+	var flag = $("#internal-time option:selected").val();
+	$.get(basePath + "/manager/getProfit/" + flag, {param1: flag}  , function( data ) {
+		$("#total-income-value").text(data.data[0].CampaignProfit);
+		$("#total-outcome-value").text(data.data[1].WebsiteProfit);
+	},'json');	
+}
+
 function empty(object) {
   if((typeof(object) == 'object' && $.isEmptyObject(object)) || 
 	    object == '' || 
@@ -1636,6 +1644,9 @@ $().ready(function() {
 	}
 	if (window.location.pathname.indexOf("show") > -1){
 		loadIncomeAdzoneDetail();
+	}
+	if (window.location.pathname.indexOf("manager/revenue") > -1){
+		loadProfit();
 	}
 	
 });

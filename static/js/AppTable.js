@@ -1059,7 +1059,6 @@ var InternalIncomeTable = {
           
         },
         fnDrawCallback: function(data){
-          $("#total-income-value").text(data.json.TotalMarkup);
           positionFooter();
           return data;
         }
@@ -1124,7 +1123,6 @@ var InternalOutcomeTable = {
           
         },
         fnDrawCallback: function(data){
-          $("#total-outcome-value").text(data.json.TotalMarkup);
           positionFooter();
           return data;
         }
