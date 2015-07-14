@@ -1647,6 +1647,9 @@ $().ready(function() {
 	}
 	if (window.location.pathname.indexOf("manager/revenue") > -1){
 		loadProfit();
+		$("#internal-time").change(function(){
+			loadProfit();
+		});
 	}
 	
 });
